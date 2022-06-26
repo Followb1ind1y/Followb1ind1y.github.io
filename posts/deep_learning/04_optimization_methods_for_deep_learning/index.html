@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Optimization Methods for Deep Learning | Followb1ind1y</title>
+<meta name="keywords" content="Gradient Descent, Stochastic Gradient Descent, Mini-batch Gradient Descent, Momentum, Nesterov Momentum, AdaGrad, RMSProp, Adam" />
+<meta name="description" content="Gradient Descent Optimization Most deep learning algorithms involve optimization of some sort. Optimization refers to the task of either minimizing or maximizing some function $f(x)$ by altering $x$. We usually phrase most optimization problems in terms of minimizing $f(x)$. Maximization may be accomplished via a minimization algorithm by minimizing $-f(x)$.
+The function we want to minimize or maximize is called the objective function or criterion. When we are minimizing it, we may also call it the cost function, loss function, or error function.">
+<meta name="author" content="Followb1ind1y">
+<link rel="canonical" href="https://followb1ind1y.github.io/posts/deep_learning/04_optimization_methods_for_deep_learning/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.d70d9be7236724828e9dc04b26c5a1f3b228217674a56d00269f53e0d3db96f0.css" integrity="sha256-1w2b5yNnJIKOncBLJsWh87IoIXZ0pW0AJp9T4NPblvA=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://followb1ind1y.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://followb1ind1y.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://followb1ind1y.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://followb1ind1y.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://followb1ind1y.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta property="og:title" content="Optimization Methods for Deep Learning" />
+<meta property="og:description" content="Gradient Descent Optimization Most deep learning algorithms involve optimization of some sort. Optimization refers to the task of either minimizing or maximizing some function $f(x)$ by altering $x$. We usually phrase most optimization problems in terms of minimizing $f(x)$. Maximization may be accomplished via a minimization algorithm by minimizing $-f(x)$.
+The function we want to minimize or maximize is called the objective function or criterion. When we are minimizing it, we may also call it the cost function, loss function, or error function." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://followb1ind1y.github.io/posts/deep_learning/04_optimization_methods_for_deep_learning/" /><meta property="og:image" content="https://followb1ind1y.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-07-27T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-07-27T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://followb1ind1y.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="Optimization Methods for Deep Learning"/>
+<meta name="twitter:description" content="Gradient Descent Optimization Most deep learning algorithms involve optimization of some sort. Optimization refers to the task of either minimizing or maximizing some function $f(x)$ by altering $x$. We usually phrase most optimization problems in terms of minimizing $f(x)$. Maximization may be accomplished via a minimization algorithm by minimizing $-f(x)$.
+The function we want to minimize or maximize is called the objective function or criterion. When we are minimizing it, we may also call it the cost function, loss function, or error function."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://followb1ind1y.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Optimization Methods for Deep Learning",
+      "item": "https://followb1ind1y.github.io/posts/deep_learning/04_optimization_methods_for_deep_learning/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Optimization Methods for Deep Learning",
+  "name": "Optimization Methods for Deep Learning",
+  "description": "Gradient Descent Optimization Most deep learning algorithms involve optimization of some sort. Optimization refers to the task of either minimizing or maximizing some function $f(x)$ by altering $x$. We usually phrase most optimization problems in terms of minimizing $f(x)$. Maximization may be accomplished via a minimization algorithm by minimizing $-f(x)$.\nThe function we want to minimize or maximize is called the objective function or criterion. When we are minimizing it, we may also call it the cost function, loss function, or error function.",
+  "keywords": [
+    "Gradient Descent", "Stochastic Gradient Descent", "Mini-batch Gradient Descent", "Momentum", "Nesterov Momentum", "AdaGrad", "RMSProp", "Adam"
+  ],
+  "articleBody": "Gradient Descent Optimization Most deep learning algorithms involve optimization of some sort. Optimization refers to the task of either minimizing or maximizing some function $f(x)$ by altering $x$. We usually phrase most optimization problems in terms of minimizing $f(x)$. Maximization may be accomplished via a minimization algorithm by minimizing $-f(x)$.\nThe function we want to minimize or maximize is called the objective function or criterion. When we are minimizing it, we may also call it the cost function, loss function, or error function.\n 大多数深度学习算法都涉及某种形式的优化. 优化指的是改变 $x$ 以最小化或最大化某个函数 $f(x)$ 的任务. 我们通常以最小化 $f(x)$ 指代大多数最优化问题. 我们把要最小化或最大化的函数称为 目标函数(objective function) 或准则 (criterion).当我们对其进行最小化时,我们也把它称为 代价函数(cost function)、损失函数(loss function) 或 误差函数(error function).\n We often denote the value that minimizes or maximizes a function with a superscript $\\ast$ . For example, we might say $x^{*}=\\arg \\min f(x)$.\nSuppose we have a function $y = f(x)$, where both $x$ and $y$ are real numbers. The derivative of this function is denoted as $f'(x)$ or as $\\frac{dy}{dx}$ . The derivative $f'(x)$ gives the slope of $f(x)$ at the point $x$. In other words, it specifies how to scale a small change in the input in order to obtain the corresponding change in the output: $f(x+\\epsilon) \\approx f(x) \\ +$ $ \\epsilon f'(x)$.\nThe derivative is therefore useful for minimizing a function because it tells us how to change $x$ in order to make a small improvement in $y$. For example, we know that $f(x-\\epsilon \\mathrm{sign}(f'(x)))$ is less than $f(x)$ for small enough $\\epsilon$. We can thus reduce $f(x)$ by moving $x$ in small steps with opposite sign of the derivative. This technique is called gradient descent.\n When $f'(x)=0$, the derivative provides no information about which direction to move. Points where $f'(x)=0$ are known as critical points or stationary points. A local minimum is a point where $f(x)$ is lower than at all neighboring points, so it is no longer possible to decrease $f(x)$ by making infinitesimal steps. A local maximum is a point where $f(x)$ is higher than at all neighboring points, so it is not possible to increase $f(x)$ by making infinitesimal steps. Some critical points are neither maxima nor minima. These are known as saddle points.\n 当 $f'(x)=0$,导数无法提供往哪个方向移动的信息.$f'(x)=0$ 的点称为 临界点(critical point) 或 驻点(stationary point).一个 局部极小点(local minimum) 意味着这个点的 $f(x)$ 小于所有邻近点,因此不可能通过移动无穷小的步长来减小 $f(x)$.一个 局部极大点(local maximum) 意味着这个点的 $f(x)$ 大于所有邻近点,因此不可能通过移动无穷小的步长来增大 $f(x)$.有些临界点既不是最小点也不是最大点.这些点被称为 鞍点(saddle point).\n  A point that obtains the absolute lowest value of $f(x)$ is a global minimum. It is possible for there to be only one global minimum or multiple global minima of the function. It is also possible for there to be local minima that are not globally optimal. In the context of deep learning, we optimize functions that may have many local minima that are not optimal, and many saddle points surrounded by very flat regions. All of this makes optimization very difficult, especially when the input to the function is multidimensional. We therefore usually settle for finding a value of f that is very low, but not necessarily minimal in any formal sense.\n 使 $f(x)$ 取得绝对的最小值(相对所有其他值)的点是 全局最小点(global minimum).函数可能只有一个全局最小点或存在多个全局最小点,还可能存在不是全局最优的局部极小点.\n  We often minimize functions that have multiple inputs: $f: \\mathbb{R}^{n} \\to \\mathbb{R}$. For the concept of “minimization” to make sense, there must still be only one (scalar) output.\nFor functions with multiple inputs, we must make use of the concept of partial derivatives. The partial derivative $\\frac{\\partial}{\\partial x_{i}}$ measures how $f$ changes as only the variable $x_{i}$ increases at point $x$. The gradient generalizes the notion of derivative to the case where the derivative is with respect to a vector: the gradient of $f$ is the vector containing all of the partial derivatives, denoted $\\nabla_{x} \\ f(x)$. Element $i$ of the gradient is the partial derivative of $f$ with respect to $x_{i}$. In multiple dimensions, critical points are points where every element of the gradient is equal to zero.\n 梯度(gradient) 是相对一个向量求导的导数: $f$ 的导数是包含所有偏导数的向量，记为 $\\nabla_{x} \\ f(x)$。在多维情况下，临界点是梯度中所有元素都为零的点。\n The directional derivative in direction $u$ (a unit vector) is the slope of the function $f$ in direction $u$. In other words, the directional derivative is the derivative of the function $f(x+\\alpha u)$ with respect to $\\alpha$, evaluated at $\\alpha=0$. Using the chain rule, we can see that $\\frac{\\partial}{\\partial \\alpha}f(x+\\alpha u)$ evaluates to $u^{T}\\nabla_{x} \\ f(x)$ when $\\alpha=0$.\nTo minimize $f$, we would like to find the direction in which $f$ decreases the fastest. We can do this using the directional derivative:\n$$ \\min_{u,u^{T}u=1} u^{T}\\nabla_{x} \\ f(x) \\\\ = \\min_{u,u^{T}u=1} \\lVert u \\rVert_{2} \\lVert \\nabla_{x} \\ f(x) \\rVert_{2} \\cos \\theta \\\\ $$\nwhere $\\theta$ is the angle between $u$ and the gradient. Substituting in $\\lVert u \\rVert_{2}=1$ and ignoring factors that do not depend on $u$, this simplifies to $\\min_{u} \\cos \\theta$. This is minimized when $u$ points in the opposite direction as the gradient. In other words, the gradient points directly uphill, and the negative gradient points directly downhill. We can decrease $f$ by moving in the direction of the negative gradient. This is known as the method of steepest descent or gradient descent.\nSteepest descent proposes a new point\n$$ x' = x - \\epsilon \\nabla_{x} \\ f(x) \\\\ $$\nwhere $\\epsilon$ is the learning rate, a positive scalar determining the size of the step. We can choose $\\epsilon$ in several different ways. A popular approach is to set $\\epsilon$ to a small constant. Sometimes, we can solve for the step size that makes the directional derivative vanish. Another approach is to evaluate $f(x - \\epsilon \\nabla_{x} \\ f(x))$ for several values of $\\epsilon$ and choose the one that results in the smallest objective function value. This last strategy is called a line search.\nSteepest descent converges when every element of the gradient is zero (or, in practice, very close to zero). In some cases, we may be able to avoid running this iterative algorithm, and just jump directly to the critical point by solving the equation $\\nabla_{x} \\ f(x)=0$ for $x$.\nAlthough gradient descent is limited to optimization in continuous spaces, the general concept of repeatedly making a small move (that is approximately the best small move) towards better configurations can be generalized to discrete spaces. Ascending an objective function of discrete parameters is called hill climbing.\nGradient Descent Variants There are three variants of gradient descent, which differ in how much data we use to compute the gradient of the objective function. Depending on the amount of data, we make a trade-off between the accuracy of the parameter update and the time it takes to perform an update.\nBatch gradient descent Vanilla gradient descent, aka batch gradient descent, computes the gradient of the cost function w.r.t. to the parameters $\\theta$ for the entire training dataset:\n$$ \\theta = \\theta - \\eta \\cdot \\nabla_{\\theta}J(\\theta) \\\\ $$\nAs we need to calculate the gradients for the whole dataset to perform just one update, batch gradient descent can be very slow and is intractable for datasets that don’t fit in memory. Batch gradient descent also doesn’t allow us to update our model online, i.e. with new examples on-the-fly.\n BGD 为梯度下降算法中最基础的一个算法，其损失函数定义如下： $$ J(\\theta) = \\frac{1}{2m}\\sum_{i=1}^{m} \\left(h_{\\theta}\\left(x^{(i)}\\right)-y^{(i)}\\right) \\\\ $$ 针对任意参数$\\theta_{j}$我们可以求得其梯度为： $$ \\nabla_{\\theta}J(\\theta) = \\frac{\\partial J(\\theta)}{\\partial \\theta_{j}} = -\\frac{1}{m}\\sum_{i=1}^{m}\\left(y^{(i)}-h_{\\theta}\\left(x^{(i)}\\right)\\right)x_{j}^{(i)} \\\\ $$ 之后，对于任意参数$\\theta_{j}$我们按照其负梯度方向进行更新： $$ \\theta = \\theta - \\eta \\cdot \\nabla_{\\theta}J(\\theta) \\\\ $$ 从上述算法流程中我们可以看到，BGD 算法每次计算梯度都使用了整个训练集，也就是说对于给定的一个初始点，其每一步的更新都是沿着全局梯度最大的负方向。但这同样是其问题，当$m$太大时，整个算法的计算开销就很高了\n Stochastic gradient descent Stochastic gradient descent (SGD) in contrast performs a parameter update for each training example $x^{(i)}$ and label $y^{(i)}$:\n$$ \\theta = \\theta - \\eta \\cdot \\nabla_{\\theta}J(\\theta;x^{(i)};y^{(i)}) \\\\ $$\nBatch gradient descent performs redundant computations for large datasets, as it recomputes gradients for similar examples before each parameter update. SGD does away with this redundancy by performing one update at a time. It is therefore usually much faster and can also be used to learn online. SGD performs frequent updates with a high variance that cause the objective function to fluctuate heavily.\nWhile batch gradient descent converges to the minimum of the basin the parameters are placed in, SGD’s fluctuation, on the one hand, enables it to jump to new and potentially better local minima. On the other hand, this ultimately complicates convergence to the exact minimum, as SGD will keep overshooting. However, it has been shown that when we slowly decrease the learning rate, SGD shows the same convergence behaviour as batch gradient descent, almost certainly converging to a local or the global minimum for non-convex and convex optimization respectively.\n SGD 相比于 BGD，其最主要的区别就在于计算梯度时不再利用整个数据集，而是针对 单个样本 计算梯度并更新权重，因此，其损失函数定义如下： $$ J(\\theta;x^{(i)};y^{(i)}) = \\frac{1}{2}\\left(h_{\\theta}\\left(x^{(i)}\\right)-y^{(i)}\\right) \\\\ $$ 之后，我们按照其负梯度方向进行更新： $$ \\theta = \\theta - \\eta \\cdot \\nabla_{\\theta}J(\\theta;x^{(i)};y^{(i)}) \\\\ $$ SGD 相比于 BGD 具有训练速度快的优势，但同时由于权重改变的方向并不是全局梯度最大的负方向，甚至相反，因此不能够保证每次损失函数都会减小。\n Mini-batch gradient descent Mini-batch gradient descent finally takes the best of both worlds and performs an update for every mini-batch of $b$ training examples:\n$$ \\theta = \\theta - \\eta \\cdot \\nabla_{\\theta}J(\\theta;x^{(i:i+b)};y^{(i:i+b)}) \\\\ $$\nThis way, it reduces the variance of the parameter updates, which can lead to more stable convergence; and can make use of highly optimized matrix optimizations common to state-of-the-art deep learning libraries that make computing the gradient w.r.t. a mini-batch very efficient. Common mini-batch sizes range between 50 and 256, but can vary for different applications. Mini-batch gradient descent is typically the algorithm of choice when training a neural network and the term SGD usually is employed also when mini-batches are used.\n 针对 BGD 和 SGD 的问题，MBGD 则是一个折中的方案，在每次更新参数时，MBGD会选取 $b$个样本计算梯度并更新权重。常见的小批量大小范围在 50 到 256 之间，但可能因不同的应用程序而异。MBGD通常是训练神经网络时选择的算法。\n Challenges in Neural Network Optimization Optimization in general is an extremely difficult task. Traditionally, machine learning has avoided the difficulty of general optimization by carefully designing the objective function and constraints to ensure that the optimization problem is convex. When training neural networks, we must confront the general non-convex case. Even convex optimization is not without its complications.\nMini-batch gradient descent, however, does not guarantee good convergence, but offers a few challenges that need to be addressed:\n  Choosing a proper learning rate can be difficult. A learning rate that is too small leads to painfully slow convergence, while a learning rate that is too large can hinder convergence and cause the loss function to fluctuate around the minimum or even to diverge.\n  Additionally, the same learning rate applies to all parameter updates. If our data is sparse and our features have very different frequencies, we might not want to update all of them to the same extent, but perform a larger update for rarely occurring features.\n  Another key challenge of minimizing highly non-convex error functions common for neural networks is avoiding getting trapped in their numerous suboptimal local minima. Dauphin et al. argue that the difficulty arises in fact not from local minima but from saddle points, i.e. points where one dimension slopes up and another slopes down. These saddle points are usually surrounded by a plateau of the same error, which makes it notoriously hard for SGD to escape, as the gradient is close to zero in all dimensions.\n   梯度下降可能会遇到的问题和挑战：\n 选择合适的学习率可能很困难。学习率太小会导致收敛速度很慢，而学习率太大会阻碍收敛并导致损失函数在最小值附近波动甚至发散。 相同的学习率适用于所有参数更新。如果我们的数据是稀疏的并且我们的特征具有非常不同的频率，我们可能不想将它们全部更新到相同的程度。 最小化神经网络常见的另一个关键挑战是避免陷入其众多次优局部最小值和鞍点。   Gradient Descent Optimization Algorithms Momentum While stochastic gradient descent remains a very popular optimization strategy, learning with it can sometimes be slow. The method of Momentum (Polyak, 1964) is designed to accelerate learning, especially in the face of high curvature, small but consistent gradients, or noisy gradients. The momentum algorithm accumulates an exponentially decaying moving average of past gradients and continues to move in their direction.\n Formally, the momentum algorithm introduces a variable $v$ that plays the role of velocity - it is the direction and speed at which the parameters move through parameter space. The velocity is set to an exponentially decaying average of the negative gradient. Momentum helps accelerate SGD in the relevant direction. It does this by adding a fraction $\\gamma$ of the update vector of the past time step to the current update vector:\n$$ \\begin{align*} v_{t} \u0026= - \\eta\\nabla_{\\theta}J(\\theta_{t}) + \\gamma v_{t-1} \\\\ \\theta_{t} \u0026= \\theta_{t-1} + v_{t} \\end{align*} $$\nEssentially, when using momentum, we push a ball down a hill. The ball accumulates momentum as it rolls downhill, becoming faster and faster on the way. The same thing happens to our parameter updates: The momentum term increases for dimensions whose gradients point in the same directions and reduces updates for dimensions whose gradients change directions. As a result, we gain faster convergence and reduced oscillation.\n 当梯度沿着一个方向要明显比其他方向陡峭，我们可以形象的称之为峡谷形梯度，这种情况多位于局部最优点附近。在这种情况下，SGD 通常会摇摆着通过峡谷的斜坡，这就导致了其到达局部最优值的速度过慢。因此，针对这种情况，Momentum(动量) 方法提供了一种解决方案。针对原始的 SGD 算法，参数每 $t$ 步的变化量可以表示为 $$ v_{t} = - \\eta\\nabla_{\\theta}J(\\theta_{t}) \\\\ $$ Momentum 算法则在其变化量中添加了一个动量分量，即 $$ \\begin{align*} v_{t} \u0026= - \\eta\\nabla_{\\theta}J(\\theta_{t}) + \\gamma v_{t-1} \\\\ \\theta_{t} \u0026= \\theta_{t-1} + v_{t} \\end{align*} $$ 对于添加的动量项，当第 $t$ 步和第 $t-1$ 步的梯度方向 相同 时， $\\theta$则以更快的速度更新；当第 $t$ 步和第 $t-1$ 步的梯度方向 相反 时， $\\theta$则以较慢的速度更新。\n Nesterov Momentum Sutskever et al. (2013) introduced a variant of the momentum algorithm that was inspired by Nesterov’s accelerated gradient method (Nesterov, 1983, 2004). The update rules in this case are given by:\n$$ \\begin{align*} v_{t} \u0026= - \\eta\\nabla_{\\theta}J(\\theta_{t}+\\gamma v_{t-1}) + \\gamma v_{t-1} \\\\ \\theta_{t} \u0026= \\theta_{t-1} + v_{t} \\end{align*} $$\nwhere the parameters $\\gamma$ and $\\eta$ play a similar role as in the standard momentum method. The difference between Nesterov momentum and standard momentum is where the gradient is evaluated. With Nesterov momentum the gradient is evaluated after the current velocity is applied. Thus one can interpret Nesterov momentum as attempting to add a correction factor to the standard method of momentum.\nWe usually set the momentum term $\\gamma$ to a value of around 0.9. While Momentum first computes the current gradient (small blue vector) and then takes a big jump in the direction of the updated accumulated gradient (big blue vector), NAG first makes a big jump in the direction of the previous accumulated gradient (brown vector), measures the gradient and then makes a correction (red vector), which results in the complete NAG update (green vector). This anticipatory update prevents us from going too fast and results in increased responsiveness, which has significantly increased the performance of RNNs on a number of tasks.\n  NAG (Nesterov Accelerated Gradient) 是一种 Momentum 算法的变种，其核心思想会利用“下一步的梯度”确定“这一步的梯度”，当然这里“下一步的梯度”并非真正的下一步的梯度，而是指仅根据动量项更新后位置的梯度。 $$ \\begin{align*} v_{t} \u0026= - \\eta\\nabla_{\\theta}J(\\theta_{t}+\\gamma v_{t-1}) + \\gamma v_{t-1} \\\\ \\theta_{t} \u0026= \\theta_{t-1} + v_{t} \\end{align*} $$ 针对 Momentum 和 NAG 两种不同的方法，其更新权重的差异如下图所示：\n  AdaGrad AdaGrad is an algorithm for gradient-based optimization that does just this: It adapts the learning rate to the parameters, performing smaller updates (i.e. low learning rates) for parameters associated with frequently occurring features, and larger updates (i.e. high learning rates) for parameters associated with infrequent features. For this reason, it is well-suited for dealing with sparse data.\nPreviously, we performed an update for all parameters $\\theta$ at once as every parameter $\\theta_{i}$ used the same learning rate $\\eta$. As AdaGrad uses a different learning rate for every parameter $\\theta_{i}$ at every time step $t$, we first show AdaGrad’s per-parameter update, which we then vectorize. For brevity, we use $g_{t}$ to denote the gradient at time step $t$. $g_{t,i}$ is then the partial derivative of the objective function w.r.t. to the parameter $\\theta_{i}$ at time step $t$:\n$$ g_{t,i} = \\nabla_{\\theta}J(\\theta_{t,i}) \\\\ $$\nThe SGD update for every parameter $\\theta_{i}$ at each time step $t$ then becomes:\n$$ \\theta_{t+1,i} = \\theta_{t,i} - \\eta \\cdot g_{t,i} \\\\ $$\nIn its update rule, AdaGrad modifies the general learning rate $\\eta$ at each time step $t$ for every parameter $\\theta_{i}$ based on the past gradients that have been computed for $\\theta_{i}$:\n$$ \\theta_{t+1,i} = \\theta_{t,i} - \\frac{\\eta}{\\sqrt{G_{t,ii}+\\epsilon}} \\cdot g_{t,i} \\\\ $$\n$G_{t} \\in \\mathbb{R}^{d \\times d}$ here is a diagonal matrix where each diagonal element $i$, $i$ is the sum of the squares of the gradients w.r.t. $\\theta_{i}$ up to time step $t$, while $\\epsilon$ is a smoothing term that avoids division by zero (usually on the order of 1e-8). Interestingly, without the square root operation, the algorithm performs much worse.\n$$ G_{t+1} = G_{t} + g \\odot g \\\\ $$\nAs $G_{t}$ contains the sum of the squares of the past gradients w.r.t. to all parameters $\\theta$ along its diagonal, we can now vectorize our implementation by performing a matrix-vector product $\\odot$ between $G_{t}$ and $g_{t}$:\n$$ \\theta_{t+1} = \\theta_{t} - \\frac{\\eta}{\\sqrt{G_{t}+\\epsilon}} \\odot g_{t} \\\\ $$\nOne of AdaGrad’s main benefits is that it eliminates the need to manually tune the learning rate. Most implementations use a default value of 0.01 and leave it at that.\nAdaGrad’s main weakness is its accumulation of the squared gradients in the denominator: Since every added term is positive, the accumulated sum keeps growing during training. This in turn causes the learning rate to shrink and eventually become infinitesimally small, at which point the algorithm is no longer able to acquire additional knowledge.\n AdaGrad 是一种具有自适应学习率的的方法，其对于低频特征的参数选择更大的更新量，对于高频特征的参数选择更小的更新量。因此，AdaGrad算法更加适用于处理稀疏数据。\n RMSProp The RMSProp algorithm (Hinton, 2012) modifies AdaGrad to perform better in the non-convex setting by changing the gradient accumulation into an exponentially weighted moving average. AdaGrad is designed to converge rapidly when applied to a convex function. When applied to a non-convex function to train a neural network, the learning trajectory may pass through many different structures and eventually arrive at a region that is a locally convex bowl. AdaGrad shrinks the learning rate according to the entire history of the squared gradient and may have made the learning rate too small before arriving at such a convex structure. RMSProp uses an exponentially decaying average to discard history from the extreme past so that it can converge rapidly after finding a convex bowl, as if it were an instance of the AdaGrad algorithm initialized within that bowl.\nCompared to AdaGrad, the use of the moving average introduces a new hyperparameter, $\\rho$, that controls the length scale of the moving average. Hinton suggests $\\rho$ to be set to 0.9, while a good default value for the learning rate $\\eta$ is 0.001.\n$$ \\begin{align*} G_{t} \u0026= \\rho G_{t-1} + (1-\\rho) g \\odot g \\\\ \\theta_{t+1} \u0026= \\theta_{t} - \\frac{\\eta}{\\sqrt{G_{t}+\\epsilon}} \\odot g_{t} \\\\ \\end{align*} $$\nEmpirically, RMSProp has been shown to be an effective and practical optimization algorithm for deep neural networks. It is currently one of the go-to optimization methods being employed routinely by deep learning practitioners.\nAdam Adaptive Moment Estimation (Adam) is another method that computes adaptive learning rates for each parameter. In addition to storing an exponentially decaying average of past squared gradients $v_{t}$ like RMSprop, Adam also keeps an exponentially decaying average of past gradients $m_{t}$, similar to momentum. Whereas momentum can be seen as a ball running down a slope, Adam behaves like a heavy ball with friction, which thus prefers flat minima in the error surface. We compute the decaying averages of past and past squared gradients $m_{t}$ and $v_{t}$ respectively as follows:\n$$ \\begin{align*} m_{t} \u0026= \\beta_{1}m_{t-1} + (1-\\beta_{1})g_{t} \\\\ v_{t} \u0026= \\beta_{2}v_{t-1} + (1-\\beta_{2})g_{t}^{2} \\\\ \\end{align*} $$\n$m_{t}$ and $v_{t}$ are estimates of the first moment (the mean) and the second moment (the uncentered variance) of the gradients respectively, hence the name of the method. As $m_{t}$ and $v_{t}$ are initialized as vectors of 0’s, the authors of Adam observe that they are biased towards zero, especially during the initial time steps, and especially when the decay rates are small (i.e. $\\beta_{1}$ and $\\beta_{2}$ are close to 1).\n$$ \\theta_{t+1} = \\theta_{t} - \\frac{\\eta}{\\sqrt{\\hat{v}_{t}}+\\epsilon}\\hat{m}_{t} \\\\ $$\nThe authors propose default values of 0.9 for $\\beta_{1}$, 0.999 for $\\beta_{2}$, and $10^{-8}$for $\\epsilon$. They show empirically that Adam works well in practice and compares favorably to other adaptive learning-method algorithms.\nIn summary, RMSprop is an extension of Adagrad that deals with its radically diminishing learning rates. It is identical to Adadelta, except that Adadelta uses the RMS of parameter updates in the numinator update rule. Adam, finally, adds bias-correction and momentum to RMSprop. Insofar, RMSprop, Adadelta, and Adam are very similar algorithms that do well in similar circumstances. Kingma et al. show that its bias-correction helps Adam slightly outperform RMSprop towards the end of optimization as gradients become sparser. Insofar, Adam might be the best overall choice.\nReference [1] Goodfellow, I., Bengio, Y., \u0026 Courville, A. (2016, Nov 18). Deep Learning. https://www.deeplearningbook.org/contents/optimization.html.\n[2] Ruder, S. (2020, March 20). An overview of gradient descent optimization algorithms. https://ruder.io/optimizing-gradient-descent/index.html#gradientdescentvariants.\n",
+  "wordCount" : "3267",
+  "inLanguage": "en",
+  "datePublished": "2021-07-27T00:00:00Z",
+  "dateModified": "2021-07-27T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Followb1ind1y"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://followb1ind1y.github.io/posts/deep_learning/04_optimization_methods_for_deep_learning/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Followb1ind1y",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://followb1ind1y.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://followb1ind1y.github.io/" accesskey="h" title="Followb1ind1y (Alt + H)">Followb1ind1y</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://followb1ind1y.github.io/archives" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://followb1ind1y.github.io/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://followb1ind1y.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://followb1ind1y.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://followb1ind1y.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://followb1ind1y.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      Optimization Methods for Deep Learning
+    </h1>
+    <div class="post-meta">July 27, 2021&nbsp;·&nbsp;16 min&nbsp;·&nbsp;Followb1ind1y
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <div class="details">Table of Contents</div>
+        </summary>
+        <div class="inner"><ul>
+                <li>
+                    <a href="#gradient-descent-optimization" aria-label="Gradient Descent Optimization">Gradient Descent Optimization</a></li>
+                <li>
+                    <a href="#gradient-descent-variants" aria-label="Gradient Descent Variants">Gradient Descent Variants</a><ul>
+                        
+                <li>
+                    <a href="#batch-gradient-descent" aria-label="Batch gradient descent">Batch gradient descent</a></li>
+                <li>
+                    <a href="#stochastic-gradient-descent" aria-label="Stochastic gradient descent">Stochastic gradient descent</a></li>
+                <li>
+                    <a href="#mini-batch-gradient-descent" aria-label="Mini-batch gradient descent">Mini-batch gradient descent</a></li></ul>
+                </li>
+                <li>
+                    <a href="#challenges-in-neural-network-optimization" aria-label="Challenges in Neural Network Optimization">Challenges in Neural Network Optimization</a></li>
+                <li>
+                    <a href="#gradient-descent-optimization-algorithms" aria-label="Gradient Descent Optimization Algorithms">Gradient Descent Optimization Algorithms</a><ul>
+                        
+                <li>
+                    <a href="#momentum" aria-label="Momentum">Momentum</a></li>
+                <li>
+                    <a href="#nesterov-momentum" aria-label="Nesterov Momentum">Nesterov Momentum</a></li>
+                <li>
+                    <a href="#adagrad" aria-label="AdaGrad">AdaGrad</a></li>
+                <li>
+                    <a href="#rmsprop" aria-label="RMSProp">RMSProp</a></li>
+                <li>
+                    <a href="#adam" aria-label="Adam">Adam</a></li></ul>
+                </li>
+                <li>
+                    <a href="#reference" aria-label="Reference">Reference</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="gradient-descent-optimization">Gradient Descent Optimization<a hidden class="anchor" aria-hidden="true" href="#gradient-descent-optimization">#</a></h2>
+<p>Most deep learning algorithms involve optimization of some sort. Optimization refers to the task of either minimizing or maximizing some function <code>$f(x)$</code> by altering <code>$x$</code>. We usually phrase most optimization problems in terms of minimizing <code>$f(x)$</code>. Maximization may be accomplished via a minimization algorithm by minimizing <code>$-f(x)$</code>.</p>
+<p>The function we want to minimize or maximize is called the <strong>objective function</strong> or <strong>criterion</strong>. When we are minimizing it, we may also call it the <strong>cost function</strong>, <strong>loss function</strong>, or <strong>error function</strong>.</p>
+<blockquote>
+<p>大多数深度学习算法都涉及某种形式的优化. 优化指的是改变 <code>$x$</code> 以最小化或最大化某个函数 <code>$f(x)$</code> 的任务. 我们通常以最小化 <code>$f(x)$</code> 指代大多数最优化问题. 我们把要最小化或最大化的函数称为 <strong>目标函数(objective function)</strong> 或<strong>准则 (criterion)</strong>.当我们对其进行最小化时,我们也把它称为 <strong>代价函数(cost function)</strong>、<strong>损失函数(loss function)</strong> 或 <strong>误差函数(error function)</strong>.</p>
+</blockquote>
+<p>We often denote the value that minimizes or maximizes a function with a superscript <code>$\ast$</code> . For example, we might say <code>$x^{*}=\arg \min f(x)$</code>.</p>
+<p>Suppose we have a function <code>$y = f(x)$</code>, where both <code>$x$</code> and <code>$y$</code> are real numbers. The <strong>derivative</strong> of this function is denoted as <code>$f'(x)$</code> or as <code>$\frac{dy}{dx}$</code> . The derivative <code>$f'(x)$</code> gives the slope of <code>$f(x)$</code> at the point <code>$x$</code>. In other words, it specifies how to scale a small change in the input in order to obtain the corresponding change in the output: <code>$f(x+\epsilon) \approx f(x) \ +$</code> <code>$ \epsilon f'(x)$</code>.</p>
+<p>The derivative is therefore useful for minimizing a function because it tells us how to change <code>$x$</code> in order to make a small improvement in <code>$y$</code>. For example, we know that <code>$f(x-\epsilon \mathrm{sign}(f'(x)))$</code> is less than <code>$f(x)$</code> for small enough <code>$\epsilon$</code>. We can thus reduce <code>$f(x)$</code> by moving <code>$x$</code> in small steps with opposite sign of the derivative. This technique is called <strong>gradient descent</strong>.</p>
+<div align="center">
+  <img src="/img_DL/ML_Basics_03_Gradient_Descent.PNG" width=500px/>
+</div>
+<br>
+<p>When <code>$f'(x)=0$</code>, the derivative provides no information about which direction to move. Points where <code>$f'(x)=0$</code> are known as <strong>critical points</strong> or <strong>stationary points</strong>. A <strong>local minimum</strong> is a point where <code>$f(x)$</code> is lower than at all neighboring points, so it is no longer possible to decrease <code>$f(x)$</code> by making infinitesimal steps. A <strong>local maximum</strong> is a point where <code>$f(x)$</code> is higher than at all neighboring points, so it is not possible to increase <code>$f(x)$</code> by making infinitesimal steps. Some critical points are neither maxima nor minima. These are known as <strong>saddle points</strong>.</p>
+<blockquote>
+<p>当 <code>$f'(x)=0$</code>,导数无法提供往哪个方向移动的信息.<code>$f'(x)=0$</code> 的点称为 <strong>临界点(critical point)</strong> 或 <strong>驻点(stationary point)</strong>.一个 <strong>局部极小点(local minimum)</strong> 意味着这个点的 <code>$f(x)$</code> 小于所有邻近点,因此不可能通过移动无穷小的步长来减小 <code>$f(x)$</code>.一个 <strong>局部极大点(local maximum)</strong> 意味着这个点的 <code>$f(x)$</code> 大于所有邻近点,因此不可能通过移动无穷小的步长来增大 <code>$f(x)$</code>.有些临界点既不是最小点也不是最大点.这些点被称为 <strong>鞍点(saddle point)</strong>.</p>
+</blockquote>
+<div align="center">
+  <img src="/img_DL/ML_Basics_03_Critical_Points.PNG" width=500px/>
+</div>
+<br>
+<p>A point that obtains the absolute lowest value of <code>$f(x)$</code> is a <strong>global minimum</strong>. It is possible for there to be only one global minimum or multiple global minima of the function. It is also possible for there to be local minima that are not globally optimal. In the context of deep learning, we optimize functions that may have many local minima that are not optimal, and many saddle points surrounded by very flat regions. All of this makes optimization very difficult, especially when the input to the function is multidimensional. We therefore usually settle for finding a value of f that is very low, but not necessarily minimal in any formal sense.</p>
+<blockquote>
+<p>使 <code>$f(x)$</code> 取得绝对的最小值(相对所有其他值)的点是 <strong>全局最小点(global minimum)</strong>.函数可能只有一个全局最小点或存在多个全局最小点,还可能存在不是全局最优的局部极小点.</p>
+</blockquote>
+<div align="center">
+  <img src="/img_DL/ML_Basics_03_Global_Minimum.PNG" width=500px/>
+</div>
+<br>
+<p>We often minimize functions that have multiple inputs: <code>$f: \mathbb{R}^{n} \to \mathbb{R}$</code>. For the concept of “minimization” to make sense, there must still be only one (scalar) output.</p>
+<p>For functions with multiple inputs, we must make use of the concept of <strong>partial derivatives</strong>. The partial derivative <code>$\frac{\partial}{\partial x_{i}}$</code> measures how <code>$f$</code> changes as only the variable <code>$x_{i}$</code> increases at point <code>$x$</code>. The <strong>gradient</strong> generalizes the notion of derivative to the case where the derivative is with respect to a vector: the gradient of <code>$f$</code> is the vector containing all of the partial derivatives, denoted <code>$\nabla_{x} \ f(x)$</code>. Element <code>$i$</code> of the gradient is the partial derivative of <code>$f$</code> with respect to <code>$x_{i}$</code>. In multiple dimensions, critical points are points where every element of the gradient is equal to zero.</p>
+<blockquote>
+<p><strong>梯度(gradient)</strong> 是相对一个向量求导的导数: <code>$f$</code> 的导数是包含所有偏导数的向量，记为 <code>$\nabla_{x} \ f(x)$</code>。在多维情况下，临界点是梯度中所有元素都为零的点。</p>
+</blockquote>
+<p>The <strong>directional derivative</strong> in direction <code>$u$</code> (a unit vector) is the slope of the function <code>$f$</code> in direction <code>$u$</code>. In other words, the directional derivative is the derivative of the function <code>$f(x+\alpha u)$</code> with respect to <code>$\alpha$</code>, evaluated at <code>$\alpha=0$</code>. Using the chain rule, we can see that <code>$\frac{\partial}{\partial \alpha}f(x+\alpha u)$</code> evaluates to <code>$u^{T}\nabla_{x} \ f(x)$</code> when <code>$\alpha=0$</code>.</p>
+<p>To minimize <code>$f$</code>, we would like to find the direction in which <code>$f$</code> decreases the fastest. We can do this using the directional derivative:</p>
+<p><code>$$ \min_{u,u^{T}u=1} u^{T}\nabla_{x} \ f(x) \\ = \min_{u,u^{T}u=1} \lVert u \rVert_{2} \lVert \nabla_{x} \ f(x) \rVert_{2} \cos \theta \\ $$</code></p>
+<p>where <code>$\theta$</code> is the angle between <code>$u$</code> and the gradient. Substituting in <code>$\lVert u \rVert_{2}=1$</code> and ignoring factors that do not depend on <code>$u$</code>, this simplifies to <code>$\min_{u} \cos \theta$</code>. This is minimized when <code>$u$</code> points in the opposite direction as the gradient. In other words, the gradient points directly uphill, and the negative gradient points directly downhill. We can decrease <code>$f$</code> by moving in the direction of the negative gradient. This is known as the <strong>method of steepest descent or gradient descent</strong>.</p>
+<p>Steepest descent proposes a new point</p>
+<p><code>$$ x' = x - \epsilon \nabla_{x} \ f(x) \\ $$</code></p>
+<p>where <code>$\epsilon$</code> is the learning rate, a positive scalar determining the size of the step. We can choose <code>$\epsilon$</code> in several different ways. A popular approach is to set <code>$\epsilon$</code> to a small constant. Sometimes, we can solve for the step size that makes the directional derivative vanish. Another approach is to evaluate <code>$f(x - \epsilon \nabla_{x} \ f(x))$</code> for several values of <code>$\epsilon$</code> and choose the one that results in the smallest objective function value. This last strategy is called a <strong>line search</strong>.</p>
+<p>Steepest descent converges when every element of the gradient is zero (or, in practice, very close to zero). In some cases, we may be able to avoid running this iterative algorithm, and just jump directly to the critical point by solving the equation <code>$\nabla_{x} \ f(x)=0$</code> for <code>$x$</code>.</p>
+<p>Although gradient descent is limited to optimization in continuous spaces, the general concept of repeatedly making a small move (that is approximately the best small move) towards better configurations can be generalized to discrete spaces. Ascending an objective function of discrete parameters is called <strong>hill climbing</strong>.</p>
+<h2 id="gradient-descent-variants">Gradient Descent Variants<a hidden class="anchor" aria-hidden="true" href="#gradient-descent-variants">#</a></h2>
+<p>There are three variants of gradient descent, which differ in how much data we use to compute the gradient of the objective function. Depending on the amount of data, we make a trade-off between the accuracy of the parameter update and the time it takes to perform an update.</p>
+<h3 id="batch-gradient-descent">Batch gradient descent<a hidden class="anchor" aria-hidden="true" href="#batch-gradient-descent">#</a></h3>
+<p>Vanilla gradient descent, aka <strong>batch gradient descent</strong>, computes the gradient of the cost function w.r.t. to the parameters <code>$\theta$</code> for the entire training dataset:</p>
+<p><code>$$ \theta = \theta - \eta \cdot \nabla_{\theta}J(\theta) \\ $$</code></p>
+<p>As we need to calculate the gradients for the whole dataset to perform just one update, batch gradient descent can be very slow and is intractable for datasets that don&rsquo;t fit in memory. Batch gradient descent also doesn&rsquo;t allow us to update our model online, i.e. with new examples on-the-fly.</p>
+<blockquote>
+<p><strong>BGD</strong> 为梯度下降算法中最基础的一个算法，其损失函数定义如下：
+<code>$$ J(\theta) = \frac{1}{2m}\sum_{i=1}^{m} \left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right) \\ $$</code>
+针对任意参数<code>$\theta_{j}$</code>我们可以求得其梯度为：
+<code>$$ \nabla_{\theta}J(\theta) = \frac{\partial J(\theta)}{\partial \theta_{j}} = -\frac{1}{m}\sum_{i=1}^{m}\left(y^{(i)}-h_{\theta}\left(x^{(i)}\right)\right)x_{j}^{(i)}  \\ $$</code>
+之后，对于任意参数<code>$\theta_{j}$</code>我们按照其负梯度方向进行更新：
+<code>$$ \theta = \theta - \eta \cdot \nabla_{\theta}J(\theta) \\ $$</code>
+从上述算法流程中我们可以看到，BGD 算法每次计算梯度都使用了<strong>整个训练集</strong>，也就是说对于给定的一个初始点，其每一步的更新都是沿着全局梯度最大的负方向。但这同样是其问题，当<code>$m$</code>太大时，整个算法的计算开销就很高了</p>
+</blockquote>
+<h3 id="stochastic-gradient-descent">Stochastic gradient descent<a hidden class="anchor" aria-hidden="true" href="#stochastic-gradient-descent">#</a></h3>
+<p><strong>Stochastic gradient descent (SGD)</strong> in contrast performs a parameter update for each training example <code>$x^{(i)}$</code> and label <code>$y^{(i)}$</code>:</p>
+<p><code>$$ \theta = \theta - \eta \cdot \nabla_{\theta}J(\theta;x^{(i)};y^{(i)}) \\ $$</code></p>
+<p>Batch gradient descent performs redundant computations for large datasets, as it recomputes gradients for similar examples before each parameter update. SGD does away with this redundancy by performing one update at a time. It is therefore usually much faster and can also be used to learn online. SGD performs frequent updates with a high variance that cause the objective function to fluctuate heavily.</p>
+<p>While batch gradient descent converges to the minimum of the basin the parameters are placed in, SGD&rsquo;s fluctuation, on the one hand, enables it to jump to new and potentially better local minima. On the other hand, this ultimately complicates convergence to the exact minimum, as SGD will keep overshooting. However, it has been shown that when we slowly decrease the learning rate, <strong>SGD shows the same convergence behaviour as batch gradient descent</strong>, almost certainly converging to a local or the global minimum for non-convex and convex optimization respectively.</p>
+<blockquote>
+<p><strong>SGD</strong> 相比于 BGD，其最主要的区别就在于计算梯度时不再利用整个数据集，而是针对 <strong>单个样本</strong> 计算梯度并更新权重，因此，其损失函数定义如下：
+<code>$$ J(\theta;x^{(i)};y^{(i)}) = \frac{1}{2}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right) \\ $$</code>
+之后，我们按照其负梯度方向进行更新：
+<code>$$ \theta = \theta - \eta \cdot \nabla_{\theta}J(\theta;x^{(i)};y^{(i)}) \\ $$</code>
+SGD 相比于 BGD 具有训练速度快的优势，但同时由于权重改变的方向并不是全局梯度最大的负方向，甚至相反，因此不能够保证每次损失函数都会减小。</p>
+</blockquote>
+<h3 id="mini-batch-gradient-descent">Mini-batch gradient descent<a hidden class="anchor" aria-hidden="true" href="#mini-batch-gradient-descent">#</a></h3>
+<p>Mini-batch gradient descent finally takes the best of both worlds and performs an update for every mini-batch of <code>$b$</code> training examples:</p>
+<p><code>$$ \theta = \theta - \eta \cdot \nabla_{\theta}J(\theta;x^{(i:i+b)};y^{(i:i+b)}) \\ $$</code></p>
+<p>This way, it reduces the variance of the parameter updates, which can lead to more stable convergence; and can make use of highly optimized matrix optimizations common to state-of-the-art deep learning libraries that make computing the gradient w.r.t. a mini-batch very efficient. Common mini-batch sizes range between 50 and 256, but can vary for different applications. Mini-batch gradient descent is typically the algorithm of choice when training a neural network and the term SGD usually is employed also when mini-batches are used.</p>
+<blockquote>
+<p>针对 BGD 和 SGD 的问题，<strong>MBGD</strong> 则是一个折中的方案，在每次更新参数时，MBGD会选取 <code>$b$</code>个样本计算梯度并更新权重。常见的小批量大小范围在 50 到 256 之间，但可能因不同的应用程序而异。MBGD通常是训练神经网络时选择的算法。</p>
+</blockquote>
+<h2 id="challenges-in-neural-network-optimization">Challenges in Neural Network Optimization<a hidden class="anchor" aria-hidden="true" href="#challenges-in-neural-network-optimization">#</a></h2>
+<p>Optimization in general is an extremely difficult task. Traditionally, machine learning has avoided the difficulty of general optimization by carefully designing the objective function and constraints to ensure that the optimization problem is convex. When training neural networks, we must confront the general non-convex case. Even convex optimization is not without its complications.</p>
+<p>Mini-batch gradient descent, however, does not guarantee good convergence, but offers a few challenges that need to be addressed:</p>
+<ul>
+<li>
+<p>Choosing a proper learning rate can be difficult. A learning rate that is too small leads to painfully slow convergence, while a learning rate that is too large can hinder convergence and cause the loss function to fluctuate around the minimum or even to diverge.</p>
+</li>
+<li>
+<p>Additionally, the same learning rate applies to all parameter updates. If our data is sparse and our features have very different frequencies, we might not want to update all of them to the same extent, but perform a larger update for rarely occurring features.</p>
+</li>
+<li>
+<p>Another key challenge of minimizing highly non-convex error functions common for neural networks is avoiding getting trapped in their numerous suboptimal local minima. Dauphin et al. argue that the difficulty arises in fact not from local minima but from saddle points, i.e. points where one dimension slopes up and another slopes down. These saddle points are usually surrounded by a plateau of the same error, which makes it notoriously hard for SGD to escape, as the gradient is close to zero in all dimensions.</p>
+</li>
+</ul>
+<blockquote>
+<p>梯度下降可能会遇到的问题和挑战：</p>
+<ul>
+<li>选择合适的学习率可能很困难。学习率太小会导致收敛速度很慢，而学习率太大会阻碍收敛并导致损失函数在最小值附近波动甚至发散。</li>
+<li>相同的学习率适用于所有参数更新。如果我们的数据是稀疏的并且我们的特征具有非常不同的频率，我们可能不想将它们全部更新到相同的程度。</li>
+<li>最小化神经网络常见的另一个关键挑战是避免陷入其众多次优局部最小值和鞍点。</li>
+</ul>
+</blockquote>
+<h2 id="gradient-descent-optimization-algorithms">Gradient Descent Optimization Algorithms<a hidden class="anchor" aria-hidden="true" href="#gradient-descent-optimization-algorithms">#</a></h2>
+<h3 id="momentum">Momentum<a hidden class="anchor" aria-hidden="true" href="#momentum">#</a></h3>
+<p>While stochastic gradient descent remains a very popular optimization strategy, learning with it can sometimes be slow. The method of <strong>Momentum</strong> (Polyak, 1964) is designed to accelerate learning, especially in the face of high curvature, small but consistent gradients, or noisy gradients. The momentum algorithm accumulates an exponentially decaying moving average of past gradients and continues to move in their direction.</p>
+<div align="center">
+  <img src="/img_DL/03_Momentum.PNG" width=400px/>
+</div>
+<br>
+<p>Formally, the momentum algorithm introduces a variable <code>$v$</code> that plays the role of velocity - it is the direction and speed at which the parameters move through parameter space. The velocity is set to an exponentially decaying average of the negative gradient. Momentum helps accelerate SGD in the relevant direction. It does this by adding a fraction <code>$\gamma$</code> of the update vector of the past time step to the current update vector:</p>
+<p><code>$$ \begin{align*} v_{t} &amp;= - \eta\nabla_{\theta}J(\theta_{t}) + \gamma v_{t-1} \\ \theta_{t} &amp;= \theta_{t-1} + v_{t} \end{align*} $$</code></p>
+<p>Essentially, when using momentum, we push a ball down a hill. The ball accumulates momentum as it rolls downhill, becoming faster and faster on the way. The same thing happens to our parameter updates: The momentum term increases for dimensions whose gradients point in the same directions and reduces updates for dimensions whose gradients change directions. As a result, we gain faster convergence and reduced oscillation.</p>
+<blockquote>
+<p>当梯度沿着一个方向要明显比其他方向陡峭，我们可以形象的称之为峡谷形梯度，这种情况多位于局部最优点附近。在这种情况下，SGD 通常会摇摆着通过峡谷的斜坡，这就导致了其到达局部最优值的速度过慢。因此，针对这种情况，<strong>Momentum(动量)</strong> 方法提供了一种解决方案。针对原始的 SGD 算法，参数每 <code>$t$</code> 步的变化量可以表示为
+<code>$$ v_{t} = - \eta\nabla_{\theta}J(\theta_{t}) \\ $$</code>
+Momentum 算法则在其变化量中添加了一个动量分量，即
+<code>$$ \begin{align*} v_{t} &amp;= - \eta\nabla_{\theta}J(\theta_{t}) + \gamma v_{t-1} \\ \theta_{t} &amp;= \theta_{t-1} + v_{t} \end{align*} $$</code>
+对于添加的动量项，当第 <code>$t$</code> 步和第 <code>$t-1$</code> 步的梯度方向 <strong>相同</strong> 时， <code>$\theta$</code>则以更快的速度更新；当第 <code>$t$</code> 步和第 <code>$t-1$</code> 步的梯度方向 <strong>相反</strong> 时， <code>$\theta$</code>则以较慢的速度更新。</p>
+</blockquote>
+<h3 id="nesterov-momentum">Nesterov Momentum<a hidden class="anchor" aria-hidden="true" href="#nesterov-momentum">#</a></h3>
+<p>Sutskever et al. (2013) introduced a variant of the momentum algorithm that was inspired by <strong>Nesterov’s accelerated gradient method</strong> (Nesterov, 1983, 2004). The update rules in this case are given by:</p>
+<p><code>$$ \begin{align*} v_{t} &amp;= - \eta\nabla_{\theta}J(\theta_{t}+\gamma v_{t-1}) + \gamma v_{t-1} \\ \theta_{t} &amp;= \theta_{t-1} + v_{t} \end{align*} $$</code></p>
+<p>where the parameters <code>$\gamma$</code> and <code>$\eta$</code> play a similar role as in the standard momentum method. The difference between Nesterov momentum and standard momentum is where the gradient is evaluated. With Nesterov momentum the gradient is evaluated after the current velocity is applied. Thus one can interpret Nesterov momentum as attempting to add a <strong>correction factor</strong> to the standard method of momentum.</p>
+<p>We  usually set the momentum term <code>$\gamma$</code> to a value of around 0.9. While Momentum first computes the current gradient (small blue vector) and then takes a big jump in the direction of the updated accumulated gradient (big blue vector), NAG first makes a big jump in the direction of the previous accumulated gradient (brown vector), measures the gradient and then makes a correction (red vector), which results in the complete NAG update (green vector). This anticipatory update prevents us from going too fast and results in increased responsiveness, which has significantly increased the performance of RNNs on a number of tasks.</p>
+<div align="center">
+  <img src="/img_DL/04_Nesterov_Momentum.PNG" width=400px/>
+</div>
+<br>
+<blockquote>
+<p><strong>NAG (Nesterov Accelerated Gradient)</strong> 是一种 Momentum 算法的变种，其核心思想会利用“下一步的梯度”确定“这一步的梯度”，当然这里“下一步的梯度”并非真正的下一步的梯度，而是指仅根据动量项更新后位置的梯度。
+<code>$$ \begin{align*} v_{t} &amp;= - \eta\nabla_{\theta}J(\theta_{t}+\gamma v_{t-1}) + \gamma v_{t-1} \\ \theta_{t} &amp;= \theta_{t-1} + v_{t} \end{align*} $$</code>
+针对 Momentum 和 NAG 两种不同的方法，其更新权重的差异如下图所示：</p>
+</blockquote>
+<div align="center">
+  <img src="/img_DL/04_Nesterov_Momentum_Diff.PNG" width=600px/>
+</div>
+<br>
+<h3 id="adagrad">AdaGrad<a hidden class="anchor" aria-hidden="true" href="#adagrad">#</a></h3>
+<p><strong>AdaGrad</strong> is an algorithm for gradient-based optimization that does just this: It adapts the learning rate to the parameters, performing smaller updates
+(i.e. low learning rates) for parameters associated with frequently occurring features, and larger updates (i.e. high learning rates) for parameters associated with infrequent features. For this reason, it is well-suited for dealing with sparse data.</p>
+<p>Previously, we performed an update for all parameters <code>$\theta$</code> at once as every parameter <code>$\theta_{i}$</code> used the same learning rate <code>$\eta$</code>. As AdaGrad uses a different learning rate for every parameter <code>$\theta_{i}$</code> at every time step <code>$t$</code>, we first show AdaGrad&rsquo;s per-parameter update, which we then vectorize. For brevity, we use <code>$g_{t}$</code> to denote the gradient at time step <code>$t$</code>. <code>$g_{t,i}$</code> is then the partial derivative of the objective function w.r.t. to the parameter <code>$\theta_{i}$</code> at time step <code>$t$</code>:</p>
+<p><code>$$ g_{t,i} = \nabla_{\theta}J(\theta_{t,i}) \\ $$</code></p>
+<p>The SGD update for every parameter <code>$\theta_{i}$</code> at each time step <code>$t$</code> then becomes:</p>
+<p><code>$$ \theta_{t+1,i} = \theta_{t,i} - \eta \cdot g_{t,i} \\ $$</code></p>
+<p>In its update rule, AdaGrad modifies the general learning rate <code>$\eta$</code>  at each time step <code>$t$</code> for every parameter <code>$\theta_{i}$</code> based on the past gradients that have been computed for <code>$\theta_{i}$</code>:</p>
+<p><code>$$ \theta_{t+1,i} = \theta_{t,i} - \frac{\eta}{\sqrt{G_{t,ii}+\epsilon}} \cdot g_{t,i} \\ $$</code></p>
+<p><code>$G_{t} \in \mathbb{R}^{d \times d}$</code> here is a diagonal matrix where each diagonal element <code>$i$</code>, <code>$i$</code> is the sum of the squares of the gradients w.r.t. <code>$\theta_{i}$</code> up to time step <code>$t$</code>, while <code>$\epsilon$</code> is a smoothing term that avoids division by zero (usually on the order of 1e-8). Interestingly, without the square root operation, the algorithm performs much worse.</p>
+<p><code>$$ G_{t+1} = G_{t} + g \odot g \\ $$</code></p>
+<p>As <code>$G_{t}$</code> contains the sum of the squares of the past gradients w.r.t. to all parameters <code>$\theta$</code> along its diagonal, we can now vectorize our implementation by performing a matrix-vector product <code>$\odot$</code> between <code>$G_{t}$</code> and <code>$g_{t}$</code>:</p>
+<p><code>$$ \theta_{t+1} = \theta_{t} - \frac{\eta}{\sqrt{G_{t}+\epsilon}} \odot g_{t} \\ $$</code></p>
+<p>One of AdaGrad&rsquo;s main benefits is that it <strong>eliminates the need to manually tune the learning rate</strong>. Most implementations use a default value of 0.01 and leave it at that.</p>
+<p>AdaGrad&rsquo;s main weakness is its accumulation of the squared gradients in the denominator: Since every added term is positive, the accumulated sum keeps growing during training. This in turn causes the learning rate to shrink and eventually become infinitesimally small, at which point the algorithm is no longer able to acquire additional knowledge.</p>
+<blockquote>
+<p><strong>AdaGrad</strong> 是一种具有自适应学习率的的方法，其对于低频特征的参数选择更大的更新量，对于高频特征的参数选择更小的更新量。因此，AdaGrad算法更加适用于处理稀疏数据。</p>
+</blockquote>
+<h3 id="rmsprop">RMSProp<a hidden class="anchor" aria-hidden="true" href="#rmsprop">#</a></h3>
+<p>The <strong>RMSProp</strong> algorithm (Hinton, 2012) modifies AdaGrad to perform better in the non-convex setting by changing the gradient accumulation into an exponentially weighted moving average. AdaGrad is designed to converge rapidly when applied to a convex function. When applied to a non-convex function to train a neural network, the learning trajectory may pass through many different structures and eventually arrive at a region that is a locally convex bowl. AdaGrad shrinks the learning rate according to the entire history of the squared gradient and may have made the learning rate too small before arriving at such a convex structure. RMSProp uses an exponentially decaying average to discard history from the extreme past so that it can converge rapidly after finding a convex bowl, as if it were an instance of the AdaGrad algorithm initialized within that bowl.</p>
+<p>Compared to AdaGrad, the use of the moving average introduces a new hyperparameter, <code>$\rho$</code>, that controls the length scale of the moving average. Hinton suggests <code>$\rho$</code> to be set to 0.9, while a good default value for the learning rate <code>$\eta$</code> is 0.001.</p>
+<p><code>$$ \begin{align*} G_{t} &amp;= \rho G_{t-1} + (1-\rho) g \odot g \\ \theta_{t+1} &amp;= \theta_{t} - \frac{\eta}{\sqrt{G_{t}+\epsilon}} \odot g_{t} \\ \end{align*} $$</code></p>
+<p>Empirically, RMSProp has been shown to be an effective and practical optimization algorithm for deep neural networks. It is currently one of the go-to optimization methods being employed routinely by deep learning practitioners.</p>
+<h3 id="adam">Adam<a hidden class="anchor" aria-hidden="true" href="#adam">#</a></h3>
+<p><strong>Adaptive Moment Estimation (Adam)</strong> is another method that computes adaptive learning rates for each parameter. In addition to storing an exponentially decaying average of past squared gradients <code>$v_{t}$</code> like RMSprop, Adam also keeps an exponentially decaying average of past gradients <code>$m_{t}$</code>, similar to momentum. Whereas momentum can be seen as a ball running down a slope, Adam behaves like a heavy ball with friction, which thus prefers flat minima in the error surface. We compute the decaying averages of past and past squared gradients <code>$m_{t}$</code> and <code>$v_{t}$</code> respectively as follows:</p>
+<p><code>$$ \begin{align*} m_{t} &amp;= \beta_{1}m_{t-1} + (1-\beta_{1})g_{t} \\ v_{t} &amp;= \beta_{2}v_{t-1} + (1-\beta_{2})g_{t}^{2} \\ \end{align*} $$</code></p>
+<p><code>$m_{t}$</code> and <code>$v_{t}$</code> are estimates of the first moment (the mean) and the second moment (the uncentered variance) of the gradients respectively, hence the name of the method. As <code>$m_{t}$</code> and <code>$v_{t}$</code> are initialized as vectors of 0&rsquo;s, the authors of Adam observe that they are biased towards zero, especially during the initial time steps, and especially when the decay rates are small (i.e. <code>$\beta_{1}$</code> and <code>$\beta_{2}$</code> are close to 1).</p>
+<p><code>$$ \theta_{t+1} = \theta_{t} - \frac{\eta}{\sqrt{\hat{v}_{t}}+\epsilon}\hat{m}_{t} \\ $$</code></p>
+<p>The authors propose default values of 0.9 for <code>$\beta_{1}$</code>, 0.999 for <code>$\beta_{2}$</code>, and <code>$10^{-8}$</code>for <code>$\epsilon$</code>. They show empirically that Adam works well in practice and compares favorably to other adaptive learning-method algorithms.</p>
+<p>In summary, RMSprop is an extension of Adagrad that deals with its radically diminishing learning rates. It is identical to Adadelta, except that Adadelta uses the RMS of parameter updates in the numinator update rule. Adam, finally, adds bias-correction and momentum to RMSprop. Insofar, RMSprop, Adadelta, and Adam are very similar algorithms that do well in similar circumstances. Kingma et al. show that its bias-correction helps Adam slightly outperform RMSprop towards the end of optimization as gradients become sparser. Insofar, <strong>Adam might be the best overall choice</strong>.</p>
+<h2 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h2>
+<p>[1]  Goodfellow, I., Bengio, Y., &amp; Courville, A. (2016, Nov 18). Deep Learning. <a href="https://www.deeplearningbook.org/contents/optimization.html">https://www.deeplearningbook.org/contents/optimization.html</a>.</p>
+<p>[2] Ruder, S. (2020, March 20). An overview of gradient descent optimization algorithms. <a href="https://ruder.io/optimizing-gradient-descent/index.html#gradientdescentvariants">https://ruder.io/optimizing-gradient-descent/index.html#gradientdescentvariants</a>.</p>
+
+</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://followb1ind1y.github.io/tags/gradient-descent/">Gradient Descent</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/stochastic-gradient-descent/">Stochastic Gradient Descent</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/mini-batch-gradient-descent/">Mini-batch Gradient Descent</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/momentum/">Momentum</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/nesterov-momentum/">Nesterov Momentum</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/adagrad/">AdaGrad</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/rmsprop/">RMSProp</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/adam/">Adam</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://followb1ind1y.github.io/posts/deep_learning/05_convolutional_neural_network/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Convolutional Neural Network</span>
+  </a>
+  <a class="next" href="https://followb1ind1y.github.io/posts/deep_learning/03_regularization_for_deep_learning/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Regularization for Deep Learning</span>
+  </a>
+</nav>
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Optimization Methods for Deep Learning on twitter"
+        href="https://twitter.com/intent/tweet/?text=Optimization%20Methods%20for%20Deep%20Learning&amp;url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f04_optimization_methods_for_deep_learning%2f&amp;hashtags=GradientDescent%2cStochasticGradientDescent%2cMini-batchGradientDescent%2cMomentum%2cNesterovMomentum%2cAdaGrad%2cRMSProp%2cAdam">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Optimization Methods for Deep Learning on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f04_optimization_methods_for_deep_learning%2f&amp;title=Optimization%20Methods%20for%20Deep%20Learning&amp;summary=Optimization%20Methods%20for%20Deep%20Learning&amp;source=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f04_optimization_methods_for_deep_learning%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Optimization Methods for Deep Learning on reddit"
+        href="https://reddit.com/submit?url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f04_optimization_methods_for_deep_learning%2f&title=Optimization%20Methods%20for%20Deep%20Learning">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Optimization Methods for Deep Learning on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f04_optimization_methods_for_deep_learning%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Optimization Methods for Deep Learning on whatsapp"
+        href="https://api.whatsapp.com/send?text=Optimization%20Methods%20for%20Deep%20Learning%20-%20https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f04_optimization_methods_for_deep_learning%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Optimization Methods for Deep Learning on telegram"
+        href="https://telegram.me/share/url?text=Optimization%20Methods%20for%20Deep%20Learning&amp;url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f04_optimization_methods_for_deep_learning%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main>
+    <footer class="footer">
+    <span>&copy; 2022 <a href="https://followb1ind1y.github.io/">Followb1ind1y</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+    menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script src="//yihui.org/js/math-code.js"></script>
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+
+</html>

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/</link>
+    <description>Recent content on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 11 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Temporal-Difference Learning</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/06_temporal_difference_learning/</link>
+      <pubDate>Sat, 11 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/06_temporal_difference_learning/</guid>
+      <description>If one had to identify one idea as central and novel to reinforcement learning, it would undoubtedly be temporal-difference (TD) learning. TD learning is a combination of Monte Carlo ideas and dynamic programming (DP) ideas. Like Monte Carlo methods, TD methods can learn directly from raw experience without a model of the environment’s dynamics. Like DP, TD methods update estimates based in part on other learned estimates, without waiting for a final outcome (they bootstrap).</description>
+    </item>
+    
+    <item>
+      <title>Monte Carlo Methods</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/05_-monte_carlo_methods/</link>
+      <pubDate>Sat, 04 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/05_-monte_carlo_methods/</guid>
+      <description>Monte Carlo methods require only experience—sample sequences of states, actions, and rewards from actual or simulated interaction with an environment. Learning from actual experience is striking because it requires no prior knowledge of the environment’s dynamics, yet can still attain optimal behavior. Learning from simulated experience is also powerful. Although a model is required, the model need only generate sample transitions, not the complete probability distributions of all possible transitions that is required for dynamic programming (DP).</description>
+    </item>
+    
+    <item>
+      <title>Dynamic Programming</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/04_dynamic_programming/</link>
+      <pubDate>Sat, 28 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/04_dynamic_programming/</guid>
+      <description>The term dynamic programming (DP) refers to a collection of algorithms that can be used to compute optimal policies given a perfect model of the environment as a Markov decision process (MDP). Classical DP algorithms are of limited utility in reinforcement learning both because of their assumption of a perfect model and because of their great computational expense, but they are still important theoretically.
+Starting with this chapter, we usually assume that the environment is a finite MDP.</description>
+    </item>
+    
+    <item>
+      <title>Finite Markov Decision Processes</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/03_finite_markov_decision_processes/</link>
+      <pubDate>Tue, 24 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/03_finite_markov_decision_processes/</guid>
+      <description>MDPs are a mathematically idealized form of the reinforcement learning problem for which precise theoretical statements can be made. We introduce key elements of the problem&amp;rsquo;s mathematical structure, such as returns, value functions, and Bellman equations. We try to convey the wide range of applications that can be formulated as finite MDPs. As in all of artificial intelligence, there is a tension between breadth of applicability and mathematical tractability.
+The Agent–Environment Interface MDPs are meant to be a straightforward framing of the problem of learning from interaction to achieve a goal.</description>
+    </item>
+    
+    <item>
+      <title>Multi-armed Bandits</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/02_multi-armed_bandits/</link>
+      <pubDate>Sat, 21 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/02_multi-armed_bandits/</guid>
+      <description>Consider the following learning problem. You are faced repeatedly with a choice among $k$ different options, or actions. After each choice you receive a numerical reward chosen from a stationary probability distribution that depends on the action you selected. Your objective is to maximize the expected total reward over some time period.
+This is the original form of the $k$-armed bandit problem, so named by analogy to a slot machine, or “one-armed bandit,” except that it has $k$ levers instead of one.</description>
+    </item>
+    
+    <item>
+      <title>Introduction of Reinforcement Learning</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/01_introduction-of-reinforcement-learning/</link>
+      <pubDate>Sat, 14 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/01_introduction-of-reinforcement-learning/</guid>
+      <description>Reinforcement learning is learning what to do—how to map situations to actions—so as to maximize a numerical reward signal. The learner is not told which actions to take, but instead must discover which actions yield the most reward(最大奖励回报) by trying them. In the most interesting and challenging cases, actions may affect not only the immediate reward but also the next situation and, through that, all subsequent rewards. These two characteristics—trial-and-error search and delayed reward—are the two most important distinguishing features of reinforcement learning.</description>
+    </item>
+    
+    <item>
+      <title>Convolutional Neural Network</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/05_convolutional_neural_network/</link>
+      <pubDate>Mon, 02 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/05_convolutional_neural_network/</guid>
+      <description>Convolutional networks (LeCun, 1989), also known as convolutional neural networks or CNNs, are a specialized kind of neural network for processing data that has a known, grid-like topology. Examples include time-series data, which can be thought of as a 1D grid taking samples at regular time intervals, and image data, which can be thought of as a 2D grid of pixels. Convolutional networks have been tremendously successful in practical applications. The name “convolutional neural network” indicates that the network employs a mathematical operation called convolution.</description>
+    </item>
+    
+    <item>
+      <title>Optimization Methods for Deep Learning</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/04_optimization_methods_for_deep_learning/</link>
+      <pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/04_optimization_methods_for_deep_learning/</guid>
+      <description>Gradient Descent Optimization Most deep learning algorithms involve optimization of some sort. Optimization refers to the task of either minimizing or maximizing some function $f(x)$ by altering $x$. We usually phrase most optimization problems in terms of minimizing $f(x)$. Maximization may be accomplished via a minimization algorithm by minimizing $-f(x)$.
+The function we want to minimize or maximize is called the objective function or criterion. When we are minimizing it, we may also call it the cost function, loss function, or error function.</description>
+    </item>
+    
+    <item>
+      <title>Regularization for Deep Learning</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/03_regularization_for_deep_learning/</link>
+      <pubDate>Sun, 25 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/03_regularization_for_deep_learning/</guid>
+      <description>Overfitting, Underfitting and Capacity The central challenge in machine learning is that we must perform well on new, previously unseen inputs—not just those on which our model was trained. The ability to perform well on previously unobserved inputs is called generalization.
+ 机器学习的主要挑战是我们的算法必须能够在先前未观测的新输入上表现良好, 而不只是在训练集上表现良好.在先前未观测到的输入上表现良好的能力被称为 泛化(generalization) .
+ Typically, when training a machine learning model, we have access to a training set, we can compute some error measure on the training set called the training error, and we reduce this training error.</description>
+    </item>
+    
+    <item>
+      <title>Neural Network: Radial Basis Function Neural Networks (RBN)</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/02_radial_basis_function_neural_networks/</link>
+      <pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/02_radial_basis_function_neural_networks/</guid>
+      <description>In Single Perceptron / Multi-layer Perceptron(MLP), we only have linear separability because they are composed of input and output layers(some hidden layers in MLP). We at least need one hidden layer to derive a non-linearity separation. Our RBN what it does is, it transforms the input signal into another form, which can be then feed into the network to get linear separability. RBN is structurally same as perceptron(MLP).
+ RBNN is composed of input, hidden, and output layer.</description>
+    </item>
+    
+    <item>
+      <title>Neural Network: Perceptron and Backpropagation</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/01_perceptron_and_backpropagation/</link>
+      <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/01_perceptron_and_backpropagation/</guid>
+      <description>Neural Networks form the base of deep learning, which is a subfield of Machine Learning, where the structure of the human brain inspires the algorithms. Neural networks take input data, train themselves to recognize patterns found in the data, and then predict the output for a new set of similar data. Therefore, a neural network can be thought of as the functional unit of deep learning, which mimics the behavior of the human brain to solve complex data-driven problems.</description>
+    </item>
+    
+    <item>
+      <title>[ML Basics] Machine Learning Basics</title>
+      <link>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/04_machine_learning_basics_for_ml/</link>
+      <pubDate>Wed, 30 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/04_machine_learning_basics_for_ml/</guid>
+      <description>Learning Algorithms A machine learning algorithm is an algorithm that is able to learn from data. But what do we mean by learning? Mitchell (1997) provides the definition &amp;ldquo;A computer program is said to learn from experience $E$ with respect to some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$.&amp;rdquo;
+The Task, $T$ Machine learning allows us to tackle tasks that are too difficult to solve with fixed programs written and designed by human beings.</description>
+    </item>
+    
+    <item>
+      <title>[ML Basics] Numerical Computation</title>
+      <link>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/03_numerical_computation_for_ml/</link>
+      <pubDate>Mon, 28 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/03_numerical_computation_for_ml/</guid>
+      <description>Overflow and Underflow The fundamental difficulty in performing continuous math on a digital computer is that we need to represent infinitely many real numbers with a finite number of bit patterns. This means that for almost all real numbers, we incur some approximation error when we represent the number in the computer. In many cases, this is just rounding error. Rounding error is problematic, especially when it compounds across many operations, and can cause algorithms that work in theory to fail in practice if they are not designed to minimize the accumulation of rounding error.</description>
+    </item>
+    
+    <item>
+      <title>[ML Basics] Probability and Information Theory</title>
+      <link>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/02_probability_and_information_theory_for_ml/</link>
+      <pubDate>Thu, 24 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/02_probability_and_information_theory_for_ml/</guid>
+      <description>Random Variables A random variable is a variable that can take on different values randomly. We typically denote the random variable itself with a lower case letter in plain typeface, and the values it can take on with lower case script letters. For example, $x_{1}$ and $x_{2}$ are both possible values that the random variable $x$ can take on. For vector-valued variables, we would write the random variable as $\mathrm{x}$ and one of its values as $x$.</description>
+    </item>
+    
+    <item>
+      <title>[ML Basics] Linear Algebra</title>
+      <link>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/01_linear_algebra_for_ml/</link>
+      <pubDate>Wed, 23 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/01_linear_algebra_for_ml/</guid>
+      <description>Scalars, Vectors, Matrices and Tensors The study of linear algebra involves several types of mathematical objects:
+  Scalars: A scalar is just a single number, in contrast to most of the other objects studied in linear algebra, which are usually arrays of multiple numbers. We write scalars in italics. We usually give scalars lowercase variable names. When we introduce them, we specify what kind of number they are. For example, we might say &amp;ldquo;Let $s \in \mathbb{R}$ be the slope of the line,&amp;rdquo; while defining a real-valued scalar, or &amp;ldquo;Let $n \in \mathbb{N}$ be the number of units, while defining an natural number scalar.</description>
+    </item>
+    
+    <item>
+      <title>Boosting</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/12_boosting/</link>
+      <pubDate>Sun, 30 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/12_boosting/</guid>
+      <description>Boosting is an ensemble modeling technique which attempts to build a strong classifier from the number of weak classifiers. It is done by building a model using weak models in series. First, a model is built from the training data. Then the second model is built which tries to correct the errors present in the first model. This procedure is continued and models are added until either the complete training data set is predicted correctly or the maximum number of models are added.</description>
+    </item>
+    
+    <item>
+      <title>Bagging and Random Forest</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/11_bagging_and_random_forest/</link>
+      <pubDate>Fri, 28 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/11_bagging_and_random_forest/</guid>
+      <description>Ensemble Learning Ensemble methods aim at improving the predictive performance of a given statistical learning or model ﬁtting technique. The general principle of ensemble methods is to construct a linear combination of some model ﬁtting method, instead of using a single ﬁt of the method.
+An ensemble is itself a supervised learning algorithm, because it can be trained and then used to make predictions. Ensemble methods combine several decision trees classifiers to produce better predictive performance than a single decision tree classifier.</description>
+    </item>
+    
+    <item>
+      <title>Decision Trees</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/10_decision_tree/</link>
+      <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/10_decision_tree/</guid>
+      <description>A tree has many analogies in real life, and turns out that it has influenced a wide area of machine learning, covering both classification and regression. In decision analysis, a decision tree can be used to visually and explicitly represent decisions and decision making. As the name goes, it uses a tree-like model of decisions. Though a commonly used tool in data \mining for deriving a strategy to reach a particular goal, its also widely used in machine learning.</description>
+    </item>
+    
+    <item>
+      <title>Support Vector Machine</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/09_support_vector_machine/</link>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/09_support_vector_machine/</guid>
+      <description>Support Vector Machine(SVM) is a supervised machine learning algorithm which can be used for both classification or regression challenges. However, it is mostly used in classification problems. In the SVM algorithm, we plot each data item as a point in n-dimensional space (where n is number of features you have) with the value of each feature being the value of a particular coordinate. Then, we perform classification by finding the hyper-plane that differentiates the two classes very well.</description>
+    </item>
+    
+    <item>
+      <title>Naive Bayes</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/08_naive_bayes/</link>
+      <pubDate>Wed, 19 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/08_naive_bayes/</guid>
+      <description>Naive Bayes classifiers are linear classifiers that are known for being simple yet very efficient. The probabilistic model of naive Bayes classifiers is based on Bayes&#39; theorem, and the adjective naive comes from the assumption that the features in a dataset are mutually independent. In practice, the independence assumption is often violated, but naive Bayes classifiers still tend to perform very well under this unrealistic assumption. Especially for small sample sizes, naive Bayes classifiers can outperform the more powerful alternatives.</description>
+    </item>
+    
+    <item>
+      <title>K-Nearest Neighbors</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/07_k_nearest_neighbors/</link>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/07_k_nearest_neighbors/</guid>
+      <description>K Nearest Neighbor(KNN) is a very simple, easy to understand, versatile and one of the topmost machine learning algorithms. KNN used in the variety of applications such as finance, healthcare, political science, handwriting detection, image recognition and video recognition. KNN algorithm used for both classification and regression problems.
+We say that KNN is a non-parametric and lazy learning algorithm. Non-parametric means there is no assumption for underlying data distribution. In other words, the model structure determined from the dataset.</description>
+    </item>
+    
+    <item>
+      <title>Fisher’s Linear Discriminant Analysis</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/06_fishers_linear_discriminant_analysis/</link>
+      <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/06_fishers_linear_discriminant_analysis/</guid>
+      <description>Fisher&amp;rsquo;s Linear Discriminant Analysis (FDA) is most commonly used as dimensionality reduction technique in the pre-processing step for pattern-classification and machine learning applications. The goal is to project a dataset onto a lower-dimensional space with good class-separability in order avoid overfitting (&amp;ldquo;curse of dimensionality&amp;rdquo;) and also reduce computational costs. The general FDA approach is very similar to a Principal Component Analysis, but in addition to finding the component axes that maximize the variance of our data (PCA), we are additionally interested in the axes that maximize the separation between multiple classes.</description>
+    </item>
+    
+    <item>
+      <title>Principal Component Analysis</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/05_principal_component_analysis/</link>
+      <pubDate>Sun, 16 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/05_principal_component_analysis/</guid>
+      <description>Principal Component Analysis, or PCA, is a dimensionality-reduction method that is often used to reduce the dimensionality of large data sets, by transforming a large set of variables into a smaller one that still contains most of the information in the large set.
+Reducing the number of variables of a data set naturally comes at the expense of accuracy, but the trick in dimensionality reduction is to trade a little accuracy for simplicity.</description>
+    </item>
+    
+    <item>
+      <title>LDA and QDA for Classification</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/04_lda_and_qda_for_classification/</link>
+      <pubDate>Thu, 13 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/04_lda_and_qda_for_classification/</guid>
+      <description>Discriminant analysis encompasses methods that can be used for both classification and dimensionality reduction. Linear discriminant analysis (LDA) is particularly popular because it is both a classifier and a dimensionality reduction technique. Despite its simplicity, LDA often produces robust, decent, and interpretable classification results. When tackling real-world classification problems, LDA is often the first and benchmarking method before other more complicated and flexible ones are employed. Quadratic discriminant analysis (QDA) is a variant of LDA that allows for non-linear separation of data.</description>
+    </item>
+    
+    <item>
+      <title>Logistic Regression</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/03_logistic_regression/</link>
+      <pubDate>Tue, 11 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/03_logistic_regression/</guid>
+      <description>Binary Logistic Regression is one of the most simple and commonly used Machine Learning algorithms for two-class classification. It is easy to implement and can be used as the baseline for any binary classification problem. Its basic fundamental concepts are also constructive in deep learning. Logistic regression describes and estimates the relationship between one dependent binary variable and independent variables.
+  &amp;ldquo;分类&amp;quot;是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是&amp;quot;回归&amp;rdquo;. 通过逻辑回归模型, 我们得到的计算结果是0-1之间的连续数字, 可以把它称为&amp;quot;可能性&amp;quot;（概率）. 然后, 给这个可能性加一个阈值, 就成了分类.</description>
+    </item>
+    
+    <item>
+      <title>Linear Regression</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/02_linear_regression/</link>
+      <pubDate>Sat, 08 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/02_linear_regression/</guid>
+      <description>Regression is a method of modelling a target value based on independent predictors. This method is mostly used for forecasting and finding out cause and effect relationship between variables. Regression techniques mostly differ based on the number of independent variables and the type of relationship between the independent and dependent variables. Regression problems usually have one continuous and unbounded dependent variable. The inputs, however, can be continuous, discrete, or even categorical data such as gender, nationality, brand, and so on.</description>
+    </item>
+    
+    <item>
+      <title>What is Machine Learning</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/01_what_is-_machine_learning_machine_learning/</link>
+      <pubDate>Thu, 06 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/01_what_is-_machine_learning_machine_learning/</guid>
+      <description>Arthur Samuel (1959). Machine Learning: The field of study that gives computers the ability to learn without being explicitly learned.
+  Tom Mitchell (1998). Well-posed Learning Problem: a computer program is said to learn from experience E with respect to some task T and some performance measure P, if its performance on T, as measured by P, improves with experience E.
+  Representation Algorithms Grouped By Learning Style There are different ways an algorithm can model a problem based on its interaction with the experience or environment or whatever we want to call the input data.</description>
+    </item>
+    
+    
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>PCA on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/pca/</link>
+    <description>Recent content in PCA on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 16 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/pca/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Principal Component Analysis</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/05_principal_component_analysis/</link>
+      <pubDate>Sun, 16 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/05_principal_component_analysis/</guid>
+      <description>Principal Component Analysis, or PCA, is a dimensionality-reduction method that is often used to reduce the dimensionality of large data sets, by transforming a large set of variables into a smaller one that still contains most of the information in the large set.
+Reducing the number of variables of a data set naturally comes at the expense of accuracy, but the trick in dimensionality reduction is to trade a little accuracy for simplicity.</description>
+    </item>
+    
+  </channel>
+</rss>

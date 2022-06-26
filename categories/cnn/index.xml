@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>CNN on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/categories/cnn/</link>
+    <description>Recent content in CNN on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 02 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/categories/cnn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Convolutional Neural Network</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/05_convolutional_neural_network/</link>
+      <pubDate>Mon, 02 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/05_convolutional_neural_network/</guid>
+      <description>Convolutional networks (LeCun, 1989), also known as convolutional neural networks or CNNs, are a specialized kind of neural network for processing data that has a known, grid-like topology. Examples include time-series data, which can be thought of as a 1D grid taking samples at regular time intervals, and image data, which can be thought of as a 2D grid of pixels. Convolutional networks have been tremendously successful in practical applications. The name “convolutional neural network” indicates that the network employs a mathematical operation called convolution.</description>
+    </item>
+    
+  </channel>
+</rss>

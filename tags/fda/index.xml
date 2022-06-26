@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>FDA on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/fda/</link>
+    <description>Recent content in FDA on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 17 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/fda/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fisher’s Linear Discriminant Analysis</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/06_fishers_linear_discriminant_analysis/</link>
+      <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/06_fishers_linear_discriminant_analysis/</guid>
+      <description>Fisher&amp;rsquo;s Linear Discriminant Analysis (FDA) is most commonly used as dimensionality reduction technique in the pre-processing step for pattern-classification and machine learning applications. The goal is to project a dataset onto a lower-dimensional space with good class-separability in order avoid overfitting (&amp;ldquo;curse of dimensionality&amp;rdquo;) and also reduce computational costs. The general FDA approach is very similar to a Principal Component Analysis, but in addition to finding the component axes that maximize the variance of our data (PCA), we are additionally interested in the axes that maximize the separation between multiple classes.</description>
+    </item>
+    
+  </channel>
+</rss>

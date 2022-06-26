@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Deep Learning on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/categories/deep-learning/</link>
+    <description>Recent content in Deep Learning on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 02 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/categories/deep-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Convolutional Neural Network</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/05_convolutional_neural_network/</link>
+      <pubDate>Mon, 02 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/05_convolutional_neural_network/</guid>
+      <description>Convolutional networks (LeCun, 1989), also known as convolutional neural networks or CNNs, are a specialized kind of neural network for processing data that has a known, grid-like topology. Examples include time-series data, which can be thought of as a 1D grid taking samples at regular time intervals, and image data, which can be thought of as a 2D grid of pixels. Convolutional networks have been tremendously successful in practical applications. The name “convolutional neural network” indicates that the network employs a mathematical operation called convolution.</description>
+    </item>
+    
+    <item>
+      <title>Optimization Methods for Deep Learning</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/04_optimization_methods_for_deep_learning/</link>
+      <pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/04_optimization_methods_for_deep_learning/</guid>
+      <description>Gradient Descent Optimization Most deep learning algorithms involve optimization of some sort. Optimization refers to the task of either minimizing or maximizing some function $f(x)$ by altering $x$. We usually phrase most optimization problems in terms of minimizing $f(x)$. Maximization may be accomplished via a minimization algorithm by minimizing $-f(x)$.
+The function we want to minimize or maximize is called the objective function or criterion. When we are minimizing it, we may also call it the cost function, loss function, or error function.</description>
+    </item>
+    
+    <item>
+      <title>Regularization for Deep Learning</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/03_regularization_for_deep_learning/</link>
+      <pubDate>Sun, 25 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/03_regularization_for_deep_learning/</guid>
+      <description>Overfitting, Underfitting and Capacity The central challenge in machine learning is that we must perform well on new, previously unseen inputs—not just those on which our model was trained. The ability to perform well on previously unobserved inputs is called generalization.
+ 机器学习的主要挑战是我们的算法必须能够在先前未观测的新输入上表现良好, 而不只是在训练集上表现良好.在先前未观测到的输入上表现良好的能力被称为 泛化(generalization) .
+ Typically, when training a machine learning model, we have access to a training set, we can compute some error measure on the training set called the training error, and we reduce this training error.</description>
+    </item>
+    
+    <item>
+      <title>Neural Network: Radial Basis Function Neural Networks (RBN)</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/02_radial_basis_function_neural_networks/</link>
+      <pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/02_radial_basis_function_neural_networks/</guid>
+      <description>In Single Perceptron / Multi-layer Perceptron(MLP), we only have linear separability because they are composed of input and output layers(some hidden layers in MLP). We at least need one hidden layer to derive a non-linearity separation. Our RBN what it does is, it transforms the input signal into another form, which can be then feed into the network to get linear separability. RBN is structurally same as perceptron(MLP).
+ RBNN is composed of input, hidden, and output layer.</description>
+    </item>
+    
+    <item>
+      <title>Neural Network: Perceptron and Backpropagation</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/01_perceptron_and_backpropagation/</link>
+      <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/01_perceptron_and_backpropagation/</guid>
+      <description>Neural Networks form the base of deep learning, which is a subfield of Machine Learning, where the structure of the human brain inspires the algorithms. Neural networks take input data, train themselves to recognize patterns found in the data, and then predict the output for a new set of similar data. Therefore, a neural network can be thought of as the functional unit of deep learning, which mimics the behavior of the human brain to solve complex data-driven problems.</description>
+    </item>
+    
+  </channel>
+</rss>

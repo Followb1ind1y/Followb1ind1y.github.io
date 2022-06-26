@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Support Vector Machine | Followb1ind1y</title>
+<meta name="keywords" content="Machine Learning, Support Vector Machine" />
+<meta name="description" content="Support Vector Machine(SVM) is a supervised machine learning algorithm which can be used for both classification or regression challenges. However, it is mostly used in classification problems. In the SVM algorithm, we plot each data item as a point in n-dimensional space (where n is number of features you have) with the value of each feature being the value of a particular coordinate. Then, we perform classification by finding the hyper-plane that differentiates the two classes very well.">
+<meta name="author" content="Followb1ind1y">
+<link rel="canonical" href="https://followb1ind1y.github.io/posts/machine_learning/09_support_vector_machine/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.d70d9be7236724828e9dc04b26c5a1f3b228217674a56d00269f53e0d3db96f0.css" integrity="sha256-1w2b5yNnJIKOncBLJsWh87IoIXZ0pW0AJp9T4NPblvA=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://followb1ind1y.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://followb1ind1y.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://followb1ind1y.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://followb1ind1y.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://followb1ind1y.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta property="og:title" content="Support Vector Machine" />
+<meta property="og:description" content="Support Vector Machine(SVM) is a supervised machine learning algorithm which can be used for both classification or regression challenges. However, it is mostly used in classification problems. In the SVM algorithm, we plot each data item as a point in n-dimensional space (where n is number of features you have) with the value of each feature being the value of a particular coordinate. Then, we perform classification by finding the hyper-plane that differentiates the two classes very well." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://followb1ind1y.github.io/posts/machine_learning/09_support_vector_machine/" /><meta property="og:image" content="https://followb1ind1y.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-05-24T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-05-24T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://followb1ind1y.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="Support Vector Machine"/>
+<meta name="twitter:description" content="Support Vector Machine(SVM) is a supervised machine learning algorithm which can be used for both classification or regression challenges. However, it is mostly used in classification problems. In the SVM algorithm, we plot each data item as a point in n-dimensional space (where n is number of features you have) with the value of each feature being the value of a particular coordinate. Then, we perform classification by finding the hyper-plane that differentiates the two classes very well."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://followb1ind1y.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Support Vector Machine",
+      "item": "https://followb1ind1y.github.io/posts/machine_learning/09_support_vector_machine/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Support Vector Machine",
+  "name": "Support Vector Machine",
+  "description": "Support Vector Machine(SVM) is a supervised machine learning algorithm which can be used for both classification or regression challenges. However, it is mostly used in classification problems. In the SVM algorithm, we plot each data item as a point in n-dimensional space (where n is number of features you have) with the value of each feature being the value of a particular coordinate. Then, we perform classification by finding the hyper-plane that differentiates the two classes very well.",
+  "keywords": [
+    "Machine Learning", "Support Vector Machine"
+  ],
+  "articleBody": "Support Vector Machine(SVM) is a supervised machine learning algorithm which can be used for both classification or regression challenges. However, it is mostly used in classification problems. In the SVM algorithm, we plot each data item as a point in n-dimensional space (where n is number of features you have) with the value of each feature being the value of a particular coordinate. Then, we perform classification by finding the hyper-plane that differentiates the two classes very well.\nThe goal is to learn a hyperplane that discriminates between classes; we find a decision boundary which maximum separation between two classes. We consider two cases:\n  Hard Margin: Classes are linear separable. We find a hyperplane with margin that maxmally seperates the twp classes.\n  Soft Margin: Classes are not linear separable. We allow error (slack) in the model fitting and find a decision boundary with the minimum slack required to discriminate between two classes.\n    支持向量机(support vector machine) 是在分类与回归分析中分析数据的监督式学习模型与相关的学习算法。给定一组训练实例，每个训练实例被标记为属于两个类别中的一个或另一个，SVM训练算法创建一个将新的实例分配给两个类别之一的模型，使其成为非概率二元线性分类器。 如果这些训练数据是 线性可分的 ，可以选择分离两类数据的两个平行超平面，使得它们之间的距离尽可能大。在这两个超平面范围内的区域称为“间隔”，最大间隔超平面是位于它们正中间的超平面。如果这些训练数据是 线性不可分的，我们会允许SVM在少量样本上出错，即将之前的硬间隔最大化条件放宽一点，为此引入\" 软间隔(soft margin) “的概念，为了使不满足上述条件的样本点尽可能少，我们需要在优化的目标函数里面新增一个对这些点的惩罚项。\n Hard Margin SVM Illustration: If the data is linear separable, there exist an infinite number of hyperplanes that can separate the two classes. The algorithm looks for the best hyperplane; the one with largest margin.\n Hyperplane separating the two classes: $\\beta^{T}x+\\beta_{0}=0$ Set the labels: $y_{i}\\in\\{-1,1\\}$ We can classify points as $\\mathrm{sign}\\{d_{i}\\}$ where $d_{i} = \\beta^{T}x_{i}+\\beta_{0}$  Margin: The distance between the hyperplane and the closest points.\nGoal: Maximize the Magin\n$$ \\mathrm{Margin} = \\min\\{y_{i}d_{i}\\}, \\ \\ \\ \\ i=1,2,3,...,n \\\\ $$\nWhere $y_{i}$ is label and $d_{i}$ is distance\n (1). $\\beta$ is orthogonal to the hyperplane. Consider $x_{1}$ and $x_{2}$ not on the hyperplane. Then,\n$$ \\beta^{T}x_{1}+\\beta_{0} = \\beta^{T}x_{2}+\\beta_{0} = 0 \\\\ \\Rightarrow \\beta^{T}(x_{1}-x_{2}) = 0 \\\\ \\Rightarrow \\beta \\ \\mathrm{is \\ orthogonal \\ to} \\ (x_{1}-x_{2}). \\\\ $$\n(2). For any $x_{0}$ on the hyperplane,\n$$ \\beta^{T}x_{0}+\\beta_{0}=0 \\Rightarrow \\beta^{T}x_{0} = -\\beta_{0} \\\\ $$\n(3). The distance $d_{i}$ is the projection of $(x_{i}-x_{0})$ to the direction of $\\beta$.\n$$ \\begin{align*} d_{i}\u0026=\\frac{\\beta^{T}(x_{i}-x_{0})}{\\parallel\\beta\\parallel} \\\\ \u0026=\\frac{\\beta^{T}x_{i}-\\beta^{T}x_{0}}{\\parallel\\beta\\parallel} \\\\ \u0026=\\frac{\\beta^{T}x_{i}-\\beta_{0}}{\\parallel\\beta\\parallel} \\\\ \\end{align*} $$\nThus,\n$$ \\mathrm{Margin} = \\min\\{y_{i}d_{i}\\} = \\min\\{\\frac{y_{i}\\beta^{T}x_{i}-\\beta_{0}}{\\parallel\\beta\\parallel}\\} \\\\ $$\n(4). If the point is not on the hyperplane, then\n$$ y_{i}(\\beta^{T}x_{i}+\\beta_{0})  0 \\\\ \\Rightarrow \\ y_{i}(\\beta^{T}x_{i}+\\beta_{0}) \\geq c \\\\ \\Rightarrow \\ y_{i}\\frac{(\\beta^{T}x_{i}+\\beta_{0})}{c} \\geq 1 \\\\ \\Rightarrow \\ \\mathrm{There \\ exist} \\ \\beta \\ \\mathrm{and} \\ \\beta_{0} \\ \\mathrm{such \\ that} \\ y_{i}(\\beta^{T}x_{i}+\\beta_{0}) \\geq 1 \\\\ $$\nTherefore,\n$$ \\mathrm{Margin} = \\frac{1}{\\parallel\\beta\\parallel} \\\\ $$\n The original problem can be reduced now to:\n$$ \\min_{\\beta,\\beta_{0}}\\frac{1}{2}{\\parallel\\beta\\parallel}^{2} \\\\ \\mathrm{Subject \\ to} \\ y_{i}(\\beta^{T}x_{i}+\\beta_{0}) \\geq 1, i =1,2,...,n $$\nLagrange Method From the lagrangian, we can have:\n$$ \\begin{align*} L_{p}\u0026=\\frac{1}{2}{\\parallel\\beta\\parallel}^{2}-\\sum_{i=1}^{n}\\alpha_{i}[ y_{i}(\\beta^{T}x_{i}+\\beta_{0})-1] \\\\ \u0026= \\frac{1}{2}\\beta^{T}\\beta - \\beta^{T}\\sum_{i=1}^{n}\\alpha_{i}y_{i}x_{i}-\\beta_{0}\\sum_{i=1}^{n}\\alpha_{i}y_{i}+\\sum_{i=1}^{n}\\alpha_{i} \\\\ \\end{align*} $$\n$$ \\begin{cases} \\frac{\\partial L_{p}}{\\partial \\beta}=\\beta - \\sum_{i=0}^{n}\\alpha_{i}y_{i}x_{i} = 0 \\Rightarrow \\beta = \\sum_{i=0}^{n}\\alpha_{i}y_{i}x_{i} \\\\ \\frac{\\partial L_{p}}{\\partial \\beta_{0}}=-\\sum_{i=0}^{n}\\alpha_{i}y_{i} = 0 \\Rightarrow \\sum_{i=0}^{n}\\alpha_{i}y_{i} = 0 \\\\ \\end{cases} $$\nSubstituting this in the lagrangian we obtain:\n$$ \\begin{align*} \\max_{\\alpha_{i}}\\sum_{i=1}^{n}\\alpha_{i} - \\frac{1}{2}\\sum_{i=1}^{n}\u0026\\sum_{j=1}^{n}\\alpha_{i}\\alpha_{j}y_{i}y_{j}x_{i}^{T}x_{j} \\\\ \\mathrm{Subject \\ to} \\ \\alpha_{i} \u0026\\geq 0 \\\\ \\sum_{i=1}^{n}\\alpha_{i}y_{i}\u0026=0 \\\\ \\end{align*} $$\nOur primal optimization problem with the Lagrangian becomes the following:\n$$ \\min_{\\beta,\\beta_{0}}(\\max_{\\alpha_{i}}L(\\beta,\\beta_{0},\\alpha)) \\\\ $$\nDual Problem What Antoni and Prof. Patrick Winston have done in their derivation is assume that the optimization function and the constraints meet some technical conditions such that we can do the following:\n$$ \\min_{\\beta,\\beta_{0}}(\\max_{\\alpha_{i}}L(\\beta,\\beta_{0},\\alpha))=\\max_{\\alpha_{i}}(\\min_{\\beta,\\beta_{0}}L(\\beta,\\beta_{0},\\alpha)) \\\\ $$\nThis allows us to take the partial derivatives of $L(\\beta,\\beta_{0},\\alpha)$ with respect to $\\beta$ and $\\beta_{0}$, equate to zero and then plug the results back into the original equation of the Lagrangian, hence generating an equivalent dual optimization problem of the form\n$$ \\begin{align*} \u0026\\max_{\\alpha_{i}}(\\min_{\\beta,\\beta_{0}}L(\\beta,\\beta_{0},\\alpha)) \\\\ \u0026\\max_{\\alpha_{i}}\\sum_{i=1}^{n}\\alpha_{i} - \\frac{1}{2}\\sum_{i=1}^{n}\\sum_{j=1}^{n}\\alpha_{i}\\alpha_{j}y_{i}y_{j} \\\\ \u0026\\mathrm{s.t.} \\ \\alpha_{i} \\geq 0 \\\\ \u0026\\mathrm{s.t.} \\ \\sum_{i=1}^{n}\\alpha_{i}y_{i}=0 \\\\ \\end{align*} $$\nOptimization – Karush–Kuhn–Tucker (KKT) conditions Without going into excessive mathematical technicalities, these conditions are a combination of the Duality and the Karush Kuhn Tucker (KTT) conditions and allow us to solve the dual problem instead of the primal one, while ensuring that the optimal solution is the same. In our case the conditions are the following:\n The primal objective and inequality constraint functions must be convex The equality constraint function must be affine The constraints must be strictly feasible  Then there exists $x^{*}$,$\\alpha^{*}$ which are solutions to the primal and dual problems.\n$$ \\min_{x}f(x) \\\\ \\mathrm{subject \\ to} \\ g(x)\\leq 0 \\\\ $$\n If $x^{*}$ is a local optimum, subject to regularity conditions, then there exist constant multipliers $\\alpha_{i}^{*}$ such that  $$ \\begin{align*} \u0026\\frac{\\partial}{\\partial x}L(x^{*}) = 0 \\\\ \u0026g(x^{*}) \\leq 0 \\\\ \u0026\\alpha_{i}^{*} \\geq 0 \\\\ \u0026\\alpha_{i}^{*}g(x^{*})=0, \\forall i \\\\ \\end{align*} $$\nFrom the complementary slackness (KKT Conditions), we have $\\alpha_{i}^{*}g(x^{*})=\\alpha_{i}^{*}[y_{i}(\\beta^{T}x_{i}+\\beta_{0})-1] = 0$ we can see that\n if $\\alpha_{i}^{*}  0$, then $y_{i}(\\beta^{T}x_{i}+\\beta_{0})-1 = 0$, i.e. $x_{i}$ is on the margin. This point is called support vector. if $y_{i}(\\beta^{T}x_{i}+\\beta_{0})  1$, $x_{i}$ is not on the margin, and $\\alpha_{i}^{*}=0$  This is a convex optimization and can be solved by quadratic programming.\nSoft Margin SVM Having a dataset with linear separable classes is very unlikely in practice, so we remove this requirement. We now consider a dataset where both classes overlap such that no hyperplane exists that can completely seperate the two classes on the training data. Instead, the goal becomes to find a hyperplane which minimizes the amount of datapoints that “spill” over to the opposite sides.\nWe allow points to violate our previous constraint by some error $\\zeta$, but penalize the objective function the more it is violated. Our new optimization problem becomes:\n$$ \\min_{\\beta,\\beta_{0}}\\frac{1}{2}{\\parallel\\beta\\parallel}^{2}+\\gamma\\sum_{i=1}^{n}\\zeta_{i} \\\\ \\mathrm{Subject \\ to} \\ y_{i}(\\beta^{T}x_{i}+\\beta_{0}) \\geq 1-\\zeta_{i}, \\forall i \\\\ \\zeta_{i} \\geq 0, \\forall i $$\nLagrange Method We formulate the lagrangian function:\n$$ L(\\beta_{0},\\beta,\\alpha,\\zeta,\\lambda)=\\frac{1}{2}{\\parallel\\beta\\parallel}^{2}+\\gamma\\sum_{i=1}^{n}\\zeta_{i}-\\sum_{i=1}^{n}\\alpha_{i}[y_{i}(\\beta^{T}x_{i}+\\beta_{0})-(1-\\zeta_{i})] - \\sum_{i=1}^{n}\\lambda_{i}\\zeta_{i} \\\\ $$\n$$ \\begin{cases} \u0026\\frac{\\partial L}{\\partial \\beta}=\\beta - \\sum_{i=0}^{n}\\alpha_{i}y_{i}x_{i} = 0 \\Rightarrow \\beta = \\sum_{i=0}^{n}\\alpha_{i}y_{i}x_{i} \\\\ \u0026\\frac{\\partial L}{\\partial \\beta_{0}}=-\\sum_{i=0}^{n}\\alpha_{i}y_{i} = 0 \\Rightarrow \\sum_{i=0}^{n}\\alpha_{i}y_{i} = 0 \\\\ \u0026\\frac{\\partial L}{\\partial \\zeta_{i}} \\Rightarrow \\gamma - \\alpha_{i} - \\lambda_{i} = 0 \\\\ \\end{cases} $$\nSubstituting this in the lagrangian we obtain:\n$$ \\begin{align*} L(\\beta_{0},\\beta,\\alpha,\\zeta,\\lambda)\u0026=\\sum_{i=1}^{n}\\alpha_{i} - \\frac{1}{2}\\sum_{i=1}^{n}\\sum_{j=1}^{n}\\alpha_{i}\\alpha_{j}y_{i}y_{j}x_{i}^{T}x_{j} \\\\ \u0026\\mathrm{s.t.} \\ \\alpha_{i} \\geq 0 \\\\ \u0026\\mathrm{s.t.} \\ \\sum_{i=1}^{n}\\alpha_{i}y_{i}=0 \\\\ \u0026\\mathrm{s.t.} \\ \\gamma - \\alpha_{i} - \\lambda_{i} = 0 \\\\ \\end{align*} $$\nSince $\\lambda_{i}$ is a lagrangian multiplayer, we know that $\\lambda_{i}\\geq0$\n$$ \\lambda_{i} = 0 \\Rightarrow \\alpha_{i} = \\gamma \\\\ \\lambda_{i}  0 \\Rightarrow \\alpha_{i} Thus, we need to\n$$ \\begin{align*} \\max\\sum_{i=1}^{n}\\alpha_{i} - \u0026\\frac{1}{2}\\sum_{i=1}^{n}\\sum_{j=1}^{n}\\alpha_{i}\\alpha_{j}y_{i}y_{j} \\\\ \u0026\\mathrm{s.t.} \\ 0 \\leq \\alpha_{i} \\leq \\gamma \\\\ \u0026\\mathrm{s.t.} \\ 0 \\sum_{i=1}^{n}\\alpha_{i}y_{i}=0 \\\\ \\end{align*} $$\nOptimization – Karush–Kuhn–Tucker (KKT) conditions From the complementary slackness (KKT Conditions), we have\n$$ \\alpha_{i}g(x^{*})=\\alpha_{i}[y_{i}(\\beta^{T}x_{i}+\\beta_{0})-(1-\\zeta_{i})] = 0, \\\\ \\lambda_{i}\\zeta_{i}=0 $$\n  if $\\alpha_{i}^{*}  0$, then $y_{i}(\\beta^{T}x_{i}+\\beta_{0}) = 1-\\zeta_{i}$, $x_{i}$ is a support vector.\n $\\lambda_{i}0$, then $\\zeta_{i}=0$. This point is on the margin. We know that $\\gamma - \\alpha_{i}^{*} - \\lambda_{i} = 0$ $\\ \\Rightarrow \\ $ $\\alpha_{i}^{*} $\\zeta_{i}0$, then $\\lambda_{i}=0$. This point is over the margin.    if $\\alpha_{i}^{*}=0$, then this point is NOT support vector.\n  $$ y_{i}(\\beta^{T}x_{i}+\\beta_{0})-(1-\\zeta_{i}) 0 \\\\ y_{i}(\\beta^{T}x_{i}+\\beta_{0}) 1-\\zeta_{i} \\\\ \\mathrm{Since} \\ \\gamma - \\alpha_{i}^{*} - \\lambda_{i} = 0 \\ \\mathrm{and} \\ \\alpha_{i}^{*}=0 \\\\ \\Rightarrow \\lambda_{i}=\\gamma \\Rightarrow \\zeta_{i}=0 \\\\ \\Rightarrow y_{i}(\\beta^{T}x_{i}+\\beta_{0}) 1\\\\ $$\nThis is a convex optimization and can be solved by quadratic programming.\nKernel Methods Kernels or kernel methods (also called Kernel functions) are sets of different types of algorithms that are being used for pattern analysis. They are used to solve a non-linear problem by using a linear classifier. Kernels are a convenient way of expanding the feature space. The fact that kernels expand the feature space will not be obvious.\nThe predicted value for a new vector x can be written as:\n$$ \\hat{f}(x) = \\hat{\\beta}_{0}+ \\sum_{i\\in S}\\hat{\\alpha}_{i}y_{i} \\\\ $$\nWhere\n $x_{i}$ is a vector, $y_{i}$ is scalar(+1 or -1), $\\alpha_{i}$ is a scalar. alpha’s are the Lagrange multipliers arising during optimization S is the set of support vectors, and the inner product $$ is defined as $ = \\sum_{j=1}^{p}x_{ij}x_{ij}'$  Remarkably, the solution depends only on the inner product of the observations, not on the observations themselves.\nRather than changing the number of x‐variables to include the quadratic terms, it is possible to expand the feature space as a function of the original x‐variables\n$$ \\hat{f}(x) = \\hat{\\beta}_{0}+ \\sum_{i\\in S}\\hat{\\alpha}_{i}y_{i} \\\\ $$\nWhere $h(.)$ is a function that maps the set of original $x$‐variables to an expanded set (including derived variables)\n$$ h(x)=(h_{1}(x),h_{2}(x),...,h_{p_{new}}(x)) \\\\ $$\nAgain, this formulation implies that the solution only depends on the inner product of the expanded set of variables(not on the variables themselves).\nKernels expand this idea:\n$$ \\begin{align*} \\hat{f}(x) \u0026= \\hat{\\beta}_{0}+ \\sum_{i\\in S}\\hat{\\alpha}_{i}y_{i} \\\\ \u0026= \\hat{\\beta}_{0}+ \\sum_{i\\in S}\\hat{\\alpha}_{i}y_{i}K(x,x_{i}) \\\\ \\end{align*} $$\nWhere $K$ is a Kernel function. The Kernel function implies an expanded set of variables(though this is not obvious).\nThe solution to the optimization problem depends only on the inner (dot) product, not on the observations themselves.\n Classical Example: $$ \\begin{align*}  \u0026= (x^{2}_{1},x^{2}_{2}\\sqrt{2}x_{1}x_{2})(x'^{2}_{1},x'^{2}_{2}\\sqrt{2}x'_{1}x'_{2})^{T} \\\\ \u0026= ((x_{1},x_{2}),(x'_{1},x'_{2})^{T})^{2} \\\\ \u0026=  \\\\ \u0026=: K(x,x') \\\\ \\end{align*} $$\nKernel trick:  Computing the kernel is sufficient Derived variables need not be explicitly computed  Linear Kernel $$ K(x_{i},x_{i}') = \\  \\ = \\sum_{j=1}^{d}x_{ij}x_{i'j} \\\\ $$\n No additional tuning parameters Nonlinear kernels have more flexibility, but this is not always needed Often the preferred choice in text mining applications  Sparse matrices (mostly 0’s) Indicator variables (or counts) rather than continuous variables    Polynomial Kernel $$ K(x_{i},x_{i}') = (1+ )^{p} = (\\beta_{0}+ \\gamma\\sum_{j=1}^{d}x_{ij}x_{i'j})^{p} \\\\ $$\n A polynomial kernel of order $d=2$ corresponds to adding all possible quadratic variables $\\beta_{0}, \\gamma0$ and $d$ (0, integer) are tuning parameters In practice, often $\\beta_{0}=0$, $d=2$ or $d=3$ are often sufficient. Set $d=2$ or $d=3$ and tune gamma and $C$  Radial Basis function (RBF) Kernel (or Gaussian Kernel) $$ K(x_{i},x_{i}') = exp(-\\gamma\\parallel x_{i}-x_{i}'\\parallel^{2}) = exp(-\\gamma\\sum_{j=1}^{d}(x_{ij}x_{i'j})^{2}) \\\\ $$\n $\\gamma0$ is a tuning parameter The kernel is very small for points far apart Most popular choice It can be shown this kernel corresponds to an infinite number of x‐variables  SVM – More than 2 Classes One vs all (more common)  With K classes apply SVM once for each class  Class k vs all remaining classes   Each SVM classifier gives a score for class k (vs all others)  The score is the estimated function value   Predict the class k that has the highest score  One vs One (All pairs)  K classes give (K choose 2) possible pairs Conduct an SVM for each pair Keep track of which class wins each time Predict the class with the most wins  Pros and Cons of SVM Pros:  Works well with when the number of features is large Works well when number of features exceeds the number of observations Memory efficient for prediction because only support vectors (not all observations) are needed  Cons:  When the data sets are really large, training time can be very long Does not work as well when there is a lot of noise Probability estimates are ad‐hoc SVM is sensitive to scaling of x‐variables  Reference [1] Polamuri, S. (2017, February 19). Support vector machine (Svm classifier) implemenation in python with Scikit-learn. Dataaspirant. https://dataaspirant.com/svm-classifier-implemenation-python-scikit-learn/.\n",
+  "wordCount" : "1805",
+  "inLanguage": "en",
+  "datePublished": "2021-05-24T00:00:00Z",
+  "dateModified": "2021-05-24T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Followb1ind1y"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://followb1ind1y.github.io/posts/machine_learning/09_support_vector_machine/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Followb1ind1y",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://followb1ind1y.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://followb1ind1y.github.io/" accesskey="h" title="Followb1ind1y (Alt + H)">Followb1ind1y</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://followb1ind1y.github.io/archives" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://followb1ind1y.github.io/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://followb1ind1y.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://followb1ind1y.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://followb1ind1y.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://followb1ind1y.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      Support Vector Machine
+    </h1>
+    <div class="post-meta">May 24, 2021&nbsp;·&nbsp;9 min&nbsp;·&nbsp;Followb1ind1y
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <div class="details">Table of Contents</div>
+        </summary>
+        <div class="inner"><ul>
+                <li>
+                    <a href="#hard-margin-svm" aria-label="Hard Margin SVM">Hard Margin SVM</a><ul>
+                        
+                <li>
+                    <a href="#lagrange-method" aria-label="Lagrange Method">Lagrange Method</a></li>
+                <li>
+                    <a href="#dual-problem" aria-label="Dual Problem">Dual Problem</a></li>
+                <li>
+                    <a href="#optimization--karushkuhntucker-kkt-conditions" aria-label="Optimization – Karush–Kuhn–Tucker (KKT) conditions">Optimization – Karush–Kuhn–Tucker (KKT) conditions</a></li></ul>
+                </li>
+                <li>
+                    <a href="#soft-margin-svm" aria-label="Soft Margin SVM">Soft Margin SVM</a><ul>
+                        
+                <li>
+                    <a href="#lagrange-method-1" aria-label="Lagrange Method">Lagrange Method</a></li>
+                <li>
+                    <a href="#optimization--karushkuhntucker-kkt-conditions-1" aria-label="Optimization – Karush–Kuhn–Tucker (KKT) conditions">Optimization – Karush–Kuhn–Tucker (KKT) conditions</a></li></ul>
+                </li>
+                <li>
+                    <a href="#kernel-methods" aria-label="Kernel Methods">Kernel Methods</a><ul>
+                        
+                <li>
+                    <a href="#classical-example" aria-label="Classical Example:">Classical Example:</a></li>
+                <li>
+                    <a href="#kernel-trick" aria-label="Kernel trick:">Kernel trick:</a></li>
+                <li>
+                    <a href="#linear-kernel" aria-label="Linear Kernel">Linear Kernel</a></li>
+                <li>
+                    <a href="#polynomial-kernel" aria-label="Polynomial Kernel">Polynomial Kernel</a></li>
+                <li>
+                    <a href="#radial-basis-function-rbf-kernel-or-gaussian-kernel" aria-label="Radial Basis function (RBF) Kernel (or Gaussian Kernel)">Radial Basis function (RBF) Kernel (or Gaussian Kernel)</a></li></ul>
+                </li>
+                <li>
+                    <a href="#svm--more-than-2-classes" aria-label="SVM – More than 2 Classes">SVM – More than 2 Classes</a><ul>
+                        
+                <li>
+                    <a href="#one-vs-all-more-common" aria-label="One vs all (more common)">One vs all (more common)</a></li>
+                <li>
+                    <a href="#one-vs-one-all-pairs" aria-label="One vs One (All pairs)">One vs One (All pairs)</a></li></ul>
+                </li>
+                <li>
+                    <a href="#pros-and-cons-of-svm" aria-label="Pros and Cons of SVM">Pros and Cons of SVM</a><ul>
+                        
+                <li>
+                    <a href="#pros" aria-label="Pros:">Pros:</a></li>
+                <li>
+                    <a href="#cons" aria-label="Cons:">Cons:</a></li></ul>
+                </li>
+                <li>
+                    <a href="#reference" aria-label="Reference">Reference</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p><strong>Support Vector Machine(SVM)</strong> is a supervised machine learning algorithm which can be used for both <strong>classification</strong> or <strong>regression</strong> challenges. However,  it is mostly used in classification problems. In the SVM algorithm, we plot each data item as a point in n-dimensional space (where n is number of features you have) with the value of each feature being the value of a particular coordinate. Then, we perform classification by finding the hyper-plane that differentiates the two classes very well.</p>
+<p>The goal is to learn a hyperplane that discriminates between classes; we find a decision boundary which maximum separation between two classes. We consider two cases:</p>
+<ul>
+<li>
+<p><strong>Hard Margin:</strong> Classes are linear separable. We find a hyperplane with margin that maxmally seperates the twp classes.</p>
+</li>
+<li>
+<p><strong>Soft Margin:</strong> Classes are not linear separable. We allow error (slack) in the model fitting and find a decision boundary with the minimum slack required to discriminate between two classes.</p>
+</li>
+</ul>
+<div align="center">
+<img src="/img_ML/9_Hard_and_Soft.PNG" width=600px/>
+</div>
+<br>
+<blockquote>
+<p><strong>支持向量机(support vector machine)</strong> 是在分类与回归分析中分析数据的监督式学习模型与相关的学习算法。给定一组训练实例，每个训练实例被标记为属于两个类别中的一个或另一个，SVM训练算法创建一个将新的实例分配给两个类别之一的模型，使其成为非概率二元线性分类器。 如果这些训练数据是 <strong>线性可分的</strong> ，可以选择分离两类数据的两个平行超平面，使得它们之间的距离尽可能大。在这两个超平面范围内的区域称为“间隔”，最大间隔超平面是位于它们正中间的超平面。如果这些训练数据是 <strong>线性不可分的</strong>，我们会允许SVM在少量样本上出错，即将之前的硬间隔最大化条件放宽一点，为此引入&quot; <strong>软间隔(soft margin)</strong> &ldquo;的概念，为了使不满足上述条件的样本点尽可能少，我们需要在优化的目标函数里面新增一个对这些点的惩罚项。</p>
+</blockquote>
+<h2 id="hard-margin-svm">Hard Margin SVM<a hidden class="anchor" aria-hidden="true" href="#hard-margin-svm">#</a></h2>
+<p><strong>Illustration:</strong> If the data is linear separable, there exist an infinite number of hyperplanes that can separate the two classes. The algorithm looks for the best hyperplane; the one with largest margin.</p>
+<ul>
+<li>Hyperplane separating the two classes: <code>$\beta^{T}x+\beta_{0}=0$</code></li>
+<li>Set the labels: <code>$y_{i}\in\{-1,1\}$</code></li>
+<li>We can classify points as <code>$\mathrm{sign}\{d_{i}\}$</code> where <code>$d_{i} = \beta^{T}x_{i}+\beta_{0}$</code></li>
+</ul>
+<p><strong>Margin:</strong> The distance between the hyperplane and the closest points.</p>
+<p><strong>Goal:</strong> Maximize the Magin</p>
+<p><code>$$ \mathrm{Margin} = \min\{y_{i}d_{i}\}, \ \ \ \ i=1,2,3,...,n \\ $$</code></p>
+<p>Where <code>$y_{i}$</code> is label and <code>$d_{i}$</code> is distance</p>
+<div align="center">
+<img src="/img_ML/9_Distance.PNG" width=400px/>
+</div>
+<br>
+<p><strong>(1).</strong> <code>$\beta$</code> is orthogonal to the hyperplane. Consider <code>$x_{1}$</code> and <code>$x_{2}$</code> not on the hyperplane. Then,</p>
+<p><code>$$ \beta^{T}x_{1}+\beta_{0} = \beta^{T}x_{2}+\beta_{0} = 0 \\ \Rightarrow \beta^{T}(x_{1}-x_{2}) = 0  \\ \Rightarrow \beta \ \mathrm{is \ orthogonal \ to} \ (x_{1}-x_{2}). \\ $$</code></p>
+<p><strong>(2).</strong> For any <code>$x_{0}$</code> on the hyperplane,</p>
+<p><code>$$ \beta^{T}x_{0}+\beta_{0}=0 \Rightarrow \beta^{T}x_{0} = -\beta_{0} \\ $$</code></p>
+<p><strong>(3).</strong> The distance <code>$d_{i}$</code> is the projection of <code>$(x_{i}-x_{0})$</code> to the direction of <code>$\beta$</code>.</p>
+<p><code>$$ \begin{align*} d_{i}&amp;=\frac{\beta^{T}(x_{i}-x_{0})}{\parallel\beta\parallel} \\ &amp;=\frac{\beta^{T}x_{i}-\beta^{T}x_{0}}{\parallel\beta\parallel} \\ &amp;=\frac{\beta^{T}x_{i}-\beta_{0}}{\parallel\beta\parallel} \\ \end{align*} $$</code></p>
+<p>Thus,</p>
+<p><code>$$ \mathrm{Margin} = \min\{y_{i}d_{i}\} = \min\{\frac{y_{i}\beta^{T}x_{i}-\beta_{0}}{\parallel\beta\parallel}\} \\ $$</code></p>
+<p><strong>(4).</strong> If the point is not on the hyperplane, then</p>
+<p><code>$$ y_{i}(\beta^{T}x_{i}+\beta_{0}) &gt; 0 \\ \Rightarrow \ y_{i}(\beta^{T}x_{i}+\beta_{0}) \geq c \\ \Rightarrow \ y_{i}\frac{(\beta^{T}x_{i}+\beta_{0})}{c} \geq 1 \\ \Rightarrow \ \mathrm{There \ exist} \ \beta \ \mathrm{and} \ \beta_{0} \ \mathrm{such \ that} \ y_{i}(\beta^{T}x_{i}+\beta_{0}) \geq 1 \\ $$</code></p>
+<p>Therefore,</p>
+<p><code>$$ \mathrm{Margin} = \frac{1}{\parallel\beta\parallel} \\ $$</code></p>
+<div align="center">
+<img src="/img_ML/9_Hard_Margin.PNG" width=400px/>
+</div>
+<br>
+<p>The original problem can be reduced now to:</p>
+<p><code>$$ \min_{\beta,\beta_{0}}\frac{1}{2}{\parallel\beta\parallel}^{2} \\ \mathrm{Subject \ to} \ y_{i}(\beta^{T}x_{i}+\beta_{0}) \geq 1, i =1,2,...,n $$</code></p>
+<h3 id="lagrange-method">Lagrange Method<a hidden class="anchor" aria-hidden="true" href="#lagrange-method">#</a></h3>
+<p>From the lagrangian, we can have:</p>
+<p><code>$$ \begin{align*} L_{p}&amp;=\frac{1}{2}{\parallel\beta\parallel}^{2}-\sum_{i=1}^{n}\alpha_{i}[ y_{i}(\beta^{T}x_{i}+\beta_{0})-1] \\ &amp;= \frac{1}{2}\beta^{T}\beta - \beta^{T}\sum_{i=1}^{n}\alpha_{i}y_{i}x_{i}-\beta_{0}\sum_{i=1}^{n}\alpha_{i}y_{i}+\sum_{i=1}^{n}\alpha_{i} \\ \end{align*} $$</code></p>
+<p><code>$$ \begin{cases} \frac{\partial L_{p}}{\partial \beta}=\beta - \sum_{i=0}^{n}\alpha_{i}y_{i}x_{i} = 0 \Rightarrow \beta = \sum_{i=0}^{n}\alpha_{i}y_{i}x_{i} \\ \frac{\partial L_{p}}{\partial \beta_{0}}=-\sum_{i=0}^{n}\alpha_{i}y_{i} = 0 \Rightarrow \sum_{i=0}^{n}\alpha_{i}y_{i} = 0 \\ \end{cases} $$</code></p>
+<p>Substituting this in the lagrangian we obtain:</p>
+<p><code>$$ \begin{align*} \max_{\alpha_{i}}\sum_{i=1}^{n}\alpha_{i} - \frac{1}{2}\sum_{i=1}^{n}&amp;\sum_{j=1}^{n}\alpha_{i}\alpha_{j}y_{i}y_{j}x_{i}^{T}x_{j} \\ \mathrm{Subject \ to} \ \alpha_{i} &amp;\geq 0 \\ \sum_{i=1}^{n}\alpha_{i}y_{i}&amp;=0 \\ \end{align*} $$</code></p>
+<p>Our <strong>primal optimization problem</strong> with the Lagrangian becomes the following:</p>
+<p><code>$$ \min_{\beta,\beta_{0}}(\max_{\alpha_{i}}L(\beta,\beta_{0},\alpha)) \\ $$</code></p>
+<h3 id="dual-problem">Dual Problem<a hidden class="anchor" aria-hidden="true" href="#dual-problem">#</a></h3>
+<p>What Antoni and Prof. Patrick Winston have done in their derivation is assume that the optimization function and the constraints meet some technical conditions such that we can do the following:</p>
+<p><code>$$ \min_{\beta,\beta_{0}}(\max_{\alpha_{i}}L(\beta,\beta_{0},\alpha))=\max_{\alpha_{i}}(\min_{\beta,\beta_{0}}L(\beta,\beta_{0},\alpha)) \\ $$</code></p>
+<p>This allows us to take the partial derivatives of <code>$L(\beta,\beta_{0},\alpha)$</code> with respect to <code>$\beta$</code> and <code>$\beta_{0}$</code>, equate to zero and then plug the results back into the original equation of the Lagrangian, hence generating an equivalent <strong>dual</strong> optimization problem of the form</p>
+<p><code>$$ \begin{align*} &amp;\max_{\alpha_{i}}(\min_{\beta,\beta_{0}}L(\beta,\beta_{0},\alpha)) \\ &amp;\max_{\alpha_{i}}\sum_{i=1}^{n}\alpha_{i} - \frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n}\alpha_{i}\alpha_{j}y_{i}y_{j}&lt;x_{i},x_{j}&gt; \\ &amp;\mathrm{s.t.} \ \alpha_{i} \geq 0 \\ &amp;\mathrm{s.t.} \ \sum_{i=1}^{n}\alpha_{i}y_{i}=0 \\ \end{align*} $$</code></p>
+<h3 id="optimization--karushkuhntucker-kkt-conditions">Optimization – Karush–Kuhn–Tucker (KKT) conditions<a hidden class="anchor" aria-hidden="true" href="#optimization--karushkuhntucker-kkt-conditions">#</a></h3>
+<p>Without going into excessive mathematical technicalities, these conditions are a combination of the Duality and the Karush Kuhn Tucker (KTT) conditions and allow us to solve the <strong>dual</strong> problem instead of the <strong>primal</strong> one, while ensuring that the optimal solution is the same. In our case the conditions are the following:</p>
+<ul>
+<li>The primal objective and inequality constraint functions must be convex</li>
+<li>The equality constraint function must be affine</li>
+<li>The constraints must be strictly feasible</li>
+</ul>
+<p>Then there exists <code>$x^{*}$</code>,<code>$\alpha^{*}$</code> which are solutions to the primal and dual problems.</p>
+<p><code>$$ \min_{x}f(x) \\ \mathrm{subject \ to} \ g(x)\leq 0 \\ $$</code></p>
+<ul>
+<li>If <code>$x^{*}$</code> is a local optimum, subject to regularity conditions, then there exist constant multipliers <code>$\alpha_{i}^{*}$</code> such that</li>
+</ul>
+<p><code>$$ \begin{align*} &amp;\frac{\partial}{\partial x}L(x^{*}) = 0 \\ &amp;g(x^{*}) \leq 0 \\ &amp;\alpha_{i}^{*} \geq 0 \\ &amp;\alpha_{i}^{*}g(x^{*})=0, \forall i \\ \end{align*} $$</code></p>
+<p>From the complementary slackness (<strong>KKT Conditions</strong>), we have <code>$\alpha_{i}^{*}g(x^{*})=\alpha_{i}^{*}[y_{i}(\beta^{T}x_{i}+\beta_{0})-1] = 0$</code> we can see that</p>
+<ul>
+<li>if <code>$\alpha_{i}^{*} &gt; 0$</code>, then <code>$y_{i}(\beta^{T}x_{i}+\beta_{0})-1 = 0$</code>, i.e. <code>$x_{i}$</code> is on the margin. This point is called <strong>support vector</strong>.</li>
+<li>if <code>$y_{i}(\beta^{T}x_{i}+\beta_{0}) &gt; 1$</code>, <code>$x_{i}$</code> is not on the margin, and <code>$\alpha_{i}^{*}=0$</code></li>
+</ul>
+<p>This is a convex optimization and can be solved by quadratic programming.</p>
+<br>
+<h2 id="soft-margin-svm">Soft Margin SVM<a hidden class="anchor" aria-hidden="true" href="#soft-margin-svm">#</a></h2>
+<p>Having a dataset with linear separable classes is very unlikely in practice, so we remove this requirement. We now consider a dataset where both classes overlap such that no hyperplane exists that can completely seperate the two classes on the training data. Instead, the <strong>goal</strong> becomes to find a hyperplane which minimizes the amount of datapoints that &ldquo;spill&rdquo; over to the opposite sides.</p>
+<p>We allow points to violate our previous constraint by some error <code>$\zeta$</code>, but penalize the objective function the more it is violated. Our new optimization problem becomes:</p>
+<p><code>$$ \min_{\beta,\beta_{0}}\frac{1}{2}{\parallel\beta\parallel}^{2}+\gamma\sum_{i=1}^{n}\zeta_{i} \\ \mathrm{Subject \ to} \ y_{i}(\beta^{T}x_{i}+\beta_{0}) \geq 1-\zeta_{i}, \forall i \\ \zeta_{i} \geq 0, \forall i $$</code></p>
+<h3 id="lagrange-method-1">Lagrange Method<a hidden class="anchor" aria-hidden="true" href="#lagrange-method-1">#</a></h3>
+<p>We formulate the lagrangian function:</p>
+<p><code>$$ L(\beta_{0},\beta,\alpha,\zeta,\lambda)=\frac{1}{2}{\parallel\beta\parallel}^{2}+\gamma\sum_{i=1}^{n}\zeta_{i}-\sum_{i=1}^{n}\alpha_{i}[y_{i}(\beta^{T}x_{i}+\beta_{0})-(1-\zeta_{i})] - \sum_{i=1}^{n}\lambda_{i}\zeta_{i} \\ $$</code></p>
+<p><code>$$ \begin{cases} &amp;\frac{\partial L}{\partial \beta}=\beta - \sum_{i=0}^{n}\alpha_{i}y_{i}x_{i} = 0 \Rightarrow \beta = \sum_{i=0}^{n}\alpha_{i}y_{i}x_{i} \\ &amp;\frac{\partial L}{\partial \beta_{0}}=-\sum_{i=0}^{n}\alpha_{i}y_{i} = 0 \Rightarrow  \sum_{i=0}^{n}\alpha_{i}y_{i} = 0 \\ &amp;\frac{\partial L}{\partial \zeta_{i}} \Rightarrow \gamma - \alpha_{i} - \lambda_{i} = 0 \\ \end{cases} $$</code></p>
+<p>Substituting this in the lagrangian we obtain:</p>
+<p><code>$$ \begin{align*} L(\beta_{0},\beta,\alpha,\zeta,\lambda)&amp;=\sum_{i=1}^{n}\alpha_{i} - \frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n}\alpha_{i}\alpha_{j}y_{i}y_{j}x_{i}^{T}x_{j} \\ &amp;\mathrm{s.t.} \ \alpha_{i} \geq 0 \\ &amp;\mathrm{s.t.} \ \sum_{i=1}^{n}\alpha_{i}y_{i}=0 \\ &amp;\mathrm{s.t.} \ \gamma - \alpha_{i} - \lambda_{i} = 0 \\ \end{align*} $$</code></p>
+<p>Since <code>$\lambda_{i}$</code> is a lagrangian multiplayer, we know that <code>$\lambda_{i}\geq0$</code></p>
+<p><code>$$ \lambda_{i} = 0 \Rightarrow \alpha_{i} = \gamma \\ \lambda_{i} &gt; 0 \Rightarrow \alpha_{i} &lt; \gamma \\ $$</code></p>
+<p>Thus, we need to</p>
+<p><code>$$ \begin{align*} \max\sum_{i=1}^{n}\alpha_{i} - &amp;\frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n}\alpha_{i}\alpha_{j}y_{i}y_{j}&lt;x_{i},x_{j}&gt; \\ &amp;\mathrm{s.t.} \ 0 \leq \alpha_{i} \leq \gamma \\ &amp;\mathrm{s.t.} \ 0 \sum_{i=1}^{n}\alpha_{i}y_{i}=0 \\ \end{align*} $$</code></p>
+<h3 id="optimization--karushkuhntucker-kkt-conditions-1">Optimization – Karush–Kuhn–Tucker (KKT) conditions<a hidden class="anchor" aria-hidden="true" href="#optimization--karushkuhntucker-kkt-conditions-1">#</a></h3>
+<p>From the complementary slackness (<strong>KKT Conditions</strong>), we have</p>
+<p><code>$$ \alpha_{i}g(x^{*})=\alpha_{i}[y_{i}(\beta^{T}x_{i}+\beta_{0})-(1-\zeta_{i})] = 0, \\ \lambda_{i}\zeta_{i}=0 $$</code></p>
+<ul>
+<li>
+<p>if <code>$\alpha_{i}^{*} &gt; 0$</code>, then <code>$y_{i}(\beta^{T}x_{i}+\beta_{0}) = 1-\zeta_{i}$</code>, <code>$x_{i}$</code> is a <strong>support vector</strong>.</p>
+<ul>
+<li><code>$\lambda_{i}&gt;0$</code>, then <code>$\zeta_{i}=0$</code>. This point is on the margin. We know that <code>$\gamma - \alpha_{i}^{*} - \lambda_{i} = 0$</code> <code>$\ \Rightarrow \ $</code> <code>$\alpha_{i}^{*}&lt;\gamma$</code></li>
+<li><code>$\zeta_{i}&gt;0$</code>, then <code>$\lambda_{i}=0$</code>. This point is over the margin.</li>
+</ul>
+</li>
+<li>
+<p>if <code>$\alpha_{i}^{*}=0$</code>, then this point is NOT <strong>support vector</strong>.</p>
+</li>
+</ul>
+<p><code>$$ y_{i}(\beta^{T}x_{i}+\beta_{0})-(1-\zeta_{i})&gt; 0 \\ y_{i}(\beta^{T}x_{i}+\beta_{0})&gt; 1-\zeta_{i} \\ \mathrm{Since} \ \gamma - \alpha_{i}^{*} - \lambda_{i} = 0 \ \mathrm{and} \ \alpha_{i}^{*}=0 \\ \Rightarrow \lambda_{i}=\gamma \Rightarrow \zeta_{i}=0 \\ \Rightarrow y_{i}(\beta^{T}x_{i}+\beta_{0})&gt; 1\\ $$</code></p>
+<p>This is a convex optimization and can be solved by quadratic programming.</p>
+<br>
+<h2 id="kernel-methods">Kernel Methods<a hidden class="anchor" aria-hidden="true" href="#kernel-methods">#</a></h2>
+<p>Kernels or kernel methods (also called Kernel functions) are sets of different types of algorithms that are being used for pattern analysis. They are used to solve a non-linear problem by using a linear classifier. Kernels are a convenient way of expanding the feature space. The fact that kernels expand the feature space will not be obvious.</p>
+<p>The predicted value for a new vector x can be written as:</p>
+<p><code>$$ \hat{f}(x) = \hat{\beta}_{0}+ \sum_{i\in S}\hat{\alpha}_{i}y_{i}&lt;x,x_{i}&gt; \\ $$</code></p>
+<p>Where</p>
+<ul>
+<li><code>$x_{i}$</code> is a vector, <code>$y_{i}$</code> is scalar(+1 or -1), <code>$\alpha_{i}$</code> is a scalar.</li>
+<li>alpha’s are the Lagrange multipliers arising during optimization</li>
+<li>S is the set of support vectors, and</li>
+<li>the inner product <code>$&lt;.,.&gt;$</code> is defined as <code>$&lt;x_{i},x_{i}'&gt; = \sum_{j=1}^{p}x_{ij}x_{ij}'$</code></li>
+</ul>
+<p>Remarkably, the solution depends only on the inner product of the observations, not on the observations themselves.</p>
+<p>Rather than changing the number of x‐variables to include the quadratic terms, it is possible to expand the feature space as a function of the original x‐variables</p>
+<p><code>$$ \hat{f}(x) = \hat{\beta}_{0}+ \sum_{i\in S}\hat{\alpha}_{i}y_{i}&lt;h(x),h(x_{i})&gt; \\ $$</code></p>
+<p>Where <code>$h(.)$</code> is a function that maps the set of original <code>$x$</code>‐variables to an expanded set (including derived variables)</p>
+<p><code>$$ h(x)=(h_{1}(x),h_{2}(x),...,h_{p_{new}}(x)) \\ $$</code></p>
+<p>Again, this formulation implies that the solution only depends on the inner product of the expanded set of variables(not on the variables themselves).</p>
+<p>Kernels expand this idea:</p>
+<p><code>$$ \begin{align*} \hat{f}(x) &amp;= \hat{\beta}_{0}+ \sum_{i\in S}\hat{\alpha}_{i}y_{i}&lt;h(x),h(x_{i})&gt; \\ &amp;= \hat{\beta}_{0}+ \sum_{i\in S}\hat{\alpha}_{i}y_{i}K(x,x_{i}) \\ \end{align*} $$</code></p>
+<p>Where <code>$K$</code> is a Kernel function. The Kernel function implies an expanded set of variables(though this is not obvious).</p>
+<p>The solution to the optimization problem depends only on the inner (dot) product, not on the observations themselves.</p>
+<div align="center">
+<img src="/img_ML/9_Kernel.PNG" width=600px/>
+</div>
+<h3 id="classical-example">Classical Example:<a hidden class="anchor" aria-hidden="true" href="#classical-example">#</a></h3>
+<p><code>$$ \begin{align*} &lt;\phi(x),\phi(x')&gt; &amp;= (x^{2}_{1},x^{2}_{2}\sqrt{2}x_{1}x_{2})(x'^{2}_{1},x'^{2}_{2}\sqrt{2}x'_{1}x'_{2})^{T} \\ &amp;= ((x_{1},x_{2}),(x'_{1},x'_{2})^{T})^{2} \\ &amp;= &lt;x,x'&gt; \\ &amp;=: K(x,x') \\ \end{align*} $$</code></p>
+<h3 id="kernel-trick">Kernel trick:<a hidden class="anchor" aria-hidden="true" href="#kernel-trick">#</a></h3>
+<ul>
+<li>Computing the kernel is sufficient</li>
+<li>Derived variables need not be explicitly computed</li>
+</ul>
+<h3 id="linear-kernel">Linear Kernel<a hidden class="anchor" aria-hidden="true" href="#linear-kernel">#</a></h3>
+<p><code>$$ K(x_{i},x_{i}') = \ &lt;x_{i},x_{i}'&gt; \ = \sum_{j=1}^{d}x_{ij}x_{i'j} \\ $$</code></p>
+<ul>
+<li>No additional tuning parameters</li>
+<li>Nonlinear kernels have more flexibility, but this is not always needed</li>
+<li>Often the preferred choice in text mining applications
+<ul>
+<li>Sparse matrices (mostly 0’s)</li>
+<li>Indicator variables (or counts) rather than continuous variables</li>
+</ul>
+</li>
+</ul>
+<h3 id="polynomial-kernel">Polynomial Kernel<a hidden class="anchor" aria-hidden="true" href="#polynomial-kernel">#</a></h3>
+<p><code>$$ K(x_{i},x_{i}') = (1+ &lt;x_{i},x_{i}'&gt;)^{p} = (\beta_{0}+ \gamma\sum_{j=1}^{d}x_{ij}x_{i'j})^{p} \\ $$</code></p>
+<ul>
+<li>A polynomial kernel of order <code>$d=2$</code> corresponds to adding all possible quadratic variables</li>
+<li><code>$\beta_{0}, \gamma&gt;0$</code> and <code>$d$</code> (&gt;0, integer) are tuning parameters</li>
+<li>In practice, often <code>$\beta_{0}=0$</code>, <code>$d=2$</code> or <code>$d=3$</code> are often sufficient. Set <code>$d=2$</code> or <code>$d=3$</code> and tune gamma and <code>$C$</code></li>
+</ul>
+<h3 id="radial-basis-function-rbf-kernel-or-gaussian-kernel">Radial Basis function (RBF) Kernel (or Gaussian Kernel)<a hidden class="anchor" aria-hidden="true" href="#radial-basis-function-rbf-kernel-or-gaussian-kernel">#</a></h3>
+<p><code>$$ K(x_{i},x_{i}') = exp(-\gamma\parallel x_{i}-x_{i}'\parallel^{2}) = exp(-\gamma\sum_{j=1}^{d}(x_{ij}x_{i'j})^{2}) \\ $$</code></p>
+<ul>
+<li><code>$\gamma&gt;0$</code> is a tuning parameter</li>
+<li>The kernel is very small for points far apart</li>
+<li>Most popular choice</li>
+<li>It can be shown this kernel corresponds to an infinite number of x‐variables</li>
+</ul>
+<br>
+<h2 id="svm--more-than-2-classes">SVM – More than 2 Classes<a hidden class="anchor" aria-hidden="true" href="#svm--more-than-2-classes">#</a></h2>
+<h3 id="one-vs-all-more-common">One vs all (more common)<a hidden class="anchor" aria-hidden="true" href="#one-vs-all-more-common">#</a></h3>
+<ul>
+<li>With K classes apply SVM once for each class
+<ul>
+<li>Class k vs all remaining classes</li>
+</ul>
+</li>
+<li>Each SVM classifier gives a score for class k (vs all others)
+<ul>
+<li>The score is the estimated function value</li>
+</ul>
+</li>
+<li>Predict the class k that has the highest score</li>
+</ul>
+<h3 id="one-vs-one-all-pairs">One vs One (All pairs)<a hidden class="anchor" aria-hidden="true" href="#one-vs-one-all-pairs">#</a></h3>
+<ul>
+<li>K classes give (K choose 2) possible pairs</li>
+<li>Conduct an SVM for each pair</li>
+<li>Keep track of which class wins each time</li>
+<li>Predict the class with the most wins</li>
+</ul>
+<br>
+<h2 id="pros-and-cons-of-svm">Pros and Cons of SVM<a hidden class="anchor" aria-hidden="true" href="#pros-and-cons-of-svm">#</a></h2>
+<h3 id="pros">Pros:<a hidden class="anchor" aria-hidden="true" href="#pros">#</a></h3>
+<ul>
+<li>Works well with when the number of features is large</li>
+<li>Works well when number of features exceeds the number of observations</li>
+<li>Memory efficient for prediction because only support vectors (not all observations) are needed</li>
+</ul>
+<h3 id="cons">Cons:<a hidden class="anchor" aria-hidden="true" href="#cons">#</a></h3>
+<ul>
+<li>When the data sets are really large, training time can be very long</li>
+<li>Does not work as well when there is a lot of noise</li>
+<li>Probability estimates are ad‐hoc</li>
+<li>SVM is sensitive to scaling of x‐variables</li>
+</ul>
+<br>
+<h2 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h2>
+<p>[1] Polamuri, S. (2017, February 19). Support vector machine (Svm classifier) implemenation in python with Scikit-learn. Dataaspirant. <a href="https://dataaspirant.com/svm-classifier-implemenation-python-scikit-learn/">https://dataaspirant.com/svm-classifier-implemenation-python-scikit-learn/</a>.</p>
+
+</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://followb1ind1y.github.io/tags/machine-learning/">Machine Learning</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/support-vector-machine/">Support Vector Machine</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://followb1ind1y.github.io/posts/machine_learning/10_decision_tree/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Decision Trees</span>
+  </a>
+  <a class="next" href="https://followb1ind1y.github.io/posts/machine_learning/08_naive_bayes/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Naive Bayes</span>
+  </a>
+</nav>
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Support Vector Machine on twitter"
+        href="https://twitter.com/intent/tweet/?text=Support%20Vector%20Machine&amp;url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f09_support_vector_machine%2f&amp;hashtags=MachineLearning%2cSupportVectorMachine">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Support Vector Machine on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f09_support_vector_machine%2f&amp;title=Support%20Vector%20Machine&amp;summary=Support%20Vector%20Machine&amp;source=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f09_support_vector_machine%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Support Vector Machine on reddit"
+        href="https://reddit.com/submit?url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f09_support_vector_machine%2f&title=Support%20Vector%20Machine">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Support Vector Machine on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f09_support_vector_machine%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Support Vector Machine on whatsapp"
+        href="https://api.whatsapp.com/send?text=Support%20Vector%20Machine%20-%20https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f09_support_vector_machine%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Support Vector Machine on telegram"
+        href="https://telegram.me/share/url?text=Support%20Vector%20Machine&amp;url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f09_support_vector_machine%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main>
+    <footer class="footer">
+    <span>&copy; 2022 <a href="https://followb1ind1y.github.io/">Followb1ind1y</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+    menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script src="//yihui.org/js/math-code.js"></script>
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+
+</html>

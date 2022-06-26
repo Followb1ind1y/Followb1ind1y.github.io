@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tags on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/</link>
+    <description>Recent content in Tags on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 11 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TD Learning</title>
+      <link>https://followb1ind1y.github.io/tags/td-learning/</link>
+      <pubDate>Sat, 11 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/td-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Monte Carlo Methods</title>
+      <link>https://followb1ind1y.github.io/tags/monte-carlo-methods/</link>
+      <pubDate>Sat, 04 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/monte-carlo-methods/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dynamic Programming</title>
+      <link>https://followb1ind1y.github.io/tags/dynamic-programming/</link>
+      <pubDate>Sat, 28 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/dynamic-programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Finite Markov Decision Processes</title>
+      <link>https://followb1ind1y.github.io/tags/finite-markov-decision-processes/</link>
+      <pubDate>Tue, 24 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/finite-markov-decision-processes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Multi-armed Bandits</title>
+      <link>https://followb1ind1y.github.io/tags/multi-armed-bandits/</link>
+      <pubDate>Sat, 21 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/multi-armed-bandits/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Introduction of Reinforcement Learning</title>
+      <link>https://followb1ind1y.github.io/tags/introduction-of-reinforcement-learning/</link>
+      <pubDate>Sat, 14 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/introduction-of-reinforcement-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CNN</title>
+      <link>https://followb1ind1y.github.io/tags/cnn/</link>
+      <pubDate>Mon, 02 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/cnn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>AdaGrad</title>
+      <link>https://followb1ind1y.github.io/tags/adagrad/</link>
+      <pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/adagrad/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Adam</title>
+      <link>https://followb1ind1y.github.io/tags/adam/</link>
+      <pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/adam/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gradient Descent</title>
+      <link>https://followb1ind1y.github.io/tags/gradient-descent/</link>
+      <pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/gradient-descent/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mini-batch Gradient Descent</title>
+      <link>https://followb1ind1y.github.io/tags/mini-batch-gradient-descent/</link>
+      <pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/mini-batch-gradient-descent/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Momentum</title>
+      <link>https://followb1ind1y.github.io/tags/momentum/</link>
+      <pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/momentum/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Nesterov Momentum</title>
+      <link>https://followb1ind1y.github.io/tags/nesterov-momentum/</link>
+      <pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/nesterov-momentum/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RMSProp</title>
+      <link>https://followb1ind1y.github.io/tags/rmsprop/</link>
+      <pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/rmsprop/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Stochastic Gradient Descent</title>
+      <link>https://followb1ind1y.github.io/tags/stochastic-gradient-descent/</link>
+      <pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/stochastic-gradient-descent/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dataset Augmentation</title>
+      <link>https://followb1ind1y.github.io/tags/dataset-augmentation/</link>
+      <pubDate>Sun, 25 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/dataset-augmentation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dropout</title>
+      <link>https://followb1ind1y.github.io/tags/dropout/</link>
+      <pubDate>Sun, 25 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/dropout/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Early Stopping</title>
+      <link>https://followb1ind1y.github.io/tags/early-stopping/</link>
+      <pubDate>Sun, 25 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/early-stopping/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>L1 Regularization</title>
+      <link>https://followb1ind1y.github.io/tags/l1-regularization/</link>
+      <pubDate>Sun, 25 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/l1-regularization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>L2 Regularization</title>
+      <link>https://followb1ind1y.github.io/tags/l2-regularization/</link>
+      <pubDate>Sun, 25 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/l2-regularization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Noise Injection</title>
+      <link>https://followb1ind1y.github.io/tags/noise-injection/</link>
+      <pubDate>Sun, 25 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/noise-injection/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RBN</title>
+      <link>https://followb1ind1y.github.io/tags/rbn/</link>
+      <pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/rbn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SURE</title>
+      <link>https://followb1ind1y.github.io/tags/sure/</link>
+      <pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/sure/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Backpropagation</title>
+      <link>https://followb1ind1y.github.io/tags/backpropagation/</link>
+      <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/backpropagation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Feedforward Deep Networks</title>
+      <link>https://followb1ind1y.github.io/tags/feedforward-deep-networks/</link>
+      <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/feedforward-deep-networks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Perceptron</title>
+      <link>https://followb1ind1y.github.io/tags/perceptron/</link>
+      <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/perceptron/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://followb1ind1y.github.io/tags/machine-learning/</link>
+      <pubDate>Wed, 30 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Numerical Computation</title>
+      <link>https://followb1ind1y.github.io/tags/numerical-computation/</link>
+      <pubDate>Mon, 28 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/numerical-computation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Information Theory</title>
+      <link>https://followb1ind1y.github.io/tags/information-theory/</link>
+      <pubDate>Thu, 24 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/information-theory/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Probability</title>
+      <link>https://followb1ind1y.github.io/tags/probability/</link>
+      <pubDate>Thu, 24 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/probability/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linear Algebra</title>
+      <link>https://followb1ind1y.github.io/tags/linear-algebra/</link>
+      <pubDate>Wed, 23 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/linear-algebra/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Boosting</title>
+      <link>https://followb1ind1y.github.io/tags/boosting/</link>
+      <pubDate>Sun, 30 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/boosting/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bagging</title>
+      <link>https://followb1ind1y.github.io/tags/bagging/</link>
+      <pubDate>Fri, 28 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/bagging/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Random Forest</title>
+      <link>https://followb1ind1y.github.io/tags/random-forest/</link>
+      <pubDate>Fri, 28 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/random-forest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Decision Trees</title>
+      <link>https://followb1ind1y.github.io/tags/decision-trees/</link>
+      <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/decision-trees/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Support Vector Machine</title>
+      <link>https://followb1ind1y.github.io/tags/support-vector-machine/</link>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/support-vector-machine/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Naive Bayes</title>
+      <link>https://followb1ind1y.github.io/tags/naive-bayes/</link>
+      <pubDate>Wed, 19 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/naive-bayes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>K-Nearest Neighbors</title>
+      <link>https://followb1ind1y.github.io/tags/k-nearest-neighbors/</link>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/k-nearest-neighbors/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FDA</title>
+      <link>https://followb1ind1y.github.io/tags/fda/</link>
+      <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/fda/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PCA</title>
+      <link>https://followb1ind1y.github.io/tags/pca/</link>
+      <pubDate>Sun, 16 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/pca/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>LDA</title>
+      <link>https://followb1ind1y.github.io/tags/lda/</link>
+      <pubDate>Thu, 13 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/lda/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>QDA</title>
+      <link>https://followb1ind1y.github.io/tags/qda/</link>
+      <pubDate>Thu, 13 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/qda/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Logistic Regression</title>
+      <link>https://followb1ind1y.github.io/tags/logistic-regression/</link>
+      <pubDate>Tue, 11 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/logistic-regression/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linear Regression</title>
+      <link>https://followb1ind1y.github.io/tags/linear-regression/</link>
+      <pubDate>Sat, 08 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/tags/linear-regression/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

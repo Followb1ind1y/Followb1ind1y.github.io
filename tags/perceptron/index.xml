@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Perceptron on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/perceptron/</link>
+    <description>Recent content in Perceptron on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 03 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/perceptron/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Neural Network: Perceptron and Backpropagation</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/01_perceptron_and_backpropagation/</link>
+      <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/01_perceptron_and_backpropagation/</guid>
+      <description>Neural Networks form the base of deep learning, which is a subfield of Machine Learning, where the structure of the human brain inspires the algorithms. Neural networks take input data, train themselves to recognize patterns found in the data, and then predict the output for a new set of similar data. Therefore, a neural network can be thought of as the functional unit of deep learning, which mimics the behavior of the human brain to solve complex data-driven problems.</description>
+    </item>
+    
+  </channel>
+</rss>

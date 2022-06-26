@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>LDA on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/lda/</link>
+    <description>Recent content in LDA on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 13 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/lda/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LDA and QDA for Classification</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/04_lda_and_qda_for_classification/</link>
+      <pubDate>Thu, 13 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/04_lda_and_qda_for_classification/</guid>
+      <description>Discriminant analysis encompasses methods that can be used for both classification and dimensionality reduction. Linear discriminant analysis (LDA) is particularly popular because it is both a classifier and a dimensionality reduction technique. Despite its simplicity, LDA often produces robust, decent, and interpretable classification results. When tackling real-world classification problems, LDA is often the first and benchmarking method before other more complicated and flexible ones are employed. Quadratic discriminant analysis (QDA) is a variant of LDA that allows for non-linear separation of data.</description>
+    </item>
+    
+  </channel>
+</rss>

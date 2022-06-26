@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Random Forest on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/random-forest/</link>
+    <description>Recent content in Random Forest on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 28 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/random-forest/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bagging and Random Forest</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/11_bagging_and_random_forest/</link>
+      <pubDate>Fri, 28 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/11_bagging_and_random_forest/</guid>
+      <description>Ensemble Learning Ensemble methods aim at improving the predictive performance of a given statistical learning or model ﬁtting technique. The general principle of ensemble methods is to construct a linear combination of some model ﬁtting method, instead of using a single ﬁt of the method.
+An ensemble is itself a supervised learning algorithm, because it can be trained and then used to make predictions. Ensemble methods combine several decision trees classifiers to produce better predictive performance than a single decision tree classifier.</description>
+    </item>
+    
+  </channel>
+</rss>
