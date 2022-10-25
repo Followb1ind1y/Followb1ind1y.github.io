@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Nesterov Momentum on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/nesterov-momentum/</link>
+    <description>Recent content in Nesterov Momentum on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 27 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/nesterov-momentum/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Optimization Methods for Deep Learning</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/04_optimization_methods_for_deep_learning/</link>
+      <pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/04_optimization_methods_for_deep_learning/</guid>
+      <description>Gradient Descent Optimization Most deep learning algorithms involve optimization of some sort. Optimization refers to the task of either minimizing or maximizing some function $f(x)$ by altering $x$. We usually phrase most optimization problems in terms of minimizing $f(x)$. Maximization may be accomplished via a minimization algorithm by minimizing $-f(x)$.
+The function we want to minimize or maximize is called the objective function or criterion. When we are minimizing it, we may also call it the cost function, loss function, or error function.</description>
+    </item>
+    
+  </channel>
+</rss>

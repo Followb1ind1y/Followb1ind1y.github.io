@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Decision Trees on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/decision-trees/</link>
+    <description>Recent content in Decision Trees on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 26 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/decision-trees/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Decision Trees</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/10_decision_tree/</link>
+      <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/10_decision_tree/</guid>
+      <description>A tree has many analogies in real life, and turns out that it has influenced a wide area of machine learning, covering both classification and regression. In decision analysis, a decision tree can be used to visually and explicitly represent decisions and decision making. As the name goes, it uses a tree-like model of decisions. Though a commonly used tool in data \mining for deriving a strategy to reach a particular goal, its also widely used in machine learning.</description>
+    </item>
+    
+  </channel>
+</rss>

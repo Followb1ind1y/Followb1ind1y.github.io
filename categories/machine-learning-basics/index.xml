@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Machine Learning Basics on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/categories/machine-learning-basics/</link>
+    <description>Recent content in Machine Learning Basics on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 30 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/categories/machine-learning-basics/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[ML Basics] Machine Learning Basics</title>
+      <link>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/04_machine_learning_basics_for_ml/</link>
+      <pubDate>Wed, 30 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/04_machine_learning_basics_for_ml/</guid>
+      <description>Learning Algorithms A machine learning algorithm is an algorithm that is able to learn from data. But what do we mean by learning? Mitchell (1997) provides the definition &amp;ldquo;A computer program is said to learn from experience $E$ with respect to some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$.&amp;rdquo;
+The Task, $T$ Machine learning allows us to tackle tasks that are too difficult to solve with fixed programs written and designed by human beings.</description>
+    </item>
+    
+    <item>
+      <title>[ML Basics] Numerical Computation</title>
+      <link>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/03_numerical_computation_for_ml/</link>
+      <pubDate>Mon, 28 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/03_numerical_computation_for_ml/</guid>
+      <description>Overflow and Underflow The fundamental difficulty in performing continuous math on a digital computer is that we need to represent infinitely many real numbers with a finite number of bit patterns. This means that for almost all real numbers, we incur some approximation error when we represent the number in the computer. In many cases, this is just rounding error. Rounding error is problematic, especially when it compounds across many operations, and can cause algorithms that work in theory to fail in practice if they are not designed to minimize the accumulation of rounding error.</description>
+    </item>
+    
+    <item>
+      <title>[ML Basics] Probability and Information Theory</title>
+      <link>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/02_probability_and_information_theory_for_ml/</link>
+      <pubDate>Thu, 24 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/02_probability_and_information_theory_for_ml/</guid>
+      <description>Random Variables A random variable is a variable that can take on different values randomly. We typically denote the random variable itself with a lower case letter in plain typeface, and the values it can take on with lower case script letters. For example, $x_{1}$ and $x_{2}$ are both possible values that the random variable $x$ can take on. For vector-valued variables, we would write the random variable as $\mathrm{x}$ and one of its values as $x$.</description>
+    </item>
+    
+    <item>
+      <title>[ML Basics] Linear Algebra</title>
+      <link>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/01_linear_algebra_for_ml/</link>
+      <pubDate>Wed, 23 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/01_linear_algebra_for_ml/</guid>
+      <description>Scalars, Vectors, Matrices and Tensors The study of linear algebra involves several types of mathematical objects:
+  Scalars: A scalar is just a single number, in contrast to most of the other objects studied in linear algebra, which are usually arrays of multiple numbers. We write scalars in italics. We usually give scalars lowercase variable names. When we introduce them, we specify what kind of number they are. For example, we might say &amp;ldquo;Let $s \in \mathbb{R}$ be the slope of the line,&amp;rdquo; while defining a real-valued scalar, or &amp;ldquo;Let $n \in \mathbb{N}$ be the number of units, while defining an natural number scalar.</description>
+    </item>
+    
+  </channel>
+</rss>

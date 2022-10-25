@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>RBN on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/rbn/</link>
+    <description>Recent content in RBN on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 04 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/rbn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Neural Network: Radial Basis Function Neural Networks (RBN)</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/02_radial_basis_function_neural_networks/</link>
+      <pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/02_radial_basis_function_neural_networks/</guid>
+      <description>In Single Perceptron / Multi-layer Perceptron(MLP), we only have linear separability because they are composed of input and output layers(some hidden layers in MLP). We at least need one hidden layer to derive a non-linearity separation. Our RBN what it does is, it transforms the input signal into another form, which can be then feed into the network to get linear separability. RBN is structurally same as perceptron(MLP).
+ RBNN is composed of input, hidden, and output layer.</description>
+    </item>
+    
+  </channel>
+</rss>

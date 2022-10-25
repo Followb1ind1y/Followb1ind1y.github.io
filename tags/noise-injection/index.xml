@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Noise Injection on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/noise-injection/</link>
+    <description>Recent content in Noise Injection on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 25 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/noise-injection/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Regularization for Deep Learning</title>
+      <link>https://followb1ind1y.github.io/posts/deep_learning/03_regularization_for_deep_learning/</link>
+      <pubDate>Sun, 25 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/deep_learning/03_regularization_for_deep_learning/</guid>
+      <description>Overfitting, Underfitting and Capacity The central challenge in machine learning is that we must perform well on new, previously unseen inputs—not just those on which our model was trained. The ability to perform well on previously unobserved inputs is called generalization.
+ 机器学习的主要挑战是我们的算法必须能够在先前未观测的新输入上表现良好, 而不只是在训练集上表现良好.在先前未观测到的输入上表现良好的能力被称为 泛化(generalization) .
+ Typically, when training a machine learning model, we have access to a training set, we can compute some error measure on the training set called the training error, and we reduce this training error.</description>
+    </item>
+    
+  </channel>
+</rss>

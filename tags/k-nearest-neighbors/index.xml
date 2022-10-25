@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>K-Nearest Neighbors on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/k-nearest-neighbors/</link>
+    <description>Recent content in K-Nearest Neighbors on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 18 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/k-nearest-neighbors/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>K-Nearest Neighbors</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/07_k_nearest_neighbors/</link>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/07_k_nearest_neighbors/</guid>
+      <description>K Nearest Neighbor(KNN) is a very simple, easy to understand, versatile and one of the topmost machine learning algorithms. KNN used in the variety of applications such as finance, healthcare, political science, handwriting detection, image recognition and video recognition. KNN algorithm used for both classification and regression problems.
+We say that KNN is a non-parametric and lazy learning algorithm. Non-parametric means there is no assumption for underlying data distribution. In other words, the model structure determined from the dataset.</description>
+    </item>
+    
+  </channel>
+</rss>

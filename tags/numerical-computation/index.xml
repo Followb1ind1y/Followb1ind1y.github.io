@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Numerical Computation on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/numerical-computation/</link>
+    <description>Recent content in Numerical Computation on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 28 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/numerical-computation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[ML Basics] Numerical Computation</title>
+      <link>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/03_numerical_computation_for_ml/</link>
+      <pubDate>Mon, 28 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/applied_math_and_ml_basics/03_numerical_computation_for_ml/</guid>
+      <description>Overflow and Underflow The fundamental difficulty in performing continuous math on a digital computer is that we need to represent infinitely many real numbers with a finite number of bit patterns. This means that for almost all real numbers, we incur some approximation error when we represent the number in the computer. In many cases, this is just rounding error. Rounding error is problematic, especially when it compounds across many operations, and can cause algorithms that work in theory to fail in practice if they are not designed to minimize the accumulation of rounding error.</description>
+    </item>
+    
+  </channel>
+</rss>

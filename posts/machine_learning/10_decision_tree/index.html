@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Decision Trees | Followb1ind1y</title>
+<meta name="keywords" content="Machine Learning, Decision Trees" />
+<meta name="description" content="A tree has many analogies in real life, and turns out that it has influenced a wide area of machine learning, covering both classification and regression. In decision analysis, a decision tree can be used to visually and explicitly represent decisions and decision making. As the name goes, it uses a tree-like model of decisions. Though a commonly used tool in data \mining for deriving a strategy to reach a particular goal, its also widely used in machine learning.">
+<meta name="author" content="Followb1ind1y">
+<link rel="canonical" href="https://followb1ind1y.github.io/posts/machine_learning/10_decision_tree/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.d70d9be7236724828e9dc04b26c5a1f3b228217674a56d00269f53e0d3db96f0.css" integrity="sha256-1w2b5yNnJIKOncBLJsWh87IoIXZ0pW0AJp9T4NPblvA=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://followb1ind1y.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://followb1ind1y.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://followb1ind1y.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://followb1ind1y.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://followb1ind1y.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta property="og:title" content="Decision Trees" />
+<meta property="og:description" content="A tree has many analogies in real life, and turns out that it has influenced a wide area of machine learning, covering both classification and regression. In decision analysis, a decision tree can be used to visually and explicitly represent decisions and decision making. As the name goes, it uses a tree-like model of decisions. Though a commonly used tool in data \mining for deriving a strategy to reach a particular goal, its also widely used in machine learning." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://followb1ind1y.github.io/posts/machine_learning/10_decision_tree/" /><meta property="og:image" content="https://followb1ind1y.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-05-26T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-05-26T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://followb1ind1y.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="Decision Trees"/>
+<meta name="twitter:description" content="A tree has many analogies in real life, and turns out that it has influenced a wide area of machine learning, covering both classification and regression. In decision analysis, a decision tree can be used to visually and explicitly represent decisions and decision making. As the name goes, it uses a tree-like model of decisions. Though a commonly used tool in data \mining for deriving a strategy to reach a particular goal, its also widely used in machine learning."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://followb1ind1y.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Decision Trees",
+      "item": "https://followb1ind1y.github.io/posts/machine_learning/10_decision_tree/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Decision Trees",
+  "name": "Decision Trees",
+  "description": "A tree has many analogies in real life, and turns out that it has influenced a wide area of machine learning, covering both classification and regression. In decision analysis, a decision tree can be used to visually and explicitly represent decisions and decision making. As the name goes, it uses a tree-like model of decisions. Though a commonly used tool in data \\mining for deriving a strategy to reach a particular goal, its also widely used in machine learning.",
+  "keywords": [
+    "Machine Learning", "Decision Trees"
+  ],
+  "articleBody": "A tree has many analogies in real life, and turns out that it has influenced a wide area of machine learning, covering both classification and regression. In decision analysis, a decision tree can be used to visually and explicitly represent decisions and decision making. As the name goes, it uses a tree-like model of decisions. Though a commonly used tool in data \\mining for deriving a strategy to reach a particular goal, its also widely used in machine learning.\n Decision Tree consists of :\n Nodes : Test for the value of a certain attribute. Edges/ Branch : Correspond to the outcome of a test and connect to the next node or leaf. Leaf nodes : Ter\\minal nodes that predict the outcome (represent class labels or class distribution).  Applications of Decision trees in real life :\n Biomedical Engineering (decision trees for identifying features to be used in implantable devices). Financial analysis (Customer Satisfaction with a product or service). Astronomy (classify galaxies). System Control. Manufacturing and Production (Quality control, Semiconductor manufacturing, etc). Medicines (diagnosis, cardiology, psychiatry). Physics (Particle detection).  Classification and Regression Trees (CART) Classification and regression trees are machine-learning methods for constructing prediction models from data. The models are obtained by recursively partitioning the data space and fitting a simple prediction model within each partition. As a result, the partitioning can be represented graphically as a decision tree. Classification trees are designed for dependent variables that take a finite number of unordered values, with prediction error measured in terms of misclassification cost. Regression trees are for dependent variables that take continuous or ordered discrete values, with prediction error typically measured by the squared difference between the observed and predicted values.\n Consider the data would be:\n$$ \\{(x_{i},y_{i})\\}_{i=1}^{n} \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ x = \\begin{bmatrix} x_{1},x_{2},...,x_{n} \\\\ \\end{bmatrix}_{\\ d \\times n}\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ y = \\begin{bmatrix} y_{1} \\\\ y_{2} \\\\ ... \\\\ y_{n} \\\\ \\end{bmatrix}_{\\ n \\times 1} $$\nDefine:\n $x_{j:}\\to j'th$ row and all columns. (each row of $x$ matrix is a feature) $x_{:i}\\to$ one column and all rows. (each column of $x$ matrix is a data sample)  At each split we have two regions.\n$$ R_{1}(j,s) = \\{ x_{:i}|x_{j:}\\leq s \\} \\\\ R_{2}(j,s) = \\{ x_{:i}|x_{j:} s \\} \\\\ $$\nWe need to decide about $j$ and $s$. To decide about these parameters we can define an objective function.\nRegression Case For simplicity, consider the model we want to fit for each region be a constant value. Therefore in region one for example, we want all the target values to be as close as possible to constant $C_{1}$.\n$$ \\min_{C_{1}}\\sum_{y_{i}\\in R_{1}}(y_{i}-C_{1})^{2} \\\\ $$\nSince in each split we have two regions, we can write similar objective for region two.\n$$ \\min_{C_{2}}\\sum_{y_{i}\\in R_{2}}(y_{i}-C_{2})^{2} \\\\ $$\nTherefore we have:\n$$ \\min_{C_{1}}\\sum_{y_{i}\\in R_{1}}(y_{i}-C_{1})^{2}+\\min_{C_{2}}\\sum_{y_{i}\\in R_{2}}(y_{i}-C_{2})^{2} \\\\ $$\nFinally we should also decide about $j$ and $s$:\n$$ \\min_{j,s}[\\min_{C_{1}}\\sum_{y_{i}\\in R_{1}}(y_{i}-C_{1})^{2}+\\min_{C_{2}}\\sum_{y_{i}\\in R_{2}}(y_{i}-C_{2})^{2}] \\\\ $$\nIf $j$ and $s$ are known\n$$ C_{1} = \\mathrm{Average}\\{x_{:i}|x_{:i}\\in R_{1} \\} \\\\ C_{2} = \\mathrm{Average}\\{x_{:i}|x_{:i}\\in R_{2} \\} \\\\ $$\nGiven $j$, we have only $n$ possible choice for $s$\n$$ x_{j} = \\begin{bmatrix} x_{j1},x_{j2},...,x_{jn} \\\\ \\end{bmatrix} $$\nOne (trivial)solution for this problem can be a brute force search.\n Consider feature $j$ each time Test all $n$ possible choices for $s$ Find $C_{1}$ and $C_{2}$ for considered $s$ and $j$ Repeat until finding \\minimum value for objective function  Define\n$$ Q_{m}(T)=\\frac{1}{n_{m}}\\sum_{y_{i}\\in R_{m}}(y_{i}-C_{m})^{2} $$\nWhere:\n $m$ is a ter\\minal node of the tree. $R_{m}$ is a region. $n_{m}$ is the number of points in $R_{m}$. $C_{m}$ is the constant that we fit in $R_{m}$. |$T$| is the number of ter\\minal nodes.  Therefore the total error would be:\n$$ \\sum_{m=1}^{|T|}n_{m}Q_{m} \\\\ $$\nStopping criterion\n Option 1 (bad): split only if the split reduces the residual sum of squares (RSS) by at least some threshold value  However, sometimes you have a split with a small improvement followed by one with a large improvement. This stopping criterion would miss such splits   Option 2: over‐build the tree and “prune” the tree later.  Pruning refers to removing some splits that create ter\\minal leaves    Tree Pruning After a tree is fully extended, remove one leaf at a time to \\minimize this criterion:\n$$ \\sum_{m=1}^{|T|}n_{m}Q_{m} + \\alpha|T| $$\nWhere\n $\\alpha|T|$ is the penalty for having too many leaves $\\alpha$ is a tuning parameter and can be chosen via cross validation Introducing the penalty is also called regularization   Classification Case In regression case, we tried to fit a constant to a region. But in classification case we need to find the regions which contain samples from same class. We can change regression cost with some sort of misclassification cost.\n Consider the classes of $$C = \\{1,2,3,...,𝑘\\} \\\\ $$ Impurity: $$P_{mk}=\\frac{1}{n_{m}}\\sum_{y_{i}\\in R_{m}}I(y_{i}=k) \\\\ $$ Misclassification: $$\\frac{1}{n_{m}}\\sum_{y_{i}\\in R_{m}}I(y_{i}\\neq k) = 1 - P_{mk} \\\\ $$ Gini Index: $$\\sum_{i\\neq j}P_{mi}P_{mj} \\\\ $$ Cross Entropy $$-\\sum_{k=1}^{K}p_{mk}log(P_{mk}) \\\\ $$   Gini Example In the snapshot below, we split the population using two input variables Gender and Class. Now, I want to identify which split is producing more homogeneous sub-nodes using Gini .\n Split on Gender:\n Calculate, Gini for sub-node $\\mathrm{Female} = (0.2)\\times(0.2)+(0.8)\\times(0.8)=0.68$ Gini for sub-node $\\mathrm{Male} = (0.65)\\times(0.65)+(0.35)\\times(0.35)=0.55$ Calculate weighted Gini for Split $\\mathrm{Gender} = (10/30)\\times0.68+(20/30)\\times0.55 = 0.59$  Similar for Split on Class:\n Gini for sub-node Class $\\mathrm{IX} = (0.43)\\times(0.43)+(0.57)\\times(0.57)=0.51$ Gini for sub-node Class $\\mathrm{X} = (0.56)\\times(0.56)+(0.44)\\times(0.44)=0.51$ Calculate weighted Gini for Split $\\mathrm{Class} = (14/30)\\times0.51+(16/30)\\times0.51 = 0.51$  Above, we can see that Gini score for Split on Gender is higher than Split on Class, hence, the node split will take place on Gender.\nPros and Cons of Trees Pros:  Inexpensive to construct. Extremely fast at classifying unknown records. Easy to interpret for small-sized trees Accuracy comparable to other classification techniques for many simple data sets. Excludes unimportant features.  Cons:  Decision Boundary restricted to being parallel to attribute axes. Decision tree models are often biased toward splits on features having a large number of levels. Small changes in the training data can result in large changes to decision logic. Large trees can be difficult to interpret and the decisions they make may seem counter intuitive.  Reference [1] Chakure, A. (2020, November 6). Decision Tree Classification. Medium. https://medium.com/swlh/decision-tree-classification-de64fc4d5aac.\n[2] Płoński, P. (2020, June 22). Visualize a Decision Tree in 4 Ways with Scikit-Learn and Python. MLJAR Automated Machine Learning. https://mljar.com/blog/visualize-decision-tree/.\n",
+  "wordCount" : "1066",
+  "inLanguage": "en",
+  "datePublished": "2021-05-26T00:00:00Z",
+  "dateModified": "2021-05-26T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Followb1ind1y"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://followb1ind1y.github.io/posts/machine_learning/10_decision_tree/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Followb1ind1y",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://followb1ind1y.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://followb1ind1y.github.io/" accesskey="h" title="Followb1ind1y (Alt + H)">Followb1ind1y</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://followb1ind1y.github.io/archives" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://followb1ind1y.github.io/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://followb1ind1y.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://followb1ind1y.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://followb1ind1y.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://followb1ind1y.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      Decision Trees
+    </h1>
+    <div class="post-meta">May 26, 2021&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Followb1ind1y
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <div class="details">Table of Contents</div>
+        </summary>
+        <div class="inner"><ul>
+                <li>
+                    <a href="#classification-and-regression-trees-cart" aria-label="Classification and Regression Trees (CART)">Classification and Regression Trees (CART)</a><ul>
+                        
+                <li>
+                    <a href="#regression-case" aria-label="Regression Case">Regression Case</a></li>
+                <li>
+                    <a href="#tree-pruning" aria-label="Tree Pruning">Tree Pruning</a></li>
+                <li>
+                    <a href="#classification-case" aria-label="Classification Case">Classification Case</a></li>
+                <li>
+                    <a href="#gini-example" aria-label="Gini Example">Gini Example</a></li></ul>
+                </li>
+                <li>
+                    <a href="#pros-and-cons-of-trees" aria-label="Pros and Cons of Trees">Pros and Cons of Trees</a><ul>
+                        
+                <li>
+                    <a href="#pros" aria-label="Pros:">Pros:</a></li>
+                <li>
+                    <a href="#cons" aria-label="Cons:">Cons:</a></li></ul>
+                </li>
+                <li>
+                    <a href="#reference" aria-label="Reference">Reference</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>A tree has many analogies in real life, and turns out that it has influenced a wide area of <strong>machine learning</strong>, covering both <strong>classification</strong> and <strong>regression</strong>. In decision analysis, a decision tree can be used to visually and explicitly represent decisions and decision making. As the name goes, it uses a tree-like model of decisions. Though a commonly used tool in data \mining for deriving a strategy to reach a particular goal, its also widely used in machine learning.</p>
+<div align="center">
+<img src="/img_ML/10_What_is_tree.PNG" width=450px/>
+</div>
+<p><strong>Decision Tree consists of :</strong></p>
+<ol>
+<li><strong>Nodes</strong> : Test for the value of a certain attribute.</li>
+<li><strong>Edges/ Branch</strong> : Correspond to the outcome of a test and connect to the next node or leaf.</li>
+<li><strong>Leaf nodes</strong> : Ter\minal nodes that predict the outcome (represent class labels or class distribution).</li>
+</ol>
+<p><strong>Applications of Decision trees in real life</strong> :</p>
+<ul>
+<li>Biomedical Engineering (decision trees for identifying features to be used in implantable devices).</li>
+<li>Financial analysis (Customer Satisfaction with a product or service).</li>
+<li>Astronomy (classify galaxies).</li>
+<li>System Control.</li>
+<li>Manufacturing and Production (Quality control, Semiconductor manufacturing, etc).</li>
+<li>Medicines (diagnosis, cardiology, psychiatry).</li>
+<li>Physics (Particle detection).</li>
+</ul>
+<br>
+<h2 id="classification-and-regression-trees-cart">Classification and Regression Trees (CART)<a hidden class="anchor" aria-hidden="true" href="#classification-and-regression-trees-cart">#</a></h2>
+<p><strong>Classification</strong> and <strong>regression</strong> trees are machine-learning methods for constructing prediction models from data. The models are obtained by recursively partitioning the data space and fitting a simple prediction model within each partition. As a result, the partitioning can be represented graphically as a decision tree. Classification trees are designed for dependent variables that take a finite number of unordered values, with prediction error measured in terms of misclassification cost. Regression trees are for dependent variables that take continuous or ordered discrete values, with prediction error typically measured by the squared difference between the observed and predicted values.</p>
+<div align="center">
+<img src="/img_ML/10_Regression_Classification.PNG" width=700px/>
+</div>
+<p>Consider the data would be:</p>
+<p><code>$$ \{(x_{i},y_{i})\}_{i=1}^{n} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x = \begin{bmatrix} x_{1},x_{2},...,x_{n}    \\ \end{bmatrix}_{\ d \times n}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ y = \begin{bmatrix} y_{1}    \\ y_{2}    \\ ...      \\ y_{n}    \\ \end{bmatrix}_{\ n \times 1} $$</code></p>
+<p>Define:</p>
+<ul>
+<li><code>$x_{j:}\to j'th$</code> row and all columns. (each row of <code>$x$</code> matrix is a feature)</li>
+<li><code>$x_{:i}\to$</code> one column and all rows. (each column of <code>$x$</code> matrix is a data sample)</li>
+</ul>
+<p>At each split we have two regions.</p>
+<p><code>$$ R_{1}(j,s) = \{ x_{:i}|x_{j:}\leq s \} \\ R_{2}(j,s) = \{ x_{:i}|x_{j:}&gt; s \} \\ $$</code></p>
+<p>We need to decide about <code>$j$</code> and <code>$s$</code>. To decide about these parameters we can define an objective function.</p>
+<h3 id="regression-case">Regression Case<a hidden class="anchor" aria-hidden="true" href="#regression-case">#</a></h3>
+<p>For simplicity, consider the model we want to fit for each region be a constant value. Therefore in region one for example, we want all the target values to be as close as possible to constant <code>$C_{1}$</code>.</p>
+<p><code>$$ \min_{C_{1}}\sum_{y_{i}\in R_{1}}(y_{i}-C_{1})^{2} \\ $$</code></p>
+<p>Since in each split we have two regions, we can write similar objective for region two.</p>
+<p><code>$$ \min_{C_{2}}\sum_{y_{i}\in R_{2}}(y_{i}-C_{2})^{2} \\ $$</code></p>
+<p>Therefore we have:</p>
+<p><code>$$ \min_{C_{1}}\sum_{y_{i}\in R_{1}}(y_{i}-C_{1})^{2}+\min_{C_{2}}\sum_{y_{i}\in R_{2}}(y_{i}-C_{2})^{2} \\ $$</code></p>
+<p>Finally we should also decide about <code>$j$</code> and <code>$s$</code>:</p>
+<p><code>$$ \min_{j,s}[\min_{C_{1}}\sum_{y_{i}\in R_{1}}(y_{i}-C_{1})^{2}+\min_{C_{2}}\sum_{y_{i}\in R_{2}}(y_{i}-C_{2})^{2}] \\ $$</code></p>
+<p>If <code>$j$</code> and <code>$s$</code> are known</p>
+<p><code>$$ C_{1} = \mathrm{Average}\{x_{:i}|x_{:i}\in R_{1} \} \\ C_{2} = \mathrm{Average}\{x_{:i}|x_{:i}\in R_{2} \} \\ $$</code></p>
+<p>Given <code>$j$</code>, we have only <code>$n$</code> possible choice for <code>$s$</code></p>
+<p><code>$$ x_{j} = \begin{bmatrix} x_{j1},x_{j2},...,x_{jn}    \\ \end{bmatrix} $$</code></p>
+<p>One (trivial)solution for this problem can be a brute force search.</p>
+<ol>
+<li>Consider feature <code>$j$</code> each time</li>
+<li>Test all <code>$n$</code> possible choices for <code>$s$</code></li>
+<li>Find <code>$C_{1}$</code> and <code>$C_{2}$</code> for considered <code>$s$</code> and <code>$j$</code></li>
+<li>Repeat until finding \minimum value for objective function</li>
+</ol>
+<p>Define</p>
+<p><code>$$ Q_{m}(T)=\frac{1}{n_{m}}\sum_{y_{i}\in R_{m}}(y_{i}-C_{m})^{2} $$</code></p>
+<p>Where:</p>
+<ul>
+<li><code>$m$</code> is a ter\minal node of the tree.</li>
+<li><code>$R_{m}$</code> is a region.</li>
+<li><code>$n_{m}$</code> is the number of points in <code>$R_{m}$</code>.</li>
+<li><code>$C_{m}$</code> is the constant that we fit in <code>$R_{m}$</code>.</li>
+<li>|<code>$T$</code>| is the number of ter\minal nodes.</li>
+</ul>
+<p>Therefore the <strong>total error</strong> would be:</p>
+<p><code>$$ \sum_{m=1}^{|T|}n_{m}Q_{m} \\ $$</code></p>
+<p><strong>Stopping criterion</strong></p>
+<ul>
+<li><strong>Option 1 (bad):</strong> split only if the split reduces the residual sum of squares (RSS) by at least some threshold value
+<ul>
+<li>However, sometimes you have a split with a small improvement followed by one with a large improvement.</li>
+<li>This stopping criterion would miss such splits</li>
+</ul>
+</li>
+<li><strong>Option 2:</strong> over‐build the tree and &ldquo;prune&rdquo; the tree later.
+<ul>
+<li>Pruning refers to removing some splits that create ter\minal leaves</li>
+</ul>
+</li>
+</ul>
+<h3 id="tree-pruning">Tree Pruning<a hidden class="anchor" aria-hidden="true" href="#tree-pruning">#</a></h3>
+<p>After a tree is fully extended, remove one leaf at a time to \minimize this criterion:</p>
+<p><code>$$ \sum_{m=1}^{|T|}n_{m}Q_{m} + \alpha|T| $$</code></p>
+<p>Where</p>
+<ul>
+<li><code>$\alpha|T|$</code> is the penalty for having too many leaves</li>
+<li><code>$\alpha$</code> is a tuning parameter and can be chosen via cross validation</li>
+<li>Introducing the penalty is also called regularization</li>
+</ul>
+<div align="center">
+<img src="/img_ML/10_Pruning.PNG" width=400px/>
+</div>
+<h3 id="classification-case">Classification Case<a hidden class="anchor" aria-hidden="true" href="#classification-case">#</a></h3>
+<p>In regression case, we tried to fit a constant to a region. But in classification case we need to find the regions which contain samples from same class. We can change regression cost with some sort of misclassification cost.</p>
+<ul>
+<li>Consider the classes of
+<code>$$C = \{1,2,3,...,𝑘\} \\ $$</code></li>
+<li>Impurity:
+<code>$$P_{mk}=\frac{1}{n_{m}}\sum_{y_{i}\in R_{m}}I(y_{i}=k) \\ $$</code></li>
+<li>Misclassification:
+<code>$$\frac{1}{n_{m}}\sum_{y_{i}\in R_{m}}I(y_{i}\neq k) = 1 - P_{mk} \\ $$</code></li>
+<li>Gini Index:
+<code>$$\sum_{i\neq j}P_{mi}P_{mj} \\ $$</code></li>
+<li>Cross Entropy
+<code>$$-\sum_{k=1}^{K}p_{mk}log(P_{mk}) \\ $$</code></li>
+</ul>
+<div align="center">
+<img src="/img_ML/10_Node_Impurity.PNG" width=500px/>
+</div>
+<br>
+<h3 id="gini-example">Gini Example<a hidden class="anchor" aria-hidden="true" href="#gini-example">#</a></h3>
+<p>In the snapshot below, we split the population using two input variables Gender and Class. Now, I want to identify which split is producing more homogeneous sub-nodes using Gini .</p>
+<div align="center">
+<img src="/img_ML/10_Gini.PNG" width=800px/>
+</div>
+<br>
+<p><strong>Split on Gender:</strong></p>
+<ol>
+<li>Calculate, Gini for sub-node <code>$\mathrm{Female} = (0.2)\times(0.2)+(0.8)\times(0.8)=0.68$</code></li>
+<li>Gini for sub-node <code>$\mathrm{Male} = (0.65)\times(0.65)+(0.35)\times(0.35)=0.55$</code></li>
+<li>Calculate weighted Gini for Split <code>$\mathrm{Gender} = (10/30)\times0.68+(20/30)\times0.55 = 0.59$</code></li>
+</ol>
+<p><strong>Similar for Split on Class:</strong></p>
+<ol>
+<li>Gini for sub-node Class <code>$\mathrm{IX} = (0.43)\times(0.43)+(0.57)\times(0.57)=0.51$</code></li>
+<li>Gini for sub-node Class <code>$\mathrm{X} = (0.56)\times(0.56)+(0.44)\times(0.44)=0.51$</code></li>
+<li>Calculate weighted Gini for Split <code>$\mathrm{Class} = (14/30)\times0.51+(16/30)\times0.51 = 0.51$</code></li>
+</ol>
+<p>Above, we can see that Gini score for Split on Gender is higher than Split on Class, hence, the node split will take place on Gender.</p>
+<br>
+<h2 id="pros-and-cons-of-trees">Pros and Cons of Trees<a hidden class="anchor" aria-hidden="true" href="#pros-and-cons-of-trees">#</a></h2>
+<h3 id="pros">Pros:<a hidden class="anchor" aria-hidden="true" href="#pros">#</a></h3>
+<ul>
+<li>Inexpensive to construct.</li>
+<li>Extremely fast at classifying unknown records.</li>
+<li>Easy to interpret for small-sized trees</li>
+<li>Accuracy comparable to other classification techniques for many simple data sets.</li>
+<li>Excludes unimportant features.</li>
+</ul>
+<h3 id="cons">Cons:<a hidden class="anchor" aria-hidden="true" href="#cons">#</a></h3>
+<ul>
+<li>Decision Boundary restricted to being parallel to attribute axes.</li>
+<li>Decision tree models are often biased toward splits on features having a large number of levels.</li>
+<li>Small changes in the training data can result in large changes to decision logic.</li>
+<li>Large trees can be difficult to interpret and the decisions they make may seem counter intuitive.</li>
+</ul>
+<br>
+<h2 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h2>
+<p>[1] Chakure, A. (2020, November 6). Decision Tree Classification. Medium. <a href="https://medium.com/swlh/decision-tree-classification-de64fc4d5aac">https://medium.com/swlh/decision-tree-classification-de64fc4d5aac</a>.</p>
+<p>[2] Płoński, P. (2020, June 22). Visualize a Decision Tree in 4 Ways with Scikit-Learn and Python. MLJAR Automated Machine Learning. <a href="https://mljar.com/blog/visualize-decision-tree/">https://mljar.com/blog/visualize-decision-tree/</a>.</p>
+
+</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://followb1ind1y.github.io/tags/machine-learning/">Machine Learning</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/decision-trees/">Decision Trees</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://followb1ind1y.github.io/posts/machine_learning/11_bagging_and_random_forest/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Bagging and Random Forest</span>
+  </a>
+  <a class="next" href="https://followb1ind1y.github.io/posts/machine_learning/09_support_vector_machine/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Support Vector Machine</span>
+  </a>
+</nav>
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Decision Trees on twitter"
+        href="https://twitter.com/intent/tweet/?text=Decision%20Trees&amp;url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f10_decision_tree%2f&amp;hashtags=MachineLearning%2cDecisionTrees">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Decision Trees on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f10_decision_tree%2f&amp;title=Decision%20Trees&amp;summary=Decision%20Trees&amp;source=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f10_decision_tree%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Decision Trees on reddit"
+        href="https://reddit.com/submit?url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f10_decision_tree%2f&title=Decision%20Trees">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Decision Trees on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f10_decision_tree%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Decision Trees on whatsapp"
+        href="https://api.whatsapp.com/send?text=Decision%20Trees%20-%20https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f10_decision_tree%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Decision Trees on telegram"
+        href="https://telegram.me/share/url?text=Decision%20Trees&amp;url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fmachine_learning%2f10_decision_tree%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main>
+    <footer class="footer">
+    <span>&copy; 2022 <a href="https://followb1ind1y.github.io/">Followb1ind1y</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+    menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script src="//yihui.org/js/math-code.js"></script>
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+
+</html>

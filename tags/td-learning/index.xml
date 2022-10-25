@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>TD Learning on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/td-learning/</link>
+    <description>Recent content in TD Learning on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 11 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/td-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Temporal-Difference Learning</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/06_temporal_difference_learning/</link>
+      <pubDate>Sat, 11 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/06_temporal_difference_learning/</guid>
+      <description>If one had to identify one idea as central and novel to reinforcement learning, it would undoubtedly be temporal-difference (TD) learning. TD learning is a combination of Monte Carlo ideas and dynamic programming (DP) ideas. Like Monte Carlo methods, TD methods can learn directly from raw experience without a model of the environment’s dynamics. Like DP, TD methods update estimates based in part on other learned estimates, without waiting for a final outcome (they bootstrap).</description>
+    </item>
+    
+  </channel>
+</rss>

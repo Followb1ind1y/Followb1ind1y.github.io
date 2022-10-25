@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Logistic Regression on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/logistic-regression/</link>
+    <description>Recent content in Logistic Regression on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 11 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/logistic-regression/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Logistic Regression</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/03_logistic_regression/</link>
+      <pubDate>Tue, 11 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/03_logistic_regression/</guid>
+      <description>Binary Logistic Regression is one of the most simple and commonly used Machine Learning algorithms for two-class classification. It is easy to implement and can be used as the baseline for any binary classification problem. Its basic fundamental concepts are also constructive in deep learning. Logistic regression describes and estimates the relationship between one dependent binary variable and independent variables.
+  &amp;ldquo;分类&amp;quot;是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是&amp;quot;回归&amp;rdquo;. 通过逻辑回归模型, 我们得到的计算结果是0-1之间的连续数字, 可以把它称为&amp;quot;可能性&amp;quot;（概率）. 然后, 给这个可能性加一个阈值, 就成了分类.</description>
+    </item>
+    
+  </channel>
+</rss>

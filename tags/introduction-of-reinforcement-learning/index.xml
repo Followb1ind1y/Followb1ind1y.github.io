@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Introduction of Reinforcement Learning on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/tags/introduction-of-reinforcement-learning/</link>
+    <description>Recent content in Introduction of Reinforcement Learning on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 14 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/tags/introduction-of-reinforcement-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introduction of Reinforcement Learning</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/01_introduction-of-reinforcement-learning/</link>
+      <pubDate>Sat, 14 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/01_introduction-of-reinforcement-learning/</guid>
+      <description>Reinforcement learning is learning what to do—how to map situations to actions—so as to maximize a numerical reward signal. The learner is not told which actions to take, but instead must discover which actions yield the most reward(最大奖励回报) by trying them. In the most interesting and challenging cases, actions may affect not only the immediate reward but also the next situation and, through that, all subsequent rewards. These two characteristics—trial-and-error search and delayed reward—are the two most important distinguishing features of reinforcement learning.</description>
+    </item>
+    
+  </channel>
+</rss>

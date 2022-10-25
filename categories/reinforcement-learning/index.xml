@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Reinforcement Learning on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/categories/reinforcement-learning/</link>
+    <description>Recent content in Reinforcement Learning on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 11 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/categories/reinforcement-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Temporal-Difference Learning</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/06_temporal_difference_learning/</link>
+      <pubDate>Sat, 11 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/06_temporal_difference_learning/</guid>
+      <description>If one had to identify one idea as central and novel to reinforcement learning, it would undoubtedly be temporal-difference (TD) learning. TD learning is a combination of Monte Carlo ideas and dynamic programming (DP) ideas. Like Monte Carlo methods, TD methods can learn directly from raw experience without a model of the environment’s dynamics. Like DP, TD methods update estimates based in part on other learned estimates, without waiting for a final outcome (they bootstrap).</description>
+    </item>
+    
+    <item>
+      <title>Monte Carlo Methods</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/05_-monte_carlo_methods/</link>
+      <pubDate>Sat, 04 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/05_-monte_carlo_methods/</guid>
+      <description>Monte Carlo methods require only experience—sample sequences of states, actions, and rewards from actual or simulated interaction with an environment. Learning from actual experience is striking because it requires no prior knowledge of the environment’s dynamics, yet can still attain optimal behavior. Learning from simulated experience is also powerful. Although a model is required, the model need only generate sample transitions, not the complete probability distributions of all possible transitions that is required for dynamic programming (DP).</description>
+    </item>
+    
+    <item>
+      <title>Dynamic Programming</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/04_dynamic_programming/</link>
+      <pubDate>Sat, 28 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/04_dynamic_programming/</guid>
+      <description>The term dynamic programming (DP) refers to a collection of algorithms that can be used to compute optimal policies given a perfect model of the environment as a Markov decision process (MDP). Classical DP algorithms are of limited utility in reinforcement learning both because of their assumption of a perfect model and because of their great computational expense, but they are still important theoretically.
+Starting with this chapter, we usually assume that the environment is a finite MDP.</description>
+    </item>
+    
+    <item>
+      <title>Finite Markov Decision Processes</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/03_finite_markov_decision_processes/</link>
+      <pubDate>Tue, 24 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/03_finite_markov_decision_processes/</guid>
+      <description>MDPs are a mathematically idealized form of the reinforcement learning problem for which precise theoretical statements can be made. We introduce key elements of the problem&amp;rsquo;s mathematical structure, such as returns, value functions, and Bellman equations. We try to convey the wide range of applications that can be formulated as finite MDPs. As in all of artificial intelligence, there is a tension between breadth of applicability and mathematical tractability.
+The Agent–Environment Interface MDPs are meant to be a straightforward framing of the problem of learning from interaction to achieve a goal.</description>
+    </item>
+    
+    <item>
+      <title>Multi-armed Bandits</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/02_multi-armed_bandits/</link>
+      <pubDate>Sat, 21 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/02_multi-armed_bandits/</guid>
+      <description>Consider the following learning problem. You are faced repeatedly with a choice among $k$ different options, or actions. After each choice you receive a numerical reward chosen from a stationary probability distribution that depends on the action you selected. Your objective is to maximize the expected total reward over some time period.
+This is the original form of the $k$-armed bandit problem, so named by analogy to a slot machine, or “one-armed bandit,” except that it has $k$ levers instead of one.</description>
+    </item>
+    
+    <item>
+      <title>Introduction of Reinforcement Learning</title>
+      <link>https://followb1ind1y.github.io/posts/reinforcement_learning/01_introduction-of-reinforcement-learning/</link>
+      <pubDate>Sat, 14 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/reinforcement_learning/01_introduction-of-reinforcement-learning/</guid>
+      <description>Reinforcement learning is learning what to do—how to map situations to actions—so as to maximize a numerical reward signal. The learner is not told which actions to take, but instead must discover which actions yield the most reward(最大奖励回报) by trying them. In the most interesting and challenging cases, actions may affect not only the immediate reward but also the next situation and, through that, all subsequent rewards. These two characteristics—trial-and-error search and delayed reward—are the two most important distinguishing features of reinforcement learning.</description>
+    </item>
+    
+  </channel>
+</rss>

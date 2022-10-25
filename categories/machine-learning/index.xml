@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Machine Learning on Followb1ind1y</title>
+    <link>https://followb1ind1y.github.io/categories/machine-learning/</link>
+    <description>Recent content in Machine Learning on Followb1ind1y</description>
+    <image>
+      <url>https://followb1ind1y.github.io/papermod-cover.png</url>
+      <link>https://followb1ind1y.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 30 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://followb1ind1y.github.io/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Boosting</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/12_boosting/</link>
+      <pubDate>Sun, 30 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/12_boosting/</guid>
+      <description>Boosting is an ensemble modeling technique which attempts to build a strong classifier from the number of weak classifiers. It is done by building a model using weak models in series. First, a model is built from the training data. Then the second model is built which tries to correct the errors present in the first model. This procedure is continued and models are added until either the complete training data set is predicted correctly or the maximum number of models are added.</description>
+    </item>
+    
+    <item>
+      <title>Bagging and Random Forest</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/11_bagging_and_random_forest/</link>
+      <pubDate>Fri, 28 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/11_bagging_and_random_forest/</guid>
+      <description>Ensemble Learning Ensemble methods aim at improving the predictive performance of a given statistical learning or model ﬁtting technique. The general principle of ensemble methods is to construct a linear combination of some model ﬁtting method, instead of using a single ﬁt of the method.
+An ensemble is itself a supervised learning algorithm, because it can be trained and then used to make predictions. Ensemble methods combine several decision trees classifiers to produce better predictive performance than a single decision tree classifier.</description>
+    </item>
+    
+    <item>
+      <title>Decision Trees</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/10_decision_tree/</link>
+      <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/10_decision_tree/</guid>
+      <description>A tree has many analogies in real life, and turns out that it has influenced a wide area of machine learning, covering both classification and regression. In decision analysis, a decision tree can be used to visually and explicitly represent decisions and decision making. As the name goes, it uses a tree-like model of decisions. Though a commonly used tool in data \mining for deriving a strategy to reach a particular goal, its also widely used in machine learning.</description>
+    </item>
+    
+    <item>
+      <title>Support Vector Machine</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/09_support_vector_machine/</link>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/09_support_vector_machine/</guid>
+      <description>Support Vector Machine(SVM) is a supervised machine learning algorithm which can be used for both classification or regression challenges. However, it is mostly used in classification problems. In the SVM algorithm, we plot each data item as a point in n-dimensional space (where n is number of features you have) with the value of each feature being the value of a particular coordinate. Then, we perform classification by finding the hyper-plane that differentiates the two classes very well.</description>
+    </item>
+    
+    <item>
+      <title>Naive Bayes</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/08_naive_bayes/</link>
+      <pubDate>Wed, 19 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/08_naive_bayes/</guid>
+      <description>Naive Bayes classifiers are linear classifiers that are known for being simple yet very efficient. The probabilistic model of naive Bayes classifiers is based on Bayes&#39; theorem, and the adjective naive comes from the assumption that the features in a dataset are mutually independent. In practice, the independence assumption is often violated, but naive Bayes classifiers still tend to perform very well under this unrealistic assumption. Especially for small sample sizes, naive Bayes classifiers can outperform the more powerful alternatives.</description>
+    </item>
+    
+    <item>
+      <title>K-Nearest Neighbors</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/07_k_nearest_neighbors/</link>
+      <pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/07_k_nearest_neighbors/</guid>
+      <description>K Nearest Neighbor(KNN) is a very simple, easy to understand, versatile and one of the topmost machine learning algorithms. KNN used in the variety of applications such as finance, healthcare, political science, handwriting detection, image recognition and video recognition. KNN algorithm used for both classification and regression problems.
+We say that KNN is a non-parametric and lazy learning algorithm. Non-parametric means there is no assumption for underlying data distribution. In other words, the model structure determined from the dataset.</description>
+    </item>
+    
+    <item>
+      <title>Fisher’s Linear Discriminant Analysis</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/06_fishers_linear_discriminant_analysis/</link>
+      <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/06_fishers_linear_discriminant_analysis/</guid>
+      <description>Fisher&amp;rsquo;s Linear Discriminant Analysis (FDA) is most commonly used as dimensionality reduction technique in the pre-processing step for pattern-classification and machine learning applications. The goal is to project a dataset onto a lower-dimensional space with good class-separability in order avoid overfitting (&amp;ldquo;curse of dimensionality&amp;rdquo;) and also reduce computational costs. The general FDA approach is very similar to a Principal Component Analysis, but in addition to finding the component axes that maximize the variance of our data (PCA), we are additionally interested in the axes that maximize the separation between multiple classes.</description>
+    </item>
+    
+    <item>
+      <title>Principal Component Analysis</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/05_principal_component_analysis/</link>
+      <pubDate>Sun, 16 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/05_principal_component_analysis/</guid>
+      <description>Principal Component Analysis, or PCA, is a dimensionality-reduction method that is often used to reduce the dimensionality of large data sets, by transforming a large set of variables into a smaller one that still contains most of the information in the large set.
+Reducing the number of variables of a data set naturally comes at the expense of accuracy, but the trick in dimensionality reduction is to trade a little accuracy for simplicity.</description>
+    </item>
+    
+    <item>
+      <title>LDA and QDA for Classification</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/04_lda_and_qda_for_classification/</link>
+      <pubDate>Thu, 13 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/04_lda_and_qda_for_classification/</guid>
+      <description>Discriminant analysis encompasses methods that can be used for both classification and dimensionality reduction. Linear discriminant analysis (LDA) is particularly popular because it is both a classifier and a dimensionality reduction technique. Despite its simplicity, LDA often produces robust, decent, and interpretable classification results. When tackling real-world classification problems, LDA is often the first and benchmarking method before other more complicated and flexible ones are employed. Quadratic discriminant analysis (QDA) is a variant of LDA that allows for non-linear separation of data.</description>
+    </item>
+    
+    <item>
+      <title>Logistic Regression</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/03_logistic_regression/</link>
+      <pubDate>Tue, 11 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/03_logistic_regression/</guid>
+      <description>Binary Logistic Regression is one of the most simple and commonly used Machine Learning algorithms for two-class classification. It is easy to implement and can be used as the baseline for any binary classification problem. Its basic fundamental concepts are also constructive in deep learning. Logistic regression describes and estimates the relationship between one dependent binary variable and independent variables.
+  &amp;ldquo;分类&amp;quot;是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是&amp;quot;回归&amp;rdquo;. 通过逻辑回归模型, 我们得到的计算结果是0-1之间的连续数字, 可以把它称为&amp;quot;可能性&amp;quot;（概率）. 然后, 给这个可能性加一个阈值, 就成了分类.</description>
+    </item>
+    
+    <item>
+      <title>Linear Regression</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/02_linear_regression/</link>
+      <pubDate>Sat, 08 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/02_linear_regression/</guid>
+      <description>Regression is a method of modelling a target value based on independent predictors. This method is mostly used for forecasting and finding out cause and effect relationship between variables. Regression techniques mostly differ based on the number of independent variables and the type of relationship between the independent and dependent variables. Regression problems usually have one continuous and unbounded dependent variable. The inputs, however, can be continuous, discrete, or even categorical data such as gender, nationality, brand, and so on.</description>
+    </item>
+    
+    <item>
+      <title>What is Machine Learning</title>
+      <link>https://followb1ind1y.github.io/posts/machine_learning/01_what_is-_machine_learning_machine_learning/</link>
+      <pubDate>Thu, 06 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://followb1ind1y.github.io/posts/machine_learning/01_what_is-_machine_learning_machine_learning/</guid>
+      <description>Arthur Samuel (1959). Machine Learning: The field of study that gives computers the ability to learn without being explicitly learned.
+  Tom Mitchell (1998). Well-posed Learning Problem: a computer program is said to learn from experience E with respect to some task T and some performance measure P, if its performance on T, as measured by P, improves with experience E.
+  Representation Algorithms Grouped By Learning Style There are different ways an algorithm can model a problem based on its interaction with the experience or environment or whatever we want to call the input data.</description>
+    </item>
+    
+  </channel>
+</rss>

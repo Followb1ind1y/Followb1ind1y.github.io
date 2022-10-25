@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Regularization for Deep Learning | Followb1ind1y</title>
+<meta name="keywords" content="L1 Regularization, L2 Regularization, Dataset Augmentation, Noise Injection, Early Stopping, Dropout" />
+<meta name="description" content="Overfitting, Underfitting and Capacity The central challenge in machine learning is that we must perform well on new, previously unseen inputs—not just those on which our model was trained. The ability to perform well on previously unobserved inputs is called generalization.
+ 机器学习的主要挑战是我们的算法必须能够在先前未观测的新输入上表现良好, 而不只是在训练集上表现良好.在先前未观测到的输入上表现良好的能力被称为 泛化(generalization) .
+ Typically, when training a machine learning model, we have access to a training set, we can compute some error measure on the training set called the training error, and we reduce this training error.">
+<meta name="author" content="Followb1ind1y">
+<link rel="canonical" href="https://followb1ind1y.github.io/posts/deep_learning/03_regularization_for_deep_learning/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.d70d9be7236724828e9dc04b26c5a1f3b228217674a56d00269f53e0d3db96f0.css" integrity="sha256-1w2b5yNnJIKOncBLJsWh87IoIXZ0pW0AJp9T4NPblvA=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://followb1ind1y.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://followb1ind1y.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://followb1ind1y.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://followb1ind1y.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://followb1ind1y.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.83.1" />
+<meta property="og:title" content="Regularization for Deep Learning" />
+<meta property="og:description" content="Overfitting, Underfitting and Capacity The central challenge in machine learning is that we must perform well on new, previously unseen inputs—not just those on which our model was trained. The ability to perform well on previously unobserved inputs is called generalization.
+ 机器学习的主要挑战是我们的算法必须能够在先前未观测的新输入上表现良好, 而不只是在训练集上表现良好.在先前未观测到的输入上表现良好的能力被称为 泛化(generalization) .
+ Typically, when training a machine learning model, we have access to a training set, we can compute some error measure on the training set called the training error, and we reduce this training error." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://followb1ind1y.github.io/posts/deep_learning/03_regularization_for_deep_learning/" /><meta property="og:image" content="https://followb1ind1y.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-07-25T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-07-25T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://followb1ind1y.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="Regularization for Deep Learning"/>
+<meta name="twitter:description" content="Overfitting, Underfitting and Capacity The central challenge in machine learning is that we must perform well on new, previously unseen inputs—not just those on which our model was trained. The ability to perform well on previously unobserved inputs is called generalization.
+ 机器学习的主要挑战是我们的算法必须能够在先前未观测的新输入上表现良好, 而不只是在训练集上表现良好.在先前未观测到的输入上表现良好的能力被称为 泛化(generalization) .
+ Typically, when training a machine learning model, we have access to a training set, we can compute some error measure on the training set called the training error, and we reduce this training error."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://followb1ind1y.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Regularization for Deep Learning",
+      "item": "https://followb1ind1y.github.io/posts/deep_learning/03_regularization_for_deep_learning/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Regularization for Deep Learning",
+  "name": "Regularization for Deep Learning",
+  "description": "Overfitting, Underfitting and Capacity The central challenge in machine learning is that we must perform well on new, previously unseen inputs—not just those on which our model was trained. The ability to perform well on previously unobserved inputs is called generalization.\n 机器学习的主要挑战是我们的算法必须能够在先前未观测的新输入上表现良好, 而不只是在训练集上表现良好.在先前未观测到的输入上表现良好的能力被称为 泛化(generalization) .\n Typically, when training a machine learning model, we have access to a training set, we can compute some error measure on the training set called the training error, and we reduce this training error.",
+  "keywords": [
+    "L1 Regularization", "L2 Regularization", "Dataset Augmentation", "Noise Injection", "Early Stopping", "Dropout"
+  ],
+  "articleBody": "Overfitting, Underfitting and Capacity The central challenge in machine learning is that we must perform well on new, previously unseen inputs—not just those on which our model was trained. The ability to perform well on previously unobserved inputs is called generalization.\n 机器学习的主要挑战是我们的算法必须能够在先前未观测的新输入上表现良好, 而不只是在训练集上表现良好.在先前未观测到的输入上表现良好的能力被称为 泛化(generalization) .\n Typically, when training a machine learning model, we have access to a training set, we can compute some error measure on the training set called the training error, and we reduce this training error. So far, what we have described is simply an optimization problem. What separates machine learning from optimization is that we want the generalization error, also called the test error, to be low as well. The generalization error is defined as the expected value of the error on a new input. Here the expectation is taken across different possible inputs, drawn from the distribution of inputs we expect the system to encounter in practice.\n 通常情况下, 当我们训练机器学习模型时, 我们可以使用某个训练集, 在训练集上计算一些被称为 训练误差(training error) 的度量误差, 目标是降低训练误差.机器学习和优化不同的地方在于, 我们也希望 泛化误差(generalization error) (也被称为 测试误差(test error) )很低.\n We typically estimate the generalization error of a machine learning model by measuring its performance on a test set of examples that were collected separately from the training set.\nThe train and test data are generated by a probability distribution over datasets called the data generating process. We typically make a set of assumptions known collectively as the i.i.d. assumptions. These assumptions are that the examples in each dataset are independent from each other, and that the train set and test set are identically distributed, drawn from the same probability distribution as each other. This assumption allows us to describe the data generating process with a probability distribution over a single example. The same distribution is then used to generate every train example and every test example. We call that shared underlying distribution the data generating distribution, denoted $p_{data}$. This probabilistic framework and the i.i.d. assumptions allow us to mathematically study the relationship between training error and test error.\nOne immediate connection we can observe between the training and test error is that the expected training error of a randomly selected model is equal to the expected test error of that model. Suppose we have a probability distribution $p(x,y)$ and we sample from it repeatedly to generate the train set and the test set. For some fixed value $w$, the expected training set error is exactly the same as the expected test set error, because both expectations are formed using the same dataset sampling process. The only difference between the two conditions is the name we assign to the dataset we sample.\nOf course, when we use a machine learning algorithm, we do not fix the parameters ahead of time, then sample both datasets. We sample the training set, then use it to choose the parameters to reduce training set error, then sample the test set. Under this process, the expected test error is greater than or equal to the expected value of training error. The factors determining how well a machine learning algorithm will perform are its ability to:\n Make the training error small. Make the gap between training and test error small.  These two factors correspond to the two central challenges in machine learning: underfitting and overfitting. Underfitting occurs when the model is not able to obtain a sufficiently low error value on the training set. Overfitting occurs when the gap between the training error and test error is too large.\n 欠拟合(underfitting) 是指模型不能在训练集上获得足够低的误差. 而 过拟合 (overfitting) 是指训练误差和和测试误差之间的差距太大.\n  We can control whether a model is more likely to overfit or underfit by altering its capacity. Informally, a model’s capacity is its ability to fit a wide variety of functions. Models with low capacity may struggle to fit the training set. Models with high capacity can overfit by memorizing properties of the training set that do not serve them well on the test set.\nOne way to control the capacity of a learning algorithm is by choosing its hypothesis space, the set of functions that the learning algorithm is allowed to select as being the solution. For example, the linear regression algorithm has the set of all linear functions of its input as its hypothesis space. We can generalize linear regression to include polynomials, rather than just linear functions, in its hypothesis space. Doing so increases the model’s capacity.\nWe must remember that while simpler functions are more likely to generalize (to have a small gap between training and test error) we must still choose a sufficiently complex hypothesis to achieve low training error. Typically, training error decreases until it asymptotes to the minimum possible error value as model capacity increases (assuming the error measure has a minimum value). Typically, generalization error has a U-shaped curve as a function of model capacity.\n The No Free Lunch Theorem Learning theory claims that a machine learning algorithm can generalize well from a finite training set of examples. This seems to contradict some basic principles of logic. Inductive reasoning, or inferring general rules from a limited set of examples, is not logically valid. To logically infer a rule describing every member of a set, one must have information about every member of that set.\nIn part, machine learning avoids this problem by offering only probabilistic rules, rather than the entirely certain rules used in purely logical reasoning. Machine learning promises to find rules that are probably correct about most members of the set they concern.\nUnfortunately, even this does not resolve the entire problem. The no free lunch theorem for machine learning (Wolpert, 1996) states that, averaged over all possible data generating distributions, every classification algorithm has the same error rate when classifying previously unobserved points. In other words, in some sense, no machine learning algorithm is universally any better than any other. The most sophisticated algorithm we can conceive of has the same average performance (over all possible tasks) as merely predicting that every point belongs to the same class.\n 机器学习的 没有 免费午餐定理(no free lunch theorem) 表明 (Wolpert, 1996), 在所有可能的数据生成分布上平均之后, 每一个分类算法在未事先观测的点上都有相同的错误率. 换言之, 在某种意义上, 没有一个机器学习算法总是比其他的要好.\n Fortunately, these results hold only when we average over all possible data generating distributions. If we make assumptions about the kinds of probability distributions we encounter in real-world applications, then we can design learning algorithms that perform well on these distributions.\nThis means that the goal of machine learning research is not to seek a universal learning algorithm or the absolute best learning algorithm. Instead, our goal is to understand what kinds of distributions are relevant to the “real world” that an AI agent experiences, and what kinds of machine learning algorithms perform well on data drawn from the kinds of data generating distributions we care about.\nThe no free lunch theorem implies that we must design our machine learning algorithms to perform well on a specific task. We do so by building a set of preferences into the learning algorithm. When these preferences are aligned with the learning problems we ask the algorithm to solve, it performs better.\nWe can regularize a model that learns a function f(x; θ) by adding a penalty called a regularizer to the cost function.\nExpressing preferences for one function over another is a more general way of controlling a model’s capacity than including or excluding members from the hypothesis space. We can think of excluding a function from a hypothesis space as expressing an infinitely strong preference against that function.\nA central problem in machine learning is how to make an algorithm that will perform well not just on the training data, but also on new inputs. Many strategies used in machine learning are explicitly designed to reduce the test error, possibly at the expense of increased training error. These strategies are known collectively as regularization. Regularization is any modification we make to a learning algorithm that is intended to reduce its generalization error but not its training error. Regularization is one of the central concerns of the field of machine learning, rivaled in its importance only by optimization.\n 正则化(regularization) 是指我们修改学习算法，使其降低泛化误差而非训练误差。正则化是机器学习领域的中心问题之一，只有优化能够与其重要性相媲。\n The no free lunch theorem has made it clear that there is no best machine learning algorithm, and, in particular, no best form of regularization. Instead we must choose a form of regularization that is well-suited to the particular task we want to solve.\nParameter Norm Penalties Many regularization approaches are based on limiting the capacity of models, such as neural networks, linear regression, or logistic regression, by adding a parameter norm penalty $\\Omega(\\theta)$ to the objective function $J$. We denote the regularized objective function by $\\tilde{J}$:\n$$ \\tilde{J}(\\theta;X,y) = J(\\theta;X,y) + \\alpha\\Omega(\\theta) \\\\ $$\nwhere $\\alpha \\in [0,\\infty)$ is a hyperparameter that weights the relative contribution of the norm penalty term, $\\Omega$, relative to the standard objective function $J$. Setting $\\alpha$ to 0 results in no regularization. Larger values of $\\alpha$ correspond to more regularization.\nWhen our training algorithm minimizes the regularized objective function $\\tilde{J}$ it will decrease both the original objective $J$ on the training data and some measure of the size of the parameters $\\theta$ (or some subset of the parameters). Different choices for the parameter norm $\\Omega$ can result in different solutions being preferred.\n$L^{2}$ Parameter Regularization $L^{2}$ parameter norm penalty commonly known as weight decay, which is one of the simplest and most common kinds of parameter norm penalty. This regularization strategy drives the weights closer to the origin1 by adding a regularization term:\n$$ \\Omega(\\theta)=\\frac{1}{2}\\lVert w \\rVert_{2}^{2}=\\frac{1}{2}\\sum_{i}w_{i}^{2} $$\nto the objective function. In other academic communities, L2 regularization is also known as ridge regression or Tikhonov regularization.\nWe can gain some insight into the behavior of weight decay regularization by studying the gradient of the regularized objective function. To simplify the presentation, we assume no bias parameter, so $\\theta$ is just $w$. Such a model has the following total objective function:\n$$ \\tilde{J}(\\theta;X,y) = \\frac{\\alpha}{2}w^{\\mathrm{T}}w + J(\\theta;X,y) \\\\ $$\nwith the corresponding parameter gradient\n$$ \\nabla_{w}\\tilde{J}(\\theta;X,y) = \\alpha w + \\nabla_{w}J(\\theta;X,y) \\\\ $$\nTo take a single gradient step to update the weights, we perform this update:\n$$ w \\leftarrow w - \\epsilon(\\alpha w + \\nabla_{w}J(\\theta;X,y)) \\\\ $$\nWritten another way, the update is:\n$$ w \\leftarrow (1 - \\epsilon\\alpha)w - \\epsilon\\nabla_{w}J(\\theta;X,y) \\\\ $$\nWe can see that the addition of the weight decay term has modified the learning rule to multiplicatively shrink the weight vector by a constant factor on each step, just before performing the usual gradient update.\nWe will further simplify the analysis by making a quadratic approximation to the objective function in the neighborhood of the value of the weights that obtains minimal unregularized training cost, $w^{*}=\\arg\\max_{w}J(w)$. If the objective function is truly quadratic, as in the case of fitting a linear regression model with mean squared error, then the approximation is perfect. The approximation $\\hat{J}$ is given by\n$$ \\hat{J}(\\theta) = J(w^{*}) \\frac{1}{2}(w-w^{*})^{\\mathrm{T}}H(w-w^{*}) \\\\ $$\nwhere $H$ is the Hessian matrix of $J$ with respect to $w$ evaluated at $w^{*}$. The minimum of $\\hat{J}$ occurs where its gradient\n$$ \\nabla_{w}\\hat{J}(w) = H(w-w^{*}) $$ is equal to 0.\nTo study the effect of weight decay, we could add the weight decay gradient to the equation. We can now solve for the minimum of the regularized version of $\\hat{J}$. We use the variable $\\tilde{w}$ to represent the location of the minimum.\n$$ \\begin{align*} \\alpha\\tilde{w} + H(\\tilde{w}-w^{*})=0 \\\\ (H+\\alpha I)\\tilde{w} = H w^{*} \\\\ \\tilde{w}=(H+\\alpha I)^{-1} H w^{*} \\\\ \\end{align*} $$\nAs $\\alpha$ approaches 0, the regularized solution $\\tilde{w}$ approaches $w^{*}$. But what happens as $\\alpha$ grows? Because $H$ is real and symmetric, we can decompose it into a diagonal matrix $Lambda$ and an orthonormal basis of eigenvectors, $Q$, such that $H=Q\\Lambda Q^{\\mathrm{T}}$. Applying the decomposition to equation, we obtain:\n$$ \\begin{align*} \\tilde{w}\u0026=(Q\\Lambda Q^{\\mathrm{T}}+\\alpha I)^{-1} Q\\Lambda Q^{\\mathrm{T}} w^{*} \\\\ \u0026=[Q(\\Lambda +\\alpha I)Q^{\\mathrm{T}}]^{-1} Q\\Lambda Q^{\\mathrm{T}} w^{*} \\\\ \u0026=Q(\\Lambda +\\alpha I)^{-1}\\Lambda Q^{\\mathrm{T}} w^{*} \\\\ \\end{align*} $$\nWe see that the effect of weight decay is to rescale $w^{*}$ along the axes defined by the eigenvectors of $H$. Specifically, the component of $w^{*}$ that is aligned with the $i$-th eigenvector of $H$ is rescaled by a factor of\n$$ \\frac{\\lambda_{i}}{\\lambda_{i}+\\alpha} \\\\ $$\nAlong the directions where the eigenvalues of $H$ are relatively large, for example, where $\\lambda_{i} \\gg \\alpha$, the effect of regularization is relatively small. However, components with $\\lambda_{i} \\ll \\alpha$ will be shrunk to have nearly zero magnitude.\n Only directions along which the parameters contribute significantly to reducing the objective function are preserved relatively intact. In directions that do not contribute to reducing the objective function, a small eigenvalue of the Hessian tells us that movement in this direction will not significantly increase the gradient. Components of the weight vector corresponding to such unimportant directions are decayed away through the use of the regularization throughout training.\n$L^{1}$ Parameter Regularization While $L^{2}$ weight decay is the most common form of weight decay, there are other ways to penalize the size of the model parameters. Another option is to use $L^{1}$ regularization.\nFormally, $L^{1}$ regularization on the model parameter $w$ is defined as:\n$$ \\Omega(\\theta) = \\lVert w \\rVert_{1} = \\sum_{i}|w_{i}| \\\\ $$\nthat is, as the sum of absolute values of the individual parameters. We will now discuss the effect of $L^{1}$ regularization on the simple linear regression model, with no bias parameter, that we studied in our analysis of $L^{2}$ regularization. As with $L^{2}$ weight decay, $L^{1}$ weight decay controls the strength of the regularization by scaling the penalty $\\Omega$ using a positive hyperparameter $\\alpha$. Thus, the regularized objective function $\\tilde{J}(\\theta;X,y)$ is given by\n$$ \\tilde{J}(\\theta;X,y) = \\alpha\\lVert w \\rVert_{1} + J(\\theta;X,y) \\\\ $$\nwith the corresponding gradient (actually, sub-gradient):\n$$ \\nabla_{w}\\tilde{J}(\\theta;X,y) = \\alpha \\mathrm{sign}(w) + \\nabla_{w}J(\\theta;X,y) \\\\ $$\nwhere $\\mathrm{sign}(w)$ is simply the sign of $w$ applied element-wise.\n   L0范数：向量中非0元素的个数。 L1范数(Lasso Regularization)：向量中各个元素绝对值的和。 L2范数(Ridge Regression)：向量中各元素平方和求平方根。  L0范数和L1范数都能够达到使 参数稀疏 的目的，但L0范数更难优化求解，L1范数是L1的最优凸相似且更易求解，故得到广泛的应用。 因为 L1 天然的输出稀疏性，把不重要的特征都置为 0，所以它也是一个天然的特征选择器。L2范数主要作用是防止模型过拟合，提高模型的泛化能力。L2 计算起来更方便，而 L1 在特别是非稀疏向量上的计算效率就很低。\n Dataset Augmentation The best way to make a machine learning model generalize better is to train it on more data. Of course, in practice, the amount of data we have is limited. One way to get around this problem is to create fake data and add it to the training set. For some machine learning tasks, it is reasonably straightforward to create new fake data.\nData augmentation could involve increasing the size of the available data set by augmenting them with more input created by random cropping, dilating, rotating, adding a small amount of noise, etc. The idea is to artificially create more data in the hopes that the augmented dataset will be a better representation of the underlying hidden distribution. Since we are limited by the available dataset only, this method generally doesn’t work very well as a regularizer.\n Noise Injection The use of noise applied to the inputs can be considered as a dataset augmentation strategy. For some models, the addition of noise with infinitesimal variance at the input of the model is equivalent to imposing a penalty on the norm of the weights (Bishop, 1995a,b). In the general case, it is important to remember that noise injection can be much more powerful than simply shrinking the parameters, especially when the noise is added to the hidden units.\nAnother way that noise has been used in the service of regularizing models is by adding it to the weights. This technique has been used primarily in the context of recurrent neural networks (Jim et al., 1996; Graves, 2011). This can be interpreted as a stochastic implementation of Bayesian inference over the weights. The Bayesian treatment of learning would consider the model weights to be uncertain and representable via a probability distribution that reflects this uncertainty. Adding noise to the weights is a practical, stochastic way to reflect this uncertainty.\nEarly Stopping When training large models with sufficient representational capacity to overfit the task, we often observe that training error decreases steadily over time, but validation set error begins to rise again. This behavior occurs very reliably.\nThis means we can obtain a model with better validation set error (and thus, hopefully better test set error) by returning to the parameter setting at the point in time with the lowest validation set error. Every time the error on the validation set improves, we store a copy of the model parameters. When the training algorithm terminates, we return these parameters, rather than the latest parameters. The algorithm terminates when no parameters have improved over the best recorded validation error for some pre-specified number of iterations.\nThis strategy is known as early stopping. It is probably the most commonly used form of regularization in deep learning. Its popularity is due both to its effectiveness and its simplicity.\nEarly stopping is a very unobtrusive form of regularization, in that it requires almost no change in the underlying training procedure, the objective function, or the set of allowable parameter values. This means that it is easy to use early stopping without damaging the learning dynamics. This is in contrast to weight decay, where one must be careful not to use too much weight decay and trap the network in a bad local minimum corresponding to a solution with pathologically small weights.\nEarly stopping may be used either alone or in conjunction with other regularization strategies. Even when using regularization strategies that modify the objective function to encourage better generalization, it is rare for the best generalization to occur at a local minimum of the training objective.\nEarly stopping is also useful because it reduces the computational cost of the training procedure. Besides the obvious reduction in cost due to limiting the number of training iterations, it also has the benefit of providing regularization without requiring the addition of penalty terms to the cost function or the computation of the gradients of such additional terms.\n (Left) The solid contour lines indicate the contours of the negative log-likelihood. The dashed line indicates the trajectory taken by SGD beginning from the origin. Rather than stopping at the point $w^{*}$ that minimizes the cost, early stopping results in the trajectory stopping at an earlier point $\\tilde{w}$.\n(Right) An illustration of the effect of $L^{2}$ regularization for comparison. The dashed circles indicate the contours of the $L^{2}$ penalty, which causes the minimum of the total cost to lie nearer the origin than the minimum of the unregularized cost.\nDropout Dropout is used when the training model is a neural network. A neural network consists of multiple hidden layers, where the output of one layer is used as input to the subsequent layer. The subsequent layer modifies the input through learnable parameters (usually by multiplying it by a matrix and adding a bias followed by an activation function). The input flows through the neural network layers until it reaches the final output layer, which is used for prediction.\nEach layer in the neural network consists of various nodes. Nodes from the previous layer are connected to nodes of the subsequent layer. In the dropout method, connections between the nodes of consecutive layers are randomly dropped based on a dropout-ratio (%age of the total connection dropped) and the remaining network is trained in the current iteration. In the next iteration, another set of random connections are dropped.\n The dropout method ensures that the neural network learns a more robust set of features that perform equally well with random subsets of the node selected. By randomly dropping connections, the network is able to learn a better-generalized mapping from input to output hence reducing the over-fitting. The dropout ratio needs to be carefully selected and has a significant impact on the learned model. A good value of the dropout ratio is between 0.25 to 0.4.\nReference [1] Goodfellow, I., Bengio, Y., \u0026 Courville, A. (2016, Nov 18). Deep Learning. https://www.deeplearningbook.org/contents/regularization.html.\n[2] Anwar, A. (2021, April 7). Types of regularization in machine learning. Medium. https://towardsdatascience.com/types-of-regularization-in-machine-learning-eb5ce5f9bf50.\n",
+  "wordCount" : "3279",
+  "inLanguage": "en",
+  "datePublished": "2021-07-25T00:00:00Z",
+  "dateModified": "2021-07-25T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Followb1ind1y"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://followb1ind1y.github.io/posts/deep_learning/03_regularization_for_deep_learning/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Followb1ind1y",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://followb1ind1y.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: #1d1e20;
+                --entry: #2e2e33;
+                --primary: rgba(255, 255, 255, 0.84);
+                --secondary: rgba(255, 255, 255, 0.56);
+                --tertiary: rgba(255, 255, 255, 0.16);
+                --content: rgba(255, 255, 255, 0.74);
+                --hljs-bg: #2e2e33;
+                --code-bg: #37383e;
+                --border: #333;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://followb1ind1y.github.io/" accesskey="h" title="Followb1ind1y (Alt + H)">Followb1ind1y</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://followb1ind1y.github.io/archives" title="Archives">
+                    <span>Archives</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://followb1ind1y.github.io/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://followb1ind1y.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://followb1ind1y.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://followb1ind1y.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://followb1ind1y.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      Regularization for Deep Learning
+    </h1>
+    <div class="post-meta">July 25, 2021&nbsp;·&nbsp;16 min&nbsp;·&nbsp;Followb1ind1y
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <div class="details">Table of Contents</div>
+        </summary>
+        <div class="inner"><ul>
+                <li>
+                    <a href="#overfitting-underfitting-and-capacity" aria-label="Overfitting, Underfitting and Capacity">Overfitting, Underfitting and Capacity</a></li>
+                <li>
+                    <a href="#the-no-free-lunch-theorem" aria-label="The No Free Lunch Theorem">The No Free Lunch Theorem</a></li>
+                <li>
+                    <a href="#parameter-norm-penalties" aria-label="Parameter Norm Penalties">Parameter Norm Penalties</a><ul>
+                        
+                <li>
+                    <a href="#l2-parameter-regularization" aria-label="$L^{2}$ Parameter Regularization"><code>$L^{2}$</code> Parameter Regularization</a></li>
+                <li>
+                    <a href="#l1-parameter-regularization" aria-label="$L^{1}$ Parameter Regularization"><code>$L^{1}$</code> Parameter Regularization</a></li></ul>
+                </li>
+                <li>
+                    <a href="#dataset-augmentation" aria-label="Dataset Augmentation">Dataset Augmentation</a></li>
+                <li>
+                    <a href="#noise-injection" aria-label="Noise Injection">Noise Injection</a></li>
+                <li>
+                    <a href="#early-stopping" aria-label="Early Stopping">Early Stopping</a></li>
+                <li>
+                    <a href="#dropout" aria-label="Dropout">Dropout</a></li>
+                <li>
+                    <a href="#reference" aria-label="Reference">Reference</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="overfitting-underfitting-and-capacity">Overfitting, Underfitting and Capacity<a hidden class="anchor" aria-hidden="true" href="#overfitting-underfitting-and-capacity">#</a></h2>
+<p>The central challenge in machine learning is that we must perform well on new, previously unseen inputs—not just those on which our model was trained. The ability to perform well on previously unobserved inputs is called <strong>generalization</strong>.</p>
+<blockquote>
+<p>机器学习的主要挑战是我们的算法必须能够在先前未观测的新输入上表现良好, 而不只是在训练集上表现良好.在先前未观测到的输入上表现良好的能力被称为 <strong>泛化(generalization)</strong> .</p>
+</blockquote>
+<p>Typically, when training a machine learning model, we have access to a training set, we can compute some error measure on the training set called the <strong>training error</strong>, and we reduce this training error. So far, what we have described is simply an optimization problem. What separates machine learning from optimization is that we want the <strong>generalization error</strong>, also called the <strong>test error</strong>, to be low as well. The generalization error is defined as the expected value of the error on a new input. Here the expectation is taken across different possible inputs, drawn from the distribution of inputs we expect the system to encounter in practice.</p>
+<blockquote>
+<p>通常情况下, 当我们训练机器学习模型时, 我们可以使用某个训练集, 在训练集上计算一些被称为 <strong>训练误差(training error)</strong> 的度量误差, 目标是降低训练误差.机器学习和优化不同的地方在于, 我们也希望 <strong>泛化误差(generalization error)</strong> (也被称为 <strong>测试误差(test error)</strong> )很低.</p>
+</blockquote>
+<p>We typically estimate the generalization error of a machine learning model by measuring its performance on a <strong>test set</strong> of examples that were collected separately from the training set.</p>
+<p>The train and test data are generated by a probability distribution over datasets called the <strong>data generating process</strong>. We typically make a set of assumptions known collectively as the <strong>i.i.d. assumptions</strong>. These assumptions are that the examples in each dataset are <strong>independent</strong> from each other, and that the train set and test set are <strong>identically distributed</strong>, drawn from the same probability distribution as each other. This assumption allows us to describe the data generating process with a probability distribution over a single example. The same distribution is then used to generate every train example and every test example. We call that shared underlying distribution the <strong>data generating distribution</strong>, denoted <code>$p_{data}$</code>. This probabilistic framework and the i.i.d. assumptions allow us to mathematically study the relationship between training error and test error.</p>
+<p>One immediate connection we can observe between the training and test error is that the expected training error of a randomly selected model is equal to the expected test error of that model. Suppose we have a probability distribution <code>$p(x,y)$</code> and we sample from it repeatedly to generate the train set and the test set. For some fixed value <code>$w$</code>, the expected training set error is exactly the same as the expected test set error, because both expectations are formed using the same dataset sampling process. The only difference between the two conditions is the name we assign to the dataset we sample.</p>
+<p>Of course, when we use a machine learning algorithm, we do not fix the parameters ahead of time, then sample both datasets. We sample the training set, then use it to choose the parameters to reduce training set error, then sample the test set. Under this process, the expected test error is greater than or equal to the expected value of training error. The factors determining how well a machine learning algorithm will perform are its ability to:</p>
+<ol>
+<li><strong>Make the training error small.</strong></li>
+<li><strong>Make the gap between training and test error small.</strong></li>
+</ol>
+<p>These two factors correspond to the two central challenges in machine learning: <strong>underfitting</strong> and <strong>overfitting</strong>. Underfitting occurs when the model is not able to obtain a sufficiently low error value on the training set. Overfitting occurs when the gap between the training error and test error is too large.</p>
+<blockquote>
+<p><strong>欠拟合(underfitting)</strong> 是指模型不能在训练集上获得足够低的误差. 而 <strong>过拟合 (overfitting)</strong> 是指训练误差和和测试误差之间的差距太大.</p>
+</blockquote>
+<div align="center">
+  <img src="/img_DL/ML_Basics_04_Underfitting_Overfitting.PNG" width=500px/>
+</div>
+<br>
+<p>We can control whether a model is more likely to overfit or underfit by altering its <strong>capacity</strong>. Informally, a model’s capacity is its ability to fit a wide variety of functions. Models with low capacity may struggle to fit the training set. Models with high capacity can overfit by memorizing properties of the training set that do not serve them well on the test set.</p>
+<p>One way to control the capacity of a learning algorithm is by choosing its <strong>hypothesis space</strong>, the set of functions that the learning algorithm is allowed to select as being the solution. For example, the linear regression algorithm has the set of all linear functions of its input as its hypothesis space. We can generalize linear regression to include polynomials, rather than just linear functions, in its hypothesis space. Doing so increases the model’s capacity.</p>
+<p>We must remember that while simpler functions are more likely to generalize (to have a small gap between training and test error) we must still choose a sufficiently complex hypothesis to achieve low training error. Typically, training error decreases until it asymptotes to the minimum possible error value as model capacity increases (assuming the error measure has a minimum value). Typically, generalization error has a U-shaped curve as a function of model capacity.</p>
+<div align="center">
+  <img src="/img_DL/ML_Basics_04_Relationship_between_Capacity_Error.PNG" width=600px/>
+</div>
+<br>
+<h2 id="the-no-free-lunch-theorem">The No Free Lunch Theorem<a hidden class="anchor" aria-hidden="true" href="#the-no-free-lunch-theorem">#</a></h2>
+<p>Learning theory claims that a machine learning algorithm can generalize well from a finite training set of examples. This seems to contradict some basic principles of logic. Inductive reasoning, or inferring general rules from a limited set of examples, is not logically valid. To logically infer a rule describing every member of a set, one must have information about every member of that set.</p>
+<p>In part, machine learning avoids this problem by offering only probabilistic rules, rather than the entirely certain rules used in purely logical reasoning. Machine learning promises to find rules that are probably correct about most members of the set they concern.</p>
+<p>Unfortunately, even this does not resolve the entire problem. The <strong>no free lunch theorem</strong> for machine learning (Wolpert, 1996) states that, averaged over all possible data generating distributions, every classification algorithm has the same error rate when classifying previously unobserved points. In other words, in some sense, no machine learning algorithm is universally any better than any other. The most sophisticated algorithm we can conceive of has the same average performance (over all possible tasks) as merely predicting that every point belongs to the same class.</p>
+<blockquote>
+<p>机器学习的 没有 <strong>免费午餐定理(no free lunch theorem)</strong> 表明 (Wolpert, 1996), 在所有可能的数据生成分布上平均之后, 每一个分类算法在未事先观测的点上都有相同的错误率. 换言之, 在某种意义上, 没有一个机器学习算法总是比其他的要好.</p>
+</blockquote>
+<p>Fortunately, these results hold only when we average over all possible data generating distributions. If we make assumptions about the kinds of probability distributions we encounter in real-world applications, then we can design learning algorithms that perform well on these distributions.</p>
+<p>This means that the goal of machine learning research is not to seek a universal learning algorithm or the absolute best learning algorithm. Instead, our goal is to understand what kinds of distributions are relevant to the &ldquo;real world&rdquo; that an AI agent experiences, and what kinds of machine learning algorithms perform well on data drawn from the kinds of data generating distributions we care about.</p>
+<p>The no free lunch theorem implies that we must design our machine learning algorithms to perform well on a specific task. We do so by building a set of preferences into the learning algorithm. When these preferences are aligned with the learning problems we ask the algorithm to solve, it performs better.</p>
+<p>We can regularize a model that learns a function f(x; θ) by adding a penalty called a <strong>regularizer</strong> to the cost function.</p>
+<p>Expressing preferences for one function over another is a more general way of controlling a model’s capacity than including or excluding members from the hypothesis space. We can think of excluding a function from a hypothesis space as expressing an infinitely strong preference against that function.</p>
+<p>A central problem in machine learning is how to make an algorithm that will perform well not just on the training data, but also on new inputs. Many strategies used in machine learning are explicitly designed to <strong>reduce the test error</strong>, possibly at the expense of increased <strong>training error</strong>. These strategies are known collectively as <strong>regularization</strong>. <em>Regularization is any modification we make to a learning algorithm that is intended to reduce its generalization error but not its training error</em>. Regularization is one of the central concerns of the field of machine learning, rivaled in its importance only by optimization.</p>
+<blockquote>
+<p><strong>正则化(regularization)</strong> 是指我们修改学习算法，使其降低泛化误差而非训练误差。正则化是机器学习领域的中心问题之一，只有优化能够与其重要性相媲。</p>
+</blockquote>
+<p>The no free lunch theorem has made it clear that there is no best machine learning algorithm, and, in particular, no best form of regularization. Instead we must choose a form of regularization that is well-suited to the particular task we want to solve.</p>
+<h2 id="parameter-norm-penalties">Parameter Norm Penalties<a hidden class="anchor" aria-hidden="true" href="#parameter-norm-penalties">#</a></h2>
+<p>Many regularization approaches are based on limiting the capacity of models, such as neural networks, linear regression, or logistic regression, by adding a parameter norm penalty <code>$\Omega(\theta)$</code> to the objective function <code>$J$</code>. We denote the regularized objective function by <code>$\tilde{J}$</code>:</p>
+<p><code>$$ \tilde{J}(\theta;X,y) = J(\theta;X,y) + \alpha\Omega(\theta) \\ $$</code></p>
+<p>where <code>$\alpha \in [0,\infty)$</code> is a hyperparameter that weights the relative contribution of the norm penalty term, <code>$\Omega$</code>, relative to the standard objective function <code>$J$</code>. Setting <code>$\alpha$</code> to 0 results in no regularization. Larger values of <code>$\alpha$</code> correspond to more regularization.</p>
+<p>When our training algorithm minimizes the regularized objective function <code>$\tilde{J}$</code> it will decrease both the original objective <code>$J$</code> on the training data and some measure of the size of the parameters <code>$\theta$</code> (or some subset of the parameters). Different choices for the parameter norm <code>$\Omega$</code> can result in different solutions being preferred.</p>
+<h3 id="l2-parameter-regularization"><code>$L^{2}$</code> Parameter Regularization<a hidden class="anchor" aria-hidden="true" href="#l2-parameter-regularization">#</a></h3>
+<p><code>$L^{2}$</code> parameter norm penalty commonly known as <strong>weight decay</strong>, which is one of the simplest and most common kinds of parameter norm penalty. This regularization strategy drives the weights closer to the origin1 by adding a regularization term:</p>
+<p><code>$$ \Omega(\theta)=\frac{1}{2}\lVert w \rVert_{2}^{2}=\frac{1}{2}\sum_{i}w_{i}^{2} $$</code></p>
+<p>to the objective function. In other academic communities, L2 regularization is also known as <strong>ridge regression</strong> or <strong>Tikhonov regularization</strong>.</p>
+<p>We can gain some insight into the behavior of weight decay regularization by studying the gradient of the regularized objective function. To simplify the presentation, we assume no bias parameter, so <code>$\theta$</code> is just <code>$w$</code>. Such a model has the following total objective function:</p>
+<p><code>$$ \tilde{J}(\theta;X,y) = \frac{\alpha}{2}w^{\mathrm{T}}w + J(\theta;X,y) \\ $$</code></p>
+<p>with the corresponding parameter gradient</p>
+<p><code>$$ \nabla_{w}\tilde{J}(\theta;X,y) = \alpha w + \nabla_{w}J(\theta;X,y) \\ $$</code></p>
+<p>To take a single gradient step to update the weights, we perform this update:</p>
+<p><code>$$ w \leftarrow w - \epsilon(\alpha w + \nabla_{w}J(\theta;X,y)) \\ $$</code></p>
+<p>Written another way, the update is:</p>
+<p><code>$$ w \leftarrow (1 - \epsilon\alpha)w  - \epsilon\nabla_{w}J(\theta;X,y) \\ $$</code></p>
+<p>We can see that the addition of the weight decay term has modified the learning rule to multiplicatively shrink the weight vector by a constant factor on each step, just before performing the usual gradient update.</p>
+<p>We will further simplify the analysis by making a quadratic approximation to the objective function in the neighborhood of the value of the weights that obtains minimal unregularized training cost, <code>$w^{*}=\arg\max_{w}J(w)$</code>. If the objective function is truly quadratic, as in the case of fitting a linear regression model with mean squared error, then the approximation is perfect. The approximation <code>$\hat{J}$</code> is given by</p>
+<p><code>$$ \hat{J}(\theta) = J(w^{*}) \frac{1}{2}(w-w^{*})^{\mathrm{T}}H(w-w^{*})  \\ $$</code></p>
+<p>where <code>$H$</code> is the Hessian matrix of <code>$J$</code> with respect to <code>$w$</code> evaluated at <code>$w^{*}$</code>. The minimum of <code>$\hat{J}$</code> occurs where its gradient</p>
+<p><code>$$ \nabla_{w}\hat{J}(w) = H(w-w^{*}) $$</code>
+is equal to 0.</p>
+<p>To study the effect of weight decay, we could add the weight decay gradient to the equation. We can now solve for the minimum of the regularized version of <code>$\hat{J}$</code>. We use the variable <code>$\tilde{w}$</code> to represent the location of the minimum.</p>
+<p><code>$$ \begin{align*} \alpha\tilde{w} + H(\tilde{w}-w^{*})=0 \\ (H+\alpha I)\tilde{w} = H w^{*} \\ \tilde{w}=(H+\alpha I)^{-1} H w^{*} \\ \end{align*} $$</code></p>
+<p>As <code>$\alpha$</code> approaches 0, the regularized solution <code>$\tilde{w}$</code> approaches <code>$w^{*}$</code>. But what happens as <code>$\alpha$</code> grows? Because <code>$H$</code> is real and symmetric, we can decompose it into a diagonal matrix <code>$Lambda$</code> and an orthonormal basis of eigenvectors, <code>$Q$</code>, such that <code>$H=Q\Lambda Q^{\mathrm{T}}$</code>. Applying the decomposition to equation, we obtain:</p>
+<p><code>$$ \begin{align*} \tilde{w}&amp;=(Q\Lambda Q^{\mathrm{T}}+\alpha I)^{-1} Q\Lambda Q^{\mathrm{T}} w^{*} \\ &amp;=[Q(\Lambda +\alpha I)Q^{\mathrm{T}}]^{-1} Q\Lambda Q^{\mathrm{T}} w^{*} \\ &amp;=Q(\Lambda +\alpha I)^{-1}\Lambda Q^{\mathrm{T}} w^{*} \\ \end{align*} $$</code></p>
+<p>We see that the effect of weight decay is to rescale <code>$w^{*}$</code> along the axes defined by the eigenvectors of <code>$H$</code>. Specifically, the component of <code>$w^{*}$</code> that is aligned with the <code>$i$</code>-th eigenvector of <code>$H$</code> is rescaled by a factor of</p>
+<p><code>$$ \frac{\lambda_{i}}{\lambda_{i}+\alpha} \\ $$</code></p>
+<p>Along the directions where the eigenvalues of <code>$H$</code> are relatively large, for example, where <code>$\lambda_{i} \gg \alpha$</code>, the effect of regularization is relatively small. However, components with <code>$\lambda_{i} \ll \alpha$</code> will be shrunk to have nearly zero magnitude.</p>
+<div align="center">
+  <img src="/img_DL/03_L2_Regular.PNG" width=400px/>
+</div>
+<br>
+<p>Only directions along which the parameters contribute significantly to reducing the objective function are preserved relatively intact. In directions that do not contribute to reducing the objective function, a small eigenvalue of the Hessian tells us that movement in this direction will not significantly increase the gradient. Components of the weight vector corresponding to such unimportant directions are decayed away through the use of the regularization throughout training.</p>
+<h3 id="l1-parameter-regularization"><code>$L^{1}$</code> Parameter Regularization<a hidden class="anchor" aria-hidden="true" href="#l1-parameter-regularization">#</a></h3>
+<p>While <code>$L^{2}$</code> weight decay is the most common form of weight decay, there are other ways to penalize the size of the model parameters. Another option is to use <code>$L^{1}$</code> regularization.</p>
+<p>Formally, <code>$L^{1}$</code> regularization on the model parameter <code>$w$</code> is defined as:</p>
+<p><code>$$ \Omega(\theta) = \lVert w \rVert_{1} = \sum_{i}|w_{i}| \\ $$</code></p>
+<p>that is, as the sum of absolute values of the individual parameters. We will now discuss the effect of <code>$L^{1}$</code> regularization on the simple linear regression model, with no bias parameter, that we studied in our analysis of <code>$L^{2}$</code> regularization. As with <code>$L^{2}$</code> weight decay, <code>$L^{1}$</code> weight decay controls the strength of the regularization by scaling the penalty <code>$\Omega$</code> using a positive hyperparameter <code>$\alpha$</code>. Thus, the regularized objective function <code>$\tilde{J}(\theta;X,y)$</code> is given by</p>
+<p><code>$$ \tilde{J}(\theta;X,y) = \alpha\lVert w \rVert_{1} + J(\theta;X,y) \\ $$</code></p>
+<p>with the corresponding gradient (actually, sub-gradient):</p>
+<p><code>$$ \nabla_{w}\tilde{J}(\theta;X,y) = \alpha \mathrm{sign}(w) + \nabla_{w}J(\theta;X,y) \\ $$</code></p>
+<p>where <code>$\mathrm{sign}(w)$</code> is simply the sign of <code>$w$</code> applied element-wise.</p>
+<div align="center">
+  <img src="/img_DL/03_L1_Regular.PNG" width=400px/>
+</div>
+<br>
+<blockquote>
+<ul>
+<li><strong>L0范数</strong>：向量中非0元素的个数。</li>
+<li><strong>L1范数(Lasso Regularization)</strong>：向量中各个元素绝对值的和。</li>
+<li><strong>L2范数(Ridge Regression)</strong>：向量中各元素平方和求平方根。</li>
+</ul>
+<p>L0范数和L1范数都能够达到使 <strong>参数稀疏</strong> 的目的，但L0范数更难优化求解，L1范数是L1的最优凸相似且更易求解，故得到广泛的应用。 因为 L1 天然的输出稀疏性，把不重要的特征都置为 0，所以它也是一个天然的<strong>特征选择器</strong>。L2范数主要作用是防止模型过拟合，提高模型的泛化能力。L2 计算起来更方便，而 L1 在特别是非稀疏向量上的计算效率就很低。</p>
+</blockquote>
+<h2 id="dataset-augmentation">Dataset Augmentation<a hidden class="anchor" aria-hidden="true" href="#dataset-augmentation">#</a></h2>
+<p>The best way to make a machine learning model generalize better is to train it on more data. Of course, in practice, the amount of data we have is limited. One way to get around this problem is to create fake data and add it to the training set. For some machine learning tasks, it is reasonably straightforward to create new fake data.</p>
+<p>Data augmentation could involve increasing the size of the available data set by augmenting them with more input created by random cropping, dilating, rotating, adding a small amount of noise, etc. The idea is to artificially create more data in the hopes that the augmented dataset will be a better representation of the underlying hidden distribution. Since we are limited by the available dataset only, this method <strong>generally doesn’t work very well as a regularizer</strong>.</p>
+<div align="center">
+  <img src="/img_DL/03_Dataset_Augmentation.PNG" width=600px/>
+</div>
+<br>
+<h2 id="noise-injection">Noise Injection<a hidden class="anchor" aria-hidden="true" href="#noise-injection">#</a></h2>
+<p>The use of noise applied to the inputs can be considered as a dataset augmentation strategy. For some models, <strong>the addition of noise with infinitesimal variance at the input of the model</strong> is equivalent to imposing a penalty on the norm of the weights (Bishop, 1995a,b). In the general case, it is important to remember that noise injection can be much more powerful than simply shrinking the parameters, especially when the noise is added to the hidden units.</p>
+<p>Another way that noise has been used in the service of regularizing models is by <strong>adding it to the weights</strong>. This technique has been used primarily in the context of recurrent neural networks (Jim et al., 1996; Graves, 2011). This can be interpreted as a stochastic implementation of Bayesian inference over the
+weights. The Bayesian treatment of learning would consider the model weights to be uncertain and representable via a probability distribution that reflects this uncertainty. Adding noise to the weights is a practical, stochastic way to reflect this uncertainty.</p>
+<h2 id="early-stopping">Early Stopping<a hidden class="anchor" aria-hidden="true" href="#early-stopping">#</a></h2>
+<p>When training large models with sufficient representational capacity to overfit the task, we often observe that training error decreases steadily over time, but validation set error begins to rise again. This behavior occurs very reliably.</p>
+<p>This means we can obtain a model with better validation set error (and thus, hopefully better test set error) by returning to the parameter setting at the point in time with the lowest validation set error. Every time the error on the validation set improves, we store a copy of the model parameters. When the training algorithm terminates, we return these parameters, rather than the latest parameters. The algorithm terminates when no parameters have improved over the best recorded validation error for some pre-specified number of iterations.</p>
+<p>This strategy is known as <strong>early stopping</strong>. It is probably the most commonly used form of regularization in deep learning. Its popularity is due both to its effectiveness and its simplicity.</p>
+<p>Early stopping is a very unobtrusive form of regularization, in that it requires almost no change in the underlying training procedure, the objective function, or the set of allowable parameter values. This means that it is easy to use early stopping without damaging the learning dynamics. This is in contrast to weight decay, where one must be careful not to use too much weight decay and trap the network in a bad local minimum corresponding to a solution with pathologically small weights.</p>
+<p>Early stopping may be used either alone or in conjunction with other regularization strategies. Even when using regularization strategies that modify the objective function to encourage better generalization, it is rare for the best generalization to occur at a local minimum of the training objective.</p>
+<p>Early stopping is also useful because it reduces the computational cost of the training procedure. Besides the obvious reduction in cost due to limiting the number of training iterations, it also has the benefit of providing regularization without requiring the addition of penalty terms to the cost function or the computation of the gradients of such additional terms.</p>
+<div align="center">
+  <img src="/img_DL/03_Early_Stopping.PNG" width=500px/>
+</div>
+<br>
+<p><strong>(<em>Left</em>)</strong> The solid contour lines indicate the contours of the negative log-likelihood. The dashed line indicates the trajectory taken by SGD beginning from the origin. Rather than stopping at the point <code>$w^{*}$</code> that minimizes the cost, early stopping results in the trajectory stopping at an earlier point <code>$\tilde{w}$</code>.</p>
+<p><strong>(<em>Right</em>)</strong> An illustration of the effect of <code>$L^{2}$</code> regularization for comparison. The dashed circles indicate the contours of the <code>$L^{2}$</code> penalty, which causes the minimum of the total cost to lie nearer the origin than the minimum of the unregularized cost.</p>
+<h2 id="dropout">Dropout<a hidden class="anchor" aria-hidden="true" href="#dropout">#</a></h2>
+<p>Dropout is used when the training model is a neural network. A neural network consists of multiple hidden layers, where the output of one layer is used as input to the subsequent layer. The subsequent layer modifies the input through learnable parameters (usually by multiplying it by a matrix and adding a bias followed by an activation function). The input flows through the neural network layers until it reaches the final output layer, which is used for prediction.</p>
+<p>Each layer in the neural network consists of various nodes. Nodes from the previous layer are connected to nodes of the subsequent layer. In the dropout method, connections between the nodes of consecutive layers are randomly dropped based on a dropout-ratio (%age of the total connection dropped) and the remaining network is trained in the current iteration. In the next iteration, another set of random connections are dropped.</p>
+<div align="center">
+  <img src="/img_DL/03_Dropout.PNG" width=600px/>
+</div>
+<br>
+<p>The dropout method ensures that the neural network learns a more robust set of features that perform equally well with random subsets of the node selected. By randomly dropping connections, the network is able to learn a better-generalized mapping from input to output hence reducing the over-fitting. The dropout ratio needs to be carefully selected and has a significant impact on the learned model. A good value of the dropout ratio is between 0.25 to 0.4.</p>
+<h2 id="reference">Reference<a hidden class="anchor" aria-hidden="true" href="#reference">#</a></h2>
+<p>[1]  Goodfellow, I., Bengio, Y., &amp; Courville, A. (2016, Nov 18). Deep Learning. <a href="https://www.deeplearningbook.org/contents/regularization.html">https://www.deeplearningbook.org/contents/regularization.html</a>.</p>
+<p>[2] Anwar, A. (2021, April 7). Types of regularization in machine learning. Medium. <a href="https://towardsdatascience.com/types-of-regularization-in-machine-learning-eb5ce5f9bf50">https://towardsdatascience.com/types-of-regularization-in-machine-learning-eb5ce5f9bf50</a>.</p>
+
+</div>
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://followb1ind1y.github.io/tags/l1-regularization/">L1 Regularization</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/l2-regularization/">L2 Regularization</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/dataset-augmentation/">Dataset Augmentation</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/noise-injection/">Noise Injection</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/early-stopping/">Early Stopping</a></li>
+      <li><a href="https://followb1ind1y.github.io/tags/dropout/">Dropout</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://followb1ind1y.github.io/posts/deep_learning/04_optimization_methods_for_deep_learning/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>Optimization Methods for Deep Learning</span>
+  </a>
+  <a class="next" href="https://followb1ind1y.github.io/posts/deep_learning/02_radial_basis_function_neural_networks/">
+    <span class="title">Next Page »</span>
+    <br>
+    <span>Neural Network: Radial Basis Function Neural Networks (RBN)</span>
+  </a>
+</nav>
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Regularization for Deep Learning on twitter"
+        href="https://twitter.com/intent/tweet/?text=Regularization%20for%20Deep%20Learning&amp;url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f03_regularization_for_deep_learning%2f&amp;hashtags=L1Regularization%2cL2Regularization%2cDatasetAugmentation%2cNoiseInjection%2cEarlyStopping%2cDropout">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Regularization for Deep Learning on linkedin"
+        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f03_regularization_for_deep_learning%2f&amp;title=Regularization%20for%20Deep%20Learning&amp;summary=Regularization%20for%20Deep%20Learning&amp;source=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f03_regularization_for_deep_learning%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Regularization for Deep Learning on reddit"
+        href="https://reddit.com/submit?url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f03_regularization_for_deep_learning%2f&title=Regularization%20for%20Deep%20Learning">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Regularization for Deep Learning on facebook"
+        href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f03_regularization_for_deep_learning%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Regularization for Deep Learning on whatsapp"
+        href="https://api.whatsapp.com/send?text=Regularization%20for%20Deep%20Learning%20-%20https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f03_regularization_for_deep_learning%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Regularization for Deep Learning on telegram"
+        href="https://telegram.me/share/url?text=Regularization%20for%20Deep%20Learning&amp;url=https%3a%2f%2ffollowb1ind1y.github.io%2fposts%2fdeep_learning%2f03_regularization_for_deep_learning%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main>
+    <footer class="footer">
+    <span>&copy; 2022 <a href="https://followb1ind1y.github.io/">Followb1ind1y</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+    menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script src="//yihui.org/js/math-code.js"></script>
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+
+</html>
