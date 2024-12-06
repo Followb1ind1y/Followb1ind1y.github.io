@@ -8,9 +8,7 @@ weight: 2
 
 Binary Logistic Regression is one of the most simple and commonly used Machine Learning algorithms for **two-class classification**. It is easy to implement and can be used as the baseline for any binary classification problem. Its basic fundamental concepts are also constructive in deep learning. Logistic regression describes and estimates the relationship between one dependent binary variable and independent variables.
 
-{{% hint warning %}}
-"分类"是应用 **逻辑回归(Logistic Regression)** 的目的和结果, 但中间过程依旧是"回归". 通过逻辑回归模型, 我们得到的计算结果是0-1之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个可能性加一个阈值, 就成了分类. 例如, 可能性大于 0.5 即记为 1, 可能性小于 0.5 则记为 0.
-{{% /hint %}}
+>"分类"是应用 **逻辑回归(Logistic Regression)** 的目的和结果, 但中间过程依旧是"回归". 通过逻辑回归模型, 我们得到的计算结果是0-1之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个可能性加一个阈值, 就成了分类. 例如, 可能性大于 0.5 即记为 1, 可能性小于 0.5 则记为 0.
 
 <br>
 
