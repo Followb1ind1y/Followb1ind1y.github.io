@@ -1,0 +1,97 @@
+<!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content='Binary Logistic Regression is one of the most simple and commonly used Machine Learning algorithms for two-class classification. It is easy to implement and can be used as the baseline for any binary classification problem. Its basic fundamental concepts are also constructive in deep learning. Logistic regression describes and estimates the relationship between one dependent binary variable and independent variables.
+
+&ldquo;分类"是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是"回归&rdquo;. 通过逻辑回归模型, 我们得到的计算结果是0-1之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个可能性加一个阈值, 就成了分类. 例如, 可能性大于 0.5 即记为 1, 可能性小于 0.5 则记为 0.'><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/posts/03_logistic_regression/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Logistic Regression"><meta property="og:description" content='Binary Logistic Regression is one of the most simple and commonly used Machine Learning algorithms for two-class classification. It is easy to implement and can be used as the baseline for any binary classification problem. Its basic fundamental concepts are also constructive in deep learning. Logistic regression describes and estimates the relationship between one dependent binary variable and independent variables.
+“分类"是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是"回归”. 通过逻辑回归模型, 我们得到的计算结果是0-1之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个可能性加一个阈值, 就成了分类. 例如, 可能性大于 0.5 即记为 1, 可能性小于 0.5 则记为 0.'><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-05-11T00:00:00+00:00"><meta property="article:modified_time" content="2021-05-11T00:00:00+00:00"><meta property="article:tag" content="Machine Learning"><meta property="article:tag" content="Logistic Regression"><title>Logistic Regression | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/posts/03_logistic_regression/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.5c62365d2013d7aae52841ff775803480aac2073645f5f6565920e3aad4cb99c.js integrity="sha256-XGI2XSAT16rlKEH/d1gDSAqsIHNkX19lZZIOOq1MuZw=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
+<label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
+<label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
+<label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><input type=checkbox id=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class=toggle>
+<label for=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class="flex justify-between"><a href=/docs/deep-learning/computer-vision/>Computer Vision</a></label><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
+<label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Logistic Regression</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#logistic-regression>Logistic Regression</a></li><li><a href=#newtonraphson-method-for-binary-logistic-regression>Newton‐Raphson Method for Binary Logistic Regression</a></li><li><a href=#other-types-of-logistic-regression>Other types of Logistic Regression</a><ul><li><a href=#multinomial-logistic-regression>Multinomial Logistic Regression</a></li><li><a href=#ordinal-logistic-regression>Ordinal Logistic Regression</a></li></ul></li><li><a href=#references>References</a></li></ul></nav></aside></header><article class="markdown book-post"><h2>Logistic Regression</h2><div class="flex align-center text-small book-post-date"><img src=/svg/calendar.svg class=book-icon alt>
+<span>May 11, 2021</span></div><div class=text-small><a href=/categories/data-science/>Data Science</a>,
+<a href=/categories/machine-learning/>Machine Learning</a></div><div class=text-small><a href=/tags/machine-learning/>Machine Learning</a>,
+<a href=/tags/logistic-regression/>Logistic Regression</a></div><div class=book-post-content><p>Binary Logistic Regression is one of the most simple and commonly used Machine Learning algorithms for <strong>two-class classification</strong>. It is easy to implement and can be used as the baseline for any binary classification problem. Its basic fundamental concepts are also constructive in deep learning. Logistic regression describes and estimates the relationship between one dependent binary variable and independent variables.</p><blockquote class="book-hint warning"><p>&ldquo;分类"是应用 <strong>逻辑回归(Logistic Regression)</strong> 的目的和结果, 但中间过程依旧是"回归&rdquo;. 通过逻辑回归模型, 我们得到的计算结果是0-1之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个可能性加一个阈值, 就成了分类. 例如, 可能性大于 0.5 即记为 1, 可能性小于 0.5 则记为 0.</p></blockquote><br><div align=center><img src=/posts/images/3_Linear_vs_Logistic.PNG width=500px/></div><br><p>The classification problem is just like the regression problem, except that the values we now want to predict take on only a small number of discrete values. For now, we will focus on the binary classification problem in which
+<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(y\)
+</span>can take on only two values, 0 and 1. (Most of what we say here will also generalize to the multiple-class case.)</p><span>\[
+log\frac{p}{1-p} = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{2} + \beta_{3}x_{3} + \cdot\cdot\cdot + \beta_{n}x_{n} = \beta^{T}x \\
+\]
+</span><span>\[
+\begin{align*}
+P(y = 1) &= p = \frac{e^{\beta^{T}x}}{1+e^{\beta^{T}x}} \\
+P(y = 0) &= 1 - p = \frac{1}{1+e^{\beta^{T}x}}
+\end{align*}
+\]</span><p>We could approach the classification problem ignoring the fact that <span>\(y\)
+</span>is discrete-valued, and use our old linear regression algorithm to try to predict <span>\(y\)
+</span>given <span>\(x\)
+</span>. However, it is easy to construct examples where this method performs very poorly. Intuitively, it also doesn’t make sense for <span>\(h_{\theta}(x)\)
+</span>to take values larger than 1 or smaller than 0 when we know that <span>\(y \in {0, 1}\)
+</span>. To fix this, let’s change the form for our hypotheses <span>\(h_{\theta}(x)\)
+</span>to satisfy <span>\(0 \leq h_{\theta}(x) \leq 1\)
+</span>This is accomplished by plugging <span>\(\theta^{T}x\)
+</span>into the Logistic Function. Our new form uses the &ldquo;<strong>Sigmoid Function</strong>,&rdquo; also called the &ldquo;<strong>Logistic Function</strong>&rdquo;:</p><span>\[
+f(x) = \frac{1}{1+e^{-(x)}} \\
+\]</span><div align=center><img src=/posts/images/3_Sigmoid_Function.PNG width=500px/></div><br><h2 id=logistic-regression>Logistic Regression
+<a class=anchor href=#logistic-regression>#</a></h2><p>First we need to define a <strong>Probability Mass Function:</strong></p><span>\[
+\begin{align*}
+&\ \ \ \ \ \ \ \ \ \ P(Y=1|X=x) = \frac{e^{\beta^{T}x}}{1+e^{\beta^{T}x}} \\
+&\ \ \ \ \ \ \ \ \ \ P(Y=0|X=x) = 1 - \frac{e^{\beta^{T}x}}{1+e^{\beta^{T}x}} = \frac{1}{1+e^{\beta^{T}x}} \\
+&\Rightarrow \ \ \ \ P(Y \ |X=x_{i}) = (\frac{e^{\beta^{T}x_{i}}}{1+e^{\beta^{T}x_{i}}})^{y_{i}} (\frac{1}{1+e^{\beta^{T}x_{i}}})^{1-y_{i}} \\
+\end{align*}
+\]</span><p>Naturally, we want to maximize the right-hand-side of the above statement. We will use <strong>Maximun Likelihood Estimation(MLE)</strong> to find <span>\(\beta\)
+</span>:</p><span>\[
+\hat{\beta}_{MLE}= \arg\max_{\beta} L(\beta) \\
+\]
+</span><span>\[
+L(\beta) = \prod_{i=1}^n P(Y=y_{i} |x_{i}) = \prod_{i=1}^n (\frac{e^{\beta^{T}x_{i}}}{1+e^{\beta^{T}x_{i}}})^{y_{i}} (\frac{1}{1+e^{\beta^{T}x_{i}}})^{1-y_{i}} \\
+\]
+</span><span>\[
+\begin{align*}
+l(\beta) = log\ L(\beta) &= \sum_{i=1}^n y_{i}\left[\beta^{T}x_{i} - log(1+e^{\beta^{T}x_{i}})] + (1-y_{i})[-log(1+e^{\beta^{T}x_{i}})\right] \\
+&=\sum_{i=1}^n y_{i}\beta^{T}x_{i}- log(1+e^{\beta^{T}x_{i}}) \\
+\end{align*}
+\]</span><br><h2 id=newtonraphson-method-for-binary-logistic-regression>Newton‐Raphson Method for Binary Logistic Regression
+<a class=anchor href=#newtonraphson-method-for-binary-logistic-regression>#</a></h2><p>Newton’s Method is an iterative equation solver: it is an algorithm to find the roots of a convex function. Equivalently, the method solves for root of the derivative of the convex function. The idea behind this method is ro use a quadratic approximate of the convex function and solve for its minimum at each step. For a convex function <span>\(f(x)\)
+</span>, the step taken in each iteration is <span>\(-(\nabla^{2}f(x))^{-1}\nabla f(x)\)
+</span>. while <span>\(\lVert\nabla f(\beta)\rVert > \varepsilon\)
+</span>:</p><span>\[
+\beta^{new} = \beta^{old}-(\nabla^{2}f(x))^{-1}\nabla f(x) \\
+\]</span><p>Where <span>\(\nabla f(x)\)
+</span>is the Gradient of <span>\(f(x)\)
+</span>and <span>\(\nabla^{2} f(x)\)
+</span>is the Hessian Matrix of <span>\(f(x)\)
+</span>.</p><span>\[
+\begin{align*}
+\nabla f(x) = \frac{\partial l}{\partial \beta} &= \sum_{i=1}^n y_{i}x_{i}- (\frac{e^{\beta^{T}x_{i}}}{1+e^{\beta^{T}x_{i}}})\cdot x_{i}^{T} \\
+&= \sum_{i=1}^n (y_{i}- \underbrace{\frac{e^{\beta^{T}x_{i}}}{1+e^{\beta^{T}x_{i}}}}_{p_{i}})\cdot x_{i}^{T} = X(y-p) \\
+\end{align*}
+\]
+</span><span>\[
+\nabla^{2}f(x) = \frac{\partial^{2} l}{\partial \beta \partial \beta^{T}} = \sum_{i=1}^n - \underbrace{\frac{e^{\beta^{T}x_{i}}}{1+e^{\beta^{T}x_{i}}}}_{p_{i}}\cdot \underbrace{\frac{1}{1+e^{\beta^{T}x_{i}}}}_{1-p_{i}}x_{i} \cdot x_{i}^{T} = -XWX^{T} \\
+\]</span><p>Where <span>\(W\)
+</span>is a diagonal <span>\((n,n)\)
+</span>matrix with the <span>\(i^{th}\)
+</span>diagonal element defined as</p><span>\[
+W = \begin{bmatrix}
+p_{i}(1-p_{i}) &  &     \\
+  &  \ddots &  &   \\
+ &  &   &   \\
+\end{bmatrix}_{\ n x n} \\
+\]</span><p>The Newton‐Raphson algorithm can now be expressed as:</p><span>\[
+\begin{align*}
+\beta^{new} &= \beta^{old}-(\nabla^{2}f(x))^{-1}\nabla f(x) \\
+&= \beta^{old}+ (XWX^{T})^{-1}X(y-p) \\
+&= \beta^{old}+ (XWX^{T})^{-1}[XWX^{T}\beta^{t}+ X(y-p)] \\
+&= \beta^{old}+ (XWX^{T})^{-1}XWZ \\
+\end{align*}
+\]</span><p>Where <span>\(Z\)
+</span>can be expressed as: <span>\(Z = X^{T}\beta^{t}+ W^{-1}(y-p) \)
+</span>. This algorithm is also known as <strong>Iteratively Reweighted Least Squares(IRLS)</strong>.</p><span>\[
+\beta^{t+1} = \arg\min_{\beta}(Z - X\beta)^{T}W(Z-X\beta) \\
+\]</span><br><h2 id=other-types-of-logistic-regression>Other types of Logistic Regression
+<a class=anchor href=#other-types-of-logistic-regression>#</a></h2><h3 id=multinomial-logistic-regression>Multinomial Logistic Regression
+<a class=anchor href=#multinomial-logistic-regression>#</a></h3><p>Three or more categories without ordering. Example: Predicting which food is preferred more (Veg, Non-Veg, Vegan).</p><h3 id=ordinal-logistic-regression>Ordinal Logistic Regression
+<a class=anchor href=#ordinal-logistic-regression>#</a></h3><p>Three or more categories with ordering. Example: Movie rating from 1 to 5.</p><br><h2 id=references>References
+<a class=anchor href=#references>#</a></h2><p>[1] K, D. (2021, April 8). Logistic Regression in Python using Scikit-learn. Medium. <a href=https://heartbeat.fritz.ai/logistic-regression-in-python-using-scikit-learn-d34e882eebb1>https://heartbeat.fritz.ai/logistic-regression-in-python-using-scikit-learn-d34e882eebb1</a>.</p><p>[2] Li, S. (2019, February 27). Building A Logistic Regression in Python, Step by Step. Medium. <a href=https://towardsdatascience.com/building-a-logistic-regression-in-python-step-by-step-becd4d56c9c8>https://towardsdatascience.com/building-a-logistic-regression-in-python-step-by-step-becd4d56c9c8</a>.</p><p>[3] Christian. (2020, September 17). Plotting the decision boundary of a logistic regression model. <a href=https://scipython.com/blog/plotting-the-decision-boundary-of-a-logistic-regression-model/>https://scipython.com/blog/plotting-the-decision-boundary-of-a-logistic-regression-model/</a>.</p><br><div align=center><a href=/posts/ class=book-btn>Blog</a>
+<a href=/ class=book-btn>Home</a></div></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#logistic-regression>Logistic Regression</a></li><li><a href=#newtonraphson-method-for-binary-logistic-regression>Newton‐Raphson Method for Binary Logistic Regression</a></li><li><a href=#other-types-of-logistic-regression>Other types of Logistic Regression</a><ul><li><a href=#multinomial-logistic-regression>Multinomial Logistic Regression</a></li><li><a href=#ordinal-logistic-regression>Ordinal Logistic Regression</a></li></ul></li><li><a href=#references>References</a></li></ul></nav></div></aside></main></body></html>

@@ -1,0 +1,365 @@
+<!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content='
+  Leetcode Interview Preparation Notes
+  #
+
+
+  Basic Data Structures
+  #
+
+
+  Arrays
+  #
+
+In Python, arrays are typically represented using lists. While Python doesn&rsquo;t have a native array type as seen in other languages like Java or C++, lists are versatile and can be used similarly to arrays.
+【Last Update: 2024-08-14】
+arr = []          # O(1)
+arr = [1, 2, 3]   # O(n), where n is the number of elements
+first_element = arr[0]  # O(1)
+arr[1] = 10  # O(1)
+arr.append(6)  # O(1) on average for appending
+arr.insert(2, 15)  # O(n), where n is the number of elements after the insertion index
+arr.remove(15)  # O(n), where n is the number of elements in the list [remove the first 15 in the array]
+del arr[2]  # O(n), where n is the number of elements after the deleted index
+last_element = arr.pop()  # O(1)
+arr.sort()  # 原地排序
+sorted_arr = sorted(arr)  # 返回排序后的数组
+arr[::-1] # arr 倒序
+## Counter() 的常用语法和使用情况
+from collections import Counter
+arr = [1, 2, 2, 3, 3, 3]
+counts = Counter(arr)  # 结果：Counter({3: 3, 2: 2, 1: 1})
+
+## 找到出现次数最多的元素
+most_common_element = counts.most_common(1)[0]  # 结果：(3, 3)
+
+## 判断出现的元素是否相同
+arr1 = [1, 2, 3]
+arr2 = [3, 2, 1]
+is_anagram = Counter(arr1) == Counter(arr2)  # 结果：True
+## set() 的常用语法和使用情况
+arr = [1, 2, 2, 3, 4, 4]
+
+## 快速查找
+seen = set(arr)
+if 3 in seen:
+    print("3 is in array")
+
+## 去重
+unique_elements = list(set(arr))  # 结果：[1, 2, 3, 4]
+
+## 两个数组的交集
+arr1 = [1, 2, 2, 3]
+arr2 = [2, 3, 4]
+intersection = list(set(arr1) & set(arr2))  # 结果：[2, 3]
+
+  Strings
+  #
+
+Strings in Python are immutable sequences of characters. You can perform various operations on strings using built-in methods and operators.'><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/python-basics/leetcode/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Leetcode Notes"><meta property="og:description" content='Leetcode Interview Preparation Notes # Basic Data Structures # Arrays # In Python, arrays are typically represented using lists. While Python doesn’t have a native array type as seen in other languages like Java or C++, lists are versatile and can be used similarly to arrays.
+【Last Update: 2024-08-14】
+arr = [] # O(1) arr = [1, 2, 3] # O(n), where n is the number of elements first_element = arr[0] # O(1) arr[1] = 10 # O(1) arr.append(6) # O(1) on average for appending arr.insert(2, 15) # O(n), where n is the number of elements after the insertion index arr.remove(15) # O(n), where n is the number of elements in the list [remove the first 15 in the array] del arr[2] # O(n), where n is the number of elements after the deleted index last_element = arr.pop() # O(1) arr.sort() # 原地排序 sorted_arr = sorted(arr) # 返回排序后的数组 arr[::-1] # arr 倒序 ## Counter() 的常用语法和使用情况 from collections import Counter arr = [1, 2, 2, 3, 3, 3] counts = Counter(arr) # 结果：Counter({3: 3, 2: 2, 1: 1}) ## 找到出现次数最多的元素 most_common_element = counts.most_common(1)[0] # 结果：(3, 3) ## 判断出现的元素是否相同 arr1 = [1, 2, 3] arr2 = [3, 2, 1] is_anagram = Counter(arr1) == Counter(arr2) # 结果：True ## set() 的常用语法和使用情况 arr = [1, 2, 2, 3, 4, 4] ## 快速查找 seen = set(arr) if 3 in seen: print("3 is in array") ## 去重 unique_elements = list(set(arr)) # 结果：[1, 2, 3, 4] ## 两个数组的交集 arr1 = [1, 2, 2, 3] arr2 = [2, 3, 4] intersection = list(set(arr1) & set(arr2)) # 结果：[2, 3] Strings # Strings in Python are immutable sequences of characters. You can perform various operations on strings using built-in methods and operators.'><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Leetcode Notes | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/python-basics/leetcode/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.5c62365d2013d7aae52841ff775803480aac2073645f5f6565920e3aad4cb99c.js integrity="sha256-XGI2XSAT16rlKEH/d1gDSAqsIHNkX19lZZIOOq1MuZw=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/python-basics/leetcode/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle checked>
+<label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/ class=active>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
+<label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
+<label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><input type=checkbox id=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class=toggle>
+<label for=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class="flex justify-between"><a href=/docs/deep-learning/computer-vision/>Computer Vision</a></label><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
+<label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Leetcode Notes</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#basic-data-structures><strong>Basic Data Structures</strong></a><ul><li><a href=#arrays><strong>Arrays</strong></a></li><li><a href=#strings><strong>Strings</strong></a></li><li><a href=#linked-lists><strong>Linked Lists</strong></a></li><li><a href=#stack><strong>Stack</strong></a></li><li><a href=#queue><strong>Queue</strong></a></li><li><a href=#deque><strong>Deque</strong></a></li></ul></li><li><a href=#advanced-data-structures><strong>Advanced Data Structures</strong></a><ul><li><a href=#overview><strong>Overview</strong></a></li><li><a href=#heap><strong>Heap</strong></a></li><li><a href=#tree><strong>Tree</strong></a></li><li><a href=#hash-tables><strong>Hash Tables</strong></a></li></ul></li><li><a href=#core-algorithms><strong>Core Algorithms</strong></a><ul><li><a href=#overview-1><strong>Overview</strong></a></li><li><a href=#two-pointer><strong>Two Pointer</strong></a></li><li><a href=#prefix-sum-and-suffix-sum><strong>Prefix Sum and Suffix Sum</strong></a></li></ul></li><li><a href=#advanced-algorithms><strong>Advanced Algorithms</strong></a><ul><li><a href=#overview-2><strong>Overview</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=leetcode-interview-preparation-notes><strong>Leetcode Interview Preparation Notes</strong>
+<a class=anchor href=#leetcode-interview-preparation-notes>#</a></h1><h2 id=basic-data-structures><strong>Basic Data Structures</strong>
+<a class=anchor href=#basic-data-structures>#</a></h2><h3 id=arrays><strong>Arrays</strong>
+<a class=anchor href=#arrays>#</a></h3><p>In Python, arrays are typically represented using lists. While Python doesn&rsquo;t have a native array type as seen in other languages like Java or C++, lists are versatile and can be used similarly to arrays.</p><p>【<code>Last Update: 2024-08-14</code>】</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>arr <span style=color:#f92672>=</span> []          <span style=color:#75715e># O(1)</span>
+</span></span><span style=display:flex><span>arr <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>]   <span style=color:#75715e># O(n), where n is the number of elements</span>
+</span></span><span style=display:flex><span>first_element <span style=color:#f92672>=</span> arr[<span style=color:#ae81ff>0</span>]  <span style=color:#75715e># O(1)</span>
+</span></span><span style=display:flex><span>arr[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span>  <span style=color:#75715e># O(1)</span>
+</span></span><span style=display:flex><span>arr<span style=color:#f92672>.</span>append(<span style=color:#ae81ff>6</span>)  <span style=color:#75715e># O(1) on average for appending</span>
+</span></span><span style=display:flex><span>arr<span style=color:#f92672>.</span>insert(<span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>15</span>)  <span style=color:#75715e># O(n), where n is the number of elements after the insertion index</span>
+</span></span><span style=display:flex><span>arr<span style=color:#f92672>.</span>remove(<span style=color:#ae81ff>15</span>)  <span style=color:#75715e># O(n), where n is the number of elements in the list [remove the first 15 in the array]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>del</span> arr[<span style=color:#ae81ff>2</span>]  <span style=color:#75715e># O(n), where n is the number of elements after the deleted index</span>
+</span></span><span style=display:flex><span>last_element <span style=color:#f92672>=</span> arr<span style=color:#f92672>.</span>pop()  <span style=color:#75715e># O(1)</span>
+</span></span><span style=display:flex><span>arr<span style=color:#f92672>.</span>sort()  <span style=color:#75715e># 原地排序</span>
+</span></span><span style=display:flex><span>sorted_arr <span style=color:#f92672>=</span> sorted(arr)  <span style=color:#75715e># 返回排序后的数组</span>
+</span></span><span style=display:flex><span>arr[::<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>] <span style=color:#75715e># arr 倒序</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>## Counter() 的常用语法和使用情况</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> collections <span style=color:#f92672>import</span> Counter
+</span></span><span style=display:flex><span>arr <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>3</span>]
+</span></span><span style=display:flex><span>counts <span style=color:#f92672>=</span> Counter(arr)  <span style=color:#75715e># 结果：Counter({3: 3, 2: 2, 1: 1})</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 找到出现次数最多的元素</span>
+</span></span><span style=display:flex><span>most_common_element <span style=color:#f92672>=</span> counts<span style=color:#f92672>.</span>most_common(<span style=color:#ae81ff>1</span>)[<span style=color:#ae81ff>0</span>]  <span style=color:#75715e># 结果：(3, 3)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 判断出现的元素是否相同</span>
+</span></span><span style=display:flex><span>arr1 <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>]
+</span></span><span style=display:flex><span>arr2 <span style=color:#f92672>=</span> [<span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>is_anagram <span style=color:#f92672>=</span> Counter(arr1) <span style=color:#f92672>==</span> Counter(arr2)  <span style=color:#75715e># 结果：True</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>## set() 的常用语法和使用情况</span>
+</span></span><span style=display:flex><span>arr <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>4</span>, <span style=color:#ae81ff>4</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 快速查找</span>
+</span></span><span style=display:flex><span>seen <span style=color:#f92672>=</span> set(arr)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#ae81ff>3</span> <span style=color:#f92672>in</span> seen:
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>&#34;3 is in array&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 去重</span>
+</span></span><span style=display:flex><span>unique_elements <span style=color:#f92672>=</span> list(set(arr))  <span style=color:#75715e># 结果：[1, 2, 3, 4]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 两个数组的交集</span>
+</span></span><span style=display:flex><span>arr1 <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>]
+</span></span><span style=display:flex><span>arr2 <span style=color:#f92672>=</span> [<span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>4</span>]
+</span></span><span style=display:flex><span>intersection <span style=color:#f92672>=</span> list(set(arr1) <span style=color:#f92672>&amp;</span> set(arr2))  <span style=color:#75715e># 结果：[2, 3]</span>
+</span></span></code></pre></div><h3 id=strings><strong>Strings</strong>
+<a class=anchor href=#strings>#</a></h3><p>Strings in Python are immutable sequences of characters. You can perform various operations on strings using built-in methods and operators.</p><p>【<code>Last Update: 2024-08-14</code>】</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>s <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;Hello, World!&#34;</span>  <span style=color:#75715e># O(n), where n is the length of the string</span>
+</span></span><span style=display:flex><span>first_char <span style=color:#f92672>=</span> s[<span style=color:#ae81ff>0</span>]  <span style=color:#75715e># O(1)</span>
+</span></span><span style=display:flex><span>substring <span style=color:#f92672>=</span> s[<span style=color:#ae81ff>7</span>:<span style=color:#ae81ff>12</span>]  <span style=color:#75715e># O(k), where k is the length of the substring</span>
+</span></span><span style=display:flex><span>combined <span style=color:#f92672>=</span> s <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; Python&#34;</span>  <span style=color:#75715e># O(n + m), where n and m are the lengths of the two strings</span>
+</span></span><span style=display:flex><span>repeated <span style=color:#f92672>=</span> s <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span>  <span style=color:#75715e># O(n * k), where k is the number of repetitions</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>upper_s <span style=color:#f92672>=</span> s<span style=color:#f92672>.</span>upper()  <span style=color:#75715e># O(n), where n is the length of the string</span>
+</span></span><span style=display:flex><span>lower_s <span style=color:#f92672>=</span> s<span style=color:#f92672>.</span>lower()  <span style=color:#75715e># O(n), where n is the length of the string</span>
+</span></span><span style=display:flex><span>starts_with_hello <span style=color:#f92672>=</span> s<span style=color:#f92672>.</span>startswith(<span style=color:#e6db74>&#34;Hello&#34;</span>)  <span style=color:#75715e># O(n), where n is the length of the prefix</span>
+</span></span><span style=display:flex><span>contains_world <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;World&#34;</span> <span style=color:#f92672>in</span> s  <span style=color:#75715e># O(n * m), where n is the length of the string and m is the length of the substring</span>
+</span></span><span style=display:flex><span>replaced_s <span style=color:#f92672>=</span> s<span style=color:#f92672>.</span>replace(<span style=color:#e6db74>&#34;World&#34;</span>, <span style=color:#e6db74>&#34;Python&#34;</span>)  <span style=color:#75715e># O(n * m), where n is the length of the string and m is the length of the substring</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>words <span style=color:#f92672>=</span> s<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34;, &#34;</span>)  <span style=color:#75715e># O(n), where n is the length of the string</span>
+</span></span><span style=display:flex><span>joined <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34; - &#34;</span><span style=color:#f92672>.</span>join(words)  <span style=color:#75715e># O(n), where n is the total length of the resulting string</span>
+</span></span></code></pre></div><h3 id=linked-lists><strong>Linked Lists</strong>
+<a class=anchor href=#linked-lists>#</a></h3><p>A Linked List is a linear data structure consisting of nodes, where each node contains:</p><ul><li>A data part that stores the actual data.</li><li>A next part (or pointer) that points to the next node in the list.</li></ul><p>【<code>Last Update: 2024-11-14</code>】</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>## A node in a linked list can be represented as a class</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>ListNode</span>:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, data<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>, next<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>data <span style=color:#f92672>=</span> data  <span style=color:#75715e># Data of the node</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>next <span style=color:#f92672>=</span> next  <span style=color:#75715e># Pointer to the next node</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>##  Inserting Nodes</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>insert_at_beginning</span>(head, data):
+</span></span><span style=display:flex><span>    new_node <span style=color:#f92672>=</span> ListNode(data)  <span style=color:#75715e># Create a new node</span>
+</span></span><span style=display:flex><span>    new_node<span style=color:#f92672>.</span>next <span style=color:#f92672>=</span> head       <span style=color:#75715e># Link the new node to the current head</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> new_node            <span style=color:#75715e># New node becomes the head</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>## Deleting Nodes</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>delete_from_beginning</span>(head):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> head:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>None</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> head<span style=color:#f92672>.</span>next  <span style=color:#75715e># The second node becomes the new head</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>## Searching for a Node</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>search</span>(head, key):
+</span></span><span style=display:flex><span>    current <span style=color:#f92672>=</span> head
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>while</span> current:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> current<span style=color:#f92672>.</span>data <span style=color:#f92672>==</span> key:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>True</span>  <span style=color:#75715e># Found the data</span>
+</span></span><span style=display:flex><span>        current <span style=color:#f92672>=</span> current<span style=color:#f92672>.</span>next
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>False</span>  <span style=color:#75715e># Data not found</span>
+</span></span></code></pre></div><h3 id=stack><strong>Stack</strong>
+<a class=anchor href=#stack>#</a></h3><p>A Stack is a linear data structure that stores items in a <strong>Last-In/First-Out (LIFO)</strong> or <strong>First-In/Last-Out (FILO)</strong> manner. In stack, a new element is added at one end and an element is removed from that end only.</p><ul><li><code>push(a)</code> – Inserts the element ‘a’ at the top of the stack – Time Complexity: O(1)</li><li><code>pop()</code> – Deletes the topmost element of the stack – Time Complexity: O(1)</li><li><code>Peek</code> - View the top element without removing it.</li><li><code>Empty</code> - Check if the stack is empty.</li></ul><p>【<code>Last Update: 2024-11-19</code>】</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>stack <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Push elements onto the stack</span>
+</span></span><span style=display:flex><span>stack<span style=color:#f92672>.</span>append(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>stack<span style=color:#f92672>.</span>append(<span style=color:#ae81ff>2</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Pop element from the stack</span>
+</span></span><span style=display:flex><span>top <span style=color:#f92672>=</span> stack<span style=color:#f92672>.</span>pop()  <span style=color:#75715e># Removes and returns 2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Peek the top element</span>
+</span></span><span style=display:flex><span>top <span style=color:#f92672>=</span> stack[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>] <span style=color:#66d9ef>if</span> stack <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>None</span>  <span style=color:#75715e># Returns 1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Check if the stack is empty</span>
+</span></span><span style=display:flex><span>is_empty <span style=color:#f92672>=</span> len(stack) <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>
+</span></span></code></pre></div><h3 id=queue><strong>Queue</strong>
+<a class=anchor href=#queue>#</a></h3><p>Queue is a linear data structure that stores items in <strong>First In First Out (FIFO)</strong> manner. With a queue the least recently added item is removed first.</p><ul><li><code>Enqueue</code>: Adds an item to the queue. If the queue is full, then it is said to be an Overflow condition – Time Complexity : O(1)</li><li><code>Dequeue</code>: Removes an item from the queue. The items are popped in the same order in which they are pushed. If the queue is empty, then it is said to be an Underflow condition – Time Complexity : O(1)</li><li><code>Peek</code>: View the front element without removing it.</li><li><code>Empty</code>: Check if the queue is empty.</li></ul><p>【<code>Last Update: 2024-11-19</code>】</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>from</span> collections <span style=color:#f92672>import</span> deque
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Initialize a queue</span>
+</span></span><span style=display:flex><span>queue <span style=color:#f92672>=</span> deque()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Enqueue elements</span>
+</span></span><span style=display:flex><span>queue<span style=color:#f92672>.</span>append(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>queue<span style=color:#f92672>.</span>append(<span style=color:#ae81ff>2</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Dequeue element</span>
+</span></span><span style=display:flex><span>front <span style=color:#f92672>=</span> queue<span style=color:#f92672>.</span>popleft()  <span style=color:#75715e># Removes and returns 1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Peek at the front element</span>
+</span></span><span style=display:flex><span>front <span style=color:#f92672>=</span> queue[<span style=color:#ae81ff>0</span>] <span style=color:#66d9ef>if</span> queue <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>None</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Check if the queue is empty</span>
+</span></span><span style=display:flex><span>is_empty <span style=color:#f92672>=</span> len(queue) <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>
+</span></span></code></pre></div><h3 id=deque><strong>Deque</strong>
+<a class=anchor href=#deque>#</a></h3><p>A deque is a generalized queue that allows insertion and deletion from both ends with O(1) complexity. Internally, it is implemented as a doubly linked list or a circular buffer.</p><p>【<code>Last Update: 2024-11-25</code>】</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>from</span> collections <span style=color:#f92672>import</span> deque
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Initialize a deque</span>
+</span></span><span style=display:flex><span>dq <span style=color:#f92672>=</span> deque()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Add elements</span>
+</span></span><span style=display:flex><span>dq<span style=color:#f92672>.</span>append(<span style=color:#ae81ff>1</span>)       <span style=color:#75715e># Add to the right</span>
+</span></span><span style=display:flex><span>dq<span style=color:#f92672>.</span>appendleft(<span style=color:#ae81ff>2</span>)   <span style=color:#75715e># Add to the left</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Remove elements</span>
+</span></span><span style=display:flex><span>dq<span style=color:#f92672>.</span>pop()           <span style=color:#75715e># Remove from the right</span>
+</span></span><span style=display:flex><span>dq<span style=color:#f92672>.</span>popleft()       <span style=color:#75715e># Remove from the left</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Access and manipulation</span>
+</span></span><span style=display:flex><span>dq<span style=color:#f92672>.</span>extend([<span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>4</span>])          <span style=color:#75715e># Add multiple elements to the right</span>
+</span></span><span style=display:flex><span>dq<span style=color:#f92672>.</span>extendleft([<span style=color:#ae81ff>0</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>])     <span style=color:#75715e># Add multiple elements to the left (reversed order)</span>
+</span></span><span style=display:flex><span>dq<span style=color:#f92672>.</span>rotate(<span style=color:#ae81ff>1</span>)               <span style=color:#75715e># Rotate elements right</span>
+</span></span><span style=display:flex><span>dq<span style=color:#f92672>.</span>rotate(<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)              <span style=color:#75715e># Rotate elements left</span>
+</span></span><span style=display:flex><span>dq<span style=color:#f92672>.</span>clear()                 <span style=color:#75715e># Clear all elements</span>
+</span></span></code></pre></div><h2 id=advanced-data-structures><strong>Advanced Data Structures</strong>
+<a class=anchor href=#advanced-data-structures>#</a></h2><h3 id=overview><strong>Overview</strong>
+<a class=anchor href=#overview>#</a></h3><ul><li><strong>Trees</strong>: Explore the concepts of binary trees, binary search trees, AVL trees, and tree traversals (in-order, pre-order, post-order, level-order).</li><li><strong>Graphs</strong>: Learn about different graph representations (adjacency list, adjacency matrix), and traversal algorithms (Depth-First Search, Breadth-First Search) to solve problems like finding connected components or checking cycles.</li><li><strong>Hash Tables</strong>: Study how hash tables work, including hashing functions, handling collisions, and applications in tasks like item counting or implementing dictionaries.</li></ul><h3 id=heap><strong>Heap</strong>
+<a class=anchor href=#heap>#</a></h3><p>A heap is a complete binary tree stored as an array. It maintains the heap property: in a min-heap, <strong>the parent is less than or equal to its children</strong>. Insertions and deletions are <strong>O(log n)</strong> due to the need to maintain the heap property.</p><ul><li>Two main types:<ul><li>Min-Heap: The root node is the smallest, and every parent node is smaller than or equal to its children.</li><li>Max-Heap: The root node is the largest, and every parent node is larger than or equal to its children.</li></ul></li><li>Root Node Access:<ul><li>Min-Heap: Root is the smallest element</li><li>Max-Heap: Root is the largest element.</li></ul></li><li>Efficient Operations:<ul><li>Insert and delete both take O(log n).</li><li>Maintains heap properties using adjustments (upward or downward shifts).</li></ul></li></ul><p>【<code>Last Update: 2024-11-25</code>】</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> heapq
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Initialize a heap</span>
+</span></span><span style=display:flex><span>heap <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Add elements</span>
+</span></span><span style=display:flex><span>heapq<span style=color:#f92672>.</span>heappush(heap, <span style=color:#ae81ff>3</span>)  <span style=color:#75715e># Push element into the heap</span>
+</span></span><span style=display:flex><span>heapq<span style=color:#f92672>.</span>heappush(heap, <span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>heapq<span style=color:#f92672>.</span>heappush(heap, <span style=color:#ae81ff>4</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Access the smallest element</span>
+</span></span><span style=display:flex><span>smallest <span style=color:#f92672>=</span> heap[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Remove elements</span>
+</span></span><span style=display:flex><span>min_element <span style=color:#f92672>=</span> heapq<span style=color:#f92672>.</span>heappop(heap)  <span style=color:#75715e># Pop the smallest element</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Heapify an existing list</span>
+</span></span><span style=display:flex><span>nums <span style=color:#f92672>=</span> [<span style=color:#ae81ff>4</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>7</span>, <span style=color:#ae81ff>3</span>]
+</span></span><span style=display:flex><span>heapq<span style=color:#f92672>.</span>heapify(nums)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Get n largest or smallest elements</span>
+</span></span><span style=display:flex><span>largest <span style=color:#f92672>=</span> heapq<span style=color:#f92672>.</span>nlargest(<span style=color:#ae81ff>2</span>, nums)
+</span></span><span style=display:flex><span>smallest <span style=color:#f92672>=</span> heapq<span style=color:#f92672>.</span>nsmallest(<span style=color:#ae81ff>2</span>, nums)
+</span></span></code></pre></div><h3 id=tree><strong>Tree</strong>
+<a class=anchor href=#tree>#</a></h3><p>A tree is a hierarchical data structure with nodes connected by edges. The topmost node is the root, and nodes with no children are called leaves.</p><ul><li><strong>Binary Tree</strong>: Each node has at most two children.</li><li><strong>Binary Search Tree (BST)</strong>: A binary tree where the left child contains values less than the parent, and the right child contains values greater.</li><li><strong>Balanced Tree</strong>: A tree where the height difference between left and right subtrees of any node is minimal (e.g., AVL tree, Red-Black tree).</li><li><strong>Tree Traversals</strong>:<ul><li>Preorder Traversal (Root, Left, Right)</li><li>Inorder Traversal (Left, Root, Right)</li><li>Postorder Traversal (Left, Right, Root)</li></ul></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>## Trees are often represented using classes. </span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>TreeNode</span>:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, val<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>, left<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>, right<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>val <span style=color:#f92672>=</span> val
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>left <span style=color:#f92672>=</span> left
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>right <span style=color:#f92672>=</span> right
+</span></span></code></pre></div><p align=center><img src=images/tree.jpg width=500></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>## Preorder Traversal (Root, Left, Right)</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>preorder_traversal</span>(root):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> root:
+</span></span><span style=display:flex><span>        print(root<span style=color:#f92672>.</span>val)
+</span></span><span style=display:flex><span>        preorder_traversal(root<span style=color:#f92672>.</span>left)
+</span></span><span style=display:flex><span>        preorder_traversal(root<span style=color:#f92672>.</span>right)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## Inorder Traversal (Left, Root, Right)</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>inorder_traversal</span>(root):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> root:
+</span></span><span style=display:flex><span>        inorder_traversal(root<span style=color:#f92672>.</span>left)
+</span></span><span style=display:flex><span>        print(root<span style=color:#f92672>.</span>val)
+</span></span><span style=display:flex><span>        inorder_traversal(root<span style=color:#f92672>.</span>right)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## Postorder Traversal (Left, Right, Root)</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>postorder_traversal</span>(root):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> root:
+</span></span><span style=display:flex><span>        postorder_traversal(root<span style=color:#f92672>.</span>left)
+</span></span><span style=display:flex><span>        postorder_traversal(root<span style=color:#f92672>.</span>right)
+</span></span><span style=display:flex><span>        print(root<span style=color:#f92672>.</span>val)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>## Binary Search Tree (BST) Operations</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 1. Insert a Node</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>insert_into_bst</span>(root, val):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> root:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> TreeNode(val)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> val <span style=color:#f92672>&lt;</span> root<span style=color:#f92672>.</span>val:
+</span></span><span style=display:flex><span>        root<span style=color:#f92672>.</span>left <span style=color:#f92672>=</span> insert_into_bst(root<span style=color:#f92672>.</span>left, val)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>        root<span style=color:#f92672>.</span>right <span style=color:#f92672>=</span> insert_into_bst(root<span style=color:#f92672>.</span>right, val)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> root
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 	2. Search for a Value</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>search_bst</span>(root, val):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> root <span style=color:#f92672>or</span> root<span style=color:#f92672>.</span>val <span style=color:#f92672>==</span> val:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> root
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> val <span style=color:#f92672>&lt;</span> root<span style=color:#f92672>.</span>val:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> search_bst(root<span style=color:#f92672>.</span>left, val)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> search_bst(root<span style=color:#f92672>.</span>right, val)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## 	3. Delete a Node</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>delete_node</span>(root, key):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> root:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>None</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> key <span style=color:#f92672>&lt;</span> root<span style=color:#f92672>.</span>val:
+</span></span><span style=display:flex><span>        root<span style=color:#f92672>.</span>left <span style=color:#f92672>=</span> delete_node(root<span style=color:#f92672>.</span>left, key)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>elif</span> key <span style=color:#f92672>&gt;</span> root<span style=color:#f92672>.</span>val:
+</span></span><span style=display:flex><span>        root<span style=color:#f92672>.</span>right <span style=color:#f92672>=</span> delete_node(root<span style=color:#f92672>.</span>right, key)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> root<span style=color:#f92672>.</span>left:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> root<span style=color:#f92672>.</span>right
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> root<span style=color:#f92672>.</span>right:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> root<span style=color:#f92672>.</span>left
+</span></span><span style=display:flex><span>        min_larger_node <span style=color:#f92672>=</span> root<span style=color:#f92672>.</span>right
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>while</span> min_larger_node<span style=color:#f92672>.</span>left:
+</span></span><span style=display:flex><span>            min_larger_node <span style=color:#f92672>=</span> min_larger_node<span style=color:#f92672>.</span>left
+</span></span><span style=display:flex><span>        root<span style=color:#f92672>.</span>val <span style=color:#f92672>=</span> min_larger_node<span style=color:#f92672>.</span>val
+</span></span><span style=display:flex><span>        root<span style=color:#f92672>.</span>right <span style=color:#f92672>=</span> delete_node(root<span style=color:#f92672>.</span>right, root<span style=color:#f92672>.</span>val)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> root
+</span></span></code></pre></div><h3 id=hash-tables><strong>Hash Tables</strong>
+<a class=anchor href=#hash-tables>#</a></h3><p>In Python, the built-in dict type (short for dictionary) functions as a hash table. Hash tables are a key data structure used for efficient data retrieval and storage, providing average time complexities of O(1) for insertion, deletion, and lookup operations due to their underlying hashing mechanism.</p><p>【<code>Last Update: 2024-11-06</code>】</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>my_dict <span style=color:#f92672>=</span> {}  <span style=color:#75715e># Creating an empty dictionary</span>
+</span></span><span style=display:flex><span>my_dict <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#39;key1&#39;</span>: <span style=color:#e6db74>&#39;value1&#39;</span>, <span style=color:#e6db74>&#39;key2&#39;</span>: <span style=color:#e6db74>&#39;value2&#39;</span>}  <span style=color:#75715e># Creating a dictionary with initial values</span>
+</span></span><span style=display:flex><span>value <span style=color:#f92672>=</span> my_dict[<span style=color:#e6db74>&#39;key1&#39;</span>]   <span style=color:#75715e># Accessing a value by key</span>
+</span></span><span style=display:flex><span>my_dict[<span style=color:#e6db74>&#39;key3&#39;</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;value3&#39;</span>  <span style=color:#75715e># Adding a new key-value pair</span>
+</span></span><span style=display:flex><span>my_dict[<span style=color:#e6db74>&#39;key2&#39;</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;new_value2&#39;</span>  <span style=color:#75715e># Updating an existing key-value pair</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>del</span> my_dict[<span style=color:#e6db74>&#39;key1&#39;</span>]   <span style=color:#75715e># Removing an entry by key</span>
+</span></span><span style=display:flex><span>value <span style=color:#f92672>=</span> my_dict<span style=color:#f92672>.</span>pop(<span style=color:#e6db74>&#39;key2&#39;</span>)  <span style=color:#75715e># Popping an entry (removes and returns the value)</span>
+</span></span><span style=display:flex><span>exists <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;key3&#39;</span> <span style=color:#f92672>in</span> my_dict  <span style=color:#75715e># # Checking if a key is in the dictionary [True]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> key <span style=color:#f92672>in</span> my_dict:
+</span></span><span style=display:flex><span>    print(key, my_dict[key]) <span style=color:#75715e># Iterating through keys</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> key, value <span style=color:#f92672>in</span> my_dict<span style=color:#f92672>.</span>items(): <span style=color:#75715e># Iterating through key-value pairs</span>
+</span></span><span style=display:flex><span>    print(key, value)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> value <span style=color:#f92672>in</span> my_dict<span style=color:#f92672>.</span>values(): <span style=color:#75715e># Iterating through values</span>
+</span></span><span style=display:flex><span>    print(value)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># defaultdict 使用方法，没见过的元素不会报错。适用于计数、分组和嵌套字典等应用。</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> collections <span style=color:#f92672>import</span> defaultdict
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 使用 int 类型的 defaultdict</span>
+</span></span><span style=display:flex><span>dd <span style=color:#f92672>=</span> defaultdict(int)
+</span></span><span style=display:flex><span>print(dd[<span style=color:#e6db74>&#39;missing_key&#39;</span>])  <span style=color:#75715e># 输出：0，因为 int() 的默认值是 0</span>
+</span></span><span style=display:flex><span>print(dd)  <span style=color:#75715e># 输出：defaultdict(&lt;class &#39;int&#39;&gt;, {&#39;missing_key&#39;: 0})</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 统计元素出现次数</span>
+</span></span><span style=display:flex><span>data <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;abracadabra&#34;</span>
+</span></span><span style=display:flex><span>counter <span style=color:#f92672>=</span> defaultdict(int)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> char <span style=color:#f92672>in</span> data:
+</span></span><span style=display:flex><span>    counter[char] <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>print(counter)  <span style=color:#75715e># 输出：defaultdict(&lt;class &#39;int&#39;&gt;, {&#39;a&#39;: 5, &#39;b&#39;: 2, &#39;r&#39;: 2, &#39;c&#39;: 1, &#39;d&#39;: 1})</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># defaultdict(list)常用于将多个值归类到同一个键下。</span>
+</span></span><span style=display:flex><span>data <span style=color:#f92672>=</span> [(<span style=color:#e6db74>&#34;apple&#34;</span>, <span style=color:#ae81ff>1</span>), (<span style=color:#e6db74>&#34;banana&#34;</span>, <span style=color:#ae81ff>2</span>), (<span style=color:#e6db74>&#34;apple&#34;</span>, <span style=color:#ae81ff>3</span>), (<span style=color:#e6db74>&#34;banana&#34;</span>, <span style=color:#ae81ff>4</span>)]
+</span></span><span style=display:flex><span>grouped_data <span style=color:#f92672>=</span> defaultdict(list)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> fruit, count <span style=color:#f92672>in</span> data:
+</span></span><span style=display:flex><span>    grouped_data[fruit]<span style=color:#f92672>.</span>append(count)
+</span></span><span style=display:flex><span>print(grouped_data)  <span style=color:#75715e># 输出：defaultdict(&lt;class &#39;list&#39;&gt;, {&#39;apple&#39;: [1, 3], &#39;banana&#39;: [2, 4]})</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 可以使用dict()将defaultdict转换为普通字典。</span>
+</span></span><span style=display:flex><span>dd <span style=color:#f92672>=</span> defaultdict(int)
+</span></span><span style=display:flex><span>dd[<span style=color:#e6db74>&#39;a&#39;</span>] <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>print(dict(dd))  <span style=color:#75715e># 输出：{&#39;a&#39;: 1}</span>
+</span></span></code></pre></div><h2 id=core-algorithms><strong>Core Algorithms</strong>
+<a class=anchor href=#core-algorithms>#</a></h2><h3 id=overview-1><strong>Overview</strong>
+<a class=anchor href=#overview-1>#</a></h3><ul><li><strong>Two Pointer</strong>: The two-pointer technique is used primarily in solving array and linked list problems. It involves using two pointers to traverse the data structure, allowing for efficient searching and processing of elements.</li><li><strong>Sorting Algorithms</strong>: Review the mechanisms and use cases for quicksort, mergesort, and heapsort. Understand the trade-offs in terms of time and space complexity.</li><li><strong>Search Algorithms</strong>: Study binary search on sorted arrays, and learn about its variations for finding the first or last position of an element.</li><li><strong>Recursion and Backtracking</strong>: Understand how to apply recursion for solving problems involving permutations, combinations, and other backtrack-required scenarios. Study the call stack mechanism and how to optimize recursion through memoization.</li><li><strong>Prefix Sum and Suffix Sum</strong>: Prefix Sum and Suffix Sum are techniques used to compute the sum of elements in a subarray quickly by precomputing cumulative sums.</li></ul><h3 id=two-pointer><strong>Two Pointer</strong>
+<a class=anchor href=#two-pointer>#</a></h3><ul><li>Finding Pairs with a Given Sum: When looking for two numbers in a sorted array that add up to a specific target.</li><li>Reversing a String or Array: Using two pointers to swap elements from the start and end until they meet in the middle.</li><li>Merging Two Sorted Arrays: Traversing both arrays simultaneously to create a new sorted array.</li><li>Removing Duplicates from a Sorted Array: Using two pointers to track unique elements.</li><li>设置 two pointers 的时候，left 一般会在最前面，但是 right 不一定在最后，可以设置在 left 后面。</li></ul><p>【<code>Last Update: 2024-11-07</code>】</p><h3 id=prefix-sum-and-suffix-sum><strong>Prefix Sum and Suffix Sum</strong>
+<a class=anchor href=#prefix-sum-and-suffix-sum>#</a></h3><ol><li>Prefix Sum: For an array nums, the prefix sum at each index i is the sum of all elements from the start of the array up to i. This allows you to find the sum of any subarray [i, j] in constant time by calculating prefix[j+1] - prefix[i].</li><li>Suffix Sum: For the same array nums, the suffix sum at index i is the sum of all elements from i to the end of the array. It enables efficient queries for sums of subarrays that start from any index i to a given end by using suffix[i] - suffix[j+1].</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e>## Input [1, 2, 3, 4] -&gt; Output [2x3x4, 1x3x4, 1x2x4, 1x2x3] = [24, 12, 8, 6]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## Predix -&gt; [0, 1, 1x2, 1x2x3] = [0, 1, 2, 6]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>## Suffix -&gt; [2x3x4, 3x4, 4, 0] = [24, 12, 4, 0]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>productExceptSelf</span>(self, nums: List[int]) <span style=color:#f92672>-&gt;</span> List[int]:
+</span></span><span style=display:flex><span>  res <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> len(nums)
+</span></span><span style=display:flex><span>  prefix, suffix <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(len(nums)):
+</span></span><span style=display:flex><span>    res[i] <span style=color:#f92672>=</span> prefix
+</span></span><span style=display:flex><span>    prefix <span style=color:#f92672>*=</span> nums[i]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> j <span style=color:#f92672>in</span> range(len(nums)<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>):
+</span></span><span style=display:flex><span>    res[j] <span style=color:#f92672>*=</span> suffix
+</span></span><span style=display:flex><span>    suffix <span style=color:#f92672>*=</span> nums[j]
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> res
+</span></span></code></pre></div><p>【<code>Last Update: 2024-11-11</code>】</p><h2 id=advanced-algorithms><strong>Advanced Algorithms</strong>
+<a class=anchor href=#advanced-algorithms>#</a></h2><h3 id=overview-2><strong>Overview</strong>
+<a class=anchor href=#overview-2>#</a></h3><ul><li><strong>Dynamic Programming</strong>: Explore the methodology of solving problems by breaking them down into smaller subproblems, storing results, and combining them to solve larger problems. Focus on understanding the concepts of overlapping subproblems and optimal substructure.</li><li><strong>Greedy Algorithms</strong>: Learn how greedy choices can lead to globally optimized solutions and their applications in problems like scheduling, graph based problems (like minimum spanning trees), and currency denomination.</li><li><strong>Graph Algorithms</strong>: Study shortest path algorithms (Dijkstra’s, Bellman-Ford) and minimum spanning tree algorithms (Prim’s, Kruskal’s). Understand their use cases and limitations.</li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#basic-data-structures><strong>Basic Data Structures</strong></a><ul><li><a href=#arrays><strong>Arrays</strong></a></li><li><a href=#strings><strong>Strings</strong></a></li><li><a href=#linked-lists><strong>Linked Lists</strong></a></li><li><a href=#stack><strong>Stack</strong></a></li><li><a href=#queue><strong>Queue</strong></a></li><li><a href=#deque><strong>Deque</strong></a></li></ul></li><li><a href=#advanced-data-structures><strong>Advanced Data Structures</strong></a><ul><li><a href=#overview><strong>Overview</strong></a></li><li><a href=#heap><strong>Heap</strong></a></li><li><a href=#tree><strong>Tree</strong></a></li><li><a href=#hash-tables><strong>Hash Tables</strong></a></li></ul></li><li><a href=#core-algorithms><strong>Core Algorithms</strong></a><ul><li><a href=#overview-1><strong>Overview</strong></a></li><li><a href=#two-pointer><strong>Two Pointer</strong></a></li><li><a href=#prefix-sum-and-suffix-sum><strong>Prefix Sum and Suffix Sum</strong></a></li></ul></li><li><a href=#advanced-algorithms><strong>Advanced Algorithms</strong></a><ul><li><a href=#overview-2><strong>Overview</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>

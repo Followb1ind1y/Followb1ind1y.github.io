@@ -1,0 +1,25 @@
+baseURL =  'https://followb1ind1y.github.io/'
+languageCode = 'en-us'
+title = 'Followblindly'
+
+[params]
+  # (Optional, default light) Sets color theme: light, dark or auto.
+  # Theme 'auto' switches between dark and light modes based on browser/os preferences
+  # 用途: 设置网站的主题颜色。
+  BookTheme = 'light'
+
+  #	用途: 启用右侧的 目录 (Table of Contents) 功能，帮助用户快速导航页面。
+  BookToC = true
+
+  # 用途: 指定一个网站 Logo，路径基于 /static/ 目录。
+  BookLogo = 'As.png'
+
+  # 用途: 提供页面的 Git 仓库地址，启用 “Edit this page” 和 “Last Modified” 功能。
+  # BookRepo = 'https://github.com/alex-shpak/hugo-book'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+    [markup.goldmark.extensions]
+      KaTeX = true

@@ -1,0 +1,365 @@
+<!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content='
+  Leetcode Interview Preparation Notes
+  #
+
+
+  Basic Data Structures
+  #
+
+
+  Arrays
+  #
+
+In Python, arrays are typically represented using lists. While Python doesn&rsquo;t have a native array type as seen in other languages like Java or C++, lists are versatile and can be used similarly to arrays.
+【Last Update: 2024-08-14】
+arr = []          # O(1)
+arr = [1, 2, 3]   # O(n), where n is the number of elements
+first_element = arr[0]  # O(1)
+arr[1] = 10  # O(1)
+arr.append(6)  # O(1) on average for appending
+arr.insert(2, 15)  # O(n), where n is the number of elements after the insertion index
+arr.remove(15)  # O(n), where n is the number of elements in the list [remove the first 15 in the array]
+del arr[2]  # O(n), where n is the number of elements after the deleted index
+last_element = arr.pop()  # O(1)
+arr.sort()  # 原地排序
+sorted_arr = sorted(arr)  # 返回排序后的数组
+arr[::-1] # arr 倒序
+## Counter() 的常用语法和使用情况
+from collections import Counter
+arr = [1, 2, 2, 3, 3, 3]
+counts = Counter(arr)  # 结果：Counter({3: 3, 2: 2, 1: 1})
+
+## 找到出现次数最多的元素
+most_common_element = counts.most_common(1)[0]  # 结果：(3, 3)
+
+## 判断出现的元素是否相同
+arr1 = [1, 2, 3]
+arr2 = [3, 2, 1]
+is_anagram = Counter(arr1) == Counter(arr2)  # 结果：True
+## set() 的常用语法和使用情况
+arr = [1, 2, 2, 3, 4, 4]
+
+## 快速查找
+seen = set(arr)
+if 3 in seen:
+    print("3 is in array")
+
+## 去重
+unique_elements = list(set(arr))  # 结果：[1, 2, 3, 4]
+
+## 两个数组的交集
+arr1 = [1, 2, 2, 3]
+arr2 = [2, 3, 4]
+intersection = list(set(arr1) & set(arr2))  # 结果：[2, 3]
+
+  Strings
+  #
+
+Strings in Python are immutable sequences of characters. You can perform various operations on strings using built-in methods and operators.'><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/common-librarie/leetcode/"><meta property="og:site_name" content="Followb1ind1y"><meta property="og:title" content="Leetcode Notes"><meta property="og:description" content='Leetcode Interview Preparation Notes # Basic Data Structures # Arrays # In Python, arrays are typically represented using lists. While Python doesn’t have a native array type as seen in other languages like Java or C++, lists are versatile and can be used similarly to arrays.
+【Last Update: 2024-08-14】
+arr = [] # O(1) arr = [1, 2, 3] # O(n), where n is the number of elements first_element = arr[0] # O(1) arr[1] = 10 # O(1) arr.append(6) # O(1) on average for appending arr.insert(2, 15) # O(n), where n is the number of elements after the insertion index arr.remove(15) # O(n), where n is the number of elements in the list [remove the first 15 in the array] del arr[2] # O(n), where n is the number of elements after the deleted index last_element = arr.pop() # O(1) arr.sort() # 原地排序 sorted_arr = sorted(arr) # 返回排序后的数组 arr[::-1] # arr 倒序 ## Counter() 的常用语法和使用情况 from collections import Counter arr = [1, 2, 2, 3, 3, 3] counts = Counter(arr) # 结果：Counter({3: 3, 2: 2, 1: 1}) ## 找到出现次数最多的元素 most_common_element = counts.most_common(1)[0] # 结果：(3, 3) ## 判断出现的元素是否相同 arr1 = [1, 2, 3] arr2 = [3, 2, 1] is_anagram = Counter(arr1) == Counter(arr2) # 结果：True ## set() 的常用语法和使用情况 arr = [1, 2, 2, 3, 4, 4] ## 快速查找 seen = set(arr) if 3 in seen: print("3 is in array") ## 去重 unique_elements = list(set(arr)) # 结果：[1, 2, 3, 4] ## 两个数组的交集 arr1 = [1, 2, 2, 3] arr2 = [2, 3, 4] intersection = list(set(arr1) & set(arr2)) # 结果：[2, 3] Strings # Strings in Python are immutable sequences of characters. You can perform various operations on strings using built-in methods and operators.'><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Leetcode Notes | Followb1ind1y</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/common-librarie/leetcode/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.c55dc1c1a9b540af283945ffaa8c8144688e2ad985122e2f178cab76499f6dd2.js integrity="sha256-xV3Bwam1QK8oOUX/qoyBRGiOKtmFEi4vF4yrdkmfbdI=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/common-librarie/leetcode/index.xml title=Followb1ind1y></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followb1ind1y</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Common Librarie</span><ul><li><a href=/docs/common-librarie/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-0f4f758f68a516ade4929d54bd1777e5 class=toggle checked>
+<label for=section-0f4f758f68a516ade4929d54bd1777e5 class="flex justify-between"><a href=/docs/common-librarie/leetcode/ class=active>Leetcode Notes</a></label><ul><li><a href=/docs/common-librarie/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-dc4356e6935aa68f1720a2edf4a9ccc3 class=toggle>
+<label for=section-dc4356e6935aa68f1720a2edf4a9ccc3 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><a href=/docs/example/>Example Site</a><ul><li><a href=/docs/example/table-of-contents/>Table of Contents</a><ul><li><a href=/docs/example/table-of-contents/with-toc/>With ToC</a></li><li><a href=/docs/example/table-of-contents/without-toc/>Without ToC</a></li></ul></li><li><input type=checkbox id=section-c122443b3236a1aebb84fed7942046c2 class=toggle>
+<label for=section-c122443b3236a1aebb84fed7942046c2 class="flex justify-between"><a role=button>Collapsed</a></label><ul><li><a href=/docs/example/collapsed/3rd-level/>3rd Level</a><ul><li><a href=/docs/example/collapsed/3rd-level/4th-level/>4th Level</a></li></ul></li></ul></li></ul></li><li class=book-section-flat><span>Shortcodes</span><ul><li><a href=/docs/shortcodes/buttons/>Buttons</a></li><li><a href=/docs/shortcodes/columns/>Columns</a></li><li><a href=/docs/shortcodes/details/>Details</a></li><li><a href=/docs/shortcodes/hints/>Hints</a></li><li><a href=/docs/shortcodes/mermaid/>Mermaid</a></li><li><input type=checkbox id=section-e2644993062f850f8f4d5d5897a42ec3 class=toggle>
+<label for=section-e2644993062f850f8f4d5d5897a42ec3 class="flex justify-between"><a href=/docs/shortcodes/section/>Section</a></label><ul><li><a href=/docs/shortcodes/section/first-page/>First Page</a></li><li><a href=/docs/shortcodes/section/second-page/>Second Page</a></li></ul></li><li><a href=/docs/shortcodes/tabs/>Tabs</a></li><li><a href=/docs/shortcodes/katex/>KaTeX</a></li></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Leetcode Notes</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#basic-data-structures><strong>Basic Data Structures</strong></a><ul><li><a href=#arrays>Arrays</a></li><li><a href=#strings>Strings</a></li><li><a href=#linked-lists>Linked Lists</a></li><li><a href=#stack>Stack</a></li><li><a href=#queue>Queue</a></li><li><a href=#deque>Deque</a></li></ul></li><li><a href=#advanced-data-structures><strong>Advanced Data Structures</strong></a><ul><li><a href=#overview>Overview</a></li><li><a href=#heap>Heap</a></li><li><a href=#tree>Tree</a></li><li><a href=#hash-tables>Hash Tables</a></li></ul></li><li><a href=#core-algorithms><strong>Core Algorithms</strong></a><ul><li><a href=#overview-1>Overview</a></li><li><a href=#two-pointer>Two Pointer</a></li><li><a href=#prefix-sum-and-suffix-sum>Prefix Sum and Suffix Sum</a></li></ul></li><li><a href=#advanced-algorithms><strong>Advanced Algorithms</strong></a><ul><li><a href=#overview-2>Overview:</a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=leetcode-interview-preparation-notes><strong>Leetcode Interview Preparation Notes</strong>
+<a class=anchor href=#leetcode-interview-preparation-notes>#</a></h1><h2 id=basic-data-structures><strong>Basic Data Structures</strong>
+<a class=anchor href=#basic-data-structures>#</a></h2><h3 id=arrays>Arrays
+<a class=anchor href=#arrays>#</a></h3><p>In Python, arrays are typically represented using lists. While Python doesn&rsquo;t have a native array type as seen in other languages like Java or C++, lists are versatile and can be used similarly to arrays.</p><p>【<code>Last Update: 2024-08-14</code>】</p><pre tabindex=0><code>arr = []          # O(1)
+arr = [1, 2, 3]   # O(n), where n is the number of elements
+first_element = arr[0]  # O(1)
+arr[1] = 10  # O(1)
+arr.append(6)  # O(1) on average for appending
+arr.insert(2, 15)  # O(n), where n is the number of elements after the insertion index
+arr.remove(15)  # O(n), where n is the number of elements in the list [remove the first 15 in the array]
+del arr[2]  # O(n), where n is the number of elements after the deleted index
+last_element = arr.pop()  # O(1)
+arr.sort()  # 原地排序
+sorted_arr = sorted(arr)  # 返回排序后的数组
+arr[::-1] # arr 倒序
+</code></pre><pre tabindex=0><code>## Counter() 的常用语法和使用情况
+from collections import Counter
+arr = [1, 2, 2, 3, 3, 3]
+counts = Counter(arr)  # 结果：Counter({3: 3, 2: 2, 1: 1})
+
+## 找到出现次数最多的元素
+most_common_element = counts.most_common(1)[0]  # 结果：(3, 3)
+
+## 判断出现的元素是否相同
+arr1 = [1, 2, 3]
+arr2 = [3, 2, 1]
+is_anagram = Counter(arr1) == Counter(arr2)  # 结果：True
+</code></pre><pre tabindex=0><code>## set() 的常用语法和使用情况
+arr = [1, 2, 2, 3, 4, 4]
+
+## 快速查找
+seen = set(arr)
+if 3 in seen:
+    print(&#34;3 is in array&#34;)
+
+## 去重
+unique_elements = list(set(arr))  # 结果：[1, 2, 3, 4]
+
+## 两个数组的交集
+arr1 = [1, 2, 2, 3]
+arr2 = [2, 3, 4]
+intersection = list(set(arr1) &amp; set(arr2))  # 结果：[2, 3]
+</code></pre><h3 id=strings>Strings
+<a class=anchor href=#strings>#</a></h3><p>Strings in Python are immutable sequences of characters. You can perform various operations on strings using built-in methods and operators.</p><p>【<code>Last Update: 2024-08-14</code>】</p><pre tabindex=0><code>s = &#34;Hello, World!&#34;  # O(n), where n is the length of the string
+first_char = s[0]  # O(1)
+substring = s[7:12]  # O(k), where k is the length of the substring
+combined = s + &#34; Python&#34;  # O(n + m), where n and m are the lengths of the two strings
+repeated = s * 2  # O(n * k), where k is the number of repetitions
+
+upper_s = s.upper()  # O(n), where n is the length of the string
+lower_s = s.lower()  # O(n), where n is the length of the string
+starts_with_hello = s.startswith(&#34;Hello&#34;)  # O(n), where n is the length of the prefix
+contains_world = &#34;World&#34; in s  # O(n * m), where n is the length of the string and m is the length of the substring
+replaced_s = s.replace(&#34;World&#34;, &#34;Python&#34;)  # O(n * m), where n is the length of the string and m is the length of the substring
+
+words = s.split(&#34;, &#34;)  # O(n), where n is the length of the string
+joined = &#34; - &#34;.join(words)  # O(n), where n is the total length of the resulting string
+</code></pre><h3 id=linked-lists>Linked Lists
+<a class=anchor href=#linked-lists>#</a></h3><p>A Linked List is a linear data structure consisting of nodes, where each node contains:</p><ul><li>A data part that stores the actual data.</li><li>A next part (or pointer) that points to the next node in the list.</li></ul><p>【<code>Last Update: 2024-11-14</code>】</p><pre tabindex=0><code>## A node in a linked list can be represented as a class
+
+class ListNode:
+    def __init__(self, data=0, next=None):
+        self.data = data  # Data of the node
+        self.next = next  # Pointer to the next node
+</code></pre><pre tabindex=0><code>##  Inserting Nodes
+
+def insert_at_beginning(head, data):
+    new_node = ListNode(data)  # Create a new node
+    new_node.next = head       # Link the new node to the current head
+    return new_node            # New node becomes the head
+</code></pre><pre tabindex=0><code>## Deleting Nodes
+
+def delete_from_beginning(head):
+    if not head:
+        return None
+    return head.next  # The second node becomes the new head
+</code></pre><pre tabindex=0><code>## Searching for a Node
+
+def search(head, key):
+    current = head
+    while current:
+        if current.data == key:
+            return True  # Found the data
+        current = current.next
+    return False  # Data not found
+</code></pre><h3 id=stack>Stack
+<a class=anchor href=#stack>#</a></h3><p>A Stack is a linear data structure that stores items in a <strong>Last-In/First-Out (LIFO)</strong> or <strong>First-In/Last-Out (FILO)</strong> manner. In stack, a new element is added at one end and an element is removed from that end only.</p><ul><li><code>push(a)</code> – Inserts the element ‘a’ at the top of the stack – Time Complexity: O(1)</li><li><code>pop()</code> – Deletes the topmost element of the stack – Time Complexity: O(1)</li><li><code>Peek</code> - View the top element without removing it.</li><li><code>Empty</code> - Check if the stack is empty.</li></ul><p>【<code>Last Update: 2024-11-19</code>】</p><pre tabindex=0><code>stack = []
+
+# Push elements onto the stack
+stack.append(1)
+stack.append(2)
+
+# Pop element from the stack
+top = stack.pop()  # Removes and returns 2
+
+# Peek the top element
+top = stack[-1] if stack else None  # Returns 1
+
+# Check if the stack is empty
+is_empty = len(stack) == 0
+</code></pre><h3 id=queue>Queue
+<a class=anchor href=#queue>#</a></h3><p>Queue is a linear data structure that stores items in <strong>First In First Out (FIFO)</strong> manner. With a queue the least recently added item is removed first.</p><ul><li><code>Enqueue</code>: Adds an item to the queue. If the queue is full, then it is said to be an Overflow condition – Time Complexity : O(1)</li><li><code>Dequeue</code>: Removes an item from the queue. The items are popped in the same order in which they are pushed. If the queue is empty, then it is said to be an Underflow condition – Time Complexity : O(1)</li><li><code>Peek</code>: View the front element without removing it.</li><li><code>Empty</code>: Check if the queue is empty.</li></ul><p>【<code>Last Update: 2024-11-19</code>】</p><pre tabindex=0><code>from collections import deque
+
+# Initialize a queue
+queue = deque()
+
+# Enqueue elements
+queue.append(1)
+queue.append(2)
+
+# Dequeue element
+front = queue.popleft()  # Removes and returns 1
+
+# Peek at the front element
+front = queue[0] if queue else None
+
+# Check if the queue is empty
+is_empty = len(queue) == 0
+</code></pre><h3 id=deque>Deque
+<a class=anchor href=#deque>#</a></h3><p>A deque is a generalized queue that allows insertion and deletion from both ends with O(1) complexity. Internally, it is implemented as a doubly linked list or a circular buffer.</p><p>【<code>Last Update: 2024-11-25</code>】</p><pre tabindex=0><code>from collections import deque
+
+# Initialize a deque
+dq = deque()
+
+# Add elements
+dq.append(1)       # Add to the right
+dq.appendleft(2)   # Add to the left
+
+# Remove elements
+dq.pop()           # Remove from the right
+dq.popleft()       # Remove from the left
+
+# Access and manipulation
+dq.extend([3, 4])          # Add multiple elements to the right
+dq.extendleft([0, -1])     # Add multiple elements to the left (reversed order)
+dq.rotate(1)               # Rotate elements right
+dq.rotate(-1)              # Rotate elements left
+dq.clear()                 # Clear all elements
+</code></pre><h2 id=advanced-data-structures><strong>Advanced Data Structures</strong>
+<a class=anchor href=#advanced-data-structures>#</a></h2><h3 id=overview>Overview
+<a class=anchor href=#overview>#</a></h3><ul><li><strong>Trees</strong>: Explore the concepts of binary trees, binary search trees, AVL trees, and tree traversals (in-order, pre-order, post-order, level-order).</li><li><strong>Graphs</strong>: Learn about different graph representations (adjacency list, adjacency matrix), and traversal algorithms (Depth-First Search, Breadth-First Search) to solve problems like finding connected components or checking cycles.</li><li><strong>Hash Tables</strong>: Study how hash tables work, including hashing functions, handling collisions, and applications in tasks like item counting or implementing dictionaries.</li></ul><h3 id=heap>Heap
+<a class=anchor href=#heap>#</a></h3><p>A heap is a complete binary tree stored as an array. It maintains the heap property: in a min-heap, <strong>the parent is less than or equal to its children</strong>. Insertions and deletions are <strong>O(log n)</strong> due to the need to maintain the heap property.</p><ul><li>Two main types:<ul><li>Min-Heap: The root node is the smallest, and every parent node is smaller than or equal to its children.</li><li>Max-Heap: The root node is the largest, and every parent node is larger than or equal to its children.</li></ul></li><li>Root Node Access:<ul><li>Min-Heap: Root is the smallest element</li><li>Max-Heap: Root is the largest element.</li></ul></li><li>Efficient Operations:<ul><li>Insert and delete both take O(log n).</li><li>Maintains heap properties using adjustments (upward or downward shifts).</li></ul></li></ul><p>【<code>Last Update: 2024-11-25</code>】</p><pre tabindex=0><code>import heapq
+
+# Initialize a heap
+heap = []
+
+# Add elements
+heapq.heappush(heap, 3)  # Push element into the heap
+heapq.heappush(heap, 1)
+heapq.heappush(heap, 4)
+
+# Access the smallest element
+smallest = heap[0]
+
+# Remove elements
+min_element = heapq.heappop(heap)  # Pop the smallest element
+
+# Heapify an existing list
+nums = [4, 1, 7, 3]
+heapq.heapify(nums)
+
+# Get n largest or smallest elements
+largest = heapq.nlargest(2, nums)
+smallest = heapq.nsmallest(2, nums)
+</code></pre><h3 id=tree>Tree
+<a class=anchor href=#tree>#</a></h3><p>A tree is a hierarchical data structure with nodes connected by edges. The topmost node is the root, and nodes with no children are called leaves.</p><ul><li><strong>Binary Tree</strong>: Each node has at most two children.</li><li><strong>Binary Search Tree (BST)</strong>: A binary tree where the left child contains values less than the parent, and the right child contains values greater.</li><li><strong>Balanced Tree</strong>: A tree where the height difference between left and right subtrees of any node is minimal (e.g., AVL tree, Red-Black tree).</li><li><strong>Tree Traversals</strong>:<ul><li>Preorder Traversal (Root, Left, Right)</li><li>Inorder Traversal (Left, Root, Right)</li><li>Postorder Traversal (Left, Right, Root)</li></ul></li></ul><pre tabindex=0><code>## Trees are often represented using classes. 
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+</code></pre><p align=center><img src=images/tree.jpg width=500></p><pre tabindex=0><code>## Preorder Traversal (Root, Left, Right)
+def preorder_traversal(root):
+    if root:
+        print(root.val)
+        preorder_traversal(root.left)
+        preorder_traversal(root.right)
+
+## Inorder Traversal (Left, Root, Right)
+def inorder_traversal(root):
+    if root:
+        inorder_traversal(root.left)
+        print(root.val)
+        inorder_traversal(root.right)
+
+## Postorder Traversal (Left, Right, Root)
+def postorder_traversal(root):
+    if root:
+        postorder_traversal(root.left)
+        postorder_traversal(root.right)
+        print(root.val)
+</code></pre><pre tabindex=0><code>## Binary Search Tree (BST) Operations
+
+## 1. Insert a Node
+def insert_into_bst(root, val):
+    if not root:
+        return TreeNode(val)
+    if val &lt; root.val:
+        root.left = insert_into_bst(root.left, val)
+    else:
+        root.right = insert_into_bst(root.right, val)
+    return root
+
+## 	2. Search for a Value
+def search_bst(root, val):
+    if not root or root.val == val:
+        return root
+    if val &lt; root.val:
+        return search_bst(root.left, val)
+    return search_bst(root.right, val)
+
+## 	3. Delete a Node
+def delete_node(root, key):
+    if not root:
+        return None
+    if key &lt; root.val:
+        root.left = delete_node(root.left, key)
+    elif key &gt; root.val:
+        root.right = delete_node(root.right, key)
+    else:
+        if not root.left:
+            return root.right
+        if not root.right:
+            return root.left
+        min_larger_node = root.right
+        while min_larger_node.left:
+            min_larger_node = min_larger_node.left
+        root.val = min_larger_node.val
+        root.right = delete_node(root.right, root.val)
+    return root
+</code></pre><h3 id=hash-tables>Hash Tables
+<a class=anchor href=#hash-tables>#</a></h3><p>In Python, the built-in dict type (short for dictionary) functions as a hash table. Hash tables are a key data structure used for efficient data retrieval and storage, providing average time complexities of O(1) for insertion, deletion, and lookup operations due to their underlying hashing mechanism.</p><p>【<code>Last Update: 2024-11-06</code>】</p><pre tabindex=0><code>my_dict = {}  # Creating an empty dictionary
+my_dict = {&#39;key1&#39;: &#39;value1&#39;, &#39;key2&#39;: &#39;value2&#39;}  # Creating a dictionary with initial values
+value = my_dict[&#39;key1&#39;]   # Accessing a value by key
+my_dict[&#39;key3&#39;] = &#39;value3&#39;  # Adding a new key-value pair
+my_dict[&#39;key2&#39;] = &#39;new_value2&#39;  # Updating an existing key-value pair
+del my_dict[&#39;key1&#39;]   # Removing an entry by key
+value = my_dict.pop(&#39;key2&#39;)  # Popping an entry (removes and returns the value)
+exists = &#39;key3&#39; in my_dict  # # Checking if a key is in the dictionary [True]
+
+for key in my_dict:
+    print(key, my_dict[key]) # Iterating through keys
+for key, value in my_dict.items(): # Iterating through key-value pairs
+    print(key, value)
+for value in my_dict.values(): # Iterating through values
+    print(value)
+</code></pre><pre tabindex=0><code># defaultdict 使用方法，没见过的元素不会报错。适用于计数、分组和嵌套字典等应用。
+
+from collections import defaultdict
+
+# 使用 int 类型的 defaultdict
+dd = defaultdict(int)
+print(dd[&#39;missing_key&#39;])  # 输出：0，因为 int() 的默认值是 0
+print(dd)  # 输出：defaultdict(&lt;class &#39;int&#39;&gt;, {&#39;missing_key&#39;: 0})
+
+# 统计元素出现次数
+data = &#34;abracadabra&#34;
+counter = defaultdict(int)
+for char in data:
+    counter[char] += 1
+print(counter)  # 输出：defaultdict(&lt;class &#39;int&#39;&gt;, {&#39;a&#39;: 5, &#39;b&#39;: 2, &#39;r&#39;: 2, &#39;c&#39;: 1, &#39;d&#39;: 1})
+
+# defaultdict(list)常用于将多个值归类到同一个键下。
+data = [(&#34;apple&#34;, 1), (&#34;banana&#34;, 2), (&#34;apple&#34;, 3), (&#34;banana&#34;, 4)]
+grouped_data = defaultdict(list)
+for fruit, count in data:
+    grouped_data[fruit].append(count)
+print(grouped_data)  # 输出：defaultdict(&lt;class &#39;list&#39;&gt;, {&#39;apple&#39;: [1, 3], &#39;banana&#39;: [2, 4]})
+
+# 可以使用dict()将defaultdict转换为普通字典。
+dd = defaultdict(int)
+dd[&#39;a&#39;] += 1
+print(dict(dd))  # 输出：{&#39;a&#39;: 1}
+</code></pre><h2 id=core-algorithms><strong>Core Algorithms</strong>
+<a class=anchor href=#core-algorithms>#</a></h2><h3 id=overview-1>Overview
+<a class=anchor href=#overview-1>#</a></h3><ul><li><strong>Two Pointer</strong>: The two-pointer technique is used primarily in solving array and linked list problems. It involves using two pointers to traverse the data structure, allowing for efficient searching and processing of elements.</li><li><strong>Sorting Algorithms</strong>: Review the mechanisms and use cases for quicksort, mergesort, and heapsort. Understand the trade-offs in terms of time and space complexity.</li><li><strong>Search Algorithms</strong>: Study binary search on sorted arrays, and learn about its variations for finding the first or last position of an element.</li><li><strong>Recursion and Backtracking</strong>: Understand how to apply recursion for solving problems involving permutations, combinations, and other backtrack-required scenarios. Study the call stack mechanism and how to optimize recursion through memoization.</li><li><strong>Prefix Sum and Suffix Sum</strong>: Prefix Sum and Suffix Sum are techniques used to compute the sum of elements in a subarray quickly by precomputing cumulative sums.</li></ul><h3 id=two-pointer>Two Pointer
+<a class=anchor href=#two-pointer>#</a></h3><ul><li>Finding Pairs with a Given Sum: When looking for two numbers in a sorted array that add up to a specific target.</li><li>Reversing a String or Array: Using two pointers to swap elements from the start and end until they meet in the middle.</li><li>Merging Two Sorted Arrays: Traversing both arrays simultaneously to create a new sorted array.</li><li>Removing Duplicates from a Sorted Array: Using two pointers to track unique elements.</li><li>设置 two pointers 的时候，left 一般会在最前面，但是 right 不一定在最后，可以设置在 left 后面。</li></ul><p>【<code>Last Update: 2024-11-07</code>】</p><h3 id=prefix-sum-and-suffix-sum>Prefix Sum and Suffix Sum
+<a class=anchor href=#prefix-sum-and-suffix-sum>#</a></h3><pre><code>1.	Prefix Sum: For an array nums, the prefix sum at each index i is the sum of all elements from the start of the array up to i. This allows you to find the sum of any subarray [i, j] in constant time by calculating prefix[j+1] - prefix[i].
+2.	Suffix Sum: For the same array nums, the suffix sum at index i is the sum of all elements from i to the end of the array. It enables efficient queries for sums of subarrays that start from any index i to a given end by using suffix[i] - suffix[j+1].
+</code></pre><pre tabindex=0><code>## Input [1, 2, 3, 4] -&gt; Output [2x3x4, 1x3x4, 1x2x4, 1x2x3] = [24, 12, 8, 6]
+## Predix -&gt; [0, 1, 1x2, 1x2x3] = [0, 1, 2, 6]
+## Suffix -&gt; [2x3x4, 3x4, 4, 0] = [24, 12, 4, 0]
+
+def productExceptSelf(self, nums: List[int]) -&gt; List[int]:
+  res = [1] * len(nums)
+  prefix, suffix = 1, 1
+
+  for i in range(len(nums)):
+    res[i] = prefix
+    prefix *= nums[i]
+
+  for j in range(len(nums)-1,-1,-1):
+    res[j] *= suffix
+    suffix *= nums[j]
+        
+  return res
+</code></pre><p>【<code>Last Update: 2024-11-11</code>】</p><h2 id=advanced-algorithms><strong>Advanced Algorithms</strong>
+<a class=anchor href=#advanced-algorithms>#</a></h2><h3 id=overview-2>Overview:
+<a class=anchor href=#overview-2>#</a></h3><ul><li><strong>Dynamic Programming</strong>: Explore the methodology of solving problems by breaking them down into smaller subproblems, storing results, and combining them to solve larger problems. Focus on understanding the concepts of overlapping subproblems and optimal substructure.</li><li><strong>Greedy Algorithms</strong>: Learn how greedy choices can lead to globally optimized solutions and their applications in problems like scheduling, graph based problems (like minimum spanning trees), and currency denomination.</li><li><strong>Graph Algorithms</strong>: Study shortest path algorithms (Dijkstra’s, Bellman-Ford) and minimum spanning tree algorithms (Prim’s, Kruskal’s). Understand their use cases and limitations.</li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#basic-data-structures><strong>Basic Data Structures</strong></a><ul><li><a href=#arrays>Arrays</a></li><li><a href=#strings>Strings</a></li><li><a href=#linked-lists>Linked Lists</a></li><li><a href=#stack>Stack</a></li><li><a href=#queue>Queue</a></li><li><a href=#deque>Deque</a></li></ul></li><li><a href=#advanced-data-structures><strong>Advanced Data Structures</strong></a><ul><li><a href=#overview>Overview</a></li><li><a href=#heap>Heap</a></li><li><a href=#tree>Tree</a></li><li><a href=#hash-tables>Hash Tables</a></li></ul></li><li><a href=#core-algorithms><strong>Core Algorithms</strong></a><ul><li><a href=#overview-1>Overview</a></li><li><a href=#two-pointer>Two Pointer</a></li><li><a href=#prefix-sum-and-suffix-sum>Prefix Sum and Suffix Sum</a></li></ul></li><li><a href=#advanced-algorithms><strong>Advanced Algorithms</strong></a><ul><li><a href=#overview-2>Overview:</a></li></ul></li></ul></nav></div></aside></main></body></html>
