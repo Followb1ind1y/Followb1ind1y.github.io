@@ -1,12 +1,12 @@
 ---
-title: Zeren Shen - Personal Blog  
+title: Home Page
 type: docs
 ---
 
-# **<img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="21"></a> Welcome to My Personal Blog**
+# **<img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="21"></a> Welcome to My Blog**
 
 ---
-<!-- ![Image alt](images/homepage.jpg) -->
+![Image alt](images/homepage.jpg)
 
 <!-- {{< figure src="images/homepage.jpg" alt="Zeren Shen" width="600px" class="float-right" >}} -->
 <p align="center">
