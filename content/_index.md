@@ -19,6 +19,7 @@ type: docs
     <a href="https://followb1ind1y.github.io/WechatQR.jpeg" target="_blank">
         <img alt="WeChat" src="https://img.shields.io/badge/-Followblindly-4C1?style=flat-square&logo=wechat&logoColor=white">
     </a>
+    <a href="https://github.com/Followb1ind1y/Followb1ind1y.github.io/graphs/commit-activity"><img src="https://img.shields.io/github/last-commit/Followb1ind1y/Followb1ind1y.github.io.svg?colorB=eb9f34&style=flat" alt="Last Commit"/> </a> 
     <img src="https://komarev.com/ghpvc/?username=Followb1ind1y" alt="Followb1ind1y" />
 </p>
 
