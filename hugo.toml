@@ -16,6 +16,8 @@ title = 'Followblindly'
 
   # 用途: 提供页面的 Git 仓库地址，启用 “Edit this page” 和 “Last Modified” 功能。
   # BookRepo = 'https://github.com/alex-shpak/hugo-book'
+  
+  useHighlightJS = true
 
 [markup]
   [markup.goldmark]

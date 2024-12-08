@@ -1,13 +1,423 @@
 <!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
   Python Fundamentals
   #
-"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/python-basics/python-fundamentals/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Python Fundamentals"><meta property="og:description" content="Python Fundamentals #"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Python Fundamentals | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/python-basics/python-fundamentals/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.5c62365d2013d7aae52841ff775803480aac2073645f5f6565920e3aad4cb99c.js integrity="sha256-XGI2XSAT16rlKEH/d1gDSAqsIHNkX19lZZIOOq1MuZw=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/python-basics/python-fundamentals/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+
+
+这是一个Python基础知识总结文档，涵盖变量（Variables）、列表（Lists）、元组（Tuples）、集合（Sets）、字典（Dictionaries）、条件语句（If statements）、循环（Loops）、列表推导式（List comprehension）、函数（Functions）、类与继承（Classes & Inheritance）、装饰器（Decorators）及回调函数（Callbacks）等核心内容。
+
+
+  列表 (Lists)
+  #
+
+列表 (Lists) 是 有序的 (ordered)、可变的 (mutable) 值集合，这些值以逗号分隔并用方括号括起来。列表可以由许多不同类型的变量组成。
+# Creating a list
+x = [3, &#34;hello&#34;, 1.2]
+print (x)
+[3, 'hello', 1.2]
+我们可以使用 append 函数将新的值添加到 列表 (Lists) 中：
+# Adding to a list
+x.append(7)
+print (x)
+print (len(x))
+[3, 'hello', 1.2, 7]
+4
+或者直接替换现有的值：
+# Replacing items in a list
+x[1] = &#34;bye&#34;
+print (x)
+[3, 'bye', 1.2, 7]
+并可以直接对 列表 (list) 执行操作："><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/python-basics/python-fundamentals/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Python Fundamentals"><meta property="og:description" content="Python Fundamentals # 这是一个Python基础知识总结文档，涵盖变量（Variables）、列表（Lists）、元组（Tuples）、集合（Sets）、字典（Dictionaries）、条件语句（If statements）、循环（Loops）、列表推导式（List comprehension）、函数（Functions）、类与继承（Classes & Inheritance）、装饰器（Decorators）及回调函数（Callbacks）等核心内容。
+列表 (Lists) # 列表 (Lists) 是 有序的 (ordered)、可变的 (mutable) 值集合，这些值以逗号分隔并用方括号括起来。列表可以由许多不同类型的变量组成。
+# Creating a list x = [3, &#34;hello&#34;, 1.2] print (x) [3, 'hello', 1.2] 我们可以使用 append 函数将新的值添加到 列表 (Lists) 中：
+# Adding to a list x.append(7) print (x) print (len(x)) [3, 'hello', 1.2, 7] 4 或者直接替换现有的值：
+# Replacing items in a list x[1] = &#34;bye&#34; print (x) [3, 'bye', 1.2, 7] 并可以直接对 列表 (list) 执行操作："><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Python Fundamentals | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/python-basics/python-fundamentals/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.104e623bc82be007030e76b701512876518ddfbe78d2f835a33bf47704eae51d.js integrity="sha256-EE5iO8gr4AcDDna3AVEodlGN37540vg1ozv0dwTq5R0=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/python-basics/python-fundamentals/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/ class=active>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
 <label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><input type=checkbox id=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class=toggle>
 <label for=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class="flex justify-between"><a href=/docs/deep-learning/computer-vision/>Computer Vision</a></label><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Python Fundamentals</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents></nav></aside></header><article class="markdown book-article"><h1 id=python-fundamentals>Python Fundamentals
-<a class=anchor href=#python-fundamentals>#</a></h1></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents></nav></div></aside></main></body></html>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Python Fundamentals</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#列表-lists><strong>列表 (Lists)</strong></a></li><li><a href=#元组-tuples><strong>元组 (Tuples)</strong></a></li><li><a href=#集合-sets><strong>集合 (Sets)</strong></a></li><li><a href=#字典-dictionaries><strong>字典 (Dictionaries)</strong></a></li><li><a href=#索引-indexing><strong>索引 (Indexing)</strong></a></li><li><a href=#if-语句-if-statements><strong>if 语句 (if statements)</strong></a></li><li><a href=#循环语句-loop><strong>循环语句 (Loop)</strong></a><ul><li><a href=#for-loops><strong>For loops</strong></a></li><li><a href=#while-loops><strong>While loops</strong></a></li></ul></li><li><a href=#列表推导式-list-comprehension-和生成器表达式-generator-expression><strong>列表推导式 (list comprehension) 和生成器表达式 (generator expression)</strong></a></li><li><a href=#lambda-函数和-map-filter-的使用><strong>Lambda 函数和 map, filter 的使用</strong></a></li><li><a href=#函数-function-封装><strong>函数 (Function) 封装</strong></a></li><li><a href=#类-class-封装><strong>类 (Class) 封装</strong></a><ul><li><a href=#继承-inheritance><strong>继承 (Inheritance)</strong></a></li><li><a href=#方法-methods><strong>方法 (Methods)</strong></a></li><li><a href=#装饰器-decorators><strong>装饰器 (Decorators)</strong></a></li><li><a href=#回调函数-callbacks><strong>回调函数 (Callbacks)</strong></a></li></ul></li><li><a href=#模块-module-封装><strong>模块 (Module) 封装</strong></a></li><li><a href=#异步编程-asynchronous-programming><strong>异步编程 (Asynchronous Programming)</strong></a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=python-fundamentals><strong>Python Fundamentals</strong>
+<a class=anchor href=#python-fundamentals>#</a></h1><blockquote class="book-hint warning"><p>这是一个Python基础知识总结文档，涵盖变量（Variables）、列表（Lists）、元组（Tuples）、集合（Sets）、字典（Dictionaries）、条件语句（If statements）、循环（Loops）、列表推导式（List comprehension）、函数（Functions）、类与继承（Classes & Inheritance）、装饰器（Decorators）及回调函数（Callbacks）等核心内容。</p></blockquote><h2 id=列表-lists><strong>列表 (Lists)</strong>
+<a class=anchor href=#%e5%88%97%e8%a1%a8-lists>#</a></h2><p><strong>列表 (Lists)</strong> 是 <strong>有序的 (ordered)</strong>、<strong>可变的 (mutable)</strong> 值集合，这些值以逗号分隔并用方括号括起来。列表可以由许多不同类型的变量组成。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Creating a list</span>
+</span></span><span style=display:flex><span>x <span style=color:#f92672>=</span> [<span style=color:#ae81ff>3</span>, <span style=color:#e6db74>&#34;hello&#34;</span>, <span style=color:#ae81ff>1.2</span>]
+</span></span><span style=display:flex><span>print (x)
+</span></span></code></pre></div><pre tabindex=0><code>[3, &#39;hello&#39;, 1.2]
+</code></pre><p>我们可以使用 <code>append</code> 函数将新的值添加到 <strong>列表 (Lists)</strong> 中：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Adding to a list</span>
+</span></span><span style=display:flex><span>x<span style=color:#f92672>.</span>append(<span style=color:#ae81ff>7</span>)
+</span></span><span style=display:flex><span>print (x)
+</span></span><span style=display:flex><span>print (len(x))
+</span></span></code></pre></div><pre tabindex=0><code>[3, &#39;hello&#39;, 1.2, 7]
+4
+</code></pre><p>或者直接替换现有的值：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Replacing items in a list</span>
+</span></span><span style=display:flex><span>x[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;bye&#34;</span>
+</span></span><span style=display:flex><span>print (x)
+</span></span></code></pre></div><pre tabindex=0><code>[3, &#39;bye&#39;, 1.2, 7]
+</code></pre><p>并可以直接对 <strong>列表 (list)</strong> 执行操作：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Operations</span>
+</span></span><span style=display:flex><span>y <span style=color:#f92672>=</span> [<span style=color:#ae81ff>2.4</span>, <span style=color:#e6db74>&#34;world&#34;</span>]
+</span></span><span style=display:flex><span>z <span style=color:#f92672>=</span> x <span style=color:#f92672>+</span> y
+</span></span><span style=display:flex><span>print (z)
+</span></span></code></pre></div><pre tabindex=0><code>[3, &#39;bye&#39;, 1.2, 7, 2.4, &#39;world&#39;]
+</code></pre><h2 id=元组-tuples><strong>元组 (Tuples)</strong>
+<a class=anchor href=#%e5%85%83%e7%bb%84-tuples>#</a></h2><p><strong>元组 (Tuples)</strong> 是 <strong>有序 (ordered)</strong> 且 <strong>不可变 (immutable)</strong> 的集合。我们将使用元组来存储 <strong>永远不会改变</strong> 的值。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Creating a tuple</span>
+</span></span><span style=display:flex><span>x <span style=color:#f92672>=</span> (<span style=color:#ae81ff>3.0</span>, <span style=color:#e6db74>&#34;hello&#34;</span>) <span style=color:#75715e># tuples start and end with ()</span>
+</span></span><span style=display:flex><span>print (x)
+</span></span></code></pre></div><pre tabindex=0><code>(3.0, &#39;hello&#39;)
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Adding values to a tuple</span>
+</span></span><span style=display:flex><span>x <span style=color:#f92672>=</span> x <span style=color:#f92672>+</span> (<span style=color:#ae81ff>5.6</span>, <span style=color:#ae81ff>4</span>)
+</span></span><span style=display:flex><span>print (x)
+</span></span></code></pre></div><pre tabindex=0><code>(3.0, &#39;hello&#39;, 5.6, 4)
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Try to change (it won&#39;t work and we get an error)</span>
+</span></span><span style=display:flex><span>x[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#ae81ff>1.2</span>
+</span></span></code></pre></div><pre tabindex=0><code>---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+----&gt; 1 x[0] = 1.2
+TypeError: &#39;tuple&#39; object does not support item assignment
+</code></pre><h2 id=集合-sets><strong>集合 (Sets)</strong>
+<a class=anchor href=#%e9%9b%86%e5%90%88-sets>#</a></h2><p><strong>集合(sets)</strong> 是 <strong>无序(unordered)</strong> 且 <strong>可变(mutable)</strong> 的。但是，集合中的每个项目必须是 <strong>唯一(unique)</strong> 的。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Sets</span>
+</span></span><span style=display:flex><span>text <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;Learn ML with Made With ML&#34;</span>
+</span></span><span style=display:flex><span>print (set(text))
+</span></span><span style=display:flex><span>print (set(text<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34; &#34;</span>)))
+</span></span></code></pre></div><pre tabindex=0><code>{&#39;e&#39;, &#39;M&#39;, &#39; &#39;, &#34;r&#34;, &#34;w&#34;, &#39;d&#39;, &#39;a&#39;, &#39;h&#39;, &#39;t&#39;, &#39;i&#39;, &#39;L&#39;, &#39;n&#39;, &#34;w&#34;}
+{&#39;with&#39;, &#39;Learn&#39;, &#39;ML&#39;, &#39;Made&#39;, &#39;With&#39;}
+</code></pre><h2 id=字典-dictionaries><strong>字典 (Dictionaries)</strong>
+<a class=anchor href=#%e5%ad%97%e5%85%b8-dictionaries>#</a></h2><p><strong>字典 (Dictionaries)</strong> 是 <strong>无序 (unordered)</strong> 且 <strong>可变 (mutable)</strong> 的 <strong>键值对(key-value pair)</strong> 集合。我们可以根据 <strong>键(key)</strong> 检索 <strong>值(value)</strong>，但字典不能有两个相同的键。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Creating a dictionary</span>
+</span></span><span style=display:flex><span>person <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;Goku&#34;</span>, <span style=color:#e6db74>&#34;eye_color&#34;</span>: <span style=color:#e6db74>&#34;brown&#34;</span>}
+</span></span><span style=display:flex><span>print (person)
+</span></span><span style=display:flex><span>print (person[<span style=color:#e6db74>&#34;name&#34;</span>])
+</span></span><span style=display:flex><span>print (person[<span style=color:#e6db74>&#34;eye_color&#34;</span>])
+</span></span></code></pre></div><pre tabindex=0><code>{&#34;name&#34;: &#34;Goku&#34;, &#34;eye_color&#34;: &#34;brown&#34;}
+Goku
+brown
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Changing the value for a key</span>
+</span></span><span style=display:flex><span>person[<span style=color:#e6db74>&#34;eye_color&#34;</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;green&#34;</span>
+</span></span><span style=display:flex><span>print (person)
+</span></span></code></pre></div><pre tabindex=0><code>{&#34;name&#34;: &#34;Goku&#34;, &#34;eye_color&#34;: &#34;green&#34;}
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Adding new key-value pairs</span>
+</span></span><span style=display:flex><span>person[<span style=color:#e6db74>&#34;age&#34;</span>] <span style=color:#f92672>=</span> <span style=color:#ae81ff>24</span>
+</span></span><span style=display:flex><span>print (person)
+</span></span></code></pre></div><pre tabindex=0><code>{&#34;name&#34;: &#34;Goku&#34;, &#34;eye_color&#34;: &#34;green&#34;, &#34;age&#34;: 24}
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Length of a dictionary</span>
+</span></span><span style=display:flex><span>print (len(person))
+</span></span></code></pre></div><pre tabindex=0><code>3
+</code></pre><h2 id=索引-indexing><strong>索引 (Indexing)</strong>
+<a class=anchor href=#%e7%b4%a2%e5%bc%95-indexing>#</a></h2><p>通过列表的 <strong>索引(indexing)</strong> 和 <strong>切片 (slicing)</strong>，我们可以检索列表中的特定值。请注意，索引可以是正数（<strong>从 0 开始</strong>）或负数（-1 及以下，其中 <strong>-1 是列表中的最后一项</strong>）。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Indexing</span>
+</span></span><span style=display:flex><span>x <span style=color:#f92672>=</span> [<span style=color:#ae81ff>3</span>, <span style=color:#e6db74>&#34;hello&#34;</span>, <span style=color:#ae81ff>1.2</span>]
+</span></span><span style=display:flex><span>print (<span style=color:#e6db74>&#34;x[0]: &#34;</span>, x[<span style=color:#ae81ff>0</span>])
+</span></span><span style=display:flex><span>print (<span style=color:#e6db74>&#34;x[1]: &#34;</span>, x[<span style=color:#ae81ff>1</span>])
+</span></span><span style=display:flex><span>print (<span style=color:#e6db74>&#34;x[-1]: &#34;</span>, x[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]) <span style=color:#75715e># the last item</span>
+</span></span><span style=display:flex><span>print (<span style=color:#e6db74>&#34;x[-2]: &#34;</span>, x[<span style=color:#f92672>-</span><span style=color:#ae81ff>2</span>]) <span style=color:#75715e># the second to last item</span>
+</span></span></code></pre></div><pre tabindex=0><code>x[0]:  3
+x[1]:  hello
+x[-1]:  1.2
+x[-2]:  hello
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Slicing</span>
+</span></span><span style=display:flex><span>print (<span style=color:#e6db74>&#34;x[:]: &#34;</span>, x[:]) <span style=color:#75715e># all indices</span>
+</span></span><span style=display:flex><span>print (<span style=color:#e6db74>&#34;x[1:]: &#34;</span>, x[<span style=color:#ae81ff>1</span>:]) <span style=color:#75715e># index 1 to the end of the list</span>
+</span></span><span style=display:flex><span>print (<span style=color:#e6db74>&#34;x[1:2]: &#34;</span>, x[<span style=color:#ae81ff>1</span>:<span style=color:#ae81ff>2</span>]) <span style=color:#75715e># index 1 to index 2 (not including index 2)</span>
+</span></span><span style=display:flex><span>print (<span style=color:#e6db74>&#34;x[:-1]: &#34;</span>, x[:<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]) <span style=color:#75715e># index 0 to last index (not including last index)</span>
+</span></span></code></pre></div><pre tabindex=0><code>x[:]:  [3, &#39;hello&#39;, 1.2]
+x[1:]:  [&#39;hello&#39;, 1.2]
+x[1:2]:  [&#39;hello&#39;]
+x[:-1]:  [3, &#39;hello&#39;]
+</code></pre><h2 id=if-语句-if-statements><strong>if 语句 (if statements)</strong>
+<a class=anchor href=#if-%e8%af%ad%e5%8f%a5-if-statements>#</a></h2><p>我们可以使用 <code>if</code> 语句有条件地执行某项操作。条件由单词 <code>if</code>、<code>elif</code>（代表 else if）和 <code>else</code> 定义。我们可以根据需要使用任意数量的 <code>elif</code> 语句。每个条件下方的缩进代码是条件为 <code>True</code> 时将执行的代码。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># If statement</span>
+</span></span><span style=display:flex><span>x <span style=color:#f92672>=</span> <span style=color:#ae81ff>4</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> x <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>1</span>:
+</span></span><span style=display:flex><span>    score <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;low&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>elif</span> x <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>4</span>: <span style=color:#75715e># elif = else if</span>
+</span></span><span style=display:flex><span>    score <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;medium&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>    score <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;high&#34;</span>
+</span></span><span style=display:flex><span>print (score)
+</span></span></code></pre></div><pre tabindex=0><code>medium
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># If statement with a boolean</span>
+</span></span><span style=display:flex><span>x <span style=color:#f92672>=</span> <span style=color:#66d9ef>True</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> x:
+</span></span><span style=display:flex><span>    print (<span style=color:#e6db74>&#34;it worked&#34;</span>)
+</span></span></code></pre></div><pre tabindex=0><code>it worked
+</code></pre><h2 id=循环语句-loop><strong>循环语句 (Loop)</strong>
+<a class=anchor href=#%e5%be%aa%e7%8e%af%e8%af%ad%e5%8f%a5-loop>#</a></h2><h3 id=for-loops><strong>For loops</strong>
+<a class=anchor href=#for-loops>#</a></h3><p><code>for</code> 循环可以迭代值集合（列表 (list)、元组 (tuple)、字典 (dictionaries)等）。缩进的代码针对值集合中的 <strong>每个项目</strong> 执行。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># For loop</span>
+</span></span><span style=display:flex><span>veggies <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;carrots&#34;</span>, <span style=color:#e6db74>&#34;broccoli&#34;</span>, <span style=color:#e6db74>&#34;beans&#34;</span>]
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> veggie <span style=color:#f92672>in</span> veggies:
+</span></span><span style=display:flex><span>    print (veggie)
+</span></span></code></pre></div><pre tabindex=0><code>carrots
+broccoli
+beans
+</code></pre><p>当循环遇到 <code>break</code> 命令时，<strong>循环将立即终止</strong>。如果列表中还有更多项目，则不会处理它们。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># `break` from a for loop</span>
+</span></span><span style=display:flex><span>veggies <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;carrots&#34;</span>, <span style=color:#e6db74>&#34;broccoli&#34;</span>, <span style=color:#e6db74>&#34;beans&#34;</span>]
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> veggie <span style=color:#f92672>in</span> veggies:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> veggie <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;broccoli&#34;</span>:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>break</span>
+</span></span><span style=display:flex><span>    print (veggie)
+</span></span></code></pre></div><pre tabindex=0><code>carrots
+</code></pre><p>当循环遇到 <code>continue</code> 命令时，循环将<strong>仅跳过列表中该项目的所有其他操作</strong>。如果列表中还有更多项目，循环将正常继续。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># `continue` to the next iteration</span>
+</span></span><span style=display:flex><span>veggies <span style=color:#f92672>=</span> [<span style=color:#e6db74>&#34;carrots&#34;</span>, <span style=color:#e6db74>&#34;broccoli&#34;</span>, <span style=color:#e6db74>&#34;beans&#34;</span>]
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> veggie <span style=color:#f92672>in</span> veggies:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> veggie <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;broccoli&#34;</span>:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>continue</span>
+</span></span><span style=display:flex><span>    print (veggie)
+</span></span></code></pre></div><pre tabindex=0><code>carrots
+beans
+</code></pre><h3 id=while-loops><strong>While loops</strong>
+<a class=anchor href=#while-loops>#</a></h3><p>只要条件为 <code>True</code>，<code>while</code> 循环就可以重复执行。我们也可以在 <code>while</code> 循环中使用 <code>continue</code> 和 <code>break</code> 命令。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># While loop</span>
+</span></span><span style=display:flex><span>x <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>while</span> x <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0</span>:
+</span></span><span style=display:flex><span>    x <span style=color:#f92672>-=</span> <span style=color:#ae81ff>1</span> <span style=color:#75715e># same as x = x - 1</span>
+</span></span><span style=display:flex><span>    print (x)
+</span></span></code></pre></div><pre tabindex=0><code>2
+1
+0
+</code></pre><h2 id=列表推导式-list-comprehension-和生成器表达式-generator-expression><strong>列表推导式 (list comprehension) 和生成器表达式 (generator expression)</strong>
+<a class=anchor href=#%e5%88%97%e8%a1%a8%e6%8e%a8%e5%af%bc%e5%bc%8f-list-comprehension-%e5%92%8c%e7%94%9f%e6%88%90%e5%99%a8%e8%a1%a8%e8%be%be%e5%bc%8f-generator-expression>#</a></h2><p><strong>快速构建列表或生成器</strong>，尤其适合在数据处理或特征工程中清洗数据或生成特定序列。</p><ul><li>列表推导式 (list comprehension)：返回一个完整的列表。</li><li>生成器表达式 (generator expression)：返回一个惰性生成器，节省内存。</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># 过滤列表中的偶数</span>
+</span></span><span style=display:flex><span>numbers <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>4</span>, <span style=color:#ae81ff>5</span>, <span style=color:#ae81ff>6</span>]
+</span></span><span style=display:flex><span>even_numbers <span style=color:#f92672>=</span> [x <span style=color:#66d9ef>for</span> x <span style=color:#f92672>in</span> numbers <span style=color:#66d9ef>if</span> x <span style=color:#f92672>%</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>print(even_numbers)  <span style=color:#75715e># [2, 4, 6]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 生成器表达式（惰性求值）</span>
+</span></span><span style=display:flex><span>gen <span style=color:#f92672>=</span> (x<span style=color:#f92672>**</span><span style=color:#ae81ff>2</span> <span style=color:#66d9ef>for</span> x <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>5</span>))  <span style=color:#75715e># 不占用大量内存</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> val <span style=color:#f92672>in</span> gen:
+</span></span><span style=display:flex><span>    print(val)
+</span></span></code></pre></div><pre tabindex=0><code>[2, 4, 6]
+0
+1
+4
+9
+16
+</code></pre><h2 id=lambda-函数和-map-filter-的使用><strong>Lambda 函数和 map, filter 的使用</strong>
+<a class=anchor href=#lambda-%e5%87%bd%e6%95%b0%e5%92%8c-map-filter-%e7%9a%84%e4%bd%bf%e7%94%a8>#</a></h2><ul><li><code>Lambda函数</code>：定义简洁的匿名函数，适合简单逻辑。(e.g. <code>func = lambda var1 var2 : function</code> => <code>func(var1, var2)</code>)</li><li><code>map</code>：对可迭代对象中的每个元素应用函数。</li><li><code>filter</code>：筛选符合条件的元素。</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>from</span> functools <span style=color:#f92672>import</span> reduce
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Lambda函数示例</span>
+</span></span><span style=display:flex><span>add <span style=color:#f92672>=</span> <span style=color:#66d9ef>lambda</span> x, y: x <span style=color:#f92672>+</span> y
+</span></span><span style=display:flex><span>print(add(<span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>5</span>))  <span style=color:#75715e># 8</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># map: 计算平方</span>
+</span></span><span style=display:flex><span>squares <span style=color:#f92672>=</span> list(map(<span style=color:#66d9ef>lambda</span> x: x<span style=color:#f92672>**</span><span style=color:#ae81ff>2</span>, [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>]))
+</span></span><span style=display:flex><span>print(squares)  <span style=color:#75715e># [1, 4, 9]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># filter: 筛选出大于2的元素</span>
+</span></span><span style=display:flex><span>filtered <span style=color:#f92672>=</span> list(filter(<span style=color:#66d9ef>lambda</span> x: x <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>2</span>, [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>4</span>]))
+</span></span><span style=display:flex><span>print(filtered)  <span style=color:#75715e># [3, 4]</span>
+</span></span></code></pre></div><pre tabindex=0><code>8
+[1, 4, 9]
+[3, 4]
+</code></pre><h2 id=函数-function-封装><strong>函数 (Function) 封装</strong>
+<a class=anchor href=#%e5%87%bd%e6%95%b0-function-%e5%b0%81%e8%a3%85>#</a></h2><p>在ML项目中<strong>封装代码逻辑</strong>，便于维护和复用。例如，封装数据预处理步骤或模型训练流程。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>preprocess_data</span>(data):
+</span></span><span style=display:flex><span>    preprocessed_data <span style=color:#f92672>=</span> data<span style=color:#f92672>.</span>dropna()
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> preprocessed_data
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># &lt;---------- Usage ----------&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># cleaned_data = preprocess_data(raw_data)</span>
+</span></span></code></pre></div><p><code>def f(*args, **kwargs)</code> 是另一种定义函数的方式，用来接收可变数量的参数。它允许函数在调用时传入任意数量的位置参数和关键字参数，从而使函数更加灵活。</p><ul><li><code>*args</code>: 可变长度位置参数，接收任意数量的未命名参数 (<strong>arguments</strong>)，作为一个元组。</li><li><code>**kwargs</code>: 可变长度关键字参数，接收任意数量的命名参数 (<strong>keyword arguments</strong>)，作为一个字典。</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>f</span>(<span style=color:#f92672>*</span>args, <span style=color:#f92672>**</span>kwargs):
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 从位置参数中提取第一个值，赋值给变量 x</span>
+</span></span><span style=display:flex><span>    x <span style=color:#f92672>=</span> args[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 从关键字参数中获取键 &#34;y&#34; 的值，若不存在返回 None</span>
+</span></span><span style=display:flex><span>    y <span style=color:#f92672>=</span> kwargs<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;y&#34;</span>)
+</span></span><span style=display:flex><span>    print (<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;x: </span><span style=color:#e6db74>{</span>x<span style=color:#e6db74>}</span><span style=color:#e6db74>, y: </span><span style=color:#e6db74>{</span>y<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 调用函数 f，传入一个位置参数 5 和一个关键字参数 y=2</span>
+</span></span><span style=display:flex><span>f(<span style=color:#ae81ff>5</span>, y<span style=color:#f92672>=</span><span style=color:#ae81ff>2</span>)
+</span></span></code></pre></div><pre tabindex=0><code>x: 5, y: 2
+</code></pre><h2 id=类-class-封装><strong>类 (Class) 封装</strong>
+<a class=anchor href=#%e7%b1%bb-class-%e5%b0%81%e8%a3%85>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DataHandler</span>:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, filepath):
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>filepath <span style=color:#f92672>=</span> filepath
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>load_data</span>(self):
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Loading data from </span><span style=color:#e6db74>{</span>self<span style=color:#f92672>.</span>filepath<span style=color:#e6db74>}</span><span style=color:#e6db74>...&#34;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> {<span style=color:#e6db74>&#34;data&#34;</span>: [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>4</span>]}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>preprocess_data</span>(self, data):
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> [x <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span> <span style=color:#66d9ef>for</span> x <span style=color:#f92672>in</span> data]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># &lt;---------- Usage ----------&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># new_handler = DataHandler(&#39;data.csv&#39;)</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># new_data = new_handler.load_data()</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># preprocess_data = new_handler.preprocess_data(new_data[&#39;data&#39;])</span>
+</span></span></code></pre></div><h3 id=继承-inheritance><strong>继承 (Inheritance)</strong>
+<a class=anchor href=#%e7%bb%a7%e6%89%bf-inheritance>#</a></h3><p>继承用于让一个类（子类）从另一个类（父类）中获得 <strong>属性(properties)</strong> 和 <strong>方法(methods)</strong>，从而实现代码复用和扩展。</p><ul><li>子类继承父类的方法和属性。</li><li>使用 <code>super()</code> 调用父类的方法。</li><li>方法重写：子类可重写父类的方法实现。</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># 定义一个基础模型类</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>BaseModel</span>:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, name):
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>name <span style=color:#f92672>=</span> name
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>train</span>(self):
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>self<span style=color:#f92672>.</span>name<span style=color:#e6db74>}</span><span style=color:#e6db74> is training...&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>test</span>(self):
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>self<span style=color:#f92672>.</span>name<span style=color:#e6db74>}</span><span style=color:#e6db74> is testing...&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 子类继承基础模型类</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>RegressionModel</span>(BaseModel):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, name, num_features):
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>__init__(name)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>num_features <span style=color:#f92672>=</span> num_features
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>train_1</span>(self):
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>train()
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Training a regression model with </span><span style=color:#e6db74>{</span>self<span style=color:#f92672>.</span>num_features<span style=color:#e6db74>}</span><span style=color:#e6db74> features.&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 使用子类</span>
+</span></span><span style=display:flex><span>model <span style=color:#f92672>=</span> RegressionModel(<span style=color:#e6db74>&#34;LinearRegression&#34;</span>, <span style=color:#ae81ff>10</span>)
+</span></span><span style=display:flex><span>model<span style=color:#f92672>.</span>train()
+</span></span><span style=display:flex><span>model<span style=color:#f92672>.</span>test()
+</span></span></code></pre></div><pre tabindex=0><code>LinearRegression is training...
+LinearRegression is testing...
+</code></pre><h3 id=方法-methods><strong>方法 (Methods)</strong>
+<a class=anchor href=#%e6%96%b9%e6%b3%95-methods>#</a></h3><ul><li><strong>实例方法 (Instance Method)</strong>：实例方法的第一个参数是 <code>self</code>，用于访问实例属性和其他实例方法。它需要通过实例对象调用，依赖于具体的实例状态。当方法需要操作实例的属性（如 <code>self.name</code>）或依赖于实例的状态时，实例方法是最合适的选择。</li><li><strong>类方法 (Class Method)</strong>：类方法的第一个参数是 <code>cls</code>，表示类本身（而不是实例）。它使用 <code>@classmethod</code> 装饰器修饰，可以通过类对象或实例对象调用。当方法需要操作类级别的状态（如 <code>total_models</code>）而不依赖于任何具体实例时，类方法可以保持逻辑的清晰和一致性。</li><li><strong>静态方法 (Static Method)</strong>：使用 <code>@staticmethod</code>，与类或实例 (<code>self</code> 或 <code>cls</code>)无绑定，仅实现功能逻辑。当方法的逻辑与类相关，但完全独立于类或实例的状态时，静态方法可以避免无意义的参数（如 <code>self</code> 或 <code>cls</code>），提高代码的简洁性。</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MLModel</span>:
+</span></span><span style=display:flex><span>    total_models <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>  <span style=color:#75715e># 类属性</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, name):
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>name <span style=color:#f92672>=</span> name
+</span></span><span style=display:flex><span>        MLModel<span style=color:#f92672>.</span>total_models <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>display</span>(self):  <span style=color:#75715e># 实例方法</span>
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Model Name: </span><span style=color:#e6db74>{</span>self<span style=color:#f92672>.</span>name<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@classmethod</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_total_models</span>(cls):  <span style=color:#75715e># 类方法</span>
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Total models created: </span><span style=color:#e6db74>{</span>cls<span style=color:#f92672>.</span>total_models<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@staticmethod</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>utility_function</span>(x):    <span style=color:#75715e># 静态方法</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> x<span style=color:#f92672>**</span><span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 使用</span>
+</span></span><span style=display:flex><span>model <span style=color:#f92672>=</span> MLModel(<span style=color:#e6db74>&#34;RandomForest&#34;</span>)
+</span></span><span style=display:flex><span>model<span style=color:#f92672>.</span>display()
+</span></span><span style=display:flex><span>MLModel<span style=color:#f92672>.</span>get_total_models()
+</span></span><span style=display:flex><span>print(MLModel<span style=color:#f92672>.</span>utility_function(<span style=color:#ae81ff>5</span>))
+</span></span></code></pre></div><pre tabindex=0><code>Model Name: RandomForest
+Total models created: 1
+25
+</code></pre><h3 id=装饰器-decorators><strong>装饰器 (Decorators)</strong>
+<a class=anchor href=#%e8%a3%85%e9%a5%b0%e5%99%a8-decorators>#</a></h3><p>装饰器是一种函数，接受另一个函数或方法作为输入并返回一个修改后的函数，用于动态扩展功能。</p><pre tabindex=0><code>@decorator
+def function():
+    pass
+</code></pre><p>等价于：</p><pre tabindex=0><code>def function():
+    pass
+function = decorator(function)
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> time
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 定义一个装饰器</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>timer_decorator</span>(func):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>wrapper</span>(<span style=color:#f92672>*</span>args, <span style=color:#f92672>**</span>kwargs):
+</span></span><span style=display:flex><span>        start_time <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+</span></span><span style=display:flex><span>        result <span style=color:#f92672>=</span> func(<span style=color:#f92672>*</span>args, <span style=color:#f92672>**</span>kwargs)
+</span></span><span style=display:flex><span>        end_time <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Function &#39;</span><span style=color:#e6db74>{</span>func<span style=color:#f92672>.</span>__name__<span style=color:#e6db74>}</span><span style=color:#e6db74>&#39; executed in </span><span style=color:#e6db74>{</span>end_time <span style=color:#f92672>-</span> start_time<span style=color:#e6db74>:</span><span style=color:#e6db74>.4f</span><span style=color:#e6db74>}</span><span style=color:#e6db74>s&#34;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> result
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> wrapper
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 装饰训练函数</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MLModel</span>:
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>@timer_decorator</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>train</span>(self, data):
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>&#34;Training model...&#34;</span>)
+</span></span><span style=display:flex><span>        time<span style=color:#f92672>.</span>sleep(<span style=color:#ae81ff>1</span>)  <span style=color:#75715e># 模拟训练时间</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;Training Complete&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>model <span style=color:#f92672>=</span> MLModel()
+</span></span><span style=display:flex><span>print(model<span style=color:#f92672>.</span>train([]))
+</span></span></code></pre></div><pre tabindex=0><code>Training model...
+Function &#39;train&#39; executed in 1.0015s
+Training Complete
+</code></pre><h3 id=回调函数-callbacks><strong>回调函数 (Callbacks)</strong>
+<a class=anchor href=#%e5%9b%9e%e8%b0%83%e5%87%bd%e6%95%b0-callbacks>#</a></h3><p>回调是一个函数作为参数传递给另一个函数，并在适当时调用。它在机器学习中常用于动态调整训练流程（如早停、学习率调整）。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>TrainingCallback</span>:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>on_epoch_start</span>(self, epoch):
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Epoch </span><span style=color:#e6db74>{</span>epoch<span style=color:#e6db74>}</span><span style=color:#e6db74> started.&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>on_epoch_end</span>(self, epoch, loss):
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Epoch </span><span style=color:#e6db74>{</span>epoch<span style=color:#e6db74>}</span><span style=color:#e6db74> ended with loss: </span><span style=color:#e6db74>{</span>loss<span style=color:#e6db74>}</span><span style=color:#e6db74>.&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 使用回调</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MLTrainer</span>:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, callback<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>callback <span style=color:#f92672>=</span> callback
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>train</span>(self, epochs):
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> epoch <span style=color:#f92672>in</span> range(epochs):
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> self<span style=color:#f92672>.</span>callback:
+</span></span><span style=display:flex><span>                self<span style=color:#f92672>.</span>callback<span style=color:#f92672>.</span>on_epoch_start(epoch)
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 模拟训练过程</span>
+</span></span><span style=display:flex><span>            loss <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.01</span> <span style=color:#f92672>*</span> (epochs <span style=color:#f92672>-</span> epoch)
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> self<span style=color:#f92672>.</span>callback:
+</span></span><span style=display:flex><span>                self<span style=color:#f92672>.</span>callback<span style=color:#f92672>.</span>on_epoch_end(epoch, loss)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 测试回调</span>
+</span></span><span style=display:flex><span>callback <span style=color:#f92672>=</span> TrainingCallback()
+</span></span><span style=display:flex><span>trainer <span style=color:#f92672>=</span> MLTrainer(callback)
+</span></span><span style=display:flex><span>trainer<span style=color:#f92672>.</span>train(<span style=color:#ae81ff>3</span>)
+</span></span></code></pre></div><pre tabindex=0><code>Epoch 0 started.
+Epoch 0 ended with loss: 0.03.
+Epoch 1 started.
+Epoch 1 ended with loss: 0.02.
+Epoch 2 started.
+Epoch 2 ended with loss: 0.01.
+</code></pre><h2 id=模块-module-封装><strong>模块 (Module) 封装</strong>
+<a class=anchor href=#%e6%a8%a1%e5%9d%97-module-%e5%b0%81%e8%a3%85>#</a></h2><pre tabindex=0><code>project/
+    ├── data_processing.py  # Contains functions for data processing
+    ├── model_training.py   # Contains model training logic
+    ├── evaluation.py       # Contains evaluation methods
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># &lt;---------- Usage ----------&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># &lt;---------- data_processing.py ----------&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># def clean_data(data):</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#     &#34;&#34;&#34;Clean the data by dropping missing values.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#     print(&#34;Cleaning data...&#34;)</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#     return data.dropna()</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># &lt;---------- main.py ----------&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># import data_processing as dp</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># data = dp.load_data(&#34;data.csv&#34;)</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># cleaned_data = dp.clean_data(data)</span>
+</span></span></code></pre></div><h2 id=异步编程-asynchronous-programming><strong>异步编程 (Asynchronous Programming)</strong>
+<a class=anchor href=#%e5%bc%82%e6%ad%a5%e7%bc%96%e7%a8%8b-asynchronous-programming>#</a></h2><p>在训练、数据下载、或者与API通信时<strong>异步执行</strong>，提高性能。</p><ul><li><code>async</code> 用于定义一个异步函数。使用 <code>async def</code> 定义，表示该函数会返回一个协程对象。</li><li><code>await</code> 用于调用另一个异步函数，并等待其执行完成，直到结果返回。</li><li><code>asyncio</code> 库提供了一个框架来实现异步编程。</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> nest_asyncio
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> asyncio
+</span></span><span style=display:flex><span>nest_asyncio<span style=color:#f92672>.</span>apply()  <span style=color:#75715e># Allows nested use of asyncio.run [Only for Jupyter Notebook]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 定义一个异步函数</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>async</span> <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>say_hello</span>():
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>&#34;Hello&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>await</span> asyncio<span style=color:#f92672>.</span>sleep(<span style=color:#ae81ff>1</span>)  <span style=color:#75715e># 模拟一个耗时的异步操作</span>
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>&#34;World&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 运行异步任务</span>
+</span></span><span style=display:flex><span>asyncio<span style=color:#f92672>.</span>run(say_hello())
+</span></span></code></pre></div><pre tabindex=0><code>Hello
+World
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> asyncio
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 定义异步任务</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>async</span> <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>fetch_data</span>():
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>&#34;Fetching data...&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>await</span> asyncio<span style=color:#f92672>.</span>sleep(<span style=color:#ae81ff>2</span>)  <span style=color:#75715e># 模拟耗时的异步操作</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;Data fetched&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>async</span> <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>process_data</span>():
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>&#34;Processing data...&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>await</span> asyncio<span style=color:#f92672>.</span>sleep(<span style=color:#ae81ff>1</span>)  <span style=color:#75715e># 模拟耗时的异步操作</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;Data processed&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 主程序</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>async</span> <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>main</span>():
+</span></span><span style=display:flex><span>    data_task <span style=color:#f92672>=</span> asyncio<span style=color:#f92672>.</span>create_task(fetch_data())  <span style=color:#75715e># 启动任务1</span>
+</span></span><span style=display:flex><span>    process_task <span style=color:#f92672>=</span> asyncio<span style=color:#f92672>.</span>create_task(process_data())  <span style=color:#75715e># 启动任务2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    result1 <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> data_task  <span style=color:#75715e># 等待任务1完成</span>
+</span></span><span style=display:flex><span>    result2 <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> process_task  <span style=color:#75715e># 等待任务2完成</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    print(result1)
+</span></span><span style=display:flex><span>    print(result2)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 启动事件循环</span>
+</span></span><span style=display:flex><span>asyncio<span style=color:#f92672>.</span>run(main())
+</span></span></code></pre></div><pre tabindex=0><code>Fetching data...
+Processing data...
+Data fetched
+Data processed
+</code></pre></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#列表-lists><strong>列表 (Lists)</strong></a></li><li><a href=#元组-tuples><strong>元组 (Tuples)</strong></a></li><li><a href=#集合-sets><strong>集合 (Sets)</strong></a></li><li><a href=#字典-dictionaries><strong>字典 (Dictionaries)</strong></a></li><li><a href=#索引-indexing><strong>索引 (Indexing)</strong></a></li><li><a href=#if-语句-if-statements><strong>if 语句 (if statements)</strong></a></li><li><a href=#循环语句-loop><strong>循环语句 (Loop)</strong></a><ul><li><a href=#for-loops><strong>For loops</strong></a></li><li><a href=#while-loops><strong>While loops</strong></a></li></ul></li><li><a href=#列表推导式-list-comprehension-和生成器表达式-generator-expression><strong>列表推导式 (list comprehension) 和生成器表达式 (generator expression)</strong></a></li><li><a href=#lambda-函数和-map-filter-的使用><strong>Lambda 函数和 map, filter 的使用</strong></a></li><li><a href=#函数-function-封装><strong>函数 (Function) 封装</strong></a></li><li><a href=#类-class-封装><strong>类 (Class) 封装</strong></a><ul><li><a href=#继承-inheritance><strong>继承 (Inheritance)</strong></a></li><li><a href=#方法-methods><strong>方法 (Methods)</strong></a></li><li><a href=#装饰器-decorators><strong>装饰器 (Decorators)</strong></a></li><li><a href=#回调函数-callbacks><strong>回调函数 (Callbacks)</strong></a></li></ul></li><li><a href=#模块-module-封装><strong>模块 (Module) 封装</strong></a></li><li><a href=#异步编程-asynchronous-programming><strong>异步编程 (Asynchronous Programming)</strong></a></li></ul></nav></div></aside></main></body></html>
