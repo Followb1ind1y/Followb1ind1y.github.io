@@ -8,6 +8,9 @@
 
 Logistic Regression（逻辑回归）是一种用于分类问题的统计模型，本质上是一种线性模型，通过 Sigmoid 函数将线性回归的输出映射到 (0,1) 区间，用于预测概率。分类是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是回归. 通过逻辑回归模型, 我们得到的计算结果是 0-1 之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个可能性加一个阈值, 就成了分类. 例如, 可能性大于 0.5 即记为 1, 可能性小于 0.5 则记为 0。其数学公式可以表达为：
 
+
+
+
   \[
  \sigma(z) = \frac{1}{1 + e^{-z}} ，z = w^T x + b 
 \]
@@ -24,16 +27,9 @@ Logistic Regression（逻辑回归）是一种用于分类问题的统计模型�
 \end{align*}  
 \]
 
-
-
-
-决策边界：
-
-  \(P(y=1|x) \geq 0.5\)
-
- 时预测为1，反之预测为0。'><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/supervised-learning/logistic-regression/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Logistic Regression"><meta property="og:description" content='逻辑回归 # 逻辑回归（Logistic Regression） # Logistic Regression（逻辑回归）是一种用于分类问题的统计模型，本质上是一种线性模型，通过 Sigmoid 函数将线性回归的输出映射到 (0,1) 区间，用于预测概率。分类是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是回归. 通过逻辑回归模型, 我们得到的计算结果是 0-1 之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个可能性加一个阈值, 就成了分类. 例如, 可能性大于 0.5 即记为 1, 可能性小于 0.5 则记为 0。其数学公式可以表达为：
-\[ \sigma(z) = \frac{1}{1 + e^{-z}} ，z = w^T x + b \] 输出概率: \[ \begin{align*} &amp;P(y=1|x) = \sigma(w^T x + b) \\ &amp;P(y=0|x) = 1 - \sigma(w^T x + b) \\ \end{align*} \] 决策边界： \(P(y=1|x) \geq 0.5\) 时预测为1，反之预测为0。'><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Logistic Regression | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/machine-learning/supervised-learning/logistic-regression/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.71829a63ac4287226e9525cab6b025adb8dcfb5834dad8b37d49ca642e20cc36.js integrity="sha256-cYKaY6xChyJulSXKtrAlrbjc+1g02tizfUnKZC4gzDY=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/machine-learning/supervised-learning/logistic-regression/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+'><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/supervised-learning/logistic-regression/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Logistic Regression"><meta property="og:description" content='逻辑回归 # 逻辑回归（Logistic Regression） # Logistic Regression（逻辑回归）是一种用于分类问题的统计模型，本质上是一种线性模型，通过 Sigmoid 函数将线性回归的输出映射到 (0,1) 区间，用于预测概率。分类是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是回归. 通过逻辑回归模型, 我们得到的计算结果是 0-1 之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个可能性加一个阈值, 就成了分类. 例如, 可能性大于 0.5 即记为 1, 可能性小于 0.5 则记为 0。其数学公式可以表达为：
+\[ \sigma(z) = \frac{1}{1 + e^{-z}} ，z = w^T x + b \] 输出概率: \[ \begin{align*} &amp;P(y=1|x) = \sigma(w^T x + b) \\ &amp;P(y=0|x) = 1 - \sigma(w^T x + b) \\ \end{align*} \]'><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Logistic Regression | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/machine-learning/supervised-learning/logistic-regression/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.76b4636a0c4b779407d544c6348e195c736f9397a968e1955e6aba97e85f6bbf.js integrity="sha256-drRjagxLd5QH1UTGNI4ZXHNvk5epaOGVXmq6l+hfa78=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/machine-learning/supervised-learning/logistic-regression/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle checked>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/ class=active>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
@@ -42,7 +38,7 @@ Logistic Regression（逻辑回归）是一种用于分类问题的统计模型�
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
 <label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Logistic Regression</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#逻辑回归logistic-regression><strong>逻辑回归（Logistic Regression）</strong></a><ul><li><a href=#sigmoid-函数><strong>Sigmoid 函数</strong></a></li><li><a href=#损失函数loss-function><strong>损失函数（Loss Function）</strong></a></li><li><a href=#梯度下降gradient-descent><strong>梯度下降（Gradient Descent）</strong></a></li><li><a href=#性能评估evaluation-metrics><strong>性能评估（Evaluation Metrics）</strong></a></li><li><a href=#logistic-regression-代码实现><strong>Logistic Regression 代码实现</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=逻辑回归><strong>逻辑回归</strong>
 <a class=anchor href=#%e9%80%bb%e8%be%91%e5%9b%9e%e5%bd%92>#</a></h1><h2 id=逻辑回归logistic-regression><strong>逻辑回归（Logistic Regression）</strong>
-<a class=anchor href=#%e9%80%bb%e8%be%91%e5%9b%9e%e5%bd%92logistic-regression>#</a></h2><p>Logistic Regression（逻辑回归）是一种用于分类问题的统计模型，本质上是一种线性模型，通过 <code>Sigmoid</code> 函数将<strong>线性回归的输出映射到 <code>(0,1)</code> 区间</strong>，用于预测概率。分类是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是回归. 通过逻辑回归模型, 我们得到的计算结果是 <code>0-1</code> 之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个<strong>可能性加一个阈值, 就成了分类</strong>. 例如, 可能性大于 <code>0.5</code> 即记为 <code>1</code>, 可能性小于 <code>0.5</code> 则记为 <code>0</code>。其数学公式可以表达为：</p><span>\[
+<a class=anchor href=#%e9%80%bb%e8%be%91%e5%9b%9e%e5%bd%92logistic-regression>#</a></h2><p>Logistic Regression（逻辑回归）是一种用于分类问题的统计模型，本质上是一种线性模型，通过 <code>Sigmoid</code> 函数将<strong>线性回归的输出映射到 <code>(0,1)</code> 区间</strong>，用于预测概率。分类是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是回归. 通过逻辑回归模型, 我们得到的计算结果是 <code>0-1</code> 之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个<strong>可能性加一个阈值, 就成了分类</strong>. 例如, 可能性大于 <code>0.5</code> 即记为 <code>1</code>, 可能性小于 <code>0.5</code> 则记为 <code>0</code>。其数学公式可以表达为：</p><link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\[
 \sigma(z) = \frac{1}{1 + e^{-z}} ，z = w^T x + b
 \]</span><ul><li><p><strong>输出概率</strong>:
 <span>\[
@@ -67,10 +63,12 @@ Logistic Regression（逻辑回归）是一种用于分类问题的统计模型�
 </span>接近 1</strong>。</li><li>当 <span>\(y = 0\)
 </span>：损失为 <span>\(-\log(1 - \hat{y})\)
 </span>，<strong>鼓励模型将预测概率 <span>\(\hat{y}\)
-</span>接近 0</strong>。</li></ul></li></ul><div align=center><img src=/images/log_function.png width=600px/></div><ul><li><strong>总体损失函数</strong>：对整个数据集的损失函数是所有样本损失的平均值：
+</span>接近 0</strong>。</li></ul></li></ul><div align=center><img src=/images/log_function.png width=600px/></div><ul><li><p><strong>总体损失函数</strong>：对整个数据集的损失函数是所有样本损失的平均值：
 <span>\[
 \mathcal{L}(w, b) = -\frac{1}{n} \sum_{i=1}^n \left[ y_i \log \hat{y}_i + (1 - y_i) \log (1 - \hat{y}_i) \right]
-\]</span></li></ul><hr><h3 id=梯度下降gradient-descent><strong>梯度下降（Gradient Descent）</strong>
+\]</span></p><p>这里 <span>\(\hat{y}_i = \sigma(z_i) = \frac{1}{1 + e^{-z_i}}\)
+</span>，其中 <span>\(z_i = w^T x_i + b \)
+</span>。</p></li></ul><hr><h3 id=梯度下降gradient-descent><strong>梯度下降（Gradient Descent）</strong>
 <a class=anchor href=#%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8dgradient-descent>#</a></h3><p>Logistic Regression 使用梯度下降（Gradient Descent）优化其损失函数。在优化过程中，需要计算损失函数的梯度以更新模型参数 <span>\(w\)
 </span>, <span>\(b\)
 </span>：</p><ul><li><p>损失函数对权重的梯度：
@@ -109,4 +107,109 @@ w := w - \alpha \frac{\partial L}{\partial w}, \quad b := b - \alpha \frac{\part
 \(\text{TPR} = 1，\text{FPR} = 1\)
 </span>，即曲线终点 <code>(1,1)</code>。</li></ul></li><li><strong>中间变化</strong>：<ul><li>随着阈值从高到低移动，曲线从 <code>(0,0)</code> 开始，逐渐向 <code>(1,1)</code> 延展。</li><li>这些点的位置和曲线的形状取决于模型在不同阈值下的 TPR 和 FPR。</li></ul></li><li><strong>关键点</strong>：<ul><li>特定阈值（如 0.5 或其他业务相关的值）对应的 TPR 和 FPR 可通过 ROC 图直接观察，帮助选择最佳阈值。</li></ul></li></ol><hr><h4 id=auc-area-under-the-curve><strong>AUC (Area Under the Curve)</strong>
 <a class=anchor href=#auc-area-under-the-curve>#</a></h4><p>ROC 曲线下的面积，取值范围为 <code>[0, 1]</code>。AUC 的意义：</p><ul><li>AUC = 1：完美分类器。</li><li>AUC = 0.5：随机猜测。</li><li>0.5 &lt; AUC &lt; 1：模型有一定的区分能力。</li></ul><h3 id=logistic-regression-代码实现><strong>Logistic Regression 代码实现</strong>
-<a class=anchor href=#logistic-regression-%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0>#</a></h3></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#逻辑回归logistic-regression><strong>逻辑回归（Logistic Regression）</strong></a><ul><li><a href=#sigmoid-函数><strong>Sigmoid 函数</strong></a></li><li><a href=#损失函数loss-function><strong>损失函数（Loss Function）</strong></a></li><li><a href=#梯度下降gradient-descent><strong>梯度下降（Gradient Descent）</strong></a></li><li><a href=#性能评估evaluation-metrics><strong>性能评估（Evaluation Metrics）</strong></a></li><li><a href=#logistic-regression-代码实现><strong>Logistic Regression 代码实现</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
+<a class=anchor href=#logistic-regression-%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># &lt;--- From scratch ---&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> numpy <span style=color:#66d9ef>as</span> np
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>sigmoid</span>(z):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>+</span> np<span style=color:#f92672>.</span>exp(<span style=color:#f92672>-</span>z)) 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>cross_entropy_loss</span>(y, y_pred):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    y: 实际标签 (0 或 1)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    y_pred: 模型预测值 (范围在 0 和 1 之间)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    返回: 平均交叉熵损失
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 防止 log(0) 导致的数值错误，添加一个小的正数 epsilon</span>
+</span></span><span style=display:flex><span>    epsilon <span style=color:#f92672>=</span> <span style=color:#ae81ff>1e-15</span>
+</span></span><span style=display:flex><span>    y_pred <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>clip(y_pred, epsilon, <span style=color:#ae81ff>1</span> <span style=color:#f92672>-</span> epsilon)  <span style=color:#75715e># 保证 y_pred 不会等于 0 或 1</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#f92672>-</span>np<span style=color:#f92672>.</span>mean(y <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>log(y_pred) <span style=color:#f92672>+</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>-</span> y) <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>log(<span style=color:#ae81ff>1</span> <span style=color:#f92672>-</span> y_pred))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>Logistic_Regression</span>(X, y, lr, max_iter):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    X: 特征矩阵 (n_samples x n_features)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    y: 标签向量 (n_samples,)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    lr: 学习率
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    max_iter: 最大迭代次数
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    返回: 训练好的权重和偏置
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    n_samples, n_features <span style=color:#f92672>=</span> X<span style=color:#f92672>.</span>shape  <span style=color:#75715e># 样本数量和特征数量</span>
+</span></span><span style=display:flex><span>    weights <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>zeros(n_features)  <span style=color:#75715e># 初始化权重为 0</span>
+</span></span><span style=display:flex><span>    bias <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>  <span style=color:#75715e># 初始化偏置为 0</span>
+</span></span><span style=display:flex><span>    losses <span style=color:#f92672>=</span> [] 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(max_iter):
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 计算预测值</span>
+</span></span><span style=display:flex><span>        y_pred <span style=color:#f92672>=</span> sigmoid(np<span style=color:#f92672>.</span>dot(X, weights) <span style=color:#f92672>+</span> bias)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 计算梯度</span>
+</span></span><span style=display:flex><span>        weight_grad <span style=color:#f92672>=</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> n_samples) <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>dot(X<span style=color:#f92672>.</span>T, (y_pred <span style=color:#f92672>-</span> y))  <span style=color:#75715e># 权重的梯度</span>
+</span></span><span style=display:flex><span>        bias_grad <span style=color:#f92672>=</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> n_samples) <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>sum(y_pred <span style=color:#f92672>-</span> y)  <span style=color:#75715e># 偏置的梯度</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 计算损失并存储</span>
+</span></span><span style=display:flex><span>        loss <span style=color:#f92672>=</span> cross_entropy_loss(y, y_pred)
+</span></span><span style=display:flex><span>        losses<span style=color:#f92672>.</span>append(loss)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 使用梯度下降法更新权重和偏置</span>
+</span></span><span style=display:flex><span>        weights <span style=color:#f92672>-=</span> lr <span style=color:#f92672>*</span> weight_grad
+</span></span><span style=display:flex><span>        bias <span style=color:#f92672>-=</span> lr <span style=color:#f92672>*</span> bias_grad
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> weights, bias
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>Logistic_Regression_Predict</span>(X, weights, bias):
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 计算预测概率</span>
+</span></span><span style=display:flex><span>    pred_y <span style=color:#f92672>=</span> sigmoid(np<span style=color:#f92672>.</span>dot(X, weights) <span style=color:#f92672>+</span> bias)
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 将概率转换为二分类标签</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> [<span style=color:#ae81ff>1</span> <span style=color:#66d9ef>if</span> i <span style=color:#f92672>&gt;=</span> <span style=color:#ae81ff>0.5</span> <span style=color:#66d9ef>else</span> <span style=color:#ae81ff>0</span> <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> pred_y]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> sklearn.datasets <span style=color:#f92672>import</span> make_classification
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> sklearn.model_selection <span style=color:#f92672>import</span> train_test_split
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 生成模拟分类数据集</span>
+</span></span><span style=display:flex><span>X, y <span style=color:#f92672>=</span> make_classification(n_samples<span style=color:#f92672>=</span><span style=color:#ae81ff>1000</span>, n_features<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span>, random_state<span style=color:#f92672>=</span><span style=color:#ae81ff>42</span>)
+</span></span><span style=display:flex><span>X_train, X_test, y_train, y_test <span style=color:#f92672>=</span> train_test_split(X, y, test_size<span style=color:#f92672>=</span><span style=color:#ae81ff>0.2</span>, random_state<span style=color:#f92672>=</span><span style=color:#ae81ff>42</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>lr <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.1</span>  <span style=color:#75715e># 学习率</span>
+</span></span><span style=display:flex><span>max_iter <span style=color:#f92672>=</span> <span style=color:#ae81ff>1000</span>  <span style=color:#75715e># 最大迭代次数</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 训练模型</span>
+</span></span><span style=display:flex><span>weights, bias <span style=color:#f92672>=</span> Logistic_Regression(X_train, y_train, lr, max_iter)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 使用测试集进行预测</span>
+</span></span><span style=display:flex><span>predictions <span style=color:#f92672>=</span> Logistic_Regression_Predict(X_test, weights, bias)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 打印预测结果示例</span>
+</span></span><span style=display:flex><span>print(<span style=color:#e6db74>&#34;Predictions:&#34;</span>, predictions[:<span style=color:#ae81ff>10</span>])
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># &lt;--- From scikit-learn ---&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> sklearn.linear_model <span style=color:#f92672>import</span> LogisticRegression
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> sklearn.model_selection <span style=color:#f92672>import</span> train_test_split
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> sklearn.metrics <span style=color:#f92672>import</span> accuracy_score, confusion_matrix, classification_report
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> sklearn.datasets <span style=color:#f92672>import</span> make_classification
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>X, y <span style=color:#f92672>=</span> make_classification(n_samples<span style=color:#f92672>=</span><span style=color:#ae81ff>1000</span>, n_features<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span>, random_state<span style=color:#f92672>=</span><span style=color:#ae81ff>42</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 数据划分</span>
+</span></span><span style=display:flex><span>X_train, X_test, y_train, y_test <span style=color:#f92672>=</span> train_test_split(X, y, test_size<span style=color:#f92672>=</span><span style=color:#ae81ff>0.2</span>, random_state<span style=color:#f92672>=</span><span style=color:#ae81ff>42</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 模型训练</span>
+</span></span><span style=display:flex><span>model <span style=color:#f92672>=</span> LogisticRegression(
+</span></span><span style=display:flex><span>    penalty<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;l2&#39;</span>,       <span style=color:#75715e># 正则化类型：&#39;l1&#39;, &#39;l2&#39;, &#39;elasticnet&#39;, 或 &#39;none&#39;（默认 &#39;l2&#39;）</span>
+</span></span><span style=display:flex><span>    C<span style=color:#f92672>=</span><span style=color:#ae81ff>1.0</span>,              <span style=color:#75715e># 正则化强度的倒数，值越小正则化越强，默认为 1.0</span>
+</span></span><span style=display:flex><span>    solver<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;lbfgs&#39;</span>,     <span style=color:#75715e># 优化算法：如 &#39;lbfgs&#39;, &#39;liblinear&#39;, &#39;sag&#39;, &#39;saga&#39; 等</span>
+</span></span><span style=display:flex><span>    max_iter<span style=color:#f92672>=</span><span style=color:#ae81ff>100</span>,       <span style=color:#75715e># 最大迭代次数，防止迭代过多导致训练时间过长</span>
+</span></span><span style=display:flex><span>    random_state<span style=color:#f92672>=</span><span style=color:#ae81ff>42</span>     <span style=color:#75715e># 随机种子，保证结果可复现</span>
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>model<span style=color:#f92672>.</span>fit(X_train, y_train)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 预测</span>
+</span></span><span style=display:flex><span>y_pred <span style=color:#f92672>=</span> model<span style=color:#f92672>.</span>predict(X_test)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 评价指标</span>
+</span></span><span style=display:flex><span>accuracy <span style=color:#f92672>=</span> accuracy_score(y_test, y_pred)
+</span></span><span style=display:flex><span>conf_matrix <span style=color:#f92672>=</span> confusion_matrix(y_test, y_pred)
+</span></span><span style=display:flex><span>report <span style=color:#f92672>=</span> classification_report(y_test, y_pred)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Accuracy: </span><span style=color:#e6db74>{</span>accuracy<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Confusion Matrix:</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>{</span>conf_matrix<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Classification Report:</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>{</span>report<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span></code></pre></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#逻辑回归logistic-regression><strong>逻辑回归（Logistic Regression）</strong></a><ul><li><a href=#sigmoid-函数><strong>Sigmoid 函数</strong></a></li><li><a href=#损失函数loss-function><strong>损失函数（Loss Function）</strong></a></li><li><a href=#梯度下降gradient-descent><strong>梯度下降（Gradient Descent）</strong></a></li><li><a href=#性能评估evaluation-metrics><strong>性能评估（Evaluation Metrics）</strong></a></li><li><a href=#logistic-regression-代码实现><strong>Logistic Regression 代码实现</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
