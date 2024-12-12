@@ -1,0 +1,88 @@
+<!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content='
+  逻辑回归
+  #
+
+
+  逻辑回归（Logistic Regression）
+  #
+
+Logistic Regression（逻辑回归）是一种用于分类问题的统计模型，本质上是一种线性模型，通过 Sigmoid 函数将线性回归的输出映射到 (0,1) 区间，用于预测概率。分类是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是回归. 通过逻辑回归模型, 我们得到的计算结果是 0-1 之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个可能性加一个阈值, 就成了分类. 例如, 可能性大于 0.5 即记为 1, 可能性小于 0.5 则记为 0。其数学公式可以表达为：
+
+
+
+
+  \[
+ \sigma(z) = \frac{1}{1 + e^{-z}} ，z = w^T x + b 
+\]
+
+
+
+
+输出概率:
+
+  \[
+\begin{align*}  
+&P(y=1|x) = \sigma(w^T x &#43; b) \\
+&P(y=0|x) = 1 - \sigma(w^T x &#43; b) \\
+\end{align*}  
+\]
+
+'><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/supervised-learning/logistic-regression/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Logistic Regression"><meta property="og:description" content='逻辑回归 # 逻辑回归（Logistic Regression） # Logistic Regression（逻辑回归）是一种用于分类问题的统计模型，本质上是一种线性模型，通过 Sigmoid 函数将线性回归的输出映射到 (0,1) 区间，用于预测概率。分类是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是回归. 通过逻辑回归模型, 我们得到的计算结果是 0-1 之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个可能性加一个阈值, 就成了分类. 例如, 可能性大于 0.5 即记为 1, 可能性小于 0.5 则记为 0。其数学公式可以表达为：
+\[ \sigma(z) = \frac{1}{1 + e^{-z}} ，z = w^T x + b \] 输出概率: \[ \begin{align*} &amp;P(y=1|x) = \sigma(w^T x + b) \\ &amp;P(y=0|x) = 1 - \sigma(w^T x + b) \\ \end{align*} \]'><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Logistic Regression | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/machine-learning/supervised-learning/logistic-regression/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.71829a63ac4287226e9525cab6b025adb8dcfb5834dad8b37d49ca642e20cc36.js integrity="sha256-cYKaY6xChyJulSXKtrAlrbjc+1g02tizfUnKZC4gzDY=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/machine-learning/supervised-learning/logistic-regression/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
+<label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle checked>
+<label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/ class=active>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
+<label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li><li><a href=/docs/machine-learning/loss-functions/>Loss Functions</a><ul></ul></li><li><a href=/docs/machine-learning/evaluation-metrics/>Evaluation Metrics</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><input type=checkbox id=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class=toggle>
+<label for=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class="flex justify-between"><a href=/docs/deep-learning/computer-vision/>Computer Vision</a></label><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
+<label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Logistic Regression</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#逻辑回归logistic-regression><strong>逻辑回归（Logistic Regression）</strong></a><ul><li><a href=#sigmoid-函数><strong>Sigmoid 函数</strong></a></li><li><a href=#损失函数loss-function><strong>损失函数（Loss Function）</strong></a></li><li><a href=#梯度下降gradient-descent><strong>梯度下降（Gradient Descent）</strong></a></li><li><a href=#性能评估evaluation-metrics><strong>性能评估（Evaluation Metrics）</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=逻辑回归><strong>逻辑回归</strong>
+<a class=anchor href=#%e9%80%bb%e8%be%91%e5%9b%9e%e5%bd%92>#</a></h1><h2 id=逻辑回归logistic-regression><strong>逻辑回归（Logistic Regression）</strong>
+<a class=anchor href=#%e9%80%bb%e8%be%91%e5%9b%9e%e5%bd%92logistic-regression>#</a></h2><p>Logistic Regression（逻辑回归）是一种用于分类问题的统计模型，本质上是一种线性模型，通过 <code>Sigmoid</code> 函数将<strong>线性回归的输出映射到 <code>(0,1)</code> 区间</strong>，用于预测概率。分类是应用 逻辑回归(Logistic Regression) 的目的和结果, 但中间过程依旧是回归. 通过逻辑回归模型, 我们得到的计算结果是 <code>0-1</code> 之间的连续数字, 可以把它称为"可能性"（概率）. 然后, 给这个<strong>可能性加一个阈值, 就成了分类</strong>. 例如, 可能性大于 <code>0.5</code> 即记为 <code>1</code>, 可能性小于 <code>0.5</code> 则记为 <code>0</code>。其数学公式可以表达为：</p><link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\[
+\sigma(z) = \frac{1}{1 + e^{-z}} ，z = w^T x + b
+\]</span><ul><li><p><strong>输出概率</strong>:
+<span>\[
+\begin{align*}
+&P(y=1|x) = \sigma(w^T x + b) \\
+&P(y=0|x) = 1 - \sigma(w^T x + b) \\
+\end{align*}
+\]</span></p></li><li><p><strong>决策边界</strong>：
+<strong><span>\(P(y=1|x) \geq 0.5\)
+</span>时预测为1</strong>，反之预测为0。</p></li></ul><hr><h3 id=sigmoid-函数><strong>Sigmoid 函数</strong>
+<a class=anchor href=#sigmoid-%e5%87%bd%e6%95%b0>#</a></h3><p><code>Sigmoid</code> 函数是一种常用的激活函数，将任意实数映射到区间 <code>(0, 1)</code>。 Logistic回归中，Sigmoid的输出可以帮助解释为<strong>事件发生的概率</strong>。它的数学表达式为：</p><span>\[
+\sigma(z) = \frac{1}{1 + e^{-z}}
+\]</span><div align=center><img src=/images/3_Sigmoid_Function.PNG width=600px/></div><ul><li><strong>值域</strong>：<code>Sigmoid</code> 函数的输出值范围是 <code>(0, 1)</code> ，这使得它特别适合用于概率预测。</li><li><strong>单调递增</strong>：<code>Sigmoid</code> 是单调递增函数，意味着 <strong>输入值越大，输出值越接近 1</strong>。</li><li><strong>中心对称</strong>：以点 <code>(0, 0.5)</code> 为对称中心。</li><li><strong>平滑性</strong>：<code>Sigmoid</code> 函数是光滑的，<strong>具有连续的一阶和二阶导数</strong>。</li></ul><blockquote class="book-hint warning"><p><strong>Note：</strong> 逻辑回归中，<code>Sigmoid</code> 函数的输出是 <strong>分类的概率</strong>，而不是分类的类别。</p></blockquote><hr><h3 id=损失函数loss-function><strong>损失函数（Loss Function）</strong>
+<a class=anchor href=#%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0loss-function>#</a></h3><p>Logistic 回归的训练目标是通过优化目标函数找到最优的模型参数，使模型能够对输入样本进行概率预测，并最大程度地准确分类数据，最小化训练数据的损失函数（Loss Function）。Logistic 回归的损失函数是基于 <strong>交叉熵损失（Cross-Entropy Loss）</strong> 定义的，它反映了模型预测值与实际值之间的不一致程度。</p><ul><li><p><strong>对单个样本的损失函数</strong>：Logistic 回归的损失函数采用对数似然函数的负值，针对二分类任务的每个样本：
+<span>\[
+\text{Loss}(y, \hat{y}) = -\left[ y \log \hat{y} + (1 - y) \log (1 - \hat{y}) \right]
+\]</span></p><ul><li><span>\(y \in \{0, 1\}\)
+</span>是实际标签。</li><li><span>\(\hat{y} = P(y=1|x)\)
+</span>是模型预测的概率。</li></ul><p>该损失函数的两种情况：</p><ul><li>当 <span>\(y = 1\)
+</span>：损失为 <span>\(-\log(\hat{y})\)
+</span>，<strong>鼓励模型将预测概率 <span>\(\hat{y}\)
+</span>接近 1</strong>。</li><li>当 <span>\(y = 0\)
+</span>：损失为 <span>\(-\log(1 - \hat{y})\)
+</span>，<strong>鼓励模型将预测概率 <span>\(\hat{y}\)
+</span>接近 0</strong>。</li></ul></li></ul><div align=center><img src=/images/log_function.png width=600px/></div><ul><li><strong>总体损失函数</strong>：对整个数据集的损失函数是所有样本损失的平均值：
+<span>\[
+\mathcal{L}(w, b) = -\frac{1}{n} \sum_{i=1}^n \left[ y_i \log \hat{y}_i + (1 - y_i) \log (1 - \hat{y}_i) \right]
+\]</span></li></ul><hr><h3 id=梯度下降gradient-descent><strong>梯度下降（Gradient Descent）</strong>
+<a class=anchor href=#%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8dgradient-descent>#</a></h3><p>Logistic Regression 使用梯度下降（Gradient Descent）优化其损失函数。在优化过程中，需要计算损失函数的梯度以更新模型参数 <span>\(w\)
+</span>, <span>\(b\)
+</span>：</p><ul><li><p>损失函数对权重的梯度：
+<span>\[
+\frac{\partial \mathcal{L}}{\partial w} = \frac{1}{n} \sum_{i=1}^n \left[ \sigma(w^T x_i + b) - y_i \right] x_i
+\]
+</span>其中 <span>\(\sigma(w^T x_i + b) - y_i\)
+</span>是预测值与真实值的误差。</p></li><li><p>损失函数对偏置的梯度：
+<span>\[
+\frac{\partial \mathcal{L}}{\partial b} = \frac{1}{n} \sum_{i=1}^n \left[ \sigma(w^T x_i + b) - y_i \right]
+\]</span></p></li><li><p>利用梯度更新参数：
+<span>\[
+w := w - \alpha \frac{\partial L}{\partial w}, \quad b := b - \alpha \frac{\partial L}{\partial b}
+\]</span></p></li></ul><hr><h3 id=性能评估evaluation-metrics><strong>性能评估（Evaluation Metrics）</strong>
+<a class=anchor href=#%e6%80%a7%e8%83%bd%e8%af%84%e4%bc%b0evaluation-metrics>#</a></h3><h4 id=混淆矩阵-confusion-matrix><strong>混淆矩阵 (Confusion Matrix)</strong>
+<a class=anchor href=#%e6%b7%b7%e6%b7%86%e7%9f%a9%e9%98%b5-confusion-matrix>#</a></h4><p>混淆矩阵是分类模型的基本评价工具，用于总结预测结果的分类情况。对于二分类问题，矩阵包含以下四个元素：</p><div style=text-align:center><table><thead><tr><th></th><th><strong>预测正类 <span>\( (\hat{y} = 1) \)</span></strong></th><th><strong>预测负类 <span>\((\hat{y} = 0)\)</span></strong></th></tr></thead><tbody><tr><td><strong>实际正类 <span>\((y = 1)\)</span></strong></td><td><strong>TP (True Positive)</strong></td><td><strong>FN (False Negative)</strong></td></tr><tr><td><strong>实际负类 <span>\((y = 0)\)</span></strong></td><td><strong>FP (False Positive)</strong></td><td><strong>TN (True Negative)</strong></td></tr></tbody></table></div><ul><li><strong>TP (True Positive)</strong>: 实际为正，预测也为正。</li><li><strong>FN (False Negative)</strong>: 实际为正，但预测为负。</li><li><strong>FP (False Positive)</strong>: 实际为负，但预测为正。</li><li><strong>TN (True Negative)</strong>: 实际为负，预测也为负。</li></ul><hr><h4 id=准确率-accuracy><strong>准确率 (Accuracy)</strong>
+<a class=anchor href=#%e5%87%86%e7%a1%ae%e7%8e%87-accuracy>#</a></h4><span>\[
+\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}
+\]</span><ul><li><strong>定义</strong>：模型预测正确的样本占总样本的比例。</li><li><strong>优点</strong>：简单直观。</li><li><strong>缺点</strong>：当类别<strong>不平衡</strong>时（正负样本比例悬殊），准确率可能误导。</li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#逻辑回归logistic-regression><strong>逻辑回归（Logistic Regression）</strong></a><ul><li><a href=#sigmoid-函数><strong>Sigmoid 函数</strong></a></li><li><a href=#损失函数loss-function><strong>损失函数（Loss Function）</strong></a></li><li><a href=#梯度下降gradient-descent><strong>梯度下降（Gradient Descent）</strong></a></li><li><a href=#性能评估evaluation-metrics><strong>性能评估（Evaluation Metrics）</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>

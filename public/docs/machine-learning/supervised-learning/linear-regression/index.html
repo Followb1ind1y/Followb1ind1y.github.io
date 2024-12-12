@@ -8,9 +8,6 @@
 
 线性回归是一种最简单的回归模型，目标是通过一个或多个输入变量预测一个 连续的（continuous） 输出变量。其核心思想是 拟合一条直线来描述输入（input）与输出（output）之间 的关系。其数学公式为：
 
-
-
-
   \[
 \hat{y} = XW + b
 \]
@@ -49,7 +46,7 @@
 
 
 
-  训练目标（Object）
+  损失函数（Loss Function）
   #
 
 线性回归的训练目标是找到一组最优参数（权重 
@@ -65,25 +62,37 @@
   \(y_{i}\)
 
  的差异最小化。
+均方误差（Mean Squared Error, MSE） 是线性回归中最常用的损失函数。它计算预测值与真实值之间差异的平方和的均值：
+
+  \[
+MSE = \frac{1}{n}\sum_{i=1}^{n}(y_{i}-\hat{y}_{i})^2
+\]
 
 
-  损失函数（Loss Function）
-  #
+通过调整参数 
+  \(W\)
 
-均方误差（Mean Squared Error, MSE） 是线性回归中最常用的损失函数。它计算预测值与真实值之间差异的平方和的均值："><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/supervised-learning/linear-regression/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Linear Regression"><meta property="og:description" content="线性回归 # 线性回归（Linear Regression） # 线性回归是一种最简单的回归模型，目标是通过一个或多个输入变量预测一个 连续的（continuous） 输出变量。其核心思想是 拟合一条直线来描述输入（input）与输出（output）之间 的关系。其数学公式为：
+ 和 
+  \(b\)
+
+，最小化 
+  \(MSE\)
+
+ 的目的是："><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/supervised-learning/linear-regression/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Linear Regression"><meta property="og:description" content="线性回归 # 线性回归（Linear Regression） # 线性回归是一种最简单的回归模型，目标是通过一个或多个输入变量预测一个 连续的（continuous） 输出变量。其核心思想是 拟合一条直线来描述输入（input）与输出（output）之间 的关系。其数学公式为：
 \[ \hat{y} = XW + b \] 其中 \(N\) 是总样本数量， \(\hat{y}\) 是预测值 \(\in \mathbb{R}^{N \times 1}\) ， \(X\) 是输入值 \(\in \mathbb{R}^{N \times D}\) ， \(W\) 是 Weight \(\in \mathbb{R}^{D \times 1}\) ， \(b\) 是 Bias \(\in \mathbb{R}^{1}\) 。
-训练目标（Object） # 线性回归的训练目标是找到一组最优参数（权重 \(W\) 和偏置 \(b\) ），使得模型对训练数据的预测值与实际目标值之间的误差最小。具体来说，模型的目标是最小化误差函数（也称损失函数）。即使预测值 \(\hat{y_{i}}\) 和实际值 \(y_{i}\) 的差异最小化。
-损失函数（Loss Function） # 均方误差（Mean Squared Error, MSE） 是线性回归中最常用的损失函数。它计算预测值与真实值之间差异的平方和的均值："><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Linear Regression | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/machine-learning/supervised-learning/linear-regression/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.4c8a74e5aa02c3a8d1322fde93d63644c5b9d003298ec84c57702f3bb30c3d58.js integrity="sha256-TIp05aoCw6jRMi/ek9Y2RMW50AMpjshMV3AvO7MMPVg=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/machine-learning/supervised-learning/linear-regression/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+损失函数（Loss Function） # 线性回归的训练目标是找到一组最优参数（权重 \(W\) 和偏置 \(b\) ），使得模型对训练数据的预测值与实际目标值之间的误差最小。具体来说，模型的目标是最小化误差函数（也称损失函数）。即使预测值 \(\hat{y_{i}}\) 和实际值 \(y_{i}\) 的差异最小化。
+均方误差（Mean Squared Error, MSE） 是线性回归中最常用的损失函数。它计算预测值与真实值之间差异的平方和的均值：
+\[ MSE = \frac{1}{n}\sum_{i=1}^{n}(y_{i}-\hat{y}_{i})^2 \] 通过调整参数 \(W\) 和 \(b\) ，最小化 \(MSE\) 的目的是："><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Linear Regression | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/machine-learning/supervised-learning/linear-regression/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.71829a63ac4287226e9525cab6b025adb8dcfb5834dad8b37d49ca642e20cc36.js integrity="sha256-cYKaY6xChyJulSXKtrAlrbjc+1g02tizfUnKZC4gzDY=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/machine-learning/supervised-learning/linear-regression/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle checked>
-<label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/ class=active>Linear Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
+<label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/ class=active>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
 <label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li><li><a href=/docs/machine-learning/loss-functions/>Loss Functions</a><ul></ul></li><li><a href=/docs/machine-learning/evaluation-metrics/>Evaluation Metrics</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><input type=checkbox id=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class=toggle>
 <label for=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class="flex justify-between"><a href=/docs/deep-learning/computer-vision/>Computer Vision</a></label><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Linear Regression</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#线性回归linear-regression><strong>线性回归（Linear Regression）</strong></a><ul><li><a href=#训练目标object><strong>训练目标（Object）</strong></a></li><li><a href=#损失函数loss-function><strong>损失函数（Loss Function）</strong></a></li><li><a href=#梯度下降法在线性回归中的应用><strong>梯度下降法在线性回归中的应用</strong></a></li><li><a href=#性能评估><strong>性能评估</strong></a></li><li><a href=#linear-regression-代码实现><strong>Linear Regression 代码实现</strong></a></li></ul></li><li><a href=#多项式回归polynomial-regression><strong>多项式回归（Polynomial Regression）</strong></a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=线性回归><strong>线性回归</strong>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Linear Regression</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#线性回归linear-regression><strong>线性回归（Linear Regression）</strong></a><ul><li><a href=#损失函数loss-function><strong>损失函数（Loss Function）</strong></a></li><li><a href=#梯度下降法在线性回归中的应用gradient-descent><strong>梯度下降法在线性回归中的应用（Gradient Descent）</strong></a></li><li><a href=#性能评估evaluation-metrics><strong>性能评估（Evaluation Metrics）</strong></a></li><li><a href=#linear-regression-代码实现><strong>Linear Regression 代码实现</strong></a></li></ul></li><li><a href=#多项式回归polynomial-regression><strong>多项式回归（Polynomial Regression）</strong></a><ul><li><a href=#多项式回归的步骤><strong>多项式回归的步骤</strong></a></li><li><a href=#polynomial-regression-代码实现><strong>Polynomial Regression 代码实现</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=线性回归><strong>线性回归</strong>
 <a class=anchor href=#%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92>#</a></h1><h2 id=线性回归linear-regression><strong>线性回归（Linear Regression）</strong>
-<a class=anchor href=#%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92linear-regression>#</a></h2><p>线性回归是一种最简单的回归模型，目标是通过一个或多个输入变量预测一个 <strong>连续的（continuous）</strong> 输出变量。其核心思想是 <strong>拟合一条直线来描述输入（input）与输出（output）之间</strong> 的关系。其数学公式为：</p><link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\[
+<a class=anchor href=#%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92linear-regression>#</a></h2><p>线性回归是一种最简单的回归模型，目标是通过一个或多个输入变量预测一个 <strong>连续的（continuous）</strong> 输出变量。其核心思想是 <strong>拟合一条直线来描述输入（input）与输出（output）之间</strong> 的关系。其数学公式为：</p><span>\[
 \hat{y} = XW + b
 \]</span><p>其中 <span>\(N\)
 </span>是总样本数量，<span>
@@ -99,19 +108,18 @@
 </span>，<span>
 \(b\)
 </span>是 Bias <span>\(\in \mathbb{R}^{1}\)
-</span>。</p><div align=center><img src=/images/2_Regression.SVG width=500px/></div><hr><h3 id=训练目标object><strong>训练目标（Object）</strong>
-<a class=anchor href=#%e8%ae%ad%e7%bb%83%e7%9b%ae%e6%a0%87object>#</a></h3><p>线性回归的训练目标是找到一组最优参数（权重 <span>\(W\)
+</span>。</p><div align=center><img src=/images/2_Regression.SVG width=500px/></div><hr><h3 id=损失函数loss-function><strong>损失函数（Loss Function）</strong>
+<a class=anchor href=#%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0loss-function>#</a></h3><p>线性回归的训练目标是找到一组最优参数（权重 <span>\(W\)
 </span>和偏置 <span>\(b\)
 </span>），使得模型对训练数据的<strong>预测值与实际目标值之间的误差最小</strong>。具体来说，模型的目标是最小化误差函数（也称损失函数）。即<strong>使预测值 <span>\(\hat{y_{i}}\)
 </span>和实际值 <span>\(y_{i}\)
-</span>的差异最小化。</strong></p><hr><h3 id=损失函数loss-function><strong>损失函数（Loss Function）</strong>
-<a class=anchor href=#%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0loss-function>#</a></h3><p><strong>均方误差（Mean Squared Error, MSE）</strong> 是线性回归中最常用的损失函数。它计算预测值与真实值之间差异的平方和的均值：</p><span>\[
+</span>的差异最小化。</strong></p><p><strong>均方误差（Mean Squared Error, MSE）</strong> 是线性回归中最常用的损失函数。它计算预测值与真实值之间差异的平方和的均值：</p><span>\[
 MSE = \frac{1}{n}\sum_{i=1}^{n}(y_{i}-\hat{y}_{i})^2
 \]</span><p>通过调整参数 <span>\(W\)
 </span>和 <span>\(b\)
 </span>，最小化 <span>\(MSE\)
-</span>的目的是：</p><ul><li><strong>惩罚大的预测误差</strong>（使得较大的误差对总体损失影响更显著）。</li><li>保证损失函数是<strong>连续且可导的（continuously differentiable）</strong>，方便优化算法（如梯度下降）进行求解。</li></ul><hr><h3 id=梯度下降法在线性回归中的应用><strong>梯度下降法在线性回归中的应用</strong>
-<a class=anchor href=#%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8d%e6%b3%95%e5%9c%a8%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92%e4%b8%ad%e7%9a%84%e5%ba%94%e7%94%a8>#</a></h3><p>在线性回归中，梯度下降通过调整模型参数 <span>\(W\)
+</span>的目的是：</p><ul><li><strong>惩罚大的预测误差</strong>（使得较大的误差对总体损失影响更显著）。</li><li>保证损失函数是<strong>连续且可导的（continuously differentiable）</strong>，方便优化算法（如梯度下降）进行求解。</li></ul><hr><h3 id=梯度下降法在线性回归中的应用gradient-descent><strong>梯度下降法在线性回归中的应用（Gradient Descent）</strong>
+<a class=anchor href=#%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8d%e6%b3%95%e5%9c%a8%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92%e4%b8%ad%e7%9a%84%e5%ba%94%e7%94%a8gradient-descent>#</a></h3><p>在线性回归中，梯度下降通过调整模型参数 <span>\(W\)
 </span>（权重）和 <span>\(b\)
 </span>（偏置），逐步逼近最优解。我们通过对 <code>Loss Funcion</code> 求导（函数的切线）来实现这一点。<strong>切线（slope）的斜率就是该点的导数</strong>，它将为我们提供前进的方向。我们沿着下降最快的方向逐步降低 <code>Loss Function</code>。每一步的大小由参数 <span>\(\alpha\)
 </span>决定，该参数称为<strong>学习率</strong>。梯度下降算法可以表示为：</p><span>\[
@@ -134,8 +142,8 @@ MSE = \frac{1}{n}\sum_{i=1}^{n}(y_{i}-\hat{y}_{i})^2
 </span>太小，梯度下降可能会<strong>很慢</strong>。如果 <span>\(\alpha\)
 </span>太大，梯度下降可能会超过最小值。<strong>它可能无法收敛，甚至发散（ fail to converge, or even diverge）</strong>。无法收敛或花费太多时间获得最小值意味着我们的步长是错误的。</p><ul><li><span>\(\alpha\)
 </span>太大：可能导致更新过快，错过最优解，甚至发散。</li><li><span>\(\alpha\)
-</span>太小：收敛速度慢，需要更多迭代。</li></ul><hr><h3 id=性能评估><strong>性能评估</strong>
-<a class=anchor href=#%e6%80%a7%e8%83%bd%e8%af%84%e4%bc%b0>#</a></h3><p>在训练完线性回归模型后，需要对模型的性能进行评估，以了解模型的拟合效果和预测能力。我们常使用均方根误差（RMSE）和确定系数（<span>
+</span>太小：收敛速度慢，需要更多迭代。</li></ul><hr><h3 id=性能评估evaluation-metrics><strong>性能评估（Evaluation Metrics）</strong>
+<a class=anchor href=#%e6%80%a7%e8%83%bd%e8%af%84%e4%bc%b0evaluation-metrics>#</a></h3><p>在训练完线性回归模型后，需要对模型的性能进行评估，以了解模型的拟合效果和预测能力。我们常使用均方根误差（RMSE）和确定系数（<span>
 \(R^2 \)
 </span>得分）来评估我们的模型。<strong>RMSE是残差平方和平均值的平方根</strong>。RMSE的定义是：</p><span>\[
 RMSE = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2}
@@ -241,4 +249,62 @@ R^2 = 1 - \frac{\sum_{i=1}^{N} (y_i - \hat{y}i)^2}{\sum_{i=1}^{N} (y_i - \bar{y}
 </span></span><span style=display:flex><span>print(<span style=color:#e6db74>&#34;Intercept (Bias):&#34;</span>, model<span style=color:#f92672>.</span>intercept_)  <span style=color:#75715e># 截距项</span>
 </span></span><span style=display:flex><span>print(<span style=color:#e6db74>&#34;Coefficients (Weights):&#34;</span>, model<span style=color:#f92672>.</span>coef_)  <span style=color:#75715e># 权重项</span>
 </span></span></code></pre></div><h2 id=多项式回归polynomial-regression><strong>多项式回归（Polynomial Regression）</strong>
-<a class=anchor href=#%e5%a4%9a%e9%a1%b9%e5%bc%8f%e5%9b%9e%e5%bd%92polynomial-regression>#</a></h2></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#线性回归linear-regression><strong>线性回归（Linear Regression）</strong></a><ul><li><a href=#训练目标object><strong>训练目标（Object）</strong></a></li><li><a href=#损失函数loss-function><strong>损失函数（Loss Function）</strong></a></li><li><a href=#梯度下降法在线性回归中的应用><strong>梯度下降法在线性回归中的应用</strong></a></li><li><a href=#性能评估><strong>性能评估</strong></a></li><li><a href=#linear-regression-代码实现><strong>Linear Regression 代码实现</strong></a></li></ul></li><li><a href=#多项式回归polynomial-regression><strong>多项式回归（Polynomial Regression）</strong></a></li></ul></nav></div></aside></main></body></html>
+<a class=anchor href=#%e5%a4%9a%e9%a1%b9%e5%bc%8f%e5%9b%9e%e5%bd%92polynomial-regression>#</a></h2><p>多项式回归是一种线性回归的扩展形式，它适用于因变量与自变量之间呈现非线性关系的数据。通过在输入特征上应用多项式变换，进行了<strong>非线性扩展</strong>，将其映射到更高维的特征空间，使模型可以拟合复杂的非线性数据。多项式回归中，模型的参数（权重 <span>\(W\)
+</span>）仍然是线性求解的，因此<strong>它在数学本质上是线性模型</strong>。其数学公式为:
+<span>\[
+\hat{y} = X_{poly}W + b = W_{1}x + W_{2}x^2 + \cdots + W_{n}x^n + b
+\]</span></p><ul><li><strong>特征处理</strong>：<ul><li>线性回归：直接使用输入特征。</li><li>多项式回归：对输入特征进行非线性扩展。</li></ul></li><li><strong>拟合能力</strong>：<ul><li>线性回归：只能拟合线性关系，容易欠拟合。</li><li>多项式回归：能够拟合非线性关系，但高次多项式可能导致过拟合。</li></ul></li></ul><h3 id=多项式回归的步骤><strong>多项式回归的步骤</strong>
+<a class=anchor href=#%e5%a4%9a%e9%a1%b9%e5%bc%8f%e5%9b%9e%e5%bd%92%e7%9a%84%e6%ad%a5%e9%aa%a4>#</a></h3><ol><li><strong>数据准备</strong>：准备训练数据，其中包含输入特征（自变量）和目标值（因变量）。假设我们有一个简单的一维输入特征 <span>\(X\)
+</span>和目标值 <span>\(y\)
+</span>，目标是通过多项式回归来拟合这些数据。</li><li><strong>特征工程</strong>：将原始特征<strong>扩展为多项式特征</strong>，使模型能够捕捉数据中的非线性关系。假设我们选择二次多项式<code>（degree=2）</code>。我们会将输入特征 <span>\(X = [1, 2, 3, 4, 5]\)
+</span>扩展为：
+<span>\[
+X_{\text{poly}} = \begin{bmatrix}
+1 & x_1 & x_1^2 \\
+1 & x_2 & x_2^2 \\
+1 & x_3 & x_3^2 \\
+\vdots & \vdots & \vdots \\
+1 & x_n & x_n^2
+\end{bmatrix}
+\]</span></li><li><strong>模型训练</strong>：多项式回归本质上是在线性回归的基础上进行特征扩展。所以在特征扩展之后，我们依然使用线性回归的公式来训练模型：
+<span>\[
+\hat{y} = W_{0} + W_{1}x + W_{2}x^2 + \cdots + W_{n}x^n
+\]
+</span>回归模型的训练过程就是通过最小化 <strong>均方误差（MSE）</strong> 来求解模型的参数:
+<span>\[
+MSE = \frac{1}{n} \sum_{i=1}^{n} \left( y_i - \hat{y}_i \right)^2
+\]</span></li><li><strong>模型评估</strong>：通过训练误差和验证误差评估模型的性能。</li></ol><h3 id=polynomial-regression-代码实现><strong>Polynomial Regression 代码实现</strong>
+<a class=anchor href=#polynomial-regression-%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># &lt;--- From scikit-learn ---&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> numpy <span style=color:#66d9ef>as</span> np
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> sklearn.preprocessing <span style=color:#f92672>import</span> PolynomialFeatures  <span style=color:#75715e># 导入多项式特征扩展模块</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> sklearn.linear_model <span style=color:#f92672>import</span> LinearRegression  <span style=color:#75715e># 导入线性回归模型</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> sklearn.model_selection <span style=color:#f92672>import</span> train_test_split  <span style=color:#75715e># 导入数据集分割模块</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 生成随机数据作为输入</span>
+</span></span><span style=display:flex><span>data <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>random<span style=color:#f92672>.</span>normal(size<span style=color:#f92672>=</span>(<span style=color:#ae81ff>200</span>, <span style=color:#ae81ff>2</span>))  <span style=color:#75715e># 生成一个包含200个样本，2个特征的正态分布数据集</span>
+</span></span><span style=display:flex><span>result <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>+</span> data[:, <span style=color:#ae81ff>0</span>] <span style=color:#f92672>**</span> <span style=color:#ae81ff>3</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>4</span> <span style=color:#f92672>*</span> data[:, <span style=color:#ae81ff>1</span>]  <span style=color:#75715e># 计算目标值，包含多项式（3次方项和1次方项）</span>
+</span></span><span style=display:flex><span>X_train, X_test, y_train, y_test <span style=color:#f92672>=</span> train_test_split(data, result, test_size<span style=color:#f92672>=</span><span style=color:#ae81ff>0.3</span>, random_state<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>)  <span style=color:#75715e># 将数据集划分为训练集和测试集，30%的数据为测试集</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 定义多项式回归函数</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>Polynomial_Regression</span>(train_input_features, train_outputs, prediction_features):
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 创建多项式特征转换器，设置多项式的阶数为3（因为示例中包含3次方项）</span>
+</span></span><span style=display:flex><span>    poly <span style=color:#f92672>=</span> PolynomialFeatures(degree<span style=color:#f92672>=</span><span style=color:#ae81ff>3</span>)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 对训练数据进行拟合并转换，得到多项式特征</span>
+</span></span><span style=display:flex><span>    X_poly_train <span style=color:#f92672>=</span> poly<span style=color:#f92672>.</span>fit_transform(train_input_features)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 训练线性回归模型</span>
+</span></span><span style=display:flex><span>    model <span style=color:#f92672>=</span> LinearRegression()
+</span></span><span style=display:flex><span>    model<span style=color:#f92672>.</span>fit(X_poly_train, train_outputs)  <span style=color:#75715e># 用训练数据训练模型</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 使用相同的多项式转换器对预测数据进行转换</span>
+</span></span><span style=display:flex><span>    X_poly_pred <span style=color:#f92672>=</span> poly<span style=color:#f92672>.</span>transform(prediction_features)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 对转换后的数据进行预测</span>
+</span></span><span style=display:flex><span>    predictions <span style=color:#f92672>=</span> model<span style=color:#f92672>.</span>predict(X_poly_pred)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> predictions  <span style=color:#75715e># 返回预测结果</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 调用多项式回归函数进行预测</span>
+</span></span><span style=display:flex><span>y_pred <span style=color:#f92672>=</span> Polynomial_Regression(X_train, y_train, X_test)
+</span></span></code></pre></div><hr></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#线性回归linear-regression><strong>线性回归（Linear Regression）</strong></a><ul><li><a href=#损失函数loss-function><strong>损失函数（Loss Function）</strong></a></li><li><a href=#梯度下降法在线性回归中的应用gradient-descent><strong>梯度下降法在线性回归中的应用（Gradient Descent）</strong></a></li><li><a href=#性能评估evaluation-metrics><strong>性能评估（Evaluation Metrics）</strong></a></li><li><a href=#linear-regression-代码实现><strong>Linear Regression 代码实现</strong></a></li></ul></li><li><a href=#多项式回归polynomial-regression><strong>多项式回归（Polynomial Regression）</strong></a><ul><li><a href=#多项式回归的步骤><strong>多项式回归的步骤</strong></a></li><li><a href=#polynomial-regression-代码实现><strong>Polynomial Regression 代码实现</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
