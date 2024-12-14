@@ -1,13 +1,253 @@
 <!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
-  Perceptrons and Neural Network
+  感知机和神经网络
   #
-"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/deep-learning/perceptrons-and-neural-network/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Perceptrons and Neural Network"><meta property="og:description" content="Perceptrons and Neural Network #"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Perceptrons and Neural Network | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/perceptrons-and-neural-network/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.76b4636a0c4b779407d544c6348e195c736f9397a968e1955e6aba97e85f6bbf.js integrity="sha256-drRjagxLd5QH1UTGNI4ZXHNvk5epaOGVXmq6l+hfa78=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/perceptrons-and-neural-network/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+
+
+  感知机和神经网络（Perceptrons and Neural Network）
+  #
+
+感知机（Perceptron）是神经网络（Neural Network）的雏形，基于单个或多个 神经元（Neuron） 通过线性组合和简单的激活函数（如阶跃函数）实现输入数据的分类。神经元是感知机的基本组成单元，其功能是对输入特征进行加权、偏置调整并生成输出。随着任务复杂性的增加，感知机被扩展为 多层感知机（Multilayer Perceptron, MLP），通过堆叠多个隐藏层并引入非线性激活函数，使网络能够表达复杂的映射关系，解决非线性问题，是前馈神经网络（Feedforward Neural Network）的核心架构。
+
+
+  神经元（Neuron）
+  #
+
+神经元（Neuron）是神经网络的最基本单元，模拟生物神经元的行为。它的主要功能是 接收输入、加权处理并通过激活函数生成输出。
+
+
+
+
+  \[
+y = f\left(\sum_{i=1}^n w_i x_i + b\right)
+\]
+
+
+其中：
+
+
+  \(x_i\)
+
+ : 输入特征。
+
+  \(w_i\)
+
+ : 权重，衡量每个输入的影响程度。
+
+  \(b\)
+
+ : 偏置，用于调整输出的灵活性。
+
+  \(f(\cdot)\)
+
+ : 激活函数，增加非线性能力（如ReLU、Sigmoid）。
+
+  \(y\)
+
+ : 输出信号。
+
+
+
+
+
+
+  感知机（Perceptrons）
+  #
+
+感知器（Perceptrons）是一种执行 二元分类（binary classification） 的神经网络，它将输入特征映射到输出决策，通常将数据分为两个类别之一，例如 0 或 1。感知器由一层输入节点（input nodes）组成，这些节点与一层输出节点（output nodes）完全连接（fully connected）。感知子可以用图像表示为："><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/deep-learning/perceptrons-and-neural-network/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Perceptrons and Neural Network"><meta property="og:description" content="感知机和神经网络 # 感知机和神经网络（Perceptrons and Neural Network） # 感知机（Perceptron）是神经网络（Neural Network）的雏形，基于单个或多个 神经元（Neuron） 通过线性组合和简单的激活函数（如阶跃函数）实现输入数据的分类。神经元是感知机的基本组成单元，其功能是对输入特征进行加权、偏置调整并生成输出。随着任务复杂性的增加，感知机被扩展为 多层感知机（Multilayer Perceptron, MLP），通过堆叠多个隐藏层并引入非线性激活函数，使网络能够表达复杂的映射关系，解决非线性问题，是前馈神经网络（Feedforward Neural Network）的核心架构。
+神经元（Neuron） # 神经元（Neuron）是神经网络的最基本单元，模拟生物神经元的行为。它的主要功能是 接收输入、加权处理并通过激活函数生成输出。
+\[ y = f\left(\sum_{i=1}^n w_i x_i + b\right) \] 其中：
+\(x_i\) : 输入特征。 \(w_i\) : 权重，衡量每个输入的影响程度。 \(b\) : 偏置，用于调整输出的灵活性。 \(f(\cdot)\) : 激活函数，增加非线性能力（如ReLU、Sigmoid）。 \(y\) : 输出信号。 感知机（Perceptrons） # 感知器（Perceptrons）是一种执行 二元分类（binary classification） 的神经网络，它将输入特征映射到输出决策，通常将数据分为两个类别之一，例如 0 或 1。感知器由一层输入节点（input nodes）组成，这些节点与一层输出节点（output nodes）完全连接（fully connected）。感知子可以用图像表示为："><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Perceptrons and Neural Network | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/perceptrons-and-neural-network/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.71150e4b9ae0a5b6d8fa395e085a48bef0b61204fc9f8a21f6bab792e77a6530.js integrity="sha256-cRUOS5rgpbbY+jleCFpIvvC2EgT8n4oh9rq3kud6ZTA=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/perceptrons-and-neural-network/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
-<label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li><li><a href=/docs/machine-learning/loss-functions/>Loss Functions</a><ul></ul></li><li><a href=/docs/machine-learning/evaluation-metrics/>Evaluation Metrics</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/ class=active>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><input type=checkbox id=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class=toggle>
+<label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/ class=active>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><input type=checkbox id=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class=toggle>
 <label for=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class="flex justify-between"><a href=/docs/deep-learning/computer-vision/>Computer Vision</a></label><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Perceptrons and Neural Network</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents></nav></aside></header><article class="markdown book-article"><h1 id=perceptrons-and-neural-network>Perceptrons and Neural Network
-<a class=anchor href=#perceptrons-and-neural-network>#</a></h1></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents></nav></div></aside></main></body></html>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Perceptrons and Neural Network</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#感知机和神经网络perceptrons-and-neural-network><strong>感知机和神经网络（Perceptrons and Neural Network）</strong></a><ul><li><a href=#神经元neuron><strong>神经元（Neuron）</strong></a></li><li><a href=#感知机perceptrons><strong>感知机（Perceptrons）</strong></a></li><li><a href=#多层感知机multilayer-perceptron><strong>多层感知机（Multilayer Perceptron）</strong></a></li><li><a href=#architecture-design><strong>Architecture Design</strong></a></li><li><a href=#mlp的完整流程><strong>MLP的完整流程</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=感知机和神经网络><strong>感知机和神经网络</strong>
+<a class=anchor href=#%e6%84%9f%e7%9f%a5%e6%9c%ba%e5%92%8c%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c>#</a></h1><h2 id=感知机和神经网络perceptrons-and-neural-network><strong>感知机和神经网络（Perceptrons and Neural Network）</strong>
+<a class=anchor href=#%e6%84%9f%e7%9f%a5%e6%9c%ba%e5%92%8c%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9cperceptrons-and-neural-network>#</a></h2><p>感知机（Perceptron）是神经网络（Neural Network）的雏形，基于单个或多个 <strong>神经元（Neuron）</strong> 通过线性组合和简单的激活函数（如阶跃函数）实现输入数据的分类。神经元是感知机的基本组成单元，其功能是对输入特征进行加权、偏置调整并生成输出。随着任务复杂性的增加，感知机被扩展为 <strong>多层感知机（Multilayer Perceptron, MLP）</strong>，通过堆叠多个隐藏层并引入非线性激活函数，使网络能够表达复杂的映射关系，解决非线性问题，是前馈神经网络（Feedforward Neural Network）的核心架构。</p><hr><h3 id=神经元neuron><strong>神经元（Neuron）</strong>
+<a class=anchor href=#%e7%a5%9e%e7%bb%8f%e5%85%83neuron>#</a></h3><p>神经元（Neuron）是神经网络的最基本单元，模拟生物神经元的行为。它的主要功能是 <strong>接收输入、加权处理并通过激活函数生成输出</strong>。</p><link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\[
+y = f\left(\sum_{i=1}^n w_i x_i + b\right)
+\]</span><p>其中：</p><ul><li><span>\(x_i\)
+</span>: 输入特征。</li><li><span>\(w_i\)
+</span>: 权重，衡量每个输入的影响程度。</li><li><span>\(b\)
+</span>: 偏置，用于调整输出的灵活性。</li><li><span>\(f(\cdot)\)
+</span>: 激活函数，增加<strong>非线性能力</strong>（如<code>ReLU</code>、<code>Sigmoid</code>）。</li><li><span>\(y\)
+</span>: 输出信号。</li></ul><div align=center><img src=/images/01_biological_neuron.jpeg width=600px/></div><hr><h3 id=感知机perceptrons><strong>感知机（Perceptrons）</strong>
+<a class=anchor href=#%e6%84%9f%e7%9f%a5%e6%9c%baperceptrons>#</a></h3><p>感知器（Perceptrons）是一种执行 <strong>二元分类（binary classification）</strong> 的神经网络，它将输入特征映射到输出决策，通常将数据分为两个类别之一，例如 <code>0</code> 或 <code>1</code>。感知器由一层输入节点（input nodes）组成，这些节点与一层输出节点（output nodes）<strong>完全连接（fully connected）</strong>。感知子可以用图像表示为：</p><div align=center><img src=/images/01_Perceptron.PNG width=500px/></div><blockquote class="book-hint warning"><p><strong>单个感知机</strong>可以看作是一个<strong>最简单的神经元</strong>，专注于实现线性分类任务。单个神经元是感知机的扩展形式，通过引入<strong>更灵活的激活函数和多层结构</strong>，可以应用于更复杂的问题。</p></blockquote><hr><h4 id=模型结构><strong>模型结构</strong>
+<a class=anchor href=#%e6%a8%a1%e5%9e%8b%e7%bb%93%e6%9e%84>#</a></h4><p>感知机的基本结构包括以下<strong>组成部分</strong>：</p><ul><li><strong>输入层（Input Layer）</strong>：接收输入特征向量 <span>\(x = [x_1, x_2, \dots, x_n]\)
+</span>。</li><li><strong>权重向量（Weights）</strong>：每个输入特征 <span>\(x_i\)
+</span>对应的权重 <span>\(w_i\)
+</span>。</li><li><strong>偏置（Bias, b）</strong>：平移决策边界，增强模型的灵活性。<ul><li><strong>线性组合</strong>：
+<span>\[
+z = W^T X + b = \sum_{i=1}^n w_i x_i + b
+\]</span></li></ul></li><li><strong>激活函数（Activation Function）</strong>：通常为符号函数 <span>\(\text{sign}(z)\)
+</span>，用于将加权和映射为输出标签。<ul><li><strong>输出结果</strong>：
+<span>\[
+y = \text{sign}(z) =
+\begin{cases}
++1, & \text{if } z \geq 0 \\
+-1, & \text{if } z < 0
+\end{cases}
+\]</span></li></ul></li></ul><hr><h4 id=损失函数><strong>损失函数</strong>
+<a class=anchor href=#%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0>#</a></h4><p>感知机的损失函数本质上是用来惩罚误分类样本，从而引导模型学习到能够正确分类所有样本的权重参数。他的主要目标是找到一个<strong>超平面（hyperplane）</strong>：<span>
+\(w^T x + b = 0\)
+</span>。使得数据点能够被正确分类，即：</p><ul><li>如果 <span>\(y_i = +1\)
+</span>，那么希望 <span>\(w^T x_i + b > 0\)
+</span>；</li><li>如果 <span>\(y_i = -1\)
+</span>，那么希望 <span>\(w^T x_i + b < 0\)
+</span>。</li></ul><p>感知机的损失函数<strong>只关注那些被误分类的样本</strong>。对于误分类的样本，有：
+<span>\[
+y_i (w^T x_i + b) \leq 0
+\]</span></p><p>损失函数定义为<strong>所有误分类样本</strong>的<strong>负边界距离</strong>的总和：
+<span>\[
+L(w, b) = -\sum_{i \in M} y_i (w^T x_i + b)
+\]</span></p><ul><li><span>\(M\)
+</span>表示所有<strong>被误分类的样本的集合</strong>；</li><li><span>\(y_i (w^T x_i + b)\)
+</span>表示样本 <span>\(x_i\)
+</span>到决策超平面的有符号距离。</li></ul><hr><h4 id=更新规则><strong>更新规则</strong>
+<a class=anchor href=#%e6%9b%b4%e6%96%b0%e8%a7%84%e5%88%99>#</a></h4><p>严格来说，感知机本身<strong>并不使用梯度下降法</strong>进行优化，因为感知机的<strong>损失函数是分段的、非连续的</strong>，无法直接对其求导。感知机的权重更新公式是：
+<span>\[
+\begin{align*}
+&w \leftarrow w + \eta \cdot y_i \cdot x_i \\
+&b \leftarrow b + \eta \cdot y_i \\
+\end{align*}
+\]</span></p><p>感知机的权重更新可以看作是一种<strong>离散化、非平滑</strong>的近似梯度下降过程:</p><ol><li>每次只对一个误分类样本 <span>\(x_i\)
+</span>更新权重和偏置；</li><li>更新方向为该样本的贡献（<span>
+\(-y_i x_i\)
+</span>的负梯度方向）；</li></ol><p>从几何角度看：如果一个样本被误分类，更新方向是沿着样本 <span>\(x_i\)
+</span>的方向，并且朝着正确分类 <span>\(y_i\)
+</span>的方向推进决策边界。</p><hr><h4 id=感知机perceptrons和逻辑回归logistic-regression的区别><strong>感知机（Perceptrons）和逻辑回归（Logistic Regression）的区别</strong>
+<a class=anchor href=#%e6%84%9f%e7%9f%a5%e6%9c%baperceptrons%e5%92%8c%e9%80%bb%e8%be%91%e5%9b%9e%e5%bd%92logistic-regression%e7%9a%84%e5%8c%ba%e5%88%ab>#</a></h4><p>感知机（Perceptrons）和逻辑回归（Logistic Regression）在表面上确实有很多相似之处，因为它们都属于线性模型，但它们的核心区别在于损失函数和输出目标。</p><p><strong>激活函数区别</strong></p><ul><li>Perceptrons 使用符号函数（sign function）作为激活函数。这意味着感知机的输出是基于决策边界的二元结果，<strong>不提供概率信息</strong>。
+<span>\[
+y = \text{sign}(w^T x + b)
+\]</span></li><li>Logistic Regression 使用逻辑函数（sigmoid function）将<strong>线性组合结果映射到概率范围</strong>：
+<span>\[
+P(y=1|x) = \sigma(w^T x + b) = \frac{1}{1 + e^{-(w^T x + b)}}
+\]</span></li></ul><p><strong>损失函数区别</strong></p><ul><li>Perceptrons 的学习目标是<strong>最小化误分类样本的数量</strong>，仅对被误分类的样本进行权重更新。
+<span>\[
+L(w, b) = -\sum_{i \in M} y_i (w^T x_i + b)
+\]</span></li><li>Logistic Regression 通过<strong>最大化条件概率</strong> <span>\(P(y|x)\)
+</span>的对数似然来优化参数：
+<span>\[
+L(w, b) = -\sum_{i=1}^N \left[y_i \log(\sigma(w^T x_i + b)) + (1 - y_i) \log(1 - \sigma(w^T x_i + b)) \right]
+\]</span></li></ul><p><strong>决策边界区别</strong></p><p>感知机和逻辑回归都假设数据是线性可分的，因此其决策边界都是一个超平面：</p><ul><li>Perceptrons 直接依赖超平面将数据划分为两个类别，但<strong>没有提供关于样本距离边界的任何信息</strong>。</li><li>Logistic Regression 利用概率信息描述样本在边界两侧的信心度，决策边界定义为 <span>\(P(y=1|x) = 0.5\)
+</span>。</li></ul><blockquote class="book-hint warning"><p><strong>Note：</strong> Perceptrons 通常<strong>仅适用于线性可分的数据</strong>。算法在数据线性可分时会收敛；但如果数据线性不可分，则会陷入无限循环。Logistic Regression <strong>可处理线性不可分数据</strong>，即使数据线性不可分，也能找到最优的权重（通过拟合概率分布）。</p></blockquote><h4 id=感知机perceptrons-代码实现><strong>感知机（Perceptrons） 代码实现</strong>
+<a class=anchor href=#%e6%84%9f%e7%9f%a5%e6%9c%baperceptrons-%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0>#</a></h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># &lt;--- From scratch ---&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> numpy <span style=color:#66d9ef>as</span> np
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>Perceptrons</span>(X, y, lr, max_iter): 
+</span></span><span style=display:flex><span>    n_samples, n_features <span style=color:#f92672>=</span> X<span style=color:#f92672>.</span>shape 
+</span></span><span style=display:flex><span>    weights <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>zeros(n_features)
+</span></span><span style=display:flex><span>    bias <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> _ <span style=color:#f92672>in</span> range(max_iter):
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(n_samples):
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 计算线性输出</span>
+</span></span><span style=display:flex><span>            linear_output <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>dot(X[i], weights) <span style=color:#f92672>+</span> bias
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 如果预测错误，则更新权重和偏置</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> y[i] <span style=color:#f92672>*</span> linear_output <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>0</span>:
+</span></span><span style=display:flex><span>                weights <span style=color:#f92672>+=</span> lr <span style=color:#f92672>*</span> y[i] <span style=color:#f92672>*</span> X[i]
+</span></span><span style=display:flex><span>                bias <span style=color:#f92672>+=</span> lr <span style=color:#f92672>*</span> y[i]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> weights, bias
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 模型预测</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>predict</span>(X, weights, bias):
+</span></span><span style=display:flex><span>    linear_output <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>dot(X, weights) <span style=color:#f92672>+</span> bias
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> np<span style=color:#f92672>.</span>where(linear_output <span style=color:#f92672>&gt;=</span> <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 数据示例</span>
+</span></span><span style=display:flex><span>X <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>array([[<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>], [<span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>1</span>], [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>], [<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>], [<span style=color:#f92672>-</span><span style=color:#ae81ff>2</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>], [<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>2</span>]])
+</span></span><span style=display:flex><span>y <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>array([<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 模型训练</span>
+</span></span><span style=display:flex><span>weights, bias <span style=color:#f92672>=</span> Perceptrons(X, y, lr<span style=color:#f92672>=</span><span style=color:#ae81ff>0.1</span>, max_iter<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 输出结果</span>
+</span></span><span style=display:flex><span>print(<span style=color:#e6db74>&#34;学习到的权重:&#34;</span>, weights)
+</span></span><span style=display:flex><span>print(<span style=color:#e6db74>&#34;学习到的偏置:&#34;</span>, bias)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 进行预测</span>
+</span></span><span style=display:flex><span>predictions <span style=color:#f92672>=</span> predict(X, weights, bias)
+</span></span><span style=display:flex><span>print(<span style=color:#e6db74>&#34;预测结果:&#34;</span>, predictions)
+</span></span></code></pre></div><hr><h3 id=多层感知机multilayer-perceptron><strong>多层感知机（Multilayer Perceptron）</strong>
+<a class=anchor href=#%e5%a4%9a%e5%b1%82%e6%84%9f%e7%9f%a5%e6%9c%bamultilayer-perceptron>#</a></h3><p>多层感知机（MLP）是最常见的前馈神经网络（Feedforward Networks）之一，由多个全连接层组成。它是神经网络的基础结构，广泛用于分类、回归等任务。MLP的<strong>核心思想是通过隐藏层和非线性激活函数，提取输入数据的特征并映射到目标输出</strong>。</p><div align=center><img src=/images/The-structure-of-a-multi-layer-perceptronMLP-neural-network-to-model-absorption.png width=500px/></div><hr><h4 id=输入层input-layer><strong>输入层（Input Layer）</strong>
+<a class=anchor href=#%e8%be%93%e5%85%a5%e5%b1%82input-layer>#</a></h4><p>输入层是多层感知机（MLP）的第一部分，用于接收外部输入数据并将其传递给网络的隐藏层。输入层的设计直接决定了模型对数据的适配能力。输入层可以视为数据和网络之间的接口：</p><ul><li><strong>数据接受</strong>：接收外部特征输入，通常以向量或矩阵的形式表示。</li><li><strong>维度映射</strong>：将原始数据的特征维度（<span>
+\(d\)
+</span>）映射到神经网络的内部表示维度。输入数据的特征维度需与输入层的线性变换参数兼容。</li><li><strong>数据传递</strong>：输入层通过线性变换（如 <span>\(xW + b\)
+</span>）将输入映射到第一个隐藏层的维度。它仅负责将输入数据直接传递到隐藏层。</li></ul><ol><li><p><strong>神经元（Neuron）数量</strong>：输入层的神经元数量<strong>等于第一个隐藏层的神经元数量</strong>，即输入层通过线性变换将输入特征映射到第一个隐藏层的维度。输入数据的特征数量（<span>
+\(d\)
+</span>）决定了输入层每个神经元的权重数量：</p><ul><li>对于输入维度为 <span>\(d\)
+</span>的数据，每个神经元会有 <span>\(d\)
+</span>个权重加上一个偏置项。</li><li><strong>示例</strong>: 如果输入数据具有 4 个特征（如 <span>\([x_1, x_2, x_3, x_4]\)
+</span>），且第一个隐藏层包含 10 个神经元，则输入层需要：<ul><li>10 个神经元（每个神经元与隐藏层的每个神经元一一对应）。</li><li>每个神经元包含 4 个权重（分别对应 4 个输入特征）和 1 个偏置项。</li></ul></li></ul></li><li><p><strong>输入数据格式</strong>：输入数据通常为一个向量或矩阵：</p><ul><li>单样本输入: 向量形式，如 <span>\([x_1, x_2, …, x_d]\)
+</span>。</li><li>批量输入: 矩阵形式，形状为 <span>\((\text{batch size}, d)\)
+</span>，其中 <span>\( \text{batch size} \)
+</span>为每次输入的样本数， <span>\(d\)
+</span>为特征数。</li></ul></li></ol><ul><li><strong>代码示例</strong>:<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>SimpleInputLayer</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, input_dim, hidden_dim):
+</span></span><span style=display:flex><span>        super(SimpleInputLayer, self)<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>fc1 <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Linear(input_dim, hidden_dim)  <span style=color:#75715e># 从输入层到第一个隐藏层的线性变换</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>relu <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>ReLU()  <span style=color:#75715e># 激活函数（ReLU）</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, x):
+</span></span><span style=display:flex><span>        x <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>fc1(x)  <span style=color:#75715e># 输入数据经过线性变换</span>
+</span></span><span style=display:flex><span>        x <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>relu(x)  <span style=color:#75715e># 使用 ReLU 激活函数</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> x
+</span></span></code></pre></div></li></ul><h4 id=隐藏层><strong>隐藏层</strong>
+<a class=anchor href=#%e9%9a%90%e8%97%8f%e5%b1%82>#</a></h4><hr><h4 id=输出层output-layer><strong>输出层（Output Layer）</strong>
+<a class=anchor href=#%e8%be%93%e5%87%ba%e5%b1%82output-layer>#</a></h4><p>输出层是神经网络的最后一部分，其核心职责是<strong>根据模型的目标任务（Cost function），生成适合应用场景的输出</strong>。不同任务对输出层的设计要求不同，例如分类、回归或生成任务等。输出层的实现通常结合特定的单元（如线性、Sigmoid、Softmax）和损失函数，以适应不同类型的数据分布和学习目标。</p><ol><li><strong>线性单元（Linear Units）</strong></li></ol><ul><li><strong>适用场景</strong>: 连续型输出（如回归任务）。</li><li><strong>数学表达式</strong>: 输出值 <span>\(y = xW + b\)
+</span>（无激活函数）。</li><li><strong>解释</strong>:<ul><li>线性单元生成实值输出，不引入非线性变换。</li><li>损失函数通常为<strong>均方误差（MSE）</strong>: <span>\(L = \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2\)
+</span>，其中 <span>\(\hat{y}_i\)
+</span>是预测值。</li></ul></li><li><strong>代码示例</strong>:<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>LinearOutputLayer</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, input_dim):
+</span></span><span style=display:flex><span>        super(LinearOutputLayer, self)<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>fc <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Linear(input_dim, <span style=color:#ae81ff>1</span>)  <span style=color:#75715e># 线性变换（输出一个数值）</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, x):
+</span></span><span style=display:flex><span>        x <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>fc(x)  <span style=color:#75715e># 线性变换</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> x
+</span></span></code></pre></div></li></ul><ol start=2><li><strong>Sigmoid 单元</strong></li></ol><ul><li><strong>适用场景</strong>: 二分类任务。</li><li><strong>数学表达式</strong>: <span>\(y = \sigma(xW + b) = \frac{1}{1 + e^{-(xW + b)}}\)
+</span>。</li><li><strong>解释</strong>:<ul><li>Sigmoid 单元将输出值压缩到区间 <span>\((0, 1)\)
+</span>，解释为正样本的概率 <span>\(P(y=1|x)\)
+</span>。</li><li>损失函数通常为<strong>二元交叉熵损失（Binary Cross-Entropy Loss）</strong>:
+<span>\(L = - \frac{1}{n} \sum_{i=1}^n [y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i)]\)
+</span>，其中 <span>\(\hat{y}_i\)
+</span>是预测的概率值。</li></ul></li><li><strong>代码示例</strong>:<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>BinaryOutputLayer</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, input_dim):
+</span></span><span style=display:flex><span>        super(BinaryOutputLayer, self)<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>fc <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Linear(input_dim, <span style=color:#ae81ff>1</span>)  <span style=color:#75715e># 线性层，将输入映射到 1 个输出（概率）</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>sigmoid <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Sigmoid()  <span style=color:#75715e># Sigmoid 激活函数</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, x):
+</span></span><span style=display:flex><span>        x <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>fc(x)  <span style=color:#75715e># 线性变换</span>
+</span></span><span style=display:flex><span>        x <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>sigmoid(x)  <span style=color:#75715e># Sigmoid 激活函数</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> x
+</span></span></code></pre></div></li></ul><ol start=3><li><strong>Softmax 单元</strong></li></ol><ul><li><strong>适用场景</strong>: 多分类任务。</li><li><strong>数学表达式</strong>: <span>\(y_j = \frac{e^{z_j}}{\sum_{k=1}^K e^{z_k}}\)
+</span>，其中 <span>\(z_j\)
+</span>是第 <span>\(j\)
+</span>类的得分。</li><li><strong>解释</strong>:<ul><li>Softmax 单元将多个输出值转换为概率分布，保证 <span>\(\sum_{j=1}^K y_j = 1\)
+</span>，每个 <span>\(y_j\)
+</span>表示属于第 <span>\(j\)
+</span>类的概率。</li><li>损失函数通常为多<strong>分类交叉熵损失（Categorical Cross-Entropy Loss）</strong>:
+<span>\(L = - \sum_{i=1}^n \sum_{j=1}^K y_{ij} \log(\hat{y}{ij})\)
+</span>，其中 <span>\(y{ij}\)
+</span>是真实标签， <span>\(\hat{y}_{ij}\)
+</span>是预测概率。</li></ul></li><li><strong>代码示例</strong>:<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MultiClassOutputLayer</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, input_dim, num_classes):
+</span></span><span style=display:flex><span>        super(MultiClassOutputLayer, self)<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>fc <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Linear(input_dim, num_classes)  <span style=color:#75715e># 输出类别数个神经元</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>softmax <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Softmax(dim<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>)  <span style=color:#75715e># Softmax 激活函数</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, x):
+</span></span><span style=display:flex><span>        x <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>fc(x)  <span style=color:#75715e># 线性变换</span>
+</span></span><span style=display:flex><span>        x <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>softmax(x)  <span style=color:#75715e># Softmax 激活函数</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> x
+</span></span></code></pre></div></li></ul><h3 id=architecture-design><strong>Architecture Design</strong>
+<a class=anchor href=#architecture-design>#</a></h3><h4 id=向前传播><strong>向前传播</strong>
+<a class=anchor href=#%e5%90%91%e5%89%8d%e4%bc%a0%e6%92%ad>#</a></h4><h4 id=向后传播><strong>向后传播</strong>
+<a class=anchor href=#%e5%90%91%e5%90%8e%e4%bc%a0%e6%92%ad>#</a></h4><h3 id=mlp的完整流程><strong>MLP的完整流程</strong>
+<a class=anchor href=#mlp%e7%9a%84%e5%ae%8c%e6%95%b4%e6%b5%81%e7%a8%8b>#</a></h3><h4 id=mlp-代码实现><strong>MLP 代码实现</strong>
+<a class=anchor href=#mlp-%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0>#</a></h4></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#感知机和神经网络perceptrons-and-neural-network><strong>感知机和神经网络（Perceptrons and Neural Network）</strong></a><ul><li><a href=#神经元neuron><strong>神经元（Neuron）</strong></a></li><li><a href=#感知机perceptrons><strong>感知机（Perceptrons）</strong></a></li><li><a href=#多层感知机multilayer-perceptron><strong>多层感知机（Multilayer Perceptron）</strong></a></li><li><a href=#architecture-design><strong>Architecture Design</strong></a></li><li><a href=#mlp的完整流程><strong>MLP的完整流程</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
