@@ -10,6 +10,9 @@
 
 神经元（Neuron）是神经网络的最基本单元，模拟生物神经元的行为。它的主要功能是 接收输入、加权处理并通过激活函数生成输出。
 
+
+
+
   \[
 y = f\left(\sum_{i=1}^n w_i x_i + b\right)
 \]
@@ -51,20 +54,12 @@ y = f\left(\sum_{i=1}^n w_i x_i + b\right)
 
 
 
-单个感知机可以看作是一个最简单的神经元，专注于实现线性分类任务。单个神经元是感知机的扩展形式，通过引入更灵活的激活函数和多层结构，可以应用于更复杂的问题。
-
-
-
-  模型结构
-  #
-
-感知机的基本结构包括以下组成部分："><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/deep-learning/perceptrons-and-neural-network/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Perceptrons and Neural Network"><meta property="og:description" content="感知机和神经网络（Perceptrons and Neural Network） # 感知机（Perceptron）是神经网络（Neural Network）的雏形，基于单个或多个 神经元（Neuron） 通过线性组合和简单的激活函数（如阶跃函数）实现输入数据的分类。神经元是感知机的基本组成单元，其功能是对输入特征进行加权、偏置调整并生成输出。随着任务复杂性的增加，感知机被扩展为 多层感知机（Multilayer Perceptron, MLP），通过堆叠多个隐藏层并引入非线性激活函数，使网络能够表达复杂的映射关系，解决非线性问题，是前馈神经网络（Feedforward Neural Network）的核心架构。
+单个感知机可以看作是一个最简单的神经元，专注于实现线性分类任务。单个神经元是感知机的扩展形式，通过引入更灵活的激活函数和多层结构，可以应用于更复杂的问题。"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/deep-learning/perceptrons-and-neural-network/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Perceptrons and Neural Network"><meta property="og:description" content="感知机和神经网络（Perceptrons and Neural Network） # 感知机（Perceptron）是神经网络（Neural Network）的雏形，基于单个或多个 神经元（Neuron） 通过线性组合和简单的激活函数（如阶跃函数）实现输入数据的分类。神经元是感知机的基本组成单元，其功能是对输入特征进行加权、偏置调整并生成输出。随着任务复杂性的增加，感知机被扩展为 多层感知机（Multilayer Perceptron, MLP），通过堆叠多个隐藏层并引入非线性激活函数，使网络能够表达复杂的映射关系，解决非线性问题，是前馈神经网络（Feedforward Neural Network）的核心架构。
 神经元（Neuron） # 神经元（Neuron）是神经网络的最基本单元，模拟生物神经元的行为。它的主要功能是 接收输入、加权处理并通过激活函数生成输出。
 \[ y = f\left(\sum_{i=1}^n w_i x_i + b\right) \] 其中：
 \(x_i\) : 输入特征。 \(w_i\) : 权重，衡量每个输入的影响程度。 \(b\) : 偏置，用于调整输出的灵活性。 \(f(\cdot)\) : 激活函数，增加非线性能力（如ReLU、Sigmoid）。 \(y\) : 输出信号。 感知机（Perceptrons） # 感知器（Perceptrons）是一种执行 二元分类（binary classification） 的神经网络，它将输入特征映射到输出决策，通常将数据分为两个类别之一，例如 0 或 1。感知器由一层输入节点（input nodes）组成，这些节点与一层输出节点（output nodes）完全连接（fully connected）。感知子可以用图像表示为：
-单个感知机可以看作是一个最简单的神经元，专注于实现线性分类任务。单个神经元是感知机的扩展形式，通过引入更灵活的激活函数和多层结构，可以应用于更复杂的问题。
-模型结构 # 感知机的基本结构包括以下组成部分："><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Perceptrons and Neural Network | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/perceptrons-and-neural-network/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.b9f81ce577e101935c2a9decb36f27a680163615809a123288274888c1aa7d64.js integrity="sha256-ufgc5XfhAZNcKp3ss28npoAWNhWAmhIyiCdIiMGqfWQ=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/perceptrons-and-neural-network/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+单个感知机可以看作是一个最简单的神经元，专注于实现线性分类任务。单个神经元是感知机的扩展形式，通过引入更灵活的激活函数和多层结构，可以应用于更复杂的问题。"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Perceptrons and Neural Network | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/perceptrons-and-neural-network/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.0196832bc3cae6527b1ca686bccb707a7ab837f6fc7d4906bfa8a3f28fc0565a.js integrity="sha256-AZaDK8PK5lJ7HKaGvMtwenq4N/b8fUkGv6ij8o/AVlo=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/perceptrons-and-neural-network/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
@@ -73,7 +68,7 @@ y = f\left(\sum_{i=1}^n w_i x_i + b\right)
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
 <label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Perceptrons and Neural Network</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#神经元neuron><strong>神经元（Neuron）</strong></a></li><li><a href=#感知机perceptrons><strong>感知机（Perceptrons）</strong></a><ul><li><a href=#模型结构><strong>模型结构</strong></a></li><li><a href=#损失函数><strong>损失函数</strong></a></li><li><a href=#更新规则><strong>更新规则</strong></a></li><li><a href=#感知机perceptrons和逻辑回归logistic-regression的区别><strong>感知机（Perceptrons）和逻辑回归（Logistic Regression）的区别</strong></a></li><li><a href=#感知机代码实现><strong>感知机代码实现</strong></a></li></ul></li><li><a href=#多层感知机multilayer-perceptronmlp><strong>多层感知机（Multilayer Perceptron，MLP）</strong></a><ul><li><a href=#输入层input-layer><strong>输入层（Input Layer）</strong></a></li><li><a href=#隐藏层hidden-layer><strong>隐藏层（Hidden Layer）</strong></a></li><li><a href=#输出层output-layer><strong>输出层（Output Layer）</strong></a></li></ul></li><li><a href=#神经网络运行流程和原理><strong>神经网络运行流程和原理</strong></a><ul><li><a href=#向前传播-forward-propagation><strong>向前传播 (Forward Propagation)</strong></a></li><li><a href=#向后传播-backward-propagation><strong>向后传播 (Backward Propagation)</strong></a></li></ul></li><li><a href=#简单神经网络代码实现><strong>简单神经网络代码实现</strong></a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=感知机和神经网络perceptrons-and-neural-network><strong>感知机和神经网络（Perceptrons and Neural Network）</strong>
 <a class=anchor href=#%e6%84%9f%e7%9f%a5%e6%9c%ba%e5%92%8c%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9cperceptrons-and-neural-network>#</a></h1><p>感知机（Perceptron）是神经网络（Neural Network）的雏形，基于单个或多个 <strong>神经元（Neuron）</strong> 通过线性组合和简单的激活函数（如阶跃函数）实现输入数据的分类。神经元是感知机的基本组成单元，其功能是对输入特征进行加权、偏置调整并生成输出。随着任务复杂性的增加，感知机被扩展为 <strong>多层感知机（Multilayer Perceptron, MLP）</strong>，通过堆叠多个隐藏层并引入非线性激活函数，使网络能够表达复杂的映射关系，解决非线性问题，是前馈神经网络（Feedforward Neural Network）的核心架构。</p><hr><h2 id=神经元neuron><strong>神经元（Neuron）</strong>
-<a class=anchor href=#%e7%a5%9e%e7%bb%8f%e5%85%83neuron>#</a></h2><p>神经元（Neuron）是神经网络的最基本单元，模拟生物神经元的行为。它的主要功能是 <strong>接收输入、加权处理并通过激活函数生成输出</strong>。</p><span>\[
+<a class=anchor href=#%e7%a5%9e%e7%bb%8f%e5%85%83neuron>#</a></h2><p>神经元（Neuron）是神经网络的最基本单元，模拟生物神经元的行为。它的主要功能是 <strong>接收输入、加权处理并通过激活函数生成输出</strong>。</p><link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\[
 y = f\left(\sum_{i=1}^n w_i x_i + b\right)
 \]</span><p>其中：</p><ul><li><span>\(x_i\)
 </span>: 输入特征。</li><li><span>\(w_i\)
@@ -321,55 +316,66 @@ f(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}
 \( z^{(2)} \)
 </span>是当前层的线性变换输出。</li><li>激活函数：
 直接得到预测值（例如在回归问题中，输出层可能不使用激活函数）。</li></ol><ul><li>如果是分类问题：
-<span>\( h^{(2)} = \varphi(z^{(2)}) = \varphi(W^{(2)} h^{(1)} + b^{(2)}) \)</span></li><li>如果是回归问题（没有激活函数）：
-<span>\( o = W^{(2)} h^{(1)} + b^{(2)} \)
+<span>\( \hat{y} = \varphi(z^{(2)}) = \varphi(W^{(2)} h^{(1)} + b^{(2)}) \)</span></li><li>如果是回归问题（没有激活函数）：
+<span>\( \hat{y} = W^{(2)} h^{(1)} + b^{(2)} \)
 </span>其中，<span>
-\( o \)
+\( \hat{y} \)
 </span>是最终输出。</li></ul></li><li><p><strong>损失函数的计算</strong>：
-最终，我们计算输出与真实标签之间的损失，通常使用损失函数 <span>\( L = l(o, y) \)
-</span>，其中 <span>\( o \)
+最终，我们计算输出与真实标签之间的损失，通常使用损失函数 <span>\( L = l(\hat{y} , y) \)
+</span>，其中 <span>\( \hat{y} \)
 </span>是网络的预测输出，<span>
 \( y \)
-</span>是实际标签。</p></li></ul><hr><h3 id=向后传播-backward-propagation><strong>向后传播 (Backward Propagation)</strong>
-<a class=anchor href=#%e5%90%91%e5%90%8e%e4%bc%a0%e6%92%ad-backward-propagation>#</a></h3><p>向后传播是计算梯度并调整模型参数的过程，用于优化神经网络。通过链式法则，逐层计算损失函数对每个参数的偏导数。</p><blockquote><p><strong>链式法则的数学公式</strong>: 设有复合函数：<span>
+</span>是实际标签。</p></li><li><p><strong>完整流程</strong>：
+<span>\[
+z^{(1)} = W^{(1)} x + b^{(1)} → h^{(1)} = \varphi(z^{(1)}) → z^{(2)} = W^{(2)}h^{(1)} + b^{(2)}→ \hat{y} = \varphi(z^{(2)}) → L = l(\hat{y}, y)
+\]</span></p></li></ul><hr><h3 id=向后传播-backward-propagation><strong>向后传播 (Backward Propagation)</strong>
+<a class=anchor href=#%e5%90%91%e5%90%8e%e4%bc%a0%e6%92%ad-backward-propagation>#</a></h3><p>向后传播是计算梯度并调整模型参数的过程，用于优化神经网络。通过链式法则，逐层计算损失函数对每个参数的偏导数。我们在向后传播中关注的<strong>重点在于计算权重（weight）和偏置（bias）的梯度</strong>。</p><blockquote><p><strong>链式法则的数学公式</strong>: 设有复合函数：<span>
 \( y = f(g(h(x))) \)
 </span>展开形式：<span>
 \( \frac{dy}{dx} = \frac{dy}{dg} \cdot \frac{dg}{dh} \cdot \frac{dh}{dx} \)</span></p></blockquote><ul><li><p><strong>损失函数对输出的梯度</strong>：
 首先，从损失函数出发，计算损失函数对输出层的梯度。</p><ul><li>损失函数：<span>
-\( L = l(o, y) \)
+\( L = l(\hat{y}, y) \)
 </span>其中，<span>
-\( o \)
+\( \hat{y} \)
 </span>是模型的输出，<span>
 \( y \)
-</span>是真实标签。</li><li>损失函数关于输出层的梯度是：<span>
-\( \frac{\partial L}{\partial o} = \frac{\partial l(o, y)}{\partial o} \)</span></li></ul></li><li><p><strong>输出层到隐藏层的梯度</strong>：
-接下来，我们需要计算损失函数对第二层权重矩阵 <span>\( W^{(2)} \)
+</span>是真实标签。</li><li>损失函数关于输出层的梯度是：
+<span>\[
+\frac{\partial L}{\partial \hat{y}} = \frac{\partial l(\hat{y}, y)}{\partial \hat{y}} \]</span></li></ul></li><li><p><strong>输出层到隐藏层的梯度</strong>：
+接下来，我们需要计算<strong>损失函数对第二层权重矩阵 <span>\( W^{(2)} \)
 </span>和偏置项 <span>\( b^{(2)} \)
-</span>的梯度。</p><ul><li>输出层的梯度对第二层的加权输入 <span>\( z^{(2)} \)
+</span>的梯度 (i.e. <span>\( \frac{\partial L}{\partial W^{(2)}}\)
+</span>, <span>\( \frac{\partial L}{\partial b^{(2)}}\)
+</span>)</strong>。</p><ul><li>我们有<span>
+\(\hat{y} = \varphi(z^{(2)})\)
+</span>，由此可得输出层的梯度对第二层的加权输入 <span>\( z^{(2)} \)
 </span>的偏导数：
-<span>\( \frac{\partial L}{\partial z^{(2)}} = \frac{\partial L}{\partial o} \cdot \frac{\partial o}{\partial z^{(2)}} \)
-</span>由于 <span>\( o = W^{(2)} h^{(1)} + b^{(2)} \)
-</span>，我们有：
-<span>\( \frac{\partial o}{\partial z^{(2)}} = W^{(2)} \)
-</span>所以：
-<span>\( \frac{\partial L}{\partial z^{(2)}} = \frac{\partial L}{\partial o} \cdot W^{(2)} \)</span></li><li>然后计算损失函数对第二层权重矩阵 <span>\( W^{(2)} \)
+<span>\[
+\frac{\partial L}{\partial z^{(2)}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z^{(2)}}
+\]</span></li><li>我们有<span>
+\(z^{(2)} = W^{(2)}h^{(1)} + b^{(2)}\)
+</span>，然后计算损失函数对第二层权重矩阵 <span>\( W^{(2)} \)
 </span>和偏置项 <span>\( b^{(2)}\)
 </span>的梯度：
-<span>\( \frac{\partial L}{\partial W^{(2)}} = \frac{\partial L}{\partial z^{(2)}} \cdot (h^{(1)})^T \)
-</span><span>\( \frac{\partial L}{\partial b^{(2)}} = \frac{\partial L}{\partial z^{(2)}} \)</span></li></ul></li><li><p><strong>隐藏层到输入层的梯度</strong>：
-接着，我们需要计算损失函数对第一层的权重矩阵 <span>\( W^{(1)} \)
+<span>\[
+\frac{\partial L}{\partial W^{(2)}} = \frac{\partial L}{\partial z^{(2)}} \cdot \frac{\partial z^{(2)}}{\partial W^{(2)}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z^{(2)}} \cdot \frac{\partial z^{(2)}}{\partial W^{(2)}}
+\]
+</span>以及 <span>\( \frac{\partial L}{\partial b^{(2)}} = \frac{\partial L}{\partial z^{(2)}} \cdot \frac{\partial z^{(2)}}{\partial b^{(2)}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z^{(2)}} \cdot \frac{\partial z^{(2)}}{\partial b^{(2)}} \)</span></li></ul></li><li><p><strong>隐藏层到输入层的梯度</strong>：
+接着，我们需要计算损失函数对<strong>第一层的权重矩阵 <span>\( W^{(1)} \)
 </span>和偏置项 <span>\( b^{(1)} \)
-</span>的梯度。</p><ul><li>计算隐藏层的梯度：
-我们需要通过链式法则计算 <span>\( \frac{\partial L}{\partial z^{(1)}} \)
-</span>，即损失函数对第一隐藏层线性变换输入的偏导数。
-<span>\( \frac{\partial L}{\partial z^{(1)}} = \left(\frac{\partial L}{\partial z^{(2)}} \cdot W^{(2)}\right) \cdot \varphi’(z^{(1)}) \)
-</span>其中，<span>
-\( \varphi'(z^{(1)}) \)
-</span>是激活函数的导数。</li><li>然后计算损失函数对第一层权重矩阵 <span>\( W^{(1)} \)
+</span>的梯度</strong>。</p><ul><li>从<span>
+\(z^{(2)} = W^{(2)}h^{(1)} + b^{(2)}\)
+</span>和 <span>\(h^{(1)} = \varphi(z^{(1)})\)
+</span>我们可以得到：
+<span>\[
+\frac{\partial L}{\partial z^{(1)}} = \frac{\partial L}{\partial h^{(1)}} \cdot \frac{\partial h^{(1)}}{\partial z^{(1)}} = \frac{\partial L}{\partial z^{(2)}} \cdot \frac{\partial z^{(2)}}{\partial h^{(1)}} \cdot \frac{\partial h^{(1)}}{\partial z^{(1)}}
+\]</span></li><li>然后从 <span>\(z^{(1)} = W^{(1)} x + b^{(1)}\)
+</span>，计算损失函数对第一层权重矩阵 <span>\( W^{(1)} \)
 </span>和偏置项 <span>\( b^{(1)}\)
 </span>的梯度：
-<span>\( \frac{\partial L}{\partial W^{(1)}} = \frac{\partial L}{\partial z^{(1)}} \cdot (x)^T \)
-</span><span>\( \frac{\partial L}{\partial b^{(1)}} = \frac{\partial L}{\partial z^{(1)}} \)</span></li></ul></li><li><p><strong>参数更新</strong>：
+<span>\[
+\frac{\partial L}{\partial W^{(1)}} = \frac{\partial L}{\partial z^{(1)}} \cdot \frac{\partial z^{(1)}}{\partial W^{(1)}}=\frac{\partial L}{\partial z^{(2)}} \cdot \frac{\partial z^{(2)}}{\partial h^{(1)}} \cdot \frac{\partial h^{(1)}}{\partial z^{(1)}} \cdot \frac{\partial z^{(1)}}{\partial W^{(1)}}
+\]</span></li></ul><p>以及 <span>\( \frac{\partial L}{\partial b^{(1)}} = \frac{\partial L}{\partial z^{(1)}} \cdot \frac{\partial z^{(1)}}{\partial b^{(1)}}=\frac{\partial L}{\partial z^{(2)}} \cdot \frac{\partial z^{(2)}}{\partial h^{(1)}} \cdot \frac{\partial h^{(1)}}{\partial z^{(1)}} \cdot \frac{\partial z^{(1)}}{\partial b^{(1)}} \)</span></p></li><li><p><strong>参数更新</strong>：
 在向后传播过程中，我们计算出了所有需要的梯度，接下来进行参数更新。在每次迭代中，通过梯度下降更新每个权重和偏置项：</p><ul><li>更新权重：
 <span>\( W^{(1)} = W^{(1)} - \eta \frac{\partial L}{\partial W^{(1)}} \)
 </span>，
@@ -377,4 +383,104 @@ f(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}
 <span>\( b^{(1)} = b^{(1)} - \eta \frac{\partial L}{\partial b^{(1)}} \)
 </span>，
 <span>\( b^{(2)} = b^{(2)} - \eta \frac{\partial L}{\partial b^{(2)}} \)</span></li></ul></li></ul><hr><h2 id=简单神经网络代码实现><strong>简单神经网络代码实现</strong>
-<a class=anchor href=#%e7%ae%80%e5%8d%95%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0>#</a></h2></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#神经元neuron><strong>神经元（Neuron）</strong></a></li><li><a href=#感知机perceptrons><strong>感知机（Perceptrons）</strong></a><ul><li><a href=#模型结构><strong>模型结构</strong></a></li><li><a href=#损失函数><strong>损失函数</strong></a></li><li><a href=#更新规则><strong>更新规则</strong></a></li><li><a href=#感知机perceptrons和逻辑回归logistic-regression的区别><strong>感知机（Perceptrons）和逻辑回归（Logistic Regression）的区别</strong></a></li><li><a href=#感知机代码实现><strong>感知机代码实现</strong></a></li></ul></li><li><a href=#多层感知机multilayer-perceptronmlp><strong>多层感知机（Multilayer Perceptron，MLP）</strong></a><ul><li><a href=#输入层input-layer><strong>输入层（Input Layer）</strong></a></li><li><a href=#隐藏层hidden-layer><strong>隐藏层（Hidden Layer）</strong></a></li><li><a href=#输出层output-layer><strong>输出层（Output Layer）</strong></a></li></ul></li><li><a href=#神经网络运行流程和原理><strong>神经网络运行流程和原理</strong></a><ul><li><a href=#向前传播-forward-propagation><strong>向前传播 (Forward Propagation)</strong></a></li><li><a href=#向后传播-backward-propagation><strong>向后传播 (Backward Propagation)</strong></a></li></ul></li><li><a href=#简单神经网络代码实现><strong>简单神经网络代码实现</strong></a></li></ul></nav></div></aside></main></body></html>
+<a class=anchor href=#%e7%ae%80%e5%8d%95%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># &lt;--- From scratch ---&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> numpy <span style=color:#66d9ef>as</span> np
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ReLu</span>(x):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> np<span style=color:#f92672>.</span>maximum(<span style=color:#ae81ff>0</span>, x)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ReLU_derivative</span>(z):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> (z <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0</span>)<span style=color:#f92672>.</span>astype(float)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>Softmax</span>(x):
+</span></span><span style=display:flex><span>    exp_x <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>exp(x <span style=color:#f92672>-</span> np<span style=color:#f92672>.</span>max(x, axis<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>, keepdims<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>))  <span style=color:#75715e># 防止溢出</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> exp_x <span style=color:#f92672>/</span> np<span style=color:#f92672>.</span>sum(exp_x, axis<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>, keepdims<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 损失函数和其导数</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>Cross_entropy_loss</span>(y_hat, y):
+</span></span><span style=display:flex><span>    m <span style=color:#f92672>=</span> y<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#f92672>-</span>np<span style=color:#f92672>.</span>sum(y <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>log(y_hat <span style=color:#f92672>+</span> <span style=color:#ae81ff>1e-15</span>)) <span style=color:#f92672>/</span> m
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>Cross_entropy_loss_derivative</span>(y_hat, y):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> y_hat <span style=color:#f92672>-</span> y 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>MLP</span>(X, y, max_iter, learning_rate):
+</span></span><span style=display:flex><span>    input_dim <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>
+</span></span><span style=display:flex><span>    hidden_dim <span style=color:#f92672>=</span> <span style=color:#ae81ff>5</span>
+</span></span><span style=display:flex><span>    output_dim <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    W1 <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>random<span style=color:#f92672>.</span>randn(hidden_dim, input_dim) <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.01</span>
+</span></span><span style=display:flex><span>    b1 <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>zeros((hidden_dim, <span style=color:#ae81ff>1</span>))
+</span></span><span style=display:flex><span>    W2 <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>random<span style=color:#f92672>.</span>randn(output_dim, hidden_dim) <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.01</span>
+</span></span><span style=display:flex><span>    b2 <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>zeros((output_dim, <span style=color:#ae81ff>1</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>Forward_Propagation</span>(X, W1, b1, W2, b2):
+</span></span><span style=display:flex><span>        z1 <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>dot(W1, X<span style=color:#f92672>.</span>T) <span style=color:#f92672>+</span> b1
+</span></span><span style=display:flex><span>        h1 <span style=color:#f92672>=</span> ReLu(z1)
+</span></span><span style=display:flex><span>        z2 <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>dot(W2, h1<span style=color:#f92672>.</span>T) <span style=color:#f92672>+</span> b2
+</span></span><span style=display:flex><span>        y_hat <span style=color:#f92672>=</span> Softmax(z2<span style=color:#f92672>.</span>T)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> z1, h1, z2, y_hat
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>Backward_Propagation</span>(X, y, z1, h1, z2, y_hat, W1, W2):
+</span></span><span style=display:flex><span>        m <span style=color:#f92672>=</span> X<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>        dz2 <span style=color:#f92672>=</span> cross_entropy_loss_derivative(y_hat, y)
+</span></span><span style=display:flex><span>        dW2 <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>dot(dz2<span style=color:#f92672>.</span>T, h1<span style=color:#f92672>.</span>T) <span style=color:#f92672>/</span> m
+</span></span><span style=display:flex><span>        db2 <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>sum(dz2<span style=color:#f92672>.</span>T, axis<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>, keepdims<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>) <span style=color:#f92672>/</span> m
+</span></span><span style=display:flex><span>        dh1 <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>dot(W2<span style=color:#f92672>.</span>T, dz2<span style=color:#f92672>.</span>T)
+</span></span><span style=display:flex><span>        dz1 <span style=color:#f92672>=</span> dh1 <span style=color:#f92672>*</span> relu_derivative(z1)
+</span></span><span style=display:flex><span>        dW1 <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>dot(dz1, X) <span style=color:#f92672>/</span> m
+</span></span><span style=display:flex><span>        db1 <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>sum(dz1, axis<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>, keepdims<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>) <span style=color:#f92672>/</span> m
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> dW1, db1, dW2, db2
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(max_iter):
+</span></span><span style=display:flex><span>        z1, h1, z2, y_hat <span style=color:#f92672>=</span> Forward_Propagation(X, W1, b1, W2, b2)
+</span></span><span style=display:flex><span>        loss <span style=color:#f92672>=</span> Cross_entropy_loss(y_hat, y)
+</span></span><span style=display:flex><span>        dW1, db1, dW2, db2 <span style=color:#f92672>=</span> Backward_Propagation(X, y, z1, h1, z2, y_hat, W1, W2)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        W1 <span style=color:#f92672>-=</span> learning_rate <span style=color:#f92672>*</span> dW1
+</span></span><span style=display:flex><span>        b1 <span style=color:#f92672>-=</span> learning_rate <span style=color:#f92672>*</span> db1
+</span></span><span style=display:flex><span>        W2 <span style=color:#f92672>-=</span> learning_rate <span style=color:#f92672>*</span> dW2
+</span></span><span style=display:flex><span>        b2 <span style=color:#f92672>-=</span> learning_rate <span style=color:#f92672>*</span> db2
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> W1, b1, W2, b2
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># &lt;--- From pytorch ---&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.nn <span style=color:#66d9ef>as</span> nn
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.optim <span style=color:#66d9ef>as</span> optim
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MLP</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, input_dim, hidden_dim, output_dim):
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>layer1 <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Linear(input_dim, hidden_dim)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>layer2 <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Linear(hidden_dim, output_dim)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(x):
+</span></span><span style=display:flex><span>        x <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>ReLU(self<span style=color:#f92672>.</span>layer1(x))
+</span></span><span style=display:flex><span>        x <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>layer2(x)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> x
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>torch<span style=color:#f92672>.</span>manual_seed(<span style=color:#ae81ff>42</span>)
+</span></span><span style=display:flex><span>X <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>randn(<span style=color:#ae81ff>100</span>, <span style=color:#ae81ff>4</span>)  <span style=color:#75715e># 输入特征</span>
+</span></span><span style=display:flex><span>y <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>randint(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>3</span>, (<span style=color:#ae81ff>100</span>,))  <span style=color:#75715e># 3 类标签</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 模型初始化</span>
+</span></span><span style=display:flex><span>input_dim <span style=color:#f92672>=</span> X<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>hidden_dim <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span>
+</span></span><span style=display:flex><span>output_dim <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>
+</span></span><span style=display:flex><span>max_iter <span style=color:#f92672>=</span> <span style=color:#ae81ff>1000</span>
+</span></span><span style=display:flex><span>model <span style=color:#f92672>=</span> MLP(input_dim, hidden_dim, output_dim)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>criterion <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>CrossEntropyLoss()
+</span></span><span style=display:flex><span>optimizer <span style=color:#f92672>=</span> optim<span style=color:#f92672>.</span>Adam(model<span style=color:#f92672>.</span>parameters(), lr<span style=color:#f92672>=</span><span style=color:#ae81ff>0.01</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(max_iter):
+</span></span><span style=display:flex><span>    y_hat <span style=color:#f92672>=</span> model(X)
+</span></span><span style=display:flex><span>    loss <span style=color:#f92672>=</span> criterion(y_hat, y)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    optimizer<span style=color:#f92672>.</span>zero_grad()
+</span></span><span style=display:flex><span>    loss<span style=color:#f92672>.</span>backward()
+</span></span><span style=display:flex><span>    optimizer<span style=color:#f92672>.</span>step()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> epoch <span style=color:#f92672>%</span> <span style=color:#ae81ff>100</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>:
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Epoch </span><span style=color:#e6db74>{</span>epoch<span style=color:#e6db74>}</span><span style=color:#e6db74>, Loss: </span><span style=color:#e6db74>{</span>loss<span style=color:#f92672>.</span>item()<span style=color:#e6db74>:</span><span style=color:#e6db74>.4f</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span></code></pre></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#神经元neuron><strong>神经元（Neuron）</strong></a></li><li><a href=#感知机perceptrons><strong>感知机（Perceptrons）</strong></a><ul><li><a href=#模型结构><strong>模型结构</strong></a></li><li><a href=#损失函数><strong>损失函数</strong></a></li><li><a href=#更新规则><strong>更新规则</strong></a></li><li><a href=#感知机perceptrons和逻辑回归logistic-regression的区别><strong>感知机（Perceptrons）和逻辑回归（Logistic Regression）的区别</strong></a></li><li><a href=#感知机代码实现><strong>感知机代码实现</strong></a></li></ul></li><li><a href=#多层感知机multilayer-perceptronmlp><strong>多层感知机（Multilayer Perceptron，MLP）</strong></a><ul><li><a href=#输入层input-layer><strong>输入层（Input Layer）</strong></a></li><li><a href=#隐藏层hidden-layer><strong>隐藏层（Hidden Layer）</strong></a></li><li><a href=#输出层output-layer><strong>输出层（Output Layer）</strong></a></li></ul></li><li><a href=#神经网络运行流程和原理><strong>神经网络运行流程和原理</strong></a><ul><li><a href=#向前传播-forward-propagation><strong>向前传播 (Forward Propagation)</strong></a></li><li><a href=#向后传播-backward-propagation><strong>向后传播 (Backward Propagation)</strong></a></li></ul></li><li><a href=#简单神经网络代码实现><strong>简单神经网络代码实现</strong></a></li></ul></nav></div></aside></main></body></html>
