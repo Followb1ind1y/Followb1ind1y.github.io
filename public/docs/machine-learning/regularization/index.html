@@ -4,10 +4,16 @@
 
 Regularization 是一种用于防止机器学习模型过拟合（overfitting）的技术。通过在损失函数中添加正则化项（regularization term）等技术，限制模型的复杂度，从而提高模型的泛化能力（generalization ability）。
 
+Note： 正则化通常只在模型的训练（training）阶段生效，不会直接影响 验证（validation）阶段和 推理（inference）阶段。
+
+
   参数范数惩罚（Parameter Norm Penalties）
   #
 
 许多正则化方法都是通过向目标函数 
+
+
+
   \(J\)
 
  添加参数范数惩罚 
@@ -35,10 +41,10 @@ Regularization 是一种用于防止机器学习模型过拟合（overfitting）
  的相对贡献。将 
   \(\lambda\)
 
- 设置为 0 会导致无正则化。较大的 
+ 设置为 0 会导致无正则化，使模型更关注数据拟合。较大的 
   \(\lambda\)
 
- 值对应更多的正则化。
+ 值对应更多的正则化，从而限制模型复杂度。
 当我们的训练算法最小化正则化目标函数 
   \(\tilde{J}\)
 
@@ -54,30 +60,50 @@ Regularization 是一种用于防止机器学习模型过拟合（overfitting）
  的不同选择可能导致不同的解决方案被优先考虑。
 
 
-  L2 正则化（L2 Regularization）
+  直观理解参数范数正则化的作用
   #
 
-L2 正则化（Ridge 正则化）通过在损失函数中添加权重平方和的惩罚项，限制模型参数的大小，降低模型复杂度。公式如下：
 
-  \[
-J(\theta) = Loss(\theta) + \lambda\lVert \theta \rVert_{2}^{2} = Loss(\theta) +  \frac{\lambda}{2}  \sum_{i=1}^n \theta_i^2
-\]
 
-"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/regularization/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Regularization"><meta property="og:description" content="正则化（Regularization） # Regularization 是一种用于防止机器学习模型过拟合（overfitting）的技术。通过在损失函数中添加正则化项（regularization term）等技术，限制模型的复杂度，从而提高模型的泛化能力（generalization ability）。
+抑制模型复杂度，防止过拟合：
+
+参数范数正则化通过惩罚参数，限制了参数 
+  \(\theta\)
+
+  的大小，促使模型学习更小的权重。
+
+大权重通常意味着模型对输入数据的小变化非常敏感，容易过拟合。
+小权重会使模型输出更加平滑，对噪声不敏感，泛化能力更强。
+
+
+这使得模型在高噪声或复杂数据下不会对数据点过度拟合。
+
+
+
+大权重的危害：如果某个权重
+  \(\theta_i\)
+
+特别大，模型输出就会对输入
+  \(x_i\)
+
+的微小变化极为敏感，训练数据的噪声会被放大，导致模型记住了训练集中的噪声（过拟合）。"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/regularization/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Regularization"><meta property="og:description" content="正则化（Regularization） # Regularization 是一种用于防止机器学习模型过拟合（overfitting）的技术。通过在损失函数中添加正则化项（regularization term）等技术，限制模型的复杂度，从而提高模型的泛化能力（generalization ability）。
+Note： 正则化通常只在模型的训练（training）阶段生效，不会直接影响 验证（validation）阶段和 推理（inference）阶段。
 参数范数惩罚（Parameter Norm Penalties） # 许多正则化方法都是通过向目标函数 \(J\) 添加参数范数惩罚 \(\Omega(\theta)\) 来限制模型（例如神经网络、线性回归或逻辑回归）的容量。我们将正则化的目标函数表示为 \(\tilde{J}\) ：
-\[ \tilde{J}(\theta;X,y) = J(\theta;X,y) + \lambda\Omega(\theta) \\ \] 其中 \(\lambda \in [0,\infty)\) 是一个超参数，它加权范数惩罚项 \(\Omega\) 相对于标准目标函数 \(J\) 的相对贡献。将 \(\lambda\) 设置为 0 会导致无正则化。较大的 \(\lambda\) 值对应更多的正则化。
+\[ \tilde{J}(\theta;X,y) = J(\theta;X,y) + \lambda\Omega(\theta) \\ \] 其中 \(\lambda \in [0,\infty)\) 是一个超参数，它加权范数惩罚项 \(\Omega\) 相对于标准目标函数 \(J\) 的相对贡献。将 \(\lambda\) 设置为 0 会导致无正则化，使模型更关注数据拟合。较大的 \(\lambda\) 值对应更多的正则化，从而限制模型复杂度。
 当我们的训练算法最小化正则化目标函数 \(\tilde{J}\) 时，它将同时降低训练数据上的原始目标 \(J\) 和参数 \(\theta\) （或参数的某些子集）大小的某些度量。参数范数 \(\Omega\) 的不同选择可能导致不同的解决方案被优先考虑。
-L2 正则化（L2 Regularization） # L2 正则化（Ridge 正则化）通过在损失函数中添加权重平方和的惩罚项，限制模型参数的大小，降低模型复杂度。公式如下： \[ J(\theta) = Loss(\theta) + \lambda\lVert \theta \rVert_{2}^{2} = Loss(\theta) + \frac{\lambda}{2} \sum_{i=1}^n \theta_i^2 \]"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Regularization | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/machine-learning/regularization/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.f02cf2dfa58641063a1ee2e2c9d3fb1a132e987a3e32cbb4219477161548ebbc.js integrity="sha256-8Czy36WGQQY6HuLiydP7GhMumHo+Msu0IZR3FhVI67w=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/machine-learning/regularization/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+直观理解参数范数正则化的作用 # 抑制模型复杂度，防止过拟合：
+参数范数正则化通过惩罚参数，限制了参数 \(\theta\) 的大小，促使模型学习更小的权重。 大权重通常意味着模型对输入数据的小变化非常敏感，容易过拟合。 小权重会使模型输出更加平滑，对噪声不敏感，泛化能力更强。 这使得模型在高噪声或复杂数据下不会对数据点过度拟合。 大权重的危害：如果某个权重 \(\theta_i\) 特别大，模型输出就会对输入 \(x_i\) 的微小变化极为敏感，训练数据的噪声会被放大，导致模型记住了训练集中的噪声（过拟合）。"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Regularization | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/machine-learning/regularization/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.674ca77e9feb65b30dc6c1716a3d9b7838c82e95c08629ee1ce72d0345abf5db.js integrity="sha256-Z0ynfp/rZbMNxsFxaj2beDjILpXAhinuHOctA0Wr9ds=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/machine-learning/regularization/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
 <label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/ class=active>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><input type=checkbox id=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class=toggle>
 <label for=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class="flex justify-between"><a href=/docs/deep-learning/computer-vision/>Computer Vision</a></label><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Regularization</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#参数范数惩罚parameter-norm-penalties><strong>参数范数惩罚（Parameter Norm Penalties）</strong></a><ul><li><a href=#l2-正则化l2-regularization><strong>L2 正则化（L2 Regularization）</strong></a></li><li><a href=#l1-正则化l1-regularization><strong>L1 正则化（L1 Regularization）</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=正则化regularization><strong>正则化（Regularization）</strong>
-<a class=anchor href=#%e6%ad%a3%e5%88%99%e5%8c%96regularization>#</a></h1><p>Regularization 是一种用于<strong>防止机器学习模型过拟合（overfitting）<strong>的技术。通过在损失函数中添加正则化项（regularization term）等技术，限制模型的复杂度，从而</strong>提高模型的泛化能力（generalization ability）</strong>。</p><h2 id=参数范数惩罚parameter-norm-penalties><strong>参数范数惩罚（Parameter Norm Penalties）</strong>
-<a class=anchor href=#%e5%8f%82%e6%95%b0%e8%8c%83%e6%95%b0%e6%83%a9%e7%bd%9aparameter-norm-penalties>#</a></h2><p>许多正则化方法都是通过向目标函数 <span>\(J\)
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Regularization</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#参数范数惩罚parameter-norm-penalties><strong>参数范数惩罚（Parameter Norm Penalties）</strong></a><ul><li><a href=#直观理解参数范数正则化的作用><strong>直观理解参数范数正则化的作用</strong></a></li><li><a href=#l2-正则化l2-regularization><strong>L2 正则化（L2 Regularization）</strong></a></li><li><a href=#l1-正则化l1-regularization><strong>L1 正则化（L1 Regularization）</strong></a></li></ul></li><li><a href=#数据增强dataset-augmentation><strong>数据增强（Dataset Augmentation）</strong></a><ul><li><a href=#图像数据增强><strong>图像数据增强</strong></a></li><li><a href=#文本数据增强><strong>文本数据增强</strong></a></li><li><a href=#时间序列数据增强><strong>时间序列数据增强</strong></a></li></ul></li><li><a href=#噪声注入noise-injection><strong>噪声注入（Noise Injection）</strong></a><ul><li><a href=#常见的噪声注入方法><strong>常见的噪声注入方法</strong></a></li></ul></li><li><a href=#正则化在神经网络中的应用><strong>正则化在神经网络中的应用</strong></a><ul><li><a href=#weight-decay><strong>Weight Decay</strong></a></li><li><a href=#early-stopping><strong>Early Stopping</strong></a></li><li><a href=#batch-normalization><strong>Batch Normalization</strong></a></li><li><a href=#dropout><strong>Dropout</strong></a></li></ul></li><li><a href=#集成学习算法ensemble-methods><strong>集成学习算法（Ensemble Methods）</strong></a></li><li><a href=#对抗训练adversarial-training><strong>对抗训练（Adversarial Training）</strong></a><ul><li><a href=#对抗样本的概念><strong>对抗样本的概念</strong></a></li><li><a href=#对抗训练的过程><strong>对抗训练的过程</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=正则化regularization><strong>正则化（Regularization）</strong>
+<a class=anchor href=#%e6%ad%a3%e5%88%99%e5%8c%96regularization>#</a></h1><p>Regularization 是一种用于<strong>防止机器学习模型过拟合（overfitting）<strong>的技术。通过在损失函数中添加正则化项（regularization term）等技术，限制模型的复杂度，从而</strong>提高模型的泛化能力（generalization ability）</strong>。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> 正则化通常<strong>只在模型的训练（training）阶段生效</strong>，不会直接影响 <strong>验证（validation）阶段</strong>和 <strong>推理（inference）阶段</strong>。</p></blockquote><h2 id=参数范数惩罚parameter-norm-penalties><strong>参数范数惩罚（Parameter Norm Penalties）</strong>
+<a class=anchor href=#%e5%8f%82%e6%95%b0%e8%8c%83%e6%95%b0%e6%83%a9%e7%bd%9aparameter-norm-penalties>#</a></h2><p>许多正则化方法都是通过向目标函数
+<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(J\)
 </span>添加参数范数惩罚 <span>\(\Omega(\theta)\)
 </span>来限制模型（例如神经网络、线性回归或逻辑回归）的容量。我们将正则化的目标函数表示为 <span>\(\tilde{J}\)
 </span>：</p><span>\[
@@ -86,39 +112,145 @@ L2 正则化（L2 Regularization） # L2 正则化（Ridge 正则化）通过在
 </span>是一个超参数，它加权范数惩罚项 <span>\(\Omega\)
 </span>相对于标准目标函数 <span>\(J\)
 </span>的相对贡献。将 <span>\(\lambda\)
-</span>设置为 0 会导致无正则化。较大的 <span>\(\lambda\)
-</span>值对应更多的正则化。</p><p>当我们的训练算法最小化正则化目标函数 <span>\(\tilde{J}\)
+</span>设置为 0 会导致无正则化，使模型更关注数据拟合。较大的 <span>\(\lambda\)
+</span>值对应更多的正则化，从而限制模型复杂度。</p><p>当我们的训练算法最小化正则化目标函数 <span>\(\tilde{J}\)
 </span>时，它将同时降低训练数据上的原始目标 <span>\(J\)
 </span>和参数 <span>\(\theta\)
 </span>（或参数的某些子集）大小的某些度量。参数范数 <span>\(\Omega\)
-</span>的不同选择可能导致不同的解决方案被优先考虑。</p><hr><h3 id=l2-正则化l2-regularization><strong>L2 正则化（L2 Regularization）</strong>
-<a class=anchor href=#l2-%e6%ad%a3%e5%88%99%e5%8c%96l2-regularization>#</a></h3><p>L2 正则化（Ridge 正则化）通过在损失函数中添加权重平方和的惩罚项，限制模型参数的大小，降低模型复杂度。公式如下：
+</span>的不同选择可能导致不同的解决方案被优先考虑。</p><hr><h3 id=直观理解参数范数正则化的作用><strong>直观理解参数范数正则化的作用</strong>
+<a class=anchor href=#%e7%9b%b4%e8%a7%82%e7%90%86%e8%a7%a3%e5%8f%82%e6%95%b0%e8%8c%83%e6%95%b0%e6%ad%a3%e5%88%99%e5%8c%96%e7%9a%84%e4%bd%9c%e7%94%a8>#</a></h3><ul><li><p><strong>抑制模型复杂度，防止过拟合</strong>：</p><ul><li>参数范数正则化通过惩罚参数，<strong>限制了参数 <span>\(\theta\)
+</span>的大小</strong>，促使模型学习更小的权重。<ul><li><strong>大权重通常意味着模型对输入数据的小变化非常敏感</strong>，容易过拟合。</li><li>小权重会使模型输出<strong>更加平滑，对噪声不敏感</strong>，泛化能力更强。</li></ul></li><li>这使得模型在高噪声或复杂数据下不会对数据点过度拟合。</li></ul></li><li><p><strong>大权重的危害</strong>：如果某个权重<span>
+\(\theta_i\)
+</span>特别大，模型输出就会对输入<span>
+\(x_i\)
+</span>的<strong>微小变化极为敏感</strong>，训练数据的<strong>噪声会被放大</strong>，导致<strong>模型记住了训练集中的噪声（过拟合）</strong>。</p></li><li><p><strong>正则化后</strong>：通过惩罚项，正则化会迫使所有<strong>权重尽量小</strong>，让模型输出更平滑，对噪声更鲁棒。</p></li></ul><hr><h3 id=l2-正则化l2-regularization><strong>L2 正则化（L2 Regularization）</strong>
+<a class=anchor href=#l2-%e6%ad%a3%e5%88%99%e5%8c%96l2-regularization>#</a></h3><p>L2 正则化（Ridge 正则化）通过在损失函数中<strong>添加权重平方和的惩罚项，限制模型参数的大小</strong>，降低模型复杂度。公式如下：
 <span>\[
 J(\theta) = Loss(\theta) + \lambda\lVert \theta \rVert_{2}^{2} = Loss(\theta) + \frac{\lambda}{2} \sum_{i=1}^n \theta_i^2
 \]</span></p><ul><li><span>\(\lambda\)
 </span>：正则化强度，权衡损失函数与正则化项的重要性。</li><li><span>\(\sum_{i=1}^n \theta_i^2\)
 </span>：模型权重的 L2 范数（欧几里得范数）。</li><li>正则化项前的 <span>\(\frac{1}{2}\)
-</span>是为了后续求导方便。</li></ul><p>优化参数 <span>\(\theta\)
+</span>是为了后续求导方便。</li></ul><div align=center><img src=/images/l2.png width=400px/></div><p>优化参数 <span>\(\theta\)
 </span>时，我们对目标函数 <span>\(J(\theta) \)
 </span>关于 <span>\(\theta\)
 </span>求偏导：</p><span>\[
 \frac{\partial J(\theta)}{\partial \theta} = \nabla J(\theta) + \lambda \theta
 \]</span><p>之后将求导结果用于梯度下降法的参数更新规则：</p><span>\[
 \theta := \theta - \alpha \left( \nabla J(\theta) + \lambda \theta \right)
-\]</span><hr><h4 id=l2正则化的作用><strong>L2正则化的作用</strong>
-<a class=anchor href=#l2%e6%ad%a3%e5%88%99%e5%8c%96%e7%9a%84%e4%bd%9c%e7%94%a8>#</a></h4><ol><li><strong>抑制模型复杂度，防止过拟合</strong>：<ul><li>L2正则化通过惩罚参数的平方和，<strong>限制了参数 <span>\(\theta\)
-</span>的大小</strong>，促使模型学习更小的权重。<ul><li><strong>大权重通常意味着模型对输入数据的小变化非常敏感</strong>，容易过拟合。</li><li>小权重会使模型输出<strong>更加平滑，对噪声不敏感</strong>，泛化能力更强。</li></ul></li><li>这使得模型在高噪声或复杂数据下不会对数据点过度拟合。</li></ul></li><li><strong>降低模型的方差</strong>：<ul><li>当输入特征高度相关时（多重共线性），普通的最小二乘法会导致模型参数的方差非常大。<ul><li>L2正则化通过惩罚参数的大小，<strong>有效降低了模型的方差</strong>，方差大，意味着模型过拟合。虽然会略微增加模型的偏差（对训练集拟合得稍差），但整体的泛化误差（训练集与测试集之间的误差）会降低。</li></ul></li></ul></li><li><strong>平滑模型输出</strong>：<ul><li>L2正则化引入了一个约束，使得参数向量 <span>\(\theta\)
+\]</span><ul><li><strong>L2 正则化的优点</strong>：<ol><li><strong>平滑性更强</strong>: L2 正则化引入了一个约束，使得参数向量 <span>\(\theta\)
 </span>不会无限增大，最终可以提高模型在测试集上的表现。<ul><li>普通模型的参数<span>
 \(\theta\)
-</span>没有任何约束，模型可能会将一些特征的权重学得<strong>非常大</strong>，导致输出对输入变化非常敏感。
-• L2正则化的模型参数<span>
+</span>没有任何约束，模型可能会将一些<strong>特征的权重学得非常大</strong>，导致输出对输入变化非常敏感。</li><li>L2 正则化的模型参数<span>
 \(\theta\)
-</span>被<strong>约束在一个较小的范围内</strong>，所有权重都会趋于较小的值，模型的<strong>输出曲线更加平滑</strong>。</li></ul></li></ul></li></ol><div align=center><img src=/images/l2.png width=400px/></div><hr><h4 id=直观理解l2正则化><strong>直观理解L2正则化</strong>
-<a class=anchor href=#%e7%9b%b4%e8%a7%82%e7%90%86%e8%a7%a3l2%e6%ad%a3%e5%88%99%e5%8c%96>#</a></h4><ul><li><strong>大权重的危害</strong>：如果某个权重<span>
-\(\theta_i\)
-</span>特别大，模型输出就会对输入<span>
-\(x_i\)
-</span>的<strong>微小变化极为敏感</strong>，训练数据的<strong>噪声会被放大</strong>，导致<strong>模型记住了训练集中的噪声（过拟合）</strong>。</li><li><strong>L2正则化后</strong>：通过惩罚<span>
-\(\theta_i^2\)
-</span>，L2正则化会迫使所有<strong>权重尽量小</strong>，让模型输出更平滑，对噪声更鲁棒。</li><li><strong>例如</strong>：<ul><li>没有正则化时，模型可能拟合出一条剧烈波动的曲线来完全覆盖训练数据。</li><li>加了L2正则化后，模型拟合的曲线会更平滑，不会对每个数据点过分敏感。</li></ul></li></ul><hr><h3 id=l1-正则化l1-regularization><strong>L1 正则化（L1 Regularization）</strong>
-<a class=anchor href=#l1-%e6%ad%a3%e5%88%99%e5%8c%96l1-regularization>#</a></h3></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#参数范数惩罚parameter-norm-penalties><strong>参数范数惩罚（Parameter Norm Penalties）</strong></a><ul><li><a href=#l2-正则化l2-regularization><strong>L2 正则化（L2 Regularization）</strong></a></li><li><a href=#l1-正则化l1-regularization><strong>L1 正则化（L1 Regularization）</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
+</span>被<strong>约束在一个较小的范围内</strong>，所有权重都会趋于较小的值，模型的<strong>输出曲线更加平滑</strong>。</li></ul></li><li><strong>解决多重共线性问题 降低模型的方差</strong>：<ul><li>当输入特征高度相关时（多重共线性），普通的最小二乘法会导致模型参数的方差非常大。</li><li>参数范数正则化通过惩罚参数的大小，<strong>有效降低了模型的方差</strong>，方差大，意味着模型过拟合。虽然会略微增加模型的偏差（对训练集拟合得稍差），但整体的泛化误差（训练集与测试集之间的误差）会降低。</li></ul></li></ol></li><li><strong>L2 正则化的缺点</strong>:<ul><li><strong>无法实现特征选择</strong>: L2 正则化会将<strong>权重缩小到接近 0</strong>，但不完全为 0，因此模型仍然保留所有特征。</li></ul></li><li><strong>L2 正则化的适用场景</strong>:<ul><li>如果需要提升模型的 <strong>鲁棒性 和 泛化能力</strong>，并且数据是 低维非稀疏数据，优先选择 L2 正则化。</li></ul></li><li><strong>L2 正则化代码实现</strong><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> numpy <span style=color:#66d9ef>as</span> np
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 损失函数：均方误差（MSE） + L2 正则化</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>compute_loss</span>(X, y, theta, bias, lambda_reg):
+</span></span><span style=display:flex><span>    n_samples <span style=color:#f92672>=</span> X<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    predictions <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>dot(X, theta) <span style=color:#f92672>+</span> bias
+</span></span><span style=display:flex><span>    mse_loss <span style=color:#f92672>=</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> (<span style=color:#ae81ff>2</span> <span style=color:#f92672>*</span> n_samples)) <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>sum((predictions <span style=color:#f92672>-</span> y) <span style=color:#f92672>**</span> <span style=color:#ae81ff>2</span>)
+</span></span><span style=display:flex><span>    l2_penalty <span style=color:#f92672>=</span> (lambda_reg <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>) <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>sum(theta <span style=color:#f92672>**</span> <span style=color:#ae81ff>2</span>)  <span style=color:#75715e># 正则化项</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> mse_loss <span style=color:#f92672>+</span> l2_penalty
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 梯度更新</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>compute_gradients</span>(X, y, theta, bias, lambda_reg):
+</span></span><span style=display:flex><span>    n_samples <span style=color:#f92672>=</span> X<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    predictions <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>dot(X, theta) <span style=color:#f92672>+</span> bias
+</span></span><span style=display:flex><span>    error <span style=color:#f92672>=</span> predictions <span style=color:#f92672>-</span> y
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 梯度计算 包含 L2 惩罚</span>
+</span></span><span style=display:flex><span>    d_theta <span style=color:#f92672>=</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> n_samples) <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>dot(X<span style=color:#f92672>.</span>T, error) <span style=color:#f92672>+</span> lambda_reg <span style=color:#f92672>*</span> theta
+</span></span><span style=display:flex><span>    d_bias <span style=color:#f92672>=</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> n_samples) <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>sum(error)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> d_theta, d_bias
+</span></span></code></pre></div></li></ul><hr><h3 id=l1-正则化l1-regularization><strong>L1 正则化（L1 Regularization）</strong>
+<a class=anchor href=#l1-%e6%ad%a3%e5%88%99%e5%8c%96l1-regularization>#</a></h3><p>L1 正则化（Lasso 正则化）通过在损失函数中添加权重绝对值和的惩罚项，限制模型参数的大小，同时可以实现特征选择的作用。公式如下：
+<span>\[
+J(\theta) = Loss(\theta) + \lambda\lVert \theta \rVert_{1} = Loss(\theta) + \lambda \sum_{i=1}^n |\theta_i|
+\]</span></p><ul><li><span>\(\lambda\)
+</span>：正则化强度，权衡损失函数与正则化项的重要性。</li><li><span>\(\sum_{i=1}^n |\theta_i|\)
+</span>：模型权重的 L1 范数（曼哈顿范数）。</li></ul><div align=center><img src=/images/l1.png width=400px/></div><p>优化参数 <span>\(\theta\)
+</span>时，我们对目标函数 <span>\(J(\theta) \)
+</span>关于 <span>\(\theta\)
+</span>求偏导：</p><span>\[
+\frac{\partial J(\theta)}{\partial \theta_i} = \nabla J(\theta_i) + \lambda \cdot \text{sign}(\theta_i)
+\]</span><p>其中 <span>\(\text{sign}(\theta_i)\)
+</span>是符号函数，定义为：
+<span>\[
+\text{sign}(\theta_i) =
+\begin{cases}
+1, & \text{if } \theta_i > 0 \\
+-1, & \text{if } \theta_i < 0 \\
+0, & \text{if } \theta_i = 0
+\end{cases}
+\]</span></p><p>参数更新规则（梯度下降法）为：
+<span>\[
+\theta := \theta - \alpha \left( \nabla J(\theta) + \lambda \cdot \text{sign}(\theta) \right)
+\]</span></p><ul><li><strong>L1 正则化的优点</strong>：<ol><li><strong>特征选择功能</strong>：L1 正则化会将部分<strong>不重要的特征权重缩小到 0</strong>，从而直接移除这些特征。对于高维稀疏数据（如文本分类、基因数据分析）效果显著。</li><li><strong>模型可解释性</strong>: 由于<strong>部分权重为 0</strong>，模型变得更加简洁，方便解读哪些特征对预测结果最重要。</li></ol></li><li><strong>L1 正则化的缺点</strong>:<ol><li>参数稀疏性可能<strong>损失重要信息</strong>: 对于相关性较高的特征，L1 可能随机选择部分特征置零，而丢失其他有价值的信息。</li><li>优化复杂性: L1 正则化的目标函数由于<strong>绝对值的非连续性</strong>，可能在<strong>优化时收敛较慢</strong>。</li></ol></li><li><strong>L1 正则化的适用场景</strong>:<ol><li><strong>高维稀疏数据</strong>: 如文本分类或图像处理中的稀疏特征。</li><li>需要特征选择: 适合在数据预处理阶段对<strong>重要特征进行筛选</strong>。</li></ol></li><li><strong>L1 正则化代码实现</strong><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> numpy <span style=color:#66d9ef>as</span> np
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 损失函数：均方误差（MSE） + L1 正则化</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>compute_loss</span>(X, y, theta, bias, lambda_reg):
+</span></span><span style=display:flex><span>    n_samples <span style=color:#f92672>=</span> X<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    predictions <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>dot(X, theta) <span style=color:#f92672>+</span> bias
+</span></span><span style=display:flex><span>    mse_loss <span style=color:#f92672>=</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> (<span style=color:#ae81ff>2</span> <span style=color:#f92672>*</span> n_samples)) <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>sum((predictions <span style=color:#f92672>-</span> y) <span style=color:#f92672>**</span> <span style=color:#ae81ff>2</span>)
+</span></span><span style=display:flex><span>    l1_penalty <span style=color:#f92672>=</span> lambda_reg <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>sum(np<span style=color:#f92672>.</span>abs(theta))  <span style=color:#75715e># 正则化项（L1 范数）</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> mse_loss <span style=color:#f92672>+</span> l1_penalty
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 梯度更新</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>compute_gradients</span>(X, y, theta, bias, lambda_reg):
+</span></span><span style=display:flex><span>    n_samples <span style=color:#f92672>=</span> X<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    predictions <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>dot(X, theta) <span style=color:#f92672>+</span> bias
+</span></span><span style=display:flex><span>    error <span style=color:#f92672>=</span> predictions <span style=color:#f92672>-</span> y
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 梯度计算 包含 L1 惩罚</span>
+</span></span><span style=display:flex><span>    d_theta <span style=color:#f92672>=</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> n_samples) <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>dot(X<span style=color:#f92672>.</span>T, error) <span style=color:#f92672>+</span> lambda_reg <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>sign(theta)
+</span></span><span style=display:flex><span>    d_bias <span style=color:#f92672>=</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> n_samples) <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>sum(error)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> d_theta, d_bias
+</span></span></code></pre></div></li></ul><hr><h2 id=数据增强dataset-augmentation><strong>数据增强（Dataset Augmentation）</strong>
+<a class=anchor href=#%e6%95%b0%e6%8d%ae%e5%a2%9e%e5%bc%badataset-augmentation>#</a></h2><p>数据增强是一种通过<strong>对原始数据进行变换或扩展，生成额外的训练样本</strong>的方法，旨在提升模型的鲁棒性和泛化能力。它在训练数据不足、分布偏差或过拟合等问题上尤为有效，特别是在深度学习任务（如计算机视觉和自然语言处理）中，数据增强常被用作关键的预处理技术。数据增强的核心目的有：</p><ol><li><strong>增加数据多样性</strong>：在保持原始数据标签不变的前提下，生成不同的样本，<strong>模拟现实中数据的潜在变化</strong>。</li><li><strong>减少过拟合风险</strong>：通过<strong>增加训练样本</strong>，降低模型对原始训练数据的记忆，提高模型的泛化性能。</li><li><strong>提升模型鲁棒性</strong>：让模型更好地<strong>适应数据的扰动和不确定性</strong>，例如噪声或旋转等变化。</li></ol><h3 id=图像数据增强><strong>图像数据增强</strong>
+<a class=anchor href=#%e5%9b%be%e5%83%8f%e6%95%b0%e6%8d%ae%e5%a2%9e%e5%bc%ba>#</a></h3><p>图像数据增强方法通常直接作用于图像像素，以生成不同变体。常见技术包括：</p><ul><li><strong>几何变换</strong>：旋转（Rotation），翻转（Flip），缩放（Scaling），平移（Translation），剪裁（Cropping）。</li><li><strong>颜色变换</strong>：亮度调整（Brightness Adjustment），对比度调整（Contrast Adjustment），色调调整（Hue Adjustment），饱和度调整（Saturation Adjustment）。</li><li><strong>添加噪声</strong>：高斯噪声（Gaussian Noise），盐噪声与椒噪声（Salt-and-Pepper Noise）。</li></ul><h3 id=文本数据增强><strong>文本数据增强</strong>
+<a class=anchor href=#%e6%96%87%e6%9c%ac%e6%95%b0%e6%8d%ae%e5%a2%9e%e5%bc%ba>#</a></h3><p>文本数据的增强方法相较于图像更加复杂，因为文本的语法和语义需要保持一致。常用技术包括：</p><ul><li><strong>同义词替换（Synonym Replacement）</strong>：替换文本中部分单词为同义词，例如将 “happy” 替换为 “joyful”。</li><li><strong>随机插入（Random Insertion）</strong>：向句子中随机插入同义词或相关词汇。</li><li><strong>随机删除（Random Deletion）</strong>：随机删除句子中的某些单词。</li><li><strong>回译（Back Translation）</strong>：将句子翻译成另一种语言，再翻译回原语言，生成语义一致但表述不同的句子。</li><li><strong>句法变换（Syntactic Transformations）</strong>：改变句子的语法结构，例如主动语态转被动语态。</li></ul><h3 id=时间序列数据增强><strong>时间序列数据增强</strong>
+<a class=anchor href=#%e6%97%b6%e9%97%b4%e5%ba%8f%e5%88%97%e6%95%b0%e6%8d%ae%e5%a2%9e%e5%bc%ba>#</a></h3><p>针对时间序列数据（如音频信号、传感器数据、股票数据等），常用方法包括：</p><ul><li><strong>随机噪声（Random Noise）</strong>：在时间序列信号中加入少量随机噪声。</li><li><strong>时间偏移（Time Shifting）</strong>：将时间序列信号整体向前或向后移动。</li><li><strong>插值与采样（Interpolation and Sampling）</strong>：对原始序列进行上下采样或插值。</li><li><strong>窗口切片（Window Slicing）</strong>：随机选择时间序列的一部分作为新样本。</li></ul><hr><h2 id=噪声注入noise-injection><strong>噪声注入（Noise Injection）</strong>
+<a class=anchor href=#%e5%99%aa%e5%a3%b0%e6%b3%a8%e5%85%a5noise-injection>#</a></h2><p>Noise Injection 是一种在机器学习模型训练过程中<strong>有意加入噪声</strong>的技术，旨在增强模型的鲁棒性、泛化能力以及避免过拟合。噪声注入的核心思想是通过扰动输入数据、模型参数、或隐藏层的激活值，使<strong>模型更能适应训练数据中的噪声和不确定性</strong>，从而提高其对真实数据的适应能力。</p><h3 id=常见的噪声注入方法><strong>常见的噪声注入方法</strong>
+<a class=anchor href=#%e5%b8%b8%e8%a7%81%e7%9a%84%e5%99%aa%e5%a3%b0%e6%b3%a8%e5%85%a5%e6%96%b9%e6%b3%95>#</a></h3><ol><li><strong>输入数据中的噪声注入</strong>：在训练过程中，直接对输入数据进行扰动。例如：<ul><li><strong>对数值型输入数据添加随机噪声</strong>：
+<span>\[
+x' = x + \mathcal{N}(0, \sigma^2)
+\]
+</span>其中，<span>
+\(\mathcal{N}(0, \sigma^2)\)
+</span>是均值为 0，方差为 <span>\(\sigma^2\)
+</span>的高斯噪声。</li><li><strong>对图像数据应用随机变换</strong>，例如：<ul><li>随机裁剪、旋转、翻转、亮度调节等。</li><li>使用像素级别的随机扰动（例如，加盐噪声或椒盐噪声）。</li></ul></li><li><strong>作用</strong>：<ul><li>使模型更能适应输入数据的多样性，降低过拟合风险。</li><li>提升对输入<strong>数据中的小扰动（如测量误差）的鲁棒性</strong>。</li></ul></li></ul></li><li><strong>参数中的噪声注入</strong>：对模型的参数（例如权重）添加随机噪声：<ul><li><strong>对参数添加噪声</strong>：在<strong>每次梯度更新后</strong>，对模型的权重或偏置值添加噪声：
+<span>\[
+W' = W + \mathcal{N}(0, \sigma^2)
+\]</span></li><li><strong>作用</strong>：<ul><li>防止模型<strong>权重过度依赖某些特定的参数值</strong>。</li><li>增强模型对权重初始化的鲁棒性。</li></ul></li></ul></li></ol><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>参数中的噪声注入</strong> 直接作用在<strong>模型的参数上</strong>，通常是权重更新过程中加入的随机扰动，<strong>改变了参数的优化路径</strong>，使得训练过程更加稳健。</p><p>而<strong>隐藏层中的噪声注入</strong>，噪声被<strong>直接加入到隐藏层的激活值（神经元的输出）中</strong>，会使得每一次前向传播的输出不同，但不改变权重值本身，从而增强模型对输入数据的变化或中间表示不确定性的鲁棒性。</p></blockquote><ol start=3><li><strong>隐藏层中的噪声注入</strong>：在神经网络的<strong>隐藏层中对激活值进行随机扰动</strong>：<ul><li><strong>Dropout</strong> 是一种常用的噪声注入方法，在每次前向传播时，随机将隐藏层的某些神经元置为 0（断开连接），以防止神经网络对特定神经元的过度依赖。详见 <a href=/docs/machine-learning/regularization/#dropout>Dropout</a></li><li><strong>添加噪声</strong>：在隐藏层激活值中加入高斯噪声：
+<span>\[
+h{\prime} = h + \mathcal{N}(0, \sigma^2)
+\]</span></li><li><strong>作用</strong>：<ul><li>加入随机噪声可以<strong>模拟训练中的不确定性</strong>，使模型更加稳健。</li></ul></li></ul></li><li><strong>标签中的噪声注入</strong>: 有时也会对标签进行扰动（Label Smoothing）：<ul><li>将离散标签的 “硬边界” 分布转化为 “软边界” 分布，例如，将类别标签从 <code>[0, 1]</code> 转变为 <code>[0.1, 0.9]</code>。</li><li><strong>作用</strong>：<ul><li>防止模型对训练数据中的标签过于自信（即减少过拟合）。</li><li>提升模型对噪声标签的鲁棒性。</li></ul></li></ul></li></ol><hr><h2 id=正则化在神经网络中的应用><strong>正则化在神经网络中的应用</strong>
+<a class=anchor href=#%e6%ad%a3%e5%88%99%e5%8c%96%e5%9c%a8%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e4%b8%ad%e7%9a%84%e5%ba%94%e7%94%a8>#</a></h2><hr><h3 id=weight-decay><strong>Weight Decay</strong>
+<a class=anchor href=#weight-decay>#</a></h3><hr><h3 id=early-stopping><strong>Early Stopping</strong>
+<a class=anchor href=#early-stopping>#</a></h3><hr><h3 id=batch-normalization><strong>Batch Normalization</strong>
+<a class=anchor href=#batch-normalization>#</a></h3><hr><h3 id=dropout><strong>Dropout</strong>
+<a class=anchor href=#dropout>#</a></h3><hr><h2 id=集成学习算法ensemble-methods><strong>集成学习算法（Ensemble Methods）</strong>
+<a class=anchor href=#%e9%9b%86%e6%88%90%e5%ad%a6%e4%b9%a0%e7%ae%97%e6%b3%95ensemble-methods>#</a></h2><p>详见 <a href=ensemble-methods.md>集成学习算法</a>。</p><hr><h2 id=对抗训练adversarial-training><strong>对抗训练（Adversarial Training）</strong>
+<a class=anchor href=#%e5%af%b9%e6%8a%97%e8%ae%ad%e7%bb%83adversarial-training>#</a></h2><p>Adversarial Training（对抗训练）是一种增强模型鲁棒性、提升其对抗样本（adversarial examples）抵抗力的训练方法。在深度学习中，<strong>对抗样本是经过精心设计，旨在迷惑模型的输入数据</strong>。对抗训练通过将这些对抗样本添加到训练集中，使得模型在学习过程中能够处理这些干扰并增强其泛化能力。</p><div align=center><img src=/images/AdversarialTraining.png width=600px/></div><h3 id=对抗样本的概念><strong>对抗样本的概念</strong>
+<a class=anchor href=#%e5%af%b9%e6%8a%97%e6%a0%b7%e6%9c%ac%e7%9a%84%e6%a6%82%e5%bf%b5>#</a></h3><p>对抗样本是指那些通过对原始输入数据添加<strong>微小但精心设计的扰动（通常是通过优化算法生成）</strong>，使得模型产生错误预测的数据点。尽管<strong>这些扰动对于人眼来说几乎不可察觉</strong>，但却能够显著改变模型的输出。</p><p><strong>举个例子</strong>：假设我们训练一个图片分类模型，模型可能把一张猫的图片正确分类为“猫”。但通过对图片添加微小的噪声，模型可能将其错误分类为“狗”。这个微小的噪声就是对抗样本。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>Adversarial Training 中的噪声</strong>是 针对模型的弱点设计的对抗噪声。这些噪声是通过优化过程生成的，目的是让模型在对抗样本中犯错。因此，<strong>噪声的设计是 精心的、具体的，每个样本的扰动都是有目的地</strong>用来欺骗模型的。</p><p><strong>Noise Injection 中的噪声</strong>通常是 <strong>随机的、不具目标性</strong>，并不是有意识地去迷惑模型。它通常是简单的随机噪声，直接加到输入数据、隐藏层或权重中。其目的是通过扰动来防止模型过拟合，提高模型的泛化能力。</p></blockquote><h3 id=对抗训练的过程><strong>对抗训练的过程</strong>
+<a class=anchor href=#%e5%af%b9%e6%8a%97%e8%ae%ad%e7%bb%83%e7%9a%84%e8%bf%87%e7%a8%8b>#</a></h3><p>在对抗训练中，我们通过以下步骤来训练模型，使其对抗样本具有鲁棒性：</p><ol><li><p><strong>生成对抗样本</strong>：首先，生成对抗样本。对抗样本是通过对输入数据施加一定的扰动使得模型产生错误预测。常见的生成对抗样本的方法包括：</p><ul><li><strong>Fast Gradient Sign Method (FGSM)</strong>：使用模型的梯度信息来生成对抗样本。通过计算损失函数对输入数据的梯度，并按梯度方向添加一个小的扰动。在<strong>每一次正向传播（Forward Pass）和反向传播（Backward Pass）后，计算损失函数相对于输入样本 <span>\(x\)
+</span>的梯度</strong>，即 <span>\(\nabla_x \mathcal{L}(\theta, x, y)\)
+</span>，根据计算得到的输入梯度，通过扰动样本 <span>\(x\)
+</span>来生成对抗样本 <span>\(x_{\text{adv}}\)
+</span>：
+<span>\[
+x_{\text{adv}} = x + \epsilon \cdot \text{sign}(\nabla_x \mathcal{L}(\theta, x, y))
+\]
+</span>其中， <span>\(\epsilon\)
+</span>是扰动的大小，通常是一个小的常数，控制扰动的幅度。</li></ul></li><li><p><strong>结合对抗样本与正常样本进行训练</strong>：使用生成的对抗样本 <span>\(x_{\text{adv}}\)
+</span>进行正向传播，并计算损失函数。然后使用对抗样本来计算损失函数相对于模型参数的梯度，并进行参数更新。Adversarial Training 的<strong>最终损失函数通常是 原始损失 和 对抗损失 的加权和</strong>。具体的损失函数形式可以写成：
+<span>\[
+\mathcal{L}_{\text{total}} = \mathbb{E}_{x,y} \left[ \mathcal{L}(\theta, x, y) \right] + \lambda \cdot \mathbb{E}_{x,y} \left[ \mathcal{L}(\theta, x + \delta, y) \right]
+\]
+</span>其中：</p><ul><li><span>\(\mathcal{L}(\theta, x, y)\)
+</span>是标准的原始损失，通常是交叉熵损失（或其他损失函数），用于普通训练样本。</li><li><span>\(\mathcal{L}(\theta, x + \delta, y)\)
+</span>是在对抗样本 <span>\(x + \delta\)
+</span>上计算的损失。</li><li><span>\(\lambda\)
+</span>是一个超参数，用于平衡标准损失和对抗损失的贡献。</li></ul></li><li><p><strong>优化训练过程</strong>：通过常规的优化方法（如梯度下降），模型会学习如何在对抗样本中保持较高的准确性。这通常会导致模型对潜在的攻击具有更强的抵抗能力。</p></li></ol></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#参数范数惩罚parameter-norm-penalties><strong>参数范数惩罚（Parameter Norm Penalties）</strong></a><ul><li><a href=#直观理解参数范数正则化的作用><strong>直观理解参数范数正则化的作用</strong></a></li><li><a href=#l2-正则化l2-regularization><strong>L2 正则化（L2 Regularization）</strong></a></li><li><a href=#l1-正则化l1-regularization><strong>L1 正则化（L1 Regularization）</strong></a></li></ul></li><li><a href=#数据增强dataset-augmentation><strong>数据增强（Dataset Augmentation）</strong></a><ul><li><a href=#图像数据增强><strong>图像数据增强</strong></a></li><li><a href=#文本数据增强><strong>文本数据增强</strong></a></li><li><a href=#时间序列数据增强><strong>时间序列数据增强</strong></a></li></ul></li><li><a href=#噪声注入noise-injection><strong>噪声注入（Noise Injection）</strong></a><ul><li><a href=#常见的噪声注入方法><strong>常见的噪声注入方法</strong></a></li></ul></li><li><a href=#正则化在神经网络中的应用><strong>正则化在神经网络中的应用</strong></a><ul><li><a href=#weight-decay><strong>Weight Decay</strong></a></li><li><a href=#early-stopping><strong>Early Stopping</strong></a></li><li><a href=#batch-normalization><strong>Batch Normalization</strong></a></li><li><a href=#dropout><strong>Dropout</strong></a></li></ul></li><li><a href=#集成学习算法ensemble-methods><strong>集成学习算法（Ensemble Methods）</strong></a></li><li><a href=#对抗训练adversarial-training><strong>对抗训练（Adversarial Training）</strong></a><ul><li><a href=#对抗样本的概念><strong>对抗样本的概念</strong></a></li><li><a href=#对抗训练的过程><strong>对抗训练的过程</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
