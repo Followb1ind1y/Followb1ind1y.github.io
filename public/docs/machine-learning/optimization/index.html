@@ -1,7 +1,109 @@
 <!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
-  Optimization
+  优化（Optimization）
   #
-"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/optimization/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Optimization"><meta property="og:description" content="Optimization #"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Optimization | Followblindly</title>
+
+机器学习和深度学习中的 优化问题（Optimization） 指的是在给定的模型结构和数据集下，通过调整模型的参数，使目标函数（Objective func-tion, or criterion）达到最小化 或最大化的过程。目标函数通常衡量模型预测值与真实值之间的偏差，例如均方误差或交叉熵。在优化过程中，参数更新依赖于目标函数对参数的梯度信息，通过迭代计算逐步逼近最优解。
+
+凸优化（Convex Optimization） 是指目标函数为凸函数的优化问题，凸函数满足以下性质：
+
+任意两点之间的连线上的函数值不会超过这两点的函数值。
+数学形式：对于任意  
+
+
+
+  \(x_1, x_2 \in \mathbb{R}^n\)
+
+  和  
+  \(\theta \in [0, 1]\)
+
+ ，有
+
+  \[
+f(\theta x_1 + (1-\theta)x_2) \leq \theta f(x_1) + (1-\theta)f(x_2)
+\]
+
+
+目标函数特点:
+
+单一的全局最优解（Global Minimum）。
+常见目标函数形式：二次函数（如  
+  \(f(x) = x^2\)
+
+ ）、对数函数、指数函数等。
+使用简单的梯度下降或更高效的二阶方法（如牛顿法）即可快速收敛。
+
+
+
+
+非凸优化（Non-Convex Optimization） 非凸优化是指目标函数为非凸函数的优化问题，非凸函数可能存在多个局部最优解（Local Minimum），不满足凸函数的性质。
+
+目标函数特点:
+
+通常为复杂的多峰形状，可能存在多个局部最优解、鞍点甚至平坦区域。
+深度学习中的损失函数（如交叉熵、均方误差）大多属于此类。
+
+
+解决策略:
+
+启发式算法: 使用随机梯度下降（SGD）及其变种（如 Adam、RMSProp）通过随机性帮助跳出局部最优解。
+正则化技巧: 添加 L1/L2 正则项以平滑损失函数，减少极值点的数量。
+预训练与迁移学习: 通过初始化参数靠近全局最优区域来提高收敛效率。
+
+
+
+
+
+
+
+  基于梯度的优化（Gradient-Based Optimization）
+  #
+
+在函数 
+  \(y = f(x)\)
+
+ 中（其中 
+  \(x\)
+
+ 和 
+  \(y\)
+
+ 都是实数），导数 
+  \(f'(x)\)
+
+（或者表示为 
+  \(\frac{\partial y}{\partial x}\)
+
+） 表示函数在点 
+  \(x\)
+
+ 处的斜率（Slope）。它描述了输入 
+  \(x\)
+
+ 的一个微小变化如何引起输出 
+  \(y\)
+
+ 的相应变化，用以下公式近似表示：
+
+  \[
+f(x + \epsilon) \approx f(x) + \epsilon f'(x)
+\]
+
+
+导数在函数优化中非常有用，因为它指示了如何调整 
+  \(x\)
+
+ 以使 
+  \(y\)
+
+ 取得小幅改善。例如，当我们沿着导数的反方向移动时，函数值会减小，即：
+
+  \[
+f(x - \epsilon \cdot \text{sign}(f'(x))) < f(x)
+\]
+
+
+这种基于导数的优化技术被称为梯度下降法（Gradient Descent）。"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/optimization/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Optimization"><meta property="og:description" content="优化（Optimization） # 机器学习和深度学习中的 优化问题（Optimization） 指的是在给定的模型结构和数据集下，通过调整模型的参数，使目标函数（Objective func-tion, or criterion）达到最小化 或最大化的过程。目标函数通常衡量模型预测值与真实值之间的偏差，例如均方误差或交叉熵。在优化过程中，参数更新依赖于目标函数对参数的梯度信息，通过迭代计算逐步逼近最优解。
+凸优化（Convex Optimization） 是指目标函数为凸函数的优化问题，凸函数满足以下性质： 任意两点之间的连线上的函数值不会超过这两点的函数值。 数学形式：对于任意 \(x_1, x_2 \in \mathbb{R}^n\) 和 \(\theta \in [0, 1]\) ，有 \[ f(\theta x_1 + (1-\theta)x_2) \leq \theta f(x_1) + (1-\theta)f(x_2) \] 目标函数特点: 单一的全局最优解（Global Minimum）。 常见目标函数形式：二次函数（如 \(f(x) = x^2\) ）、对数函数、指数函数等。 使用简单的梯度下降或更高效的二阶方法（如牛顿法）即可快速收敛。 非凸优化（Non-Convex Optimization） 非凸优化是指目标函数为非凸函数的优化问题，非凸函数可能存在多个局部最优解（Local Minimum），不满足凸函数的性质。 目标函数特点: 通常为复杂的多峰形状，可能存在多个局部最优解、鞍点甚至平坦区域。 深度学习中的损失函数（如交叉熵、均方误差）大多属于此类。 解决策略: 启发式算法: 使用随机梯度下降（SGD）及其变种（如 Adam、RMSProp）通过随机性帮助跳出局部最优解。 正则化技巧: 添加 L1/L2 正则项以平滑损失函数，减少极值点的数量。 预训练与迁移学习: 通过初始化参数靠近全局最优区域来提高收敛效率。 基于梯度的优化（Gradient-Based Optimization） # 在函数 \(y = f(x)\) 中（其中 \(x\) 和 \(y\) 都是实数），导数 \(f'(x)\) （或者表示为 \(\frac{\partial y}{\partial x}\) ） 表示函数在点 \(x\) 处的斜率（Slope）。它描述了输入 \(x\) 的一个微小变化如何引起输出 \(y\) 的相应变化，用以下公式近似表示： \[ f(x + \epsilon) \approx f(x) + \epsilon f'(x) \] 导数在函数优化中非常有用，因为它指示了如何调整 \(x\) 以使 \(y\) 取得小幅改善。例如，当我们沿着导数的反方向移动时，函数值会减小，即： \[ f(x - \epsilon \cdot \text{sign}(f'(x))) < f(x) \] 这种基于导数的优化技术被称为梯度下降法（Gradient Descent）。"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Optimization | Followblindly</title>
 <link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/machine-learning/optimization/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.94408b04671edba86928099fbba203522c520fa62f5d42648f032ad55aeca27b.js integrity="sha256-lECLBGce26hpKAmfu6IDUixSD6YvXUJkjwMq1Vrsons=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/machine-learning/optimization/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
@@ -9,5 +111,79 @@
 <label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/ class=active>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><input type=checkbox id=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class=toggle>
 <label for=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class="flex justify-between"><a href=/docs/deep-learning/computer-vision/>Computer Vision</a></label><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Optimization</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents></nav></aside></header><article class="markdown book-article"><h1 id=optimization>Optimization
-<a class=anchor href=#optimization>#</a></h1></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents></nav></div></aside></main></body></html>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Optimization</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#基于梯度的优化gradient-based-optimization><strong>基于梯度的优化（Gradient-Based Optimization）</strong></a><ul><li><a href=#关键概念><strong>关键概念</strong></a></li><li><a href=#全批量梯度下降batch-gradient-descent><strong>全批量梯度下降（Batch Gradient Descent）</strong></a></li><li><a href=#随机梯度下降stochastic-gradient-descent><strong>随机梯度下降（Stochastic Gradient Descent）</strong></a></li><li><a href=#小批量随机梯度下降minibatch-stochastic-gradient-descent><strong>小批量随机梯度下降（Minibatch Stochastic Gradient Descent）</strong></a></li></ul></li><li><a href=#优化深度神经网络的挑战challenges-in-neural-network-optimization><strong>优化深度神经网络的挑战（Challenges in Neural Network Optimization）</strong></a><ul><li><a href=#局部极小值local-minima><strong>局部极小值（Local Minima）</strong></a></li><li><a href=#平坦区域和鞍点plateaus-and-saddle-points><strong>平坦区域和鞍点（Plateaus and Saddle Points）</strong></a></li><li><a href=#梯度爆炸cliffs-and-exploding-gradients><strong>梯度爆炸（Cliffs and Exploding Gradients）</strong></a></li><li><a href=#梯度消失long-term-dependencies-and-gradient-vanishing><strong>梯度消失（Long-Term Dependencies and Gradient Vanishing）</strong></a></li><li><a href=#不精确的梯度inexact-gradients><strong>不精确的梯度（Inexact Gradients）</strong></a></li></ul></li><li><a href=#momentum><strong>Momentum</strong></a></li><li><a href=#parameter-initialization-strategies><strong>Parameter Initialization Strategies</strong></a></li><li><a href=#algorithms-with-adaptive-learning-rates><strong>Algorithms with Adaptive Learning Rates</strong></a></li><li><a href=#optimization-strategies-and-meta-algorithms><strong>Optimization Strategies and Meta-Algorithms</strong></a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=优化optimization><strong>优化（Optimization）</strong>
+<a class=anchor href=#%e4%bc%98%e5%8c%96optimization>#</a></h1><p>机器学习和深度学习中的 <strong>优化问题（Optimization）</strong> 指的是在给定的模型结构和数据集下，通过调整模型的参数，使<strong>目标函数（Objective func-tion, or criterion）达到最小化</strong> 或最大化的过程。目标函数通常衡量模型预测值与真实值之间的偏差，例如均方误差或交叉熵。在优化过程中，参数更新依赖于目标函数对参数的梯度信息，通过迭代计算逐步逼近最优解。</p><ul><li><strong>凸优化（Convex Optimization）</strong> 是指目标函数为凸函数的优化问题，凸函数满足以下性质：<ul><li><strong>任意两点之间的连线上</strong>的函数值不会超过这两点的函数值。</li><li>数学形式：对于任意
+<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(x_1, x_2 \in \mathbb{R}^n\)
+</span>和 <span>\(\theta \in [0, 1]\)
+</span>，有
+<span>\[
+f(\theta x_1 + (1-\theta)x_2) \leq \theta f(x_1) + (1-\theta)f(x_2)
+\]</span></li><li><strong>目标函数特点</strong>:<ul><li><strong>单一的全局最优解（Global Minimum）</strong>。</li><li>常见目标函数形式：二次函数（如 <span>\(f(x) = x^2\)
+</span>）、对数函数、指数函数等。</li><li>使用简单的梯度下降或更高效的二阶方法（如牛顿法）即可<strong>快速收敛</strong>。</li></ul></li></ul></li><li><strong>非凸优化（Non-Convex Optimization）</strong> 非凸优化是指目标函数为非凸函数的优化问题，非凸函数可能<strong>存在多个局部最优解（Local Minimum）</strong>，不满足凸函数的性质。<ul><li><strong>目标函数特点</strong>:<ul><li>通常为复杂的多峰形状，<strong>可能存在多个局部最优解、鞍点甚至平坦区域</strong>。</li><li><strong>深度学习中的损失函数</strong>（如交叉熵、均方误差）大多属于此类。</li></ul></li><li><strong>解决策略</strong>:<ul><li><strong>启发式算法</strong>: 使用随机梯度下降（SGD）及其变种（如 Adam、RMSProp）通过随机性帮助跳出局部最优解。</li><li><strong>正则化技巧</strong>: 添加 L1/L2 正则项以<strong>平滑损失函数</strong>，减少极值点的数量。</li><li><strong>预训练与迁移学习</strong>: 通过初始化<strong>参数靠近全局最优区域</strong>来提高收敛效率。</li></ul></li></ul></li></ul><hr><h2 id=基于梯度的优化gradient-based-optimization><strong>基于梯度的优化（Gradient-Based Optimization）</strong>
+<a class=anchor href=#%e5%9f%ba%e4%ba%8e%e6%a2%af%e5%ba%a6%e7%9a%84%e4%bc%98%e5%8c%96gradient-based-optimization>#</a></h2><p>在函数 <span>\(y = f(x)\)
+</span>中（其中 <span>\(x\)
+</span>和 <span>\(y\)
+</span>都是实数），导数 <span>\(f'(x)\)
+</span>（或者表示为 <span>\(\frac{\partial y}{\partial x}\)
+</span>） 表示函数在点 <span>\(x\)
+</span>处的斜率（Slope）。它描述了输入 <span>\(x\)
+</span>的一个<strong>微小变化如何引起输出 <span>\(y\)
+</span>的相应变化</strong>，用以下公式近似表示：
+<span>\[
+f(x + \epsilon) \approx f(x) + \epsilon f'(x)
+\]
+</span>导数在函数优化中非常有用，因为它指示了如何调整 <span>\(x\)
+</span>以使 <span>\(y\)
+</span>取得小幅改善。例如，当<strong>我们沿着导数的反方向移动时，函数值会减小</strong>，即：
+<span>\[
+f(x - \epsilon \cdot \text{sign}(f'(x))) < f(x)
+\]
+</span>这种基于导数的优化技术被称为<strong>梯度下降法（Gradient Descent）</strong>。</p><div align=center><img src=/images/ML_Basics_03_Gradient_Descent.PNG width=500px/></div><h3 id=关键概念><strong>关键概念</strong>
+<a class=anchor href=#%e5%85%b3%e9%94%ae%e6%a6%82%e5%bf%b5>#</a></h3><ol><li><strong>临界点与极值</strong>：<ul><li>当 <span>\(f'(x) = 0\)
+</span>时，称为<strong>临界点（Critical points,或者 stationary points）</strong>。</li><li><strong>局部极小值（Local minimum）</strong>：周围点中 <span>\(f(x)\)
+</span>最小。</li><li><strong>局部极大值（local maximum）</strong>：周围点中 <span>\(f(x)\)
+</span>最大。</li><li><strong>鞍点（Saddle points）</strong>：既非局部极小值也非局部极大值的临界点，其中正交方向的斜率（导数）全部为零（临界点），但<strong>不是函数的局部极值</strong>。在多维空间中，不必具有 0 的特征值才能得到鞍点：只需具有正和负的特征值即可。</li><li><strong>全局极小值（Global minimum）</strong>：函数 <span>\(f(x)\)
+</span>在整个<strong>定义域内的最小值</strong>。</li></ul><div align=center><img src=/images/ML_Basics_03_Global_Minimum.PNG width=500px/></div></li><li><strong>多维输入优化</strong>：当函数有多个输入（<span>
+\(f: \mathbb{R}^n \to \mathbb{R}\)
+</span>），优化需要使用<strong>梯度（Gradient）<strong>的概念。梯度是包含</strong>所有偏导数的向量</strong>，定义为：
+<span>\[
+\nabla_x f(x) = \left[\frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2}, \dots, \frac{\partial f}{\partial x_n}\right]
+\]
+</span>在多维空间中，临界点是所有梯度分量为零的点，即 <span>\(\nabla_x f(x) = 0\)
+</span>。</li><li><strong>学习率的选择</strong>：学习率 <span>\(\epsilon\)
+</span>决定了每一步更新的幅度，常见选择方式包括：<ul><li>固定的小常数。</li><li>使用线搜索（Line Search），在多种步长中选择目标函数值最小的步长。</li></ul></li><li><strong>梯度下降的收敛</strong>：当梯度的<strong>所有梯度的分量接近零时</strong>，梯度下降算法收敛。实际上，由于优化问题的复杂性，尤其是在深度学习中，我们<strong>通常寻找“足够低”的函数值，而非严格的全局极小值</strong>。</li></ol><hr><h3 id=全批量梯度下降batch-gradient-descent><strong>全批量梯度下降（Batch Gradient Descent）</strong>
+<a class=anchor href=#%e5%85%a8%e6%89%b9%e9%87%8f%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8dbatch-gradient-descent>#</a></h3><p>Batch Gradient Descent 是一种优化算法，每次使用整个数据集来计算目标函数的梯度，并基于梯度更新模型参数。这种方法适用于目标函数是所有样本损失的平均值或总和的情况。每次迭代<strong>计算所有训练样本的损失函数梯度</strong>。公式为：
+<span>\[
+\theta = \theta - \eta \cdot \nabla J(\theta)
+\]
+</span>其中，<span>
+\(\nabla J(\theta)\)
+</span>是基于整个数据集的梯度。</p><p><strong>工作流程</strong>一般为：</p><ol><li>初始化模型参数 <span>\(\theta\)
+</span>为随机值或设定初值。</li><li>重复以下步骤，直到达到停止条件（如梯度足够小或迭代次数用尽）：<ul><li>计算当前所有样本的目标函数值和梯度 <span>\(\nabla J(\theta)\)</span></li><li>使用梯度更新模型参数：
+<span>\[
+\theta = \theta - \eta \cdot \nabla J(\theta)
+\]</span></li></ul></li><li>输出最终优化的参数。</li></ol><ul><li><strong>优点</strong>：<ol><li><strong>精确性高</strong>：每次更新都基于完整的数据集，提供了目标函数梯度的<strong>精确估计</strong>，使得更新过程稳定可靠。</li><li><strong>容易收敛到局部或全局最优</strong>：因为梯度估计噪声较小，参数<strong>更新方向更明确</strong>。在凸优化问题中，Batch Gradient Descent 的收敛轨迹通常表现为朝向最优解的一条平滑路径，梯度的更新方向明确，不会因为噪声而偏离轨道。但是由于梯度计算使用了整个数据集，优化轨迹通常稳定地沿着梯度方向下降，<strong>容易陷入一个局部最优点或停留在鞍点上。</strong></li></ol></li><li><strong>缺点</strong>：<ol><li><strong>计算资源消耗大</strong>：每次迭代需要对整个数据集计算梯度，在数据量大时计算成本高，不适合分布式或在线训练。</li><li><strong>存储限制</strong>：对于大规模数据集，可能需要更多的内存或存储资源来一次性加载数据。</li><li><strong>收敛速度慢</strong>：尤其在每次迭代中，如果数据集中样本的梯度信息存在冗余，则更新过程可能很低效。</li></ol></li></ul><hr><h3 id=随机梯度下降stochastic-gradient-descent><strong>随机梯度下降（Stochastic Gradient Descent）</strong>
+<a class=anchor href=#%e9%9a%8f%e6%9c%ba%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8dstochastic-gradient-descent>#</a></h3><p>SGD是一种优化算法，用于通过梯度下降更新模型参数，以最小化损失函数。它的核心思想是在每次迭代中，<strong>随机选择一个样本计算梯度，而不是使用整个数据集</strong>。这种方式极大地降低了每次更新的计算成本。更新公式为：
+<span>\[
+\theta = \theta - \eta \cdot \nabla J(\theta; x_i, y_i)
+\]</span></p><ul><li><strong>优点</strong>：<ol><li><strong>高效性</strong>：单次梯度计算只涉及一个样本，<strong>计算速度快</strong>，对内存需求低。</li><li><strong>跳出局部最优解</strong>：随机梯度的噪声可以<strong>避免陷入平滑函数中的局部最优点（local minima）</strong>，尤其适合非凸优化问题。</li><li><strong>在线学习能力</strong>：在模型需要不断更新时（如<strong>实时场景</strong>），SGD可以随着数据流实时调整参数。</li></ol></li></ul><blockquote class="book-hint warning"><p><strong>Note：</strong> 随机梯度下降在每次迭代中仅使用一个样本计算梯度，因此梯度估计会带有噪声。这种噪声主要<strong>表现为梯度方向的不确定性</strong>，使得优化过程中的参数更新具有一定的随机性和波动性。随机噪声使得优化路径<strong>不完全按照损失函数表面的梯度方向</strong>前进，而是以一种“抖动”的方式探索参数空间。当优化路径接近某个局部最优点时，全批量梯度可能因所有样本的梯度方向一致而停留在该点；而<strong>随机梯度的波动可能使路径偏离局部最优，继续搜索全局最优解</strong>。</p><p>在深度学习中的目标函数通常具有非凸性质，随机梯度的噪声可以帮助模型训练找到性能更优的解，从而避免陷入次优状态。此外研究表明，在高维空间中，随机梯度的波动尤其有助于突破鞍点，因为鞍点在高维空间中比局部最优点更常见。</p></blockquote><ul><li><strong>缺点</strong>：<ol><li><strong>梯度估计噪声大</strong>：由于每次迭代仅基于单个样本，梯度方向可能<strong>偏离真正的最优方向</strong>，导致优化过程不稳定。</li><li><strong>收敛速度慢</strong>：需要更多迭代次数才能达到较优解，与Batch Gradient Descent相比，<strong>收敛速度可能较慢</strong>。</li><li><strong>对学习率敏感</strong>：<strong>不适当的学习率可能导致震荡或过早停止收敛</strong>，往往可能需要<strong>更小的学习率（ <span>\(\eta \)
+</span>）或动态调整以避免振荡</strong>。因此学习率需要仔细调节或动态调整。</li></ol></li></ul><div align=center><img src=/images/batch__stochastic__mini-batch_gradient_descent-Dec-22-2022-04-32-42-4986-AM.png.webp width=700px/></div><hr><h3 id=小批量随机梯度下降minibatch-stochastic-gradient-descent><strong>小批量随机梯度下降（Minibatch Stochastic Gradient Descent）</strong>
+<a class=anchor href=#%e5%b0%8f%e6%89%b9%e9%87%8f%e9%9a%8f%e6%9c%ba%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8dminibatch-stochastic-gradient-descent>#</a></h3><p>Minibatch SGD 是一种在每次迭代中使用一小批数据（称为 Minibatch）计算梯度并更新参数的优化方法。它结合了 Batch Gradient Descent 和 Stochastic Gradient Descent 的优点，能够在<strong>计算效率和收敛稳定性之间找到平衡</strong>。</p><ul><li>其<strong>核心工作流程</strong>一般为：<ol><li><strong>数据划分</strong>: 将训练数据集分成若干小批量（Minibatches），每个批次包含 <span>\(m\)
+</span>个样本。 Minibatch 大小 <span>\(m \)
+</span>一般为 16, 32, 64, 128，根据硬件资源和模型大小调节。</li><li><strong>梯度计算与更新</strong>：对于<strong>每个 Minibatch</strong> ( <span>\(X_{minibatch}, Y_{minibatch} \)
+</span>)，计算目标函数在该批次上的梯度并更新参数：
+<span>\[
+\theta = \theta - \eta \cdot \nabla J(\theta; X_{minibatch}, Y_{minibatch})
+\]
+</span><strong>较大的 Minibatch 通常需要较大的学习率</strong>。可结合学习率衰减策略（如 Step Decay、Exponential Decay、Warm Restarts）来平衡收敛速度与准确性。</li><li><strong>迭代更新</strong>: 对每个 Minibatch 重复上述步骤，<strong>直到遍历整个数据集（称为一个 epoch）</strong>。根据收敛情况执行多个 epoch。</li></ol></li></ul><blockquote class="book-hint warning"><p><strong>Note</strong>：为了确保梯度估计的无偏性（unbiasedness），Minibatch的样本必须独立随机抽样。如果数据集的自然排列存在相关性（如医疗数据按患者排序），在选择Minibatch前需要对数据集进行随机打乱（shuffle）。所以我们需要在每个 <strong>epoch 开始时随机打乱数据</strong>，避免梯度计算因样本顺序产生偏差。</p></blockquote><ul><li><strong>Minibatch大小的选择</strong>：<ul><li><strong>梯度估计的准确性</strong>：批量越大，梯度估计越精确，但收益递减（标准误差与样本数量的平方根成反比）。</li><li><strong>计算资源限制</strong>：较小的批量可能导致多核硬件或GPU利用率不足；较大的批量需要更多内存。</li><li><strong>硬件优化</strong>：GPU通常在批量大小为2的幂（如32, 64, 128）时性能最佳。</li><li><strong>正则化效果</strong>：较小批量可以引入噪声，具有正则化作用，但需要调整较小的学习率。</li></ul></li></ul><blockquote class="book-hint warning"><p><strong>Note</strong>：Minibatch（小批量）在计算上具有优势（相比于大批量）的原因是，小批量数据（如 32 或 64 个样本）可以被完全加载到 GPU 中进行高效的并行计算。<strong>GPU 的计算效率在处理适量数据时达到峰值</strong>。与此同时，在大批量中需要对更多样本进行梯度计算和聚合，梯度计算过程更复杂，占用更多时间。例如，<strong>矩阵计算的开销随数据规模呈非线性增长</strong>。</p></blockquote><h4 id=训练速度比较><strong>训练速度比较</strong>：
+<a class=anchor href=#%e8%ae%ad%e7%bb%83%e9%80%9f%e5%ba%a6%e6%af%94%e8%be%83>#</a></h4><ul><li>SGD 的单次更新虽然快，但更新频率极高，导致整体时间长。</li><li><strong>Minibatch SGD 在更新频率和计算量之间取得了平衡</strong>，往往在<strong>一个 epoch 的整体速度最快</strong>，是实际应用中的首选。</li><li>Batch Gradient Descent 由于每次更新都需要遍历整个数据集，在大规模数据上效率低。</li></ul><hr><h2 id=优化深度神经网络的挑战challenges-in-neural-network-optimization><strong>优化深度神经网络的挑战（Challenges in Neural Network Optimization）</strong>
+<a class=anchor href=#%e4%bc%98%e5%8c%96%e6%b7%b1%e5%ba%a6%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e7%9a%84%e6%8c%91%e6%88%98challenges-in-neural-network-optimization>#</a></h2><p>优化深度神经网络面临诸多挑战，因为网络的目标函数通常是非凸函数，即包含多个局部极值点、鞍点和平坦区域等复杂结构。此外，即便是凸优化问题，也会因为高维度和数据特性而复杂化。</p><hr><h3 id=局部极小值local-minima><strong>局部极小值（Local Minima）</strong>
+<a class=anchor href=#%e5%b1%80%e9%83%a8%e6%9e%81%e5%b0%8f%e5%80%bclocal-minima>#</a></h3><hr><h3 id=平坦区域和鞍点plateaus-and-saddle-points><strong>平坦区域和鞍点（Plateaus and Saddle Points）</strong>
+<a class=anchor href=#%e5%b9%b3%e5%9d%a6%e5%8c%ba%e5%9f%9f%e5%92%8c%e9%9e%8d%e7%82%b9plateaus-and-saddle-points>#</a></h3><hr><h3 id=梯度爆炸cliffs-and-exploding-gradients><strong>梯度爆炸（Cliffs and Exploding Gradients）</strong>
+<a class=anchor href=#%e6%a2%af%e5%ba%a6%e7%88%86%e7%82%b8cliffs-and-exploding-gradients>#</a></h3><hr><h3 id=梯度消失long-term-dependencies-and-gradient-vanishing><strong>梯度消失（Long-Term Dependencies and Gradient Vanishing）</strong>
+<a class=anchor href=#%e6%a2%af%e5%ba%a6%e6%b6%88%e5%a4%b1long-term-dependencies-and-gradient-vanishing>#</a></h3><hr><h3 id=不精确的梯度inexact-gradients><strong>不精确的梯度（Inexact Gradients）</strong>
+<a class=anchor href=#%e4%b8%8d%e7%b2%be%e7%a1%ae%e7%9a%84%e6%a2%af%e5%ba%a6inexact-gradients>#</a></h3><hr><h2 id=momentum><strong>Momentum</strong>
+<a class=anchor href=#momentum>#</a></h2><h2 id=parameter-initialization-strategies><strong>Parameter Initialization Strategies</strong>
+<a class=anchor href=#parameter-initialization-strategies>#</a></h2><h2 id=algorithms-with-adaptive-learning-rates><strong>Algorithms with Adaptive Learning Rates</strong>
+<a class=anchor href=#algorithms-with-adaptive-learning-rates>#</a></h2><h2 id=optimization-strategies-and-meta-algorithms><strong>Optimization Strategies and Meta-Algorithms</strong>
+<a class=anchor href=#optimization-strategies-and-meta-algorithms>#</a></h2></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#基于梯度的优化gradient-based-optimization><strong>基于梯度的优化（Gradient-Based Optimization）</strong></a><ul><li><a href=#关键概念><strong>关键概念</strong></a></li><li><a href=#全批量梯度下降batch-gradient-descent><strong>全批量梯度下降（Batch Gradient Descent）</strong></a></li><li><a href=#随机梯度下降stochastic-gradient-descent><strong>随机梯度下降（Stochastic Gradient Descent）</strong></a></li><li><a href=#小批量随机梯度下降minibatch-stochastic-gradient-descent><strong>小批量随机梯度下降（Minibatch Stochastic Gradient Descent）</strong></a></li></ul></li><li><a href=#优化深度神经网络的挑战challenges-in-neural-network-optimization><strong>优化深度神经网络的挑战（Challenges in Neural Network Optimization）</strong></a><ul><li><a href=#局部极小值local-minima><strong>局部极小值（Local Minima）</strong></a></li><li><a href=#平坦区域和鞍点plateaus-and-saddle-points><strong>平坦区域和鞍点（Plateaus and Saddle Points）</strong></a></li><li><a href=#梯度爆炸cliffs-and-exploding-gradients><strong>梯度爆炸（Cliffs and Exploding Gradients）</strong></a></li><li><a href=#梯度消失long-term-dependencies-and-gradient-vanishing><strong>梯度消失（Long-Term Dependencies and Gradient Vanishing）</strong></a></li><li><a href=#不精确的梯度inexact-gradients><strong>不精确的梯度（Inexact Gradients）</strong></a></li></ul></li><li><a href=#momentum><strong>Momentum</strong></a></li><li><a href=#parameter-initialization-strategies><strong>Parameter Initialization Strategies</strong></a></li><li><a href=#algorithms-with-adaptive-learning-rates><strong>Algorithms with Adaptive Learning Rates</strong></a></li><li><a href=#optimization-strategies-and-meta-algorithms><strong>Optimization Strategies and Meta-Algorithms</strong></a></li></ul></nav></div></aside></main></body></html>
