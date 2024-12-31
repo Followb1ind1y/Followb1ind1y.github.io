@@ -1,13 +1,163 @@
 <!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
-  Convolutional Neural Networks
+  卷积神经网络（Convolutional Neural Networks）
   #
-"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/deep-learning/convolutional-neural-networks/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Convolutional Neural Networks"><meta property="og:description" content="Convolutional Neural Networks #"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Convolutional Neural Networks | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/convolutional-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.b1c5a065126c5839acecdb7c619e1663a5249244a97535aab991b691b0af4f2c.js integrity="sha256-scWgZRJsWDms7Nt8YZ4WY6UkkkSpdTWquZG2kbCvTyw=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/convolutional-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+
+卷积神经网络（CNN）的必要性在于它能够高效地处理具有高维结构的数据，特别是图像数据。在处理如图像这样的高维感知数据时，传统的多层感知机（MLP）存在局限性，因为它没有考虑到数据中的空间结构，导致在图像分类等任务中，参数量和计算开销巨大，训练起来非常不实用。举例来说，在猫狗图片分类任务中，使用百万像素的图像作为输入时，全连接层将产生数量庞大的参数，这不仅需要大量的计算资源，还可能导致过拟合。因此，卷积神经网络通过局部连接和权重共享的方式有效减少了参数数量，利用图像本身的空间结构进行特征提取，使得网络能够在较少的参数下仍能有效学习图像中的模式和特征。这种方式不仅极大地减少了计算复杂度，还能在图像处理任务中取得显著的性能提升。
+
+
+  从全连接层到卷积（From FC Layer to Convolutional）
+  #
+
+想象一下，假设我们想从一张图片中找到某个物体。 合理的假设是：无论哪种方法找到这个物体，都应该和物体的位置无关。卷积神经网络正是将 空间不变性（spatial invariance） 的这一概念系统化，从而基于这个模型使用较少的参数来学习有用的表示。
+
+什么是不变性？ 不变性是指模型对某些输入变化（如平移、旋转、缩放等）保持输出的一致性。例如，图像中的物体移动、缩放不应影响分类结果。
+为什么不变性重要？
+
+现实场景中的数据变化： 如图像中的摄像机角度、光线、物体位置变化。
+提升泛化能力： 通过不变性，模型能够适应更多样化的输入数据。
+
+
+
+
+
+  多层感知机（MLP）的限制
+  #
+
+
+平移不变性（translation invariance）：不管检测对象出现在图像中的哪个位置，神经网络的前面几层应该对相同的图像区域具有相似的反应，即为“平移不变性”。例如，图像中的一只猫无论位于左上角还是右下角，模型都应能够正确识别。
+
+MLP的局限性：
+
+完全连接的结构：在MLP中，每个神经元与所有输入特征相连，因此模型对输入的每个像素赋予独立的权重。换句话说，特定像素的特征无法被直接用于识别全局的物体特征。如果输入图像中的物体位置发生平移，输入像素值会重新映射到不同的神经元，导致特征表示的变化。
+缺乏空间归纳偏置：MLP无法内嵌有关输入空间结构的先验知识（如相邻像素间的关系），因此需要依赖大量数据学习这些模式。
+
+
+影响：
+
+MLP对图像特征的空间位置高度敏感，难以通过有限数据泛化到不同的物体位置。
+模型需要对每种可能的位置分别学习特征表示，这导致数据需求和计算开销成倍增加。
+
+
+
+
+局部性（locality）：局部性是指数据中的局部区域通常具有更强的相关性，例如图像中相邻像素往往属于同一物体或边缘。
+
+MLP的局限性：
+
+忽略局部相关性：MLP的每个神经元对整个输入空间具有感知能力，但无法重点关注局部区域的特征交互。例如，在图像中，MLP无法直接识别相邻像素构成的边缘或纹理。这种全局感知的特性导致模型在提取局部模式（如边缘或角点）时效率低下。
+参数冗余：MLP为每个输入特征分配独立的权重，因此即使相邻像素之间存在高度相关性，模型仍需单独学习这些特征，造成参数冗余和过拟合风险。
+
+
+影响：
+
+MLP难以捕捉高维数据中的局部模式，尤其是在输入维度较高时（如图像或语音）。
+局部特征无法有效提取，导致模型在特征表达能力上不足。
+
+
+
+
+
+
+
+  图像卷积（Convolutions for Images）
+  #
+
+卷积（Convolution）是卷积神经网络（CNN）的核心操作，用于 从输入数据（如图像）中提取特征模式。
+
+
+  互相关操作（The Cross-Correlation Operation）
+  #
+
+虽然卷积层得名于 卷积（Convolution） 运算，但我们通常在卷积层中使用更加直观的 互相关（Cross-correlation） 运算。互相关是一种滑动窗口操作，它通过 核（kernel，或称 filter） 在输入上移动并计算点积来提取局部特征。
+在二维卷积层中，一个二维输入数组和一个二维 核（kernel） 数组通过互相关运算输出一个二维数组。如下图所示，输入是一个高和宽均为 3 的二维数组。我们将该数组的形状记为 
+
+
+
+  \(3\times 3\)
+
+。核数组的高和宽分别为 2。该数组在卷积计算中又称 卷积核 或 过滤器（filter）。卷积核窗口（又称卷积窗口）的形状取决于卷积核的高和宽，即 
+  \(2 \times 2\)
+
+。图中的阴影部分为第一个输出元素及其计算所使用的输入和核数组元素：
+  \(0×0+1×1+3×2+4×3=19\)
+
+。"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/deep-learning/convolutional-neural-networks/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Convolutional Neural Networks"><meta property="og:description" content="卷积神经网络（Convolutional Neural Networks） # 卷积神经网络（CNN）的必要性在于它能够高效地处理具有高维结构的数据，特别是图像数据。在处理如图像这样的高维感知数据时，传统的多层感知机（MLP）存在局限性，因为它没有考虑到数据中的空间结构，导致在图像分类等任务中，参数量和计算开销巨大，训练起来非常不实用。举例来说，在猫狗图片分类任务中，使用百万像素的图像作为输入时，全连接层将产生数量庞大的参数，这不仅需要大量的计算资源，还可能导致过拟合。因此，卷积神经网络通过局部连接和权重共享的方式有效减少了参数数量，利用图像本身的空间结构进行特征提取，使得网络能够在较少的参数下仍能有效学习图像中的模式和特征。这种方式不仅极大地减少了计算复杂度，还能在图像处理任务中取得显著的性能提升。
+从全连接层到卷积（From FC Layer to Convolutional） # 想象一下，假设我们想从一张图片中找到某个物体。 合理的假设是：无论哪种方法找到这个物体，都应该和物体的位置无关。卷积神经网络正是将 空间不变性（spatial invariance） 的这一概念系统化，从而基于这个模型使用较少的参数来学习有用的表示。
+什么是不变性？ 不变性是指模型对某些输入变化（如平移、旋转、缩放等）保持输出的一致性。例如，图像中的物体移动、缩放不应影响分类结果。 为什么不变性重要？ 现实场景中的数据变化： 如图像中的摄像机角度、光线、物体位置变化。 提升泛化能力： 通过不变性，模型能够适应更多样化的输入数据。 多层感知机（MLP）的限制 # 平移不变性（translation invariance）：不管检测对象出现在图像中的哪个位置，神经网络的前面几层应该对相同的图像区域具有相似的反应，即为“平移不变性”。例如，图像中的一只猫无论位于左上角还是右下角，模型都应能够正确识别。 MLP的局限性： 完全连接的结构：在MLP中，每个神经元与所有输入特征相连，因此模型对输入的每个像素赋予独立的权重。换句话说，特定像素的特征无法被直接用于识别全局的物体特征。如果输入图像中的物体位置发生平移，输入像素值会重新映射到不同的神经元，导致特征表示的变化。 缺乏空间归纳偏置：MLP无法内嵌有关输入空间结构的先验知识（如相邻像素间的关系），因此需要依赖大量数据学习这些模式。 影响： MLP对图像特征的空间位置高度敏感，难以通过有限数据泛化到不同的物体位置。 模型需要对每种可能的位置分别学习特征表示，这导致数据需求和计算开销成倍增加。 局部性（locality）：局部性是指数据中的局部区域通常具有更强的相关性，例如图像中相邻像素往往属于同一物体或边缘。 MLP的局限性： 忽略局部相关性：MLP的每个神经元对整个输入空间具有感知能力，但无法重点关注局部区域的特征交互。例如，在图像中，MLP无法直接识别相邻像素构成的边缘或纹理。这种全局感知的特性导致模型在提取局部模式（如边缘或角点）时效率低下。 参数冗余：MLP为每个输入特征分配独立的权重，因此即使相邻像素之间存在高度相关性，模型仍需单独学习这些特征，造成参数冗余和过拟合风险。 影响： MLP难以捕捉高维数据中的局部模式，尤其是在输入维度较高时（如图像或语音）。 局部特征无法有效提取，导致模型在特征表达能力上不足。 图像卷积（Convolutions for Images） # 卷积（Convolution）是卷积神经网络（CNN）的核心操作，用于 从输入数据（如图像）中提取特征模式。
+互相关操作（The Cross-Correlation Operation） # 虽然卷积层得名于 卷积（Convolution） 运算，但我们通常在卷积层中使用更加直观的 互相关（Cross-correlation） 运算。互相关是一种滑动窗口操作，它通过 核（kernel，或称 filter） 在输入上移动并计算点积来提取局部特征。
+在二维卷积层中，一个二维输入数组和一个二维 核（kernel） 数组通过互相关运算输出一个二维数组。如下图所示，输入是一个高和宽均为 3 的二维数组。我们将该数组的形状记为 \(3\times 3\) 。核数组的高和宽分别为 2。该数组在卷积计算中又称 卷积核 或 过滤器（filter）。卷积核窗口（又称卷积窗口）的形状取决于卷积核的高和宽，即 \(2 \times 2\) 。图中的阴影部分为第一个输出元素及其计算所使用的输入和核数组元素： \(0×0+1×1+3×2+4×3=19\) 。"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Convolutional Neural Networks | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/convolutional-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.bef133955ae6377a8769ef1289e7142e6936a92e9ca2e441ca89030c0f591f0d.js integrity="sha256-vvEzlVrmN3qHae8SiecULmk2qS6couRByokDDA9ZHw0=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/convolutional-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
 <label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/ class=active>Convolutional Neural Networks</a><ul></ul></li><li><input type=checkbox id=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class=toggle>
 <label for=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class="flex justify-between"><a href=/docs/deep-learning/computer-vision/>Computer Vision</a></label><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Convolutional Neural Networks</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents></nav></aside></header><article class="markdown book-article"><h1 id=convolutional-neural-networks>Convolutional Neural Networks
-<a class=anchor href=#convolutional-neural-networks>#</a></h1></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents></nav></div></aside></main></body></html>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Convolutional Neural Networks</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#从全连接层到卷积from-fc-layer-to-convolutional><strong>从全连接层到卷积（From FC Layer to Convolutional）</strong></a><ul><li><a href=#多层感知机mlp的限制><strong>多层感知机（MLP）的限制</strong></a></li></ul></li><li><a href=#图像卷积convolutions-for-images><strong>图像卷积（Convolutions for Images）</strong></a><ul><li><a href=#互相关操作the-cross-correlation-operation><strong>互相关操作（The Cross-Correlation Operation）</strong></a></li><li><a href=#卷积层convolutional-layers><strong>卷积层（Convolutional Layers）</strong></a></li><li><a href=#利用学习卷积核实现图像边缘检测><strong>利用学习卷积核实现图像边缘检测</strong></a></li><li><a href=#特征映射和感受野feature-map-and-receptive-field><strong>特征映射和感受野（Feature Map and Receptive Field）</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=卷积神经网络convolutional-neural-networks><strong>卷积神经网络（Convolutional Neural Networks）</strong>
+<a class=anchor href=#%e5%8d%b7%e7%a7%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9cconvolutional-neural-networks>#</a></h1><p>卷积神经网络（CNN）的必要性在于它能够<strong>高效地处理具有高维结构的数据</strong>，特别是图像数据。在处理如图像这样的高维感知数据时，传统的多层感知机（MLP）存在局限性，因为它没有考虑到数据中的空间结构，导致在图像分类等任务中，<strong>参数量和计算开销巨大</strong>，训练起来非常不实用。举例来说，在猫狗图片分类任务中，使用百万像素的图像作为输入时，<strong>全连接层将产生数量庞大的参数</strong>，这不仅需要大量的计算资源，还可能导致过拟合。因此，卷积神经网络通过局部连接和权重共享的方式有效减少了参数数量，<strong>利用图像本身的空间结构进行特征提取</strong>，使得网络能够在<strong>较少的参数下仍能有效学习图像中的模式和特征</strong>。这种方式不仅极大地减少了计算复杂度，还能在图像处理任务中取得显著的性能提升。</p><hr><h2 id=从全连接层到卷积from-fc-layer-to-convolutional><strong>从全连接层到卷积（From FC Layer to Convolutional）</strong>
+<a class=anchor href=#%e4%bb%8e%e5%85%a8%e8%bf%9e%e6%8e%a5%e5%b1%82%e5%88%b0%e5%8d%b7%e7%a7%affrom-fc-layer-to-convolutional>#</a></h2><p>想象一下，假设我们想从一张图片中找到某个物体。 合理的假设是：无论哪种方法找到这个物体，都应该和物体的位置无关。卷积神经网络正是将 <strong>空间不变性（spatial invariance）</strong> 的这一概念系统化，从而基于这个模型使用较少的参数来学习有用的表示。</p><ul><li><strong>什么是不变性？</strong> 不变性是指模型对某些输入变化（如平移、旋转、缩放等）<strong>保持输出的一致性</strong>。例如，图像中的物体移动、缩放不应影响分类结果。</li><li><strong>为什么不变性重要？</strong><ul><li><strong>现实场景中的数据变化：</strong> 如图像中的摄像机角度、光线、物体位置变化。</li><li><strong>提升泛化能力：</strong> 通过不变性，模型能够适应更多样化的输入数据。</li></ul></li></ul><hr><h3 id=多层感知机mlp的限制><strong>多层感知机（MLP）的限制</strong>
+<a class=anchor href=#%e5%a4%9a%e5%b1%82%e6%84%9f%e7%9f%a5%e6%9c%bamlp%e7%9a%84%e9%99%90%e5%88%b6>#</a></h3><ol><li><strong>平移不变性（translation invariance）</strong>：不管检测对象出现在图像中的哪个位置，神经网络的前面几层应该对相同的图像区域具有<strong>相似的反应</strong>，即为“平移不变性”。例如，图像中的一只猫无论位于左上角还是右下角，模型都应能够正确识别。<ul><li><strong>MLP的局限性</strong>：<ol><li><strong>完全连接的结构</strong>：在MLP中，<strong>每个神经元与所有输入特征相连</strong>，因此模型对输入的每个像素赋予独立的权重。换句话说，<strong>特定像素的特征无法被直接用于识别全局的物体特征</strong>。如果输入图像中的物体位置发生平移，输入像素值会重新映射到不同的神经元，导致特征表示的变化。</li><li><strong>缺乏空间归纳偏置</strong>：MLP无法内嵌有关输入<strong>空间结构的先验知识（如相邻像素间的关系）</strong>，因此需要依赖大量数据学习这些模式。</li></ol></li><li><strong>影响</strong>：<ul><li>MLP对图像特征的<strong>空间位置高度敏感</strong>，难以通过有限数据泛化到不同的物体位置。</li><li>模型需要<strong>对每种可能的位置分别学习特征表示</strong>，这导致数据需求和计算开销成倍增加。</li></ul></li></ul></li><li><strong>局部性（locality）</strong>：局部性是指数据中的<strong>局部区域通常具有更强的相关性</strong>，例如图像中相邻像素往往属于同一物体或边缘。<ul><li><strong>MLP的局限性</strong>：<ol><li><strong>忽略局部相关性</strong>：MLP的每个神经元对整个输入空间具有感知能力，但<strong>无法重点关注局部区域的特征交互</strong>。例如，在图像中，MLP无法直接识别相邻像素构成的边缘或纹理。这种全局感知的特性导致模型在<strong>提取局部模式（如边缘或角点）时效率低下</strong>。</li><li><strong>参数冗余</strong>：MLP为<strong>每个输入特征分配独立的权重</strong>，因此即使相邻像素之间存在高度相关性，模型仍需单独学习这些特征，造成参数冗余和过拟合风险。</li></ol></li><li><strong>影响</strong>：<ul><li>MLP难以捕捉<strong>高维数据中的局部模式</strong>，尤其是在输入维度较高时（如图像或语音）。</li><li>局部特征无法有效提取，导致模型在特征表达能力上不足。</li></ul></li></ul></li></ol><hr><h2 id=图像卷积convolutions-for-images><strong>图像卷积（Convolutions for Images）</strong>
+<a class=anchor href=#%e5%9b%be%e5%83%8f%e5%8d%b7%e7%a7%afconvolutions-for-images>#</a></h2><p>卷积（Convolution）是卷积神经网络（CNN）的核心操作，用于 <strong>从输入数据（如图像）中提取特征模式</strong>。</p><hr><h3 id=互相关操作the-cross-correlation-operation><strong>互相关操作（The Cross-Correlation Operation）</strong>
+<a class=anchor href=#%e4%ba%92%e7%9b%b8%e5%85%b3%e6%93%8d%e4%bd%9cthe-cross-correlation-operation>#</a></h3><p>虽然卷积层得名于 <strong>卷积（Convolution）</strong> 运算，但我们通常在卷积层中使用更加直观的 <strong>互相关（Cross-correlation）</strong> 运算。互相关是一种滑动窗口操作，它通过 <strong>核（kernel，或称 filter）</strong> 在输入上移动并计算点积来提取局部特征。</p><p>在二维卷积层中，一个二维输入数组和一个二维 <strong>核（<em>kernel</em>）</strong> 数组通过互相关运算输出一个二维数组。如下图所示，输入是一个高和宽均为 3 的二维数组。我们将该数组的形状记为
+<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(3\times 3\)
+</span>。核数组的高和宽分别为 2。该数组在卷积计算中又称 <strong>卷积核</strong> 或 <strong>过滤器（<em>filter</em>）</strong>。卷积核窗口（又称卷积窗口）的形状取决于卷积核的高和宽，即 <span>\(2 \times 2\)
+</span>。图中的阴影部分为第一个输出元素及其计算所使用的输入和核数组元素：<span>
+\(0×0+1×1+3×2+4×3=19\)
+</span>。</p><div align=center><img src="/images/The Cross-Correlation Operation.png" width=400px/></div><p>在二维互相关运算中，卷积窗口从输入数组的最左上方开始，按从左往右、从上往下的顺序，依次在输入数组上滑动。当卷积窗口滑动到某一位置时，窗口中的输入子数组与核数组按元素相乘并求和，得到输出数组中相应位置的元素。图中的输出数组高和宽分别为 2，其中的 4 个元素由二维互相关运算得出：</p><span>\[
+0\times0+1\times1+3\times2+4\times3=19,\\
+1\times0+2\times1+4\times2+5\times3=25,\\
+3\times0+4\times1+6\times2+7\times3=37,\\
+4\times0+5\times1+7\times2+8\times3=43.
+\]</span><ul><li><strong>互相关操作代码实现</strong><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># 自定义二维互相关操作</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>corr2d</span>(X, K):  
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;二维互相关操作&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>## 获取卷积核的高度和宽度</span>
+</span></span><span style=display:flex><span>    h, w <span style=color:#f92672>=</span> K<span style=color:#f92672>.</span>shape
+</span></span><span style=display:flex><span>    <span style=color:#75715e>## 初始化输出特征图，大小与输入和核的尺寸相关</span>
+</span></span><span style=display:flex><span>    Y <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>zeros((X<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>-</span> h <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>, X<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>-</span> w <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>))
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(Y<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>0</span>]):  
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> j <span style=color:#f92672>in</span> range(Y<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>1</span>]):  
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 计算局部区域与卷积核的点积</span>
+</span></span><span style=display:flex><span>            Y[i, j] <span style=color:#f92672>=</span> (X[i:i <span style=color:#f92672>+</span> h, j:j <span style=color:#f92672>+</span> w] <span style=color:#f92672>*</span> K)<span style=color:#f92672>.</span>sum()  
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> Y  <span style=color:#75715e>## 返回卷积结果</span>
+</span></span></code></pre></div></li></ul><hr><h3 id=卷积层convolutional-layers><strong>卷积层（Convolutional Layers）</strong>
+<a class=anchor href=#%e5%8d%b7%e7%a7%af%e5%b1%82convolutional-layers>#</a></h3><div align=center><img src=/images/Working-of-a-convolutional-layer-CNNs-force-kernel-weights-to-become-network-parameters.ppm.png width=650px/></div>二维卷积层将输入和卷积核做互相关运算，并加上一个标量偏差来得到输出。卷积层的模型参数包括了卷积核和标量偏差。在训练模型的时候，通常我们先对卷积核随机初始化，然后不断迭代卷积核和偏差。卷积窗口形状为 <span>\(p×q\)
+</span>的卷积层称为 <span>\(p×q\)
+</span>卷积层。同样，<span>
+\(p×q\)
+</span>卷积或 <span>\(p×q\)
+</span>卷积核说明卷积核的高和宽分别为 <span>\(p\)
+</span>和 <span>\(q\)
+</span>。卷积的数学表达式可以表达为：
+<span>\[
+Z[i,j] = \sum_{m=0}^{k-1}\sum_{n=0}^{k-1} X[i+m, j+n] \cdot W[m, n] + b
+\]</span><blockquote class="book-hint warning"><p>在卷积神经网络（CNN）中，<strong>卷积核（kernel）中的权重（weight）是我们训练过程中需要优化的参数</strong>。实际中，我们并不是手动设计固定的卷积核，而是通过训练优化这些权重，使得卷积核能够提取最适合任务的特征。</p></blockquote><ul><li><strong>卷积层（Convolutional Layers）代码实现</strong><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> torch <span style=color:#f92672>import</span> nn
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 自定义2D卷积层</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Conv2D</span>(nn<span style=color:#f92672>.</span>Module):  
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, kernel_size):  
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>__init__()  
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 定义卷积核的权重，并将其作为可学习参数</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>## 卷积核参数，随机初始化，形状由 kernel_size 决定  </span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>weight <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Parameter(torch<span style=color:#f92672>.</span>rand(kernel_size)) 
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 定义偏置项，并将其作为可学习参数</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>bias <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Parameter(torch<span style=color:#f92672>.</span>zeros(<span style=color:#ae81ff>1</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, x):  
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 将输入与权重进行互相关计算，并加上偏置项</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> corr2d(x, self<span style=color:#f92672>.</span>weight) <span style=color:#f92672>+</span> self<span style=color:#f92672>.</span>bias  <span style=color:#75715e>## 调用自定义的二维互相关操作函数</span>
+</span></span></code></pre></div></li></ul><hr><h3 id=利用学习卷积核实现图像边缘检测><strong>利用学习卷积核实现图像边缘检测</strong>
+<a class=anchor href=#%e5%88%a9%e7%94%a8%e5%ad%a6%e4%b9%a0%e5%8d%b7%e7%a7%af%e6%a0%b8%e5%ae%9e%e7%8e%b0%e5%9b%be%e5%83%8f%e8%be%b9%e7%bc%98%e6%a3%80%e6%b5%8b>#</a></h3><p>在图像处理中，边缘检测是提取对象轮廓和结构信息的关键操作。通过卷积运算，卷积核（也称为滤波器）能够<strong>捕捉图像的局部变化</strong>，例如<strong>亮度或颜色的快速变化，这通常对应于边缘</strong>。手工设计的卷积核可以实现简单的边缘检测，例如通过水平或垂直边缘检测器来突出特定方向的边缘。然而，更灵活的方法是通过学习卷积核，使其能够适应复杂的数据分布和任务需求。</p><p>在深度学习中，卷积神经网络（CNN）通过反向传播算法自动优化卷积核的参数，使其能够<strong>提取最有利于目标任务的特征</strong>。以边缘检测为例，通过初始化卷积核并利用标注数据训练网络，模型可以逐渐<strong>学习到如何识别边缘</strong>，并适配不同的图像特性。这种学习过程不仅提高了检测的准确性，还可以扩展到更高级的特征提取任务，如纹理、形状和物体识别。</p><ol><li><strong>初始化</strong>：核的参数通常随机初始化。</li><li><strong>前向传播</strong>：使用当前的核参数计算输出特征图。</li><li><strong>反向传播</strong>：根据损失对核参数计算梯度。</li><li><strong>参数更新</strong>：使用优化算法（如 SGD 或 Adam）调整核的权重。</li></ol><blockquote class="book-hint warning"><p>当图像输入到CNN中时，<strong>图像被分成多个小的局部区域</strong>（通常是由卷积核的大小决定的），这些局部区域与卷积核进行互相关操作。通过这种方式，卷积核可以在图像中滑动，并生成一张<strong>特征图（feature map）</strong>，该特征图包含了图像中<strong>不同位置的特征响应</strong>。通过反向传播优化权重，卷积核能够逐步学习到如何从图像中提取有意义的特征，如<strong>边缘、角点、纹理</strong>等。</p></blockquote><hr><h3 id=特征映射和感受野feature-map-and-receptive-field><strong>特征映射和感受野（Feature Map and Receptive Field）</strong>
+<a class=anchor href=#%e7%89%b9%e5%be%81%e6%98%a0%e5%b0%84%e5%92%8c%e6%84%9f%e5%8f%97%e9%87%8efeature-map-and-receptive-field>#</a></h3><p><strong>Feature Map（特征图）：</strong></p><ul><li>特征图是<strong>卷积操作的输出</strong>，每个特征图表示输入数据中一个特定的模式或 <strong>特征（如边缘、纹理）</strong>。</li><li><strong>多个卷积核生成多个特征图</strong>，以捕获输入中的多样性信息。</li></ul><p><strong>Receptive Field（感受野）：</strong></p><ul><li>感受野是指特定神经元在输入空间中“看到”的区域。</li><li>初始卷积核的感受野大小等于其尺寸，每层操作都会<strong>扩大感受野</strong>，具体由核大小、步幅和填充共同决定。多层网络中，<strong>靠后的神经元感受野更大</strong>，能够捕获更全局的模式。</li><li>感受野的大小决定了网络<strong>捕获全局模式的能力</strong>。在分类任务中，充分大的感受野可以确保模型关注到整个输入图像的关键信息。</li></ul><div align=center><img src="/images/Feature Map and Receptive Field.png" width=450px/></div><p>二维卷积层输出的二维数组可以看作是输入在空间维度（宽和高）上某一级的表征，也叫 <strong>特征图（feature map）</strong>。影响元素 <span>\(x\)
+</span>的前向计算的所有可能输入区域（可能大于输入的实际尺寸）叫做 <span>\(x\)
+</span>的 <strong>感受野（receptive field）</strong>。以下图为例，输入中阴影部分的四个元素是输出中阴影部分元素的感受野。我们将形状为 <span>\(2×2\)
+</span>的输出记为 <span>\(Y\)
+</span>，并考虑一个更深的卷积神经网络：将 <span>\(Y\)
+</span>与另一个形状为 <span>\(2×2\)
+</span>的核数组做互相关运算，输出单个元素 <span>\(z\)
+</span>。那么，<span>
+\(z\)
+</span>在 <span>\(Y\)
+</span>上的感受野包括 <span>\(Y\)
+</span>的全部四个元素，在输入上的感受野包括其中全部 9 个元素。可见，我们可以通过更深的卷积神经网络使特征图中单个元素的 <strong>感受野变得更加广阔</strong>，从而捕捉输入上更大尺寸的特征。</p><div align=center><img src="/images/The Cross-Correlation Operation.png" width=400px/></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#从全连接层到卷积from-fc-layer-to-convolutional><strong>从全连接层到卷积（From FC Layer to Convolutional）</strong></a><ul><li><a href=#多层感知机mlp的限制><strong>多层感知机（MLP）的限制</strong></a></li></ul></li><li><a href=#图像卷积convolutions-for-images><strong>图像卷积（Convolutions for Images）</strong></a><ul><li><a href=#互相关操作the-cross-correlation-operation><strong>互相关操作（The Cross-Correlation Operation）</strong></a></li><li><a href=#卷积层convolutional-layers><strong>卷积层（Convolutional Layers）</strong></a></li><li><a href=#利用学习卷积核实现图像边缘检测><strong>利用学习卷积核实现图像边缘检测</strong></a></li><li><a href=#特征映射和感受野feature-map-and-receptive-field><strong>特征映射和感受野（Feature Map and Receptive Field）</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
