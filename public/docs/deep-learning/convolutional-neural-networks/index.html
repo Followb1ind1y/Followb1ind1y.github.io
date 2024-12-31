@@ -10,12 +10,45 @@
 
 想象一下，假设我们想从一张图片中找到某个物体。 合理的假设是：无论哪种方法找到这个物体，都应该和物体的位置无关。卷积神经网络正是将 空间不变性（spatial invariance） 的这一概念系统化，从而基于这个模型使用较少的参数来学习有用的表示。
 
+
 什么是不变性？ 不变性是指模型对某些输入变化（如平移、旋转、缩放等）保持输出的一致性。例如，图像中的物体移动、缩放不应影响分类结果。
 为什么不变性重要？
 
 现实场景中的数据变化： 如图像中的摄像机角度、光线、物体位置变化。
 提升泛化能力： 通过不变性，模型能够适应更多样化的输入数据。
 
+
+
+
+卷积（Convolution）引入了三个重要的概念，这些概念极大地提升了机器学习系统的效率和性能：稀疏交互（sparse interactions）、参数共享（parameter sharing）以及等变表示（equivariant representations）。此外，卷积还为处理可变大小的输入提供了有效的方法。
+
+
+稀疏交互（Sparse Interactions）：
+在传统的全连接神经网络中，每个输入单元都与每个输出单元直接相连，这种完全连接的结构会导致参数数量巨大且计算量庞大。而卷积通过使用卷积核（kernel）仅与局部区域交互，大大减少了连接的数量。这种稀疏交互能够显著降低计算复杂度，同时保留局部特征的关键信息。例如，
+
+
+
+  \(3 \times 3\)
+
+ 的卷积核只需与输入图像的一小部分进行操作，而不是整个图像。
+
+
+参数共享（Parameter Sharing）：
+在卷积操作中，卷积核的权重在整个输入中是共享的。这意味着，同一个卷积核在输入图像的不同位置应用相同的权重，从而大幅减少了参数数量。这种共享机制不仅降低了模型复杂度，还提高了模型的泛化能力，因为共享的卷积核能够捕获输入中的通用模式（如边缘、角点等）。
+
+
+等变表示（Equivariant Representations）：
+卷积具有平移等变性（translation equivariance），这意味着如果输入发生平移，卷积操作的输出会以相应方式平移。这种特性非常适合处理图像等感知数据，因为目标的空间位置可能会有所变化，但其本质特征保持不变。等变性使得模型能够在不同位置识别相同的模式，从而增强了模型的鲁棒性。
+
+
+支持可变大小输入（Variable Size Inputs）：
+卷积操作可以灵活地处理不同尺寸的输入。这是因为卷积核是基于局部区域滑动的，不依赖输入的绝对尺寸。例如，无论输入图像是 
+  \(128 \times 128\)
+
+ 还是 
+  \(256 \times 256\)
+
+，卷积核都可以逐步滑动并提取特征。这种能力使卷积神经网络非常适合处理变长或变形的数据，如图片、音频或序列信号。
 
 
 
@@ -62,44 +95,35 @@ MLP难以捕捉高维数据中的局部模式，尤其是在输入维度较高�
   图像卷积（Convolutions for Images）
   #
 
-卷积（Convolution）是卷积神经网络（CNN）的核心操作，用于 从输入数据（如图像）中提取特征模式。
-
-
-  互相关操作（The Cross-Correlation Operation）
-  #
-
-虽然卷积层得名于 卷积（Convolution） 运算，但我们通常在卷积层中使用更加直观的 互相关（Cross-correlation） 运算。互相关是一种滑动窗口操作，它通过 核（kernel，或称 filter） 在输入上移动并计算点积来提取局部特征。
-在二维卷积层中，一个二维输入数组和一个二维 核（kernel） 数组通过互相关运算输出一个二维数组。如下图所示，输入是一个高和宽均为 3 的二维数组。我们将该数组的形状记为 
-
-
-
-  \(3\times 3\)
-
-。核数组的高和宽分别为 2。该数组在卷积计算中又称 卷积核 或 过滤器（filter）。卷积核窗口（又称卷积窗口）的形状取决于卷积核的高和宽，即 
-  \(2 \times 2\)
-
-。图中的阴影部分为第一个输出元素及其计算所使用的输入和核数组元素：
-  \(0×0+1×1+3×2+4×3=19\)
-
-。"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/deep-learning/convolutional-neural-networks/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Convolutional Neural Networks"><meta property="og:description" content="卷积神经网络（Convolutional Neural Networks） # 卷积神经网络（CNN）的必要性在于它能够高效地处理具有高维结构的数据，特别是图像数据。在处理如图像这样的高维感知数据时，传统的多层感知机（MLP）存在局限性，因为它没有考虑到数据中的空间结构，导致在图像分类等任务中，参数量和计算开销巨大，训练起来非常不实用。举例来说，在猫狗图片分类任务中，使用百万像素的图像作为输入时，全连接层将产生数量庞大的参数，这不仅需要大量的计算资源，还可能导致过拟合。因此，卷积神经网络通过局部连接和权重共享的方式有效减少了参数数量，利用图像本身的空间结构进行特征提取，使得网络能够在较少的参数下仍能有效学习图像中的模式和特征。这种方式不仅极大地减少了计算复杂度，还能在图像处理任务中取得显著的性能提升。
+卷积（Convolution）是卷积神经网络（CNN）的核心操作，用于 从输入数据（如图像）中提取特征模式。"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/deep-learning/convolutional-neural-networks/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Convolutional Neural Networks"><meta property="og:description" content="卷积神经网络（Convolutional Neural Networks） # 卷积神经网络（CNN）的必要性在于它能够高效地处理具有高维结构的数据，特别是图像数据。在处理如图像这样的高维感知数据时，传统的多层感知机（MLP）存在局限性，因为它没有考虑到数据中的空间结构，导致在图像分类等任务中，参数量和计算开销巨大，训练起来非常不实用。举例来说，在猫狗图片分类任务中，使用百万像素的图像作为输入时，全连接层将产生数量庞大的参数，这不仅需要大量的计算资源，还可能导致过拟合。因此，卷积神经网络通过局部连接和权重共享的方式有效减少了参数数量，利用图像本身的空间结构进行特征提取，使得网络能够在较少的参数下仍能有效学习图像中的模式和特征。这种方式不仅极大地减少了计算复杂度，还能在图像处理任务中取得显著的性能提升。
 从全连接层到卷积（From FC Layer to Convolutional） # 想象一下，假设我们想从一张图片中找到某个物体。 合理的假设是：无论哪种方法找到这个物体，都应该和物体的位置无关。卷积神经网络正是将 空间不变性（spatial invariance） 的这一概念系统化，从而基于这个模型使用较少的参数来学习有用的表示。
-什么是不变性？ 不变性是指模型对某些输入变化（如平移、旋转、缩放等）保持输出的一致性。例如，图像中的物体移动、缩放不应影响分类结果。 为什么不变性重要？ 现实场景中的数据变化： 如图像中的摄像机角度、光线、物体位置变化。 提升泛化能力： 通过不变性，模型能够适应更多样化的输入数据。 多层感知机（MLP）的限制 # 平移不变性（translation invariance）：不管检测对象出现在图像中的哪个位置，神经网络的前面几层应该对相同的图像区域具有相似的反应，即为“平移不变性”。例如，图像中的一只猫无论位于左上角还是右下角，模型都应能够正确识别。 MLP的局限性： 完全连接的结构：在MLP中，每个神经元与所有输入特征相连，因此模型对输入的每个像素赋予独立的权重。换句话说，特定像素的特征无法被直接用于识别全局的物体特征。如果输入图像中的物体位置发生平移，输入像素值会重新映射到不同的神经元，导致特征表示的变化。 缺乏空间归纳偏置：MLP无法内嵌有关输入空间结构的先验知识（如相邻像素间的关系），因此需要依赖大量数据学习这些模式。 影响： MLP对图像特征的空间位置高度敏感，难以通过有限数据泛化到不同的物体位置。 模型需要对每种可能的位置分别学习特征表示，这导致数据需求和计算开销成倍增加。 局部性（locality）：局部性是指数据中的局部区域通常具有更强的相关性，例如图像中相邻像素往往属于同一物体或边缘。 MLP的局限性： 忽略局部相关性：MLP的每个神经元对整个输入空间具有感知能力，但无法重点关注局部区域的特征交互。例如，在图像中，MLP无法直接识别相邻像素构成的边缘或纹理。这种全局感知的特性导致模型在提取局部模式（如边缘或角点）时效率低下。 参数冗余：MLP为每个输入特征分配独立的权重，因此即使相邻像素之间存在高度相关性，模型仍需单独学习这些特征，造成参数冗余和过拟合风险。 影响： MLP难以捕捉高维数据中的局部模式，尤其是在输入维度较高时（如图像或语音）。 局部特征无法有效提取，导致模型在特征表达能力上不足。 图像卷积（Convolutions for Images） # 卷积（Convolution）是卷积神经网络（CNN）的核心操作，用于 从输入数据（如图像）中提取特征模式。
-互相关操作（The Cross-Correlation Operation） # 虽然卷积层得名于 卷积（Convolution） 运算，但我们通常在卷积层中使用更加直观的 互相关（Cross-correlation） 运算。互相关是一种滑动窗口操作，它通过 核（kernel，或称 filter） 在输入上移动并计算点积来提取局部特征。
-在二维卷积层中，一个二维输入数组和一个二维 核（kernel） 数组通过互相关运算输出一个二维数组。如下图所示，输入是一个高和宽均为 3 的二维数组。我们将该数组的形状记为 \(3\times 3\) 。核数组的高和宽分别为 2。该数组在卷积计算中又称 卷积核 或 过滤器（filter）。卷积核窗口（又称卷积窗口）的形状取决于卷积核的高和宽，即 \(2 \times 2\) 。图中的阴影部分为第一个输出元素及其计算所使用的输入和核数组元素： \(0×0+1×1+3×2+4×3=19\) 。"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Convolutional Neural Networks | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/convolutional-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.bef133955ae6377a8769ef1289e7142e6936a92e9ca2e441ca89030c0f591f0d.js integrity="sha256-vvEzlVrmN3qHae8SiecULmk2qS6couRByokDDA9ZHw0=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/convolutional-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+什么是不变性？ 不变性是指模型对某些输入变化（如平移、旋转、缩放等）保持输出的一致性。例如，图像中的物体移动、缩放不应影响分类结果。 为什么不变性重要？ 现实场景中的数据变化： 如图像中的摄像机角度、光线、物体位置变化。 提升泛化能力： 通过不变性，模型能够适应更多样化的输入数据。 卷积（Convolution）引入了三个重要的概念，这些概念极大地提升了机器学习系统的效率和性能：稀疏交互（sparse interactions）、参数共享（parameter sharing）以及等变表示（equivariant representations）。此外，卷积还为处理可变大小的输入提供了有效的方法。
+稀疏交互（Sparse Interactions）：
+在传统的全连接神经网络中，每个输入单元都与每个输出单元直接相连，这种完全连接的结构会导致参数数量巨大且计算量庞大。而卷积通过使用卷积核（kernel）仅与局部区域交互，大大减少了连接的数量。这种稀疏交互能够显著降低计算复杂度，同时保留局部特征的关键信息。例如， \(3 \times 3\) 的卷积核只需与输入图像的一小部分进行操作，而不是整个图像。
+参数共享（Parameter Sharing）：
+在卷积操作中，卷积核的权重在整个输入中是共享的。这意味着，同一个卷积核在输入图像的不同位置应用相同的权重，从而大幅减少了参数数量。这种共享机制不仅降低了模型复杂度，还提高了模型的泛化能力，因为共享的卷积核能够捕获输入中的通用模式（如边缘、角点等）。
+等变表示（Equivariant Representations）：
+卷积具有平移等变性（translation equivariance），这意味着如果输入发生平移，卷积操作的输出会以相应方式平移。这种特性非常适合处理图像等感知数据，因为目标的空间位置可能会有所变化，但其本质特征保持不变。等变性使得模型能够在不同位置识别相同的模式，从而增强了模型的鲁棒性。
+支持可变大小输入（Variable Size Inputs）：
+卷积操作可以灵活地处理不同尺寸的输入。这是因为卷积核是基于局部区域滑动的，不依赖输入的绝对尺寸。例如，无论输入图像是 \(128 \times 128\) 还是 \(256 \times 256\) ，卷积核都可以逐步滑动并提取特征。这种能力使卷积神经网络非常适合处理变长或变形的数据，如图片、音频或序列信号。
+多层感知机（MLP）的限制 # 平移不变性（translation invariance）：不管检测对象出现在图像中的哪个位置，神经网络的前面几层应该对相同的图像区域具有相似的反应，即为“平移不变性”。例如，图像中的一只猫无论位于左上角还是右下角，模型都应能够正确识别。 MLP的局限性： 完全连接的结构：在MLP中，每个神经元与所有输入特征相连，因此模型对输入的每个像素赋予独立的权重。换句话说，特定像素的特征无法被直接用于识别全局的物体特征。如果输入图像中的物体位置发生平移，输入像素值会重新映射到不同的神经元，导致特征表示的变化。 缺乏空间归纳偏置：MLP无法内嵌有关输入空间结构的先验知识（如相邻像素间的关系），因此需要依赖大量数据学习这些模式。 影响： MLP对图像特征的空间位置高度敏感，难以通过有限数据泛化到不同的物体位置。 模型需要对每种可能的位置分别学习特征表示，这导致数据需求和计算开销成倍增加。 局部性（locality）：局部性是指数据中的局部区域通常具有更强的相关性，例如图像中相邻像素往往属于同一物体或边缘。 MLP的局限性： 忽略局部相关性：MLP的每个神经元对整个输入空间具有感知能力，但无法重点关注局部区域的特征交互。例如，在图像中，MLP无法直接识别相邻像素构成的边缘或纹理。这种全局感知的特性导致模型在提取局部模式（如边缘或角点）时效率低下。 参数冗余：MLP为每个输入特征分配独立的权重，因此即使相邻像素之间存在高度相关性，模型仍需单独学习这些特征，造成参数冗余和过拟合风险。 影响： MLP难以捕捉高维数据中的局部模式，尤其是在输入维度较高时（如图像或语音）。 局部特征无法有效提取，导致模型在特征表达能力上不足。 图像卷积（Convolutions for Images） # 卷积（Convolution）是卷积神经网络（CNN）的核心操作，用于 从输入数据（如图像）中提取特征模式。"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Convolutional Neural Networks | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/convolutional-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.75584a09e5db45a75c5b5cc34b0b915aba12db7c38cd3362219013456d7628fe.js integrity="sha256-dVhKCeXbRadcW1zDSwuRWroS23w4zTNiIZATRW12KP4=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/convolutional-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
 <label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/ class=active>Convolutional Neural Networks</a><ul></ul></li><li><input type=checkbox id=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class=toggle>
 <label for=section-1d03ca2abc7a4a1911fc57e2cecd1bcf class="flex justify-between"><a href=/docs/deep-learning/computer-vision/>Computer Vision</a></label><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Convolutional Neural Networks</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#从全连接层到卷积from-fc-layer-to-convolutional><strong>从全连接层到卷积（From FC Layer to Convolutional）</strong></a><ul><li><a href=#多层感知机mlp的限制><strong>多层感知机（MLP）的限制</strong></a></li></ul></li><li><a href=#图像卷积convolutions-for-images><strong>图像卷积（Convolutions for Images）</strong></a><ul><li><a href=#互相关操作the-cross-correlation-operation><strong>互相关操作（The Cross-Correlation Operation）</strong></a></li><li><a href=#卷积层convolutional-layers><strong>卷积层（Convolutional Layers）</strong></a></li><li><a href=#利用学习卷积核实现图像边缘检测><strong>利用学习卷积核实现图像边缘检测</strong></a></li><li><a href=#特征映射和感受野feature-map-and-receptive-field><strong>特征映射和感受野（Feature Map and Receptive Field）</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=卷积神经网络convolutional-neural-networks><strong>卷积神经网络（Convolutional Neural Networks）</strong>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Convolutional Neural Networks</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#从全连接层到卷积from-fc-layer-to-convolutional><strong>从全连接层到卷积（From FC Layer to Convolutional）</strong></a><ul><li><a href=#多层感知机mlp的限制><strong>多层感知机（MLP）的限制</strong></a></li></ul></li><li><a href=#图像卷积convolutions-for-images><strong>图像卷积（Convolutions for Images）</strong></a><ul><li><a href=#互相关操作the-cross-correlation-operation><strong>互相关操作（The Cross-Correlation Operation）</strong></a></li><li><a href=#卷积层convolutional-layers><strong>卷积层（Convolutional Layers）</strong></a></li><li><a href=#利用学习卷积核实现图像边缘检测><strong>利用学习卷积核实现图像边缘检测</strong></a></li><li><a href=#特征映射和感受野feature-map-and-receptive-field><strong>特征映射和感受野（Feature Map and Receptive Field）</strong></a></li></ul></li><li><a href=#填充padding><strong>填充（Padding）</strong></a></li><li><a href=#步幅stride><strong>步幅（Stride）</strong></a></li><li><a href=#多输入通道和多输出通道multiple-input-and-multiple-output-channels><strong>多输入通道和多输出通道（Multiple Input and Multiple Output Channels）</strong></a><ul><li><a href=#多输入通道multiple-input-channels><strong>多输入通道（Multiple Input Channels）</strong></a></li><li><a href=#多输出通道multiple-output-channels><strong>多输出通道（Multiple Output Channels）</strong></a></li><li><a href=#结合多输入和多输出通道><strong>结合多输入和多输出通道</strong></a></li><li><a href=#11-卷积层><strong>1×1 卷积层</strong></a></li></ul></li><li><a href=#池化层pooling><strong>池化层（Pooling）</strong></a><ul><li><a href=#最大池化层和平均池化层maximum-pooling-and-average-pooling><strong>最大池化层和平均池化层（Maximum Pooling and Average Pooling）</strong></a></li><li><a href=#填充步幅以及多通道padding-stride-and-multiple-channels><strong>填充，步幅以及多通道（Padding, Stride, and Multiple Channels）</strong></a></li><li><a href=#池化的主要作用><strong>池化的主要作用</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=卷积神经网络convolutional-neural-networks><strong>卷积神经网络（Convolutional Neural Networks）</strong>
 <a class=anchor href=#%e5%8d%b7%e7%a7%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9cconvolutional-neural-networks>#</a></h1><p>卷积神经网络（CNN）的必要性在于它能够<strong>高效地处理具有高维结构的数据</strong>，特别是图像数据。在处理如图像这样的高维感知数据时，传统的多层感知机（MLP）存在局限性，因为它没有考虑到数据中的空间结构，导致在图像分类等任务中，<strong>参数量和计算开销巨大</strong>，训练起来非常不实用。举例来说，在猫狗图片分类任务中，使用百万像素的图像作为输入时，<strong>全连接层将产生数量庞大的参数</strong>，这不仅需要大量的计算资源，还可能导致过拟合。因此，卷积神经网络通过局部连接和权重共享的方式有效减少了参数数量，<strong>利用图像本身的空间结构进行特征提取</strong>，使得网络能够在<strong>较少的参数下仍能有效学习图像中的模式和特征</strong>。这种方式不仅极大地减少了计算复杂度，还能在图像处理任务中取得显著的性能提升。</p><hr><h2 id=从全连接层到卷积from-fc-layer-to-convolutional><strong>从全连接层到卷积（From FC Layer to Convolutional）</strong>
-<a class=anchor href=#%e4%bb%8e%e5%85%a8%e8%bf%9e%e6%8e%a5%e5%b1%82%e5%88%b0%e5%8d%b7%e7%a7%affrom-fc-layer-to-convolutional>#</a></h2><p>想象一下，假设我们想从一张图片中找到某个物体。 合理的假设是：无论哪种方法找到这个物体，都应该和物体的位置无关。卷积神经网络正是将 <strong>空间不变性（spatial invariance）</strong> 的这一概念系统化，从而基于这个模型使用较少的参数来学习有用的表示。</p><ul><li><strong>什么是不变性？</strong> 不变性是指模型对某些输入变化（如平移、旋转、缩放等）<strong>保持输出的一致性</strong>。例如，图像中的物体移动、缩放不应影响分类结果。</li><li><strong>为什么不变性重要？</strong><ul><li><strong>现实场景中的数据变化：</strong> 如图像中的摄像机角度、光线、物体位置变化。</li><li><strong>提升泛化能力：</strong> 通过不变性，模型能够适应更多样化的输入数据。</li></ul></li></ul><hr><h3 id=多层感知机mlp的限制><strong>多层感知机（MLP）的限制</strong>
+<a class=anchor href=#%e4%bb%8e%e5%85%a8%e8%bf%9e%e6%8e%a5%e5%b1%82%e5%88%b0%e5%8d%b7%e7%a7%affrom-fc-layer-to-convolutional>#</a></h2><p>想象一下，假设我们想从一张图片中找到某个物体。 合理的假设是：无论哪种方法找到这个物体，都应该和物体的位置无关。卷积神经网络正是将 <strong>空间不变性（spatial invariance）</strong> 的这一概念系统化，从而基于这个模型使用较少的参数来学习有用的表示。</p><blockquote class="book-hint warning"><ul><li><strong>什么是不变性？</strong> 不变性是指模型对某些输入变化（如平移、旋转、缩放等）<strong>保持输出的一致性</strong>。例如，图像中的物体移动、缩放不应影响分类结果。</li><li><strong>为什么不变性重要？</strong><ul><li><strong>现实场景中的数据变化：</strong> 如图像中的摄像机角度、光线、物体位置变化。</li><li><strong>提升泛化能力：</strong> 通过不变性，模型能够适应更多样化的输入数据。</li></ul></li></ul></blockquote><p>卷积（Convolution）引入了三个<strong>重要的概念</strong>，这些概念极大地提升了机器学习系统的效率和性能：稀疏交互（sparse interactions）、参数共享（parameter sharing）以及等变表示（equivariant representations）。此外，卷积还为处理可变大小的输入提供了有效的方法。</p><ol><li><p><strong>稀疏交互（Sparse Interactions）：</strong></p><p>在传统的全连接神经网络中，每个输入单元都与每个输出单元直接相连，这种<strong>完全连接的结构会导致参数数量巨大且计算量庞大</strong>。而卷积通过使用卷积核（kernel）仅与局部区域交互，大大减少了连接的数量。这种稀疏交互能够显著<strong>降低计算复杂度</strong>，同时保留局部特征的关键信息。例如，
+<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(3 \times 3\)
+</span>的卷积核只需与输入图像的一小部分进行操作，而不是整个图像。</p></li><li><p><strong>参数共享（Parameter Sharing）：</strong></p><p>在卷积操作中，卷积核的<strong>权重在整个输入中是共享的</strong>。这意味着，<strong>同一个卷积核在输入图像的不同位置应用相同的权重</strong>，从而大幅减少了参数数量。这种共享机制不仅降低了模型复杂度，还提高了模型的泛化能力，因为共享的卷积核能够捕获<strong>输入中的通用模式</strong>（如边缘、角点等）。</p></li><li><p><strong>等变表示（Equivariant Representations）：</strong></p><p>卷积具有平移等变性（translation equivariance），这意味着如果<strong>输入发生平移，卷积操作的输出会以相应方式平移</strong>。这种特性非常适合处理图像等感知数据，因为目标的空间位置可能会有所变化，但其本质特征保持不变。等变性使得模型能够在不同位置识别相同的模式，从而增强了模型的鲁棒性。</p></li><li><p><strong>支持可变大小输入（Variable Size Inputs）：</strong></p><p>卷积操作可以<strong>灵活地处理不同尺寸的输入</strong>。这是因为卷积核是基于局部区域滑动的，不依赖输入的绝对尺寸。例如，无论输入图像是 <span>\(128 \times 128\)
+</span>还是 <span>\(256 \times 256\)
+</span>，卷积核都可以逐步滑动并提取特征。这种能力使卷积神经网络非常适合处理变长或变形的数据，如图片、音频或序列信号。</p></li></ol><hr><h3 id=多层感知机mlp的限制><strong>多层感知机（MLP）的限制</strong>
 <a class=anchor href=#%e5%a4%9a%e5%b1%82%e6%84%9f%e7%9f%a5%e6%9c%bamlp%e7%9a%84%e9%99%90%e5%88%b6>#</a></h3><ol><li><strong>平移不变性（translation invariance）</strong>：不管检测对象出现在图像中的哪个位置，神经网络的前面几层应该对相同的图像区域具有<strong>相似的反应</strong>，即为“平移不变性”。例如，图像中的一只猫无论位于左上角还是右下角，模型都应能够正确识别。<ul><li><strong>MLP的局限性</strong>：<ol><li><strong>完全连接的结构</strong>：在MLP中，<strong>每个神经元与所有输入特征相连</strong>，因此模型对输入的每个像素赋予独立的权重。换句话说，<strong>特定像素的特征无法被直接用于识别全局的物体特征</strong>。如果输入图像中的物体位置发生平移，输入像素值会重新映射到不同的神经元，导致特征表示的变化。</li><li><strong>缺乏空间归纳偏置</strong>：MLP无法内嵌有关输入<strong>空间结构的先验知识（如相邻像素间的关系）</strong>，因此需要依赖大量数据学习这些模式。</li></ol></li><li><strong>影响</strong>：<ul><li>MLP对图像特征的<strong>空间位置高度敏感</strong>，难以通过有限数据泛化到不同的物体位置。</li><li>模型需要<strong>对每种可能的位置分别学习特征表示</strong>，这导致数据需求和计算开销成倍增加。</li></ul></li></ul></li><li><strong>局部性（locality）</strong>：局部性是指数据中的<strong>局部区域通常具有更强的相关性</strong>，例如图像中相邻像素往往属于同一物体或边缘。<ul><li><strong>MLP的局限性</strong>：<ol><li><strong>忽略局部相关性</strong>：MLP的每个神经元对整个输入空间具有感知能力，但<strong>无法重点关注局部区域的特征交互</strong>。例如，在图像中，MLP无法直接识别相邻像素构成的边缘或纹理。这种全局感知的特性导致模型在<strong>提取局部模式（如边缘或角点）时效率低下</strong>。</li><li><strong>参数冗余</strong>：MLP为<strong>每个输入特征分配独立的权重</strong>，因此即使相邻像素之间存在高度相关性，模型仍需单独学习这些特征，造成参数冗余和过拟合风险。</li></ol></li><li><strong>影响</strong>：<ul><li>MLP难以捕捉<strong>高维数据中的局部模式</strong>，尤其是在输入维度较高时（如图像或语音）。</li><li>局部特征无法有效提取，导致模型在特征表达能力上不足。</li></ul></li></ul></li></ol><hr><h2 id=图像卷积convolutions-for-images><strong>图像卷积（Convolutions for Images）</strong>
 <a class=anchor href=#%e5%9b%be%e5%83%8f%e5%8d%b7%e7%a7%afconvolutions-for-images>#</a></h2><p>卷积（Convolution）是卷积神经网络（CNN）的核心操作，用于 <strong>从输入数据（如图像）中提取特征模式</strong>。</p><hr><h3 id=互相关操作the-cross-correlation-operation><strong>互相关操作（The Cross-Correlation Operation）</strong>
-<a class=anchor href=#%e4%ba%92%e7%9b%b8%e5%85%b3%e6%93%8d%e4%bd%9cthe-cross-correlation-operation>#</a></h3><p>虽然卷积层得名于 <strong>卷积（Convolution）</strong> 运算，但我们通常在卷积层中使用更加直观的 <strong>互相关（Cross-correlation）</strong> 运算。互相关是一种滑动窗口操作，它通过 <strong>核（kernel，或称 filter）</strong> 在输入上移动并计算点积来提取局部特征。</p><p>在二维卷积层中，一个二维输入数组和一个二维 <strong>核（<em>kernel</em>）</strong> 数组通过互相关运算输出一个二维数组。如下图所示，输入是一个高和宽均为 3 的二维数组。我们将该数组的形状记为
-<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(3\times 3\)
+<a class=anchor href=#%e4%ba%92%e7%9b%b8%e5%85%b3%e6%93%8d%e4%bd%9cthe-cross-correlation-operation>#</a></h3><p>虽然卷积层得名于 <strong>卷积（Convolution）</strong> 运算，但我们通常在卷积层中使用更加直观的 <strong>互相关（Cross-correlation）</strong> 运算。互相关是一种滑动窗口操作，它通过 <strong>核（kernel，或称 filter）</strong> 在输入上移动并计算点积来提取局部特征。</p><p>在二维卷积层中，一个二维输入数组和一个二维 <strong>核（<em>kernel</em>）</strong> 数组通过互相关运算输出一个二维数组。如下图所示，输入是一个高和宽均为 3 的二维数组。我们将该数组的形状记为 <span>\(3\times 3\)
 </span>。核数组的高和宽分别为 2。该数组在卷积计算中又称 <strong>卷积核</strong> 或 <strong>过滤器（<em>filter</em>）</strong>。卷积核窗口（又称卷积窗口）的形状取决于卷积核的高和宽，即 <span>\(2 \times 2\)
 </span>。图中的阴影部分为第一个输出元素及其计算所使用的输入和核数组元素：<span>
 \(0×0+1×1+3×2+4×3=19\)
@@ -160,4 +184,121 @@ Z[i,j] = \sum_{m=0}^{k-1}\sum_{n=0}^{k-1} X[i+m, j+n] \cdot W[m, n] + b
 \(z\)
 </span>在 <span>\(Y\)
 </span>上的感受野包括 <span>\(Y\)
-</span>的全部四个元素，在输入上的感受野包括其中全部 9 个元素。可见，我们可以通过更深的卷积神经网络使特征图中单个元素的 <strong>感受野变得更加广阔</strong>，从而捕捉输入上更大尺寸的特征。</p><div align=center><img src="/images/The Cross-Correlation Operation.png" width=400px/></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#从全连接层到卷积from-fc-layer-to-convolutional><strong>从全连接层到卷积（From FC Layer to Convolutional）</strong></a><ul><li><a href=#多层感知机mlp的限制><strong>多层感知机（MLP）的限制</strong></a></li></ul></li><li><a href=#图像卷积convolutions-for-images><strong>图像卷积（Convolutions for Images）</strong></a><ul><li><a href=#互相关操作the-cross-correlation-operation><strong>互相关操作（The Cross-Correlation Operation）</strong></a></li><li><a href=#卷积层convolutional-layers><strong>卷积层（Convolutional Layers）</strong></a></li><li><a href=#利用学习卷积核实现图像边缘检测><strong>利用学习卷积核实现图像边缘检测</strong></a></li><li><a href=#特征映射和感受野feature-map-and-receptive-field><strong>特征映射和感受野（Feature Map and Receptive Field）</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
+</span>的全部四个元素，在输入上的感受野包括其中全部 9 个元素。可见，我们可以通过更深的卷积神经网络使特征图中单个元素的 <strong>感受野变得更加广阔</strong>，从而捕捉输入上更大尺寸的特征。</p><div align=center><img src="/images/The Cross-Correlation Operation.png" width=400px/></div><hr><h2 id=填充padding><strong>填充（Padding）</strong>
+<a class=anchor href=#%e5%a1%ab%e5%85%85padding>#</a></h2><p>在卷积神经网络中，填充（padding）是<strong>处理输入图像边缘像素丢失问题</strong>的重要技巧，尤其是当连续应用多个卷积层时，图像尺寸的逐渐减小会影响特征的提取。通过在输入的边界添加<strong>额外像素（通常为零），填充可以增加图像的有效尺寸</strong>，从而保留边缘信息，改善模型性能。</p><p>下图我们在原输入高和宽的两侧分别添加了值为 0 的元素，使得输入高和宽从 3 变成了 5，并导致输出高和宽由 2 增加到 4。图中的阴影部分为第一个输出元素及其计算所使用的输入和核数组元素：<span>
+\(0×0+0×1+0×2+0×3=0\)
+</span>。</p><div align=center><img src=/images/padding.png width=450px/></div><p>一般来说，假设输入形状是 <span>\(n_{h}×n_{w}\)
+</span>，卷积核窗口形状是 <span>\(k_{h}×k_{w}\)
+</span>，那么输出形状将会是: <span>\((n_{h}-k_{h}+1)×(n_{w}-k_{w}+1)\)
+</span>。如果在高的两侧一共填充 <span>\(p_{h}\)
+</span>行，在宽的两侧一共填充 <span>\(p_{w}\)
+</span>列，那么输出形状将会是</p><span>\[
+(n_{h}−k_{h}+p_{h}+1)×(n_{w}−k_{w}+p_{w}+1)
+\]</span><p>也就是说，输出的高和宽会分别增加<span>
+\(p_{h}\)
+</span>和 <span>\(p_{w}\)
+</span>。</p><p>在很多情况下，我们会<strong>设置 <span>\(p_{h}=k_{h}−1\)
+</span>和 <span>\(p_{w}=k_{w}−1\)
+</span>来使输入和输出具有相同的高和宽</strong>。这样会方便在构造网络时推测每个层的输出形状。假设这里 <span>\(k_{h}\)
+</span>是奇数，我们会在高的两侧分别填充 <span>\(p_{h}/2\)
+</span>行。如果 <span>\(k_{h}\)
+</span>是偶数，一种可能是在输入的顶端一侧填充 <span>\(⌈p_{h}/2⌉\)
+</span>行，而在底端一侧填充 <span>\(⌊p_{h}/2⌋\)
+</span>行。在宽的两侧填充同理。</p><hr><h2 id=步幅stride><strong>步幅（Stride）</strong>
+<a class=anchor href=#%e6%ad%a5%e5%b9%85stride>#</a></h2><p>在之前提到的二维互相关运算中，卷积窗口从输入数组的最左上方开始，按从左往右、从上往下的顺序，依次在输入数组上滑动。我们将每次滑动的行数和列数称为 <strong>步幅（Stride）</strong>。<strong>跨步卷积往往能够帮助大幅降低维数</strong>。</p><p>目前我们看到的例子里，在高和宽两个方向上步幅均为 1。我们也可以使用更大步幅。下图展示了在高上步幅为 3、在宽上步幅为 2 的二维互相关运算。可以看到，输出第一列第二个元素时，卷积窗口向下滑动了 3 行，而在输出第一行第二个元素时卷积窗口向右滑动了 2 列。当卷积窗口在输入上再向右滑动 2 列时，由于输入元素无法填满窗口，无结果输出。图中的阴影部分为输出元素及其计算所使用的输入和核数组元素：<span>
+\(0×0+0×1+1×2+2×3=8\)
+</span>、<span>
+\(0×0+6×1+0×2+0×3=6\)
+</span>。</p><div align=center><img src=/images/stride.png width=450px/></div><p>一般来说，当高上步幅为 <span>\(s_{h}\)
+</span>，宽上步幅为 <span>\(s_{w}\)
+</span>时，输出形状为:</p><span>\[
+⌊(n_{h}−k_{h}+p_{h}+s_{h})/s_{h}⌋×⌊(n_{w}−k_{w}+p_{w}+s_{w})/s_{w}⌋
+\]</span><p>如果设置 <span>\(p_{h}=k_{h}−1\)
+</span>和 <span>\(p_{w}=k_{w}−1\)
+</span>，那么输出形状将简化为 <span>\(⌊(n_{h}+s_{h}−1)/s_{h}⌋×⌊(n_{w}+s_{w}−1)/s_{w}⌋\)
+</span>。更进一步，如果输入的高和宽能分别被高和宽上的步幅整除，那么输出形状将是 <span>\((n_{h}/s_{h})×(n_{w}/s_{w})\)
+</span>。</p><hr><h2 id=多输入通道和多输出通道multiple-input-and-multiple-output-channels><strong>多输入通道和多输出通道（Multiple Input and Multiple Output Channels）</strong>
+<a class=anchor href=#%e5%a4%9a%e8%be%93%e5%85%a5%e9%80%9a%e9%81%93%e5%92%8c%e5%a4%9a%e8%be%93%e5%87%ba%e9%80%9a%e9%81%93multiple-input-and-multiple-output-channels>#</a></h2><h3 id=多输入通道multiple-input-channels><strong>多输入通道（Multiple Input Channels）</strong>
+<a class=anchor href=#%e5%a4%9a%e8%be%93%e5%85%a5%e9%80%9a%e9%81%93multiple-input-channels>#</a></h3><p>多输入通道通常用于处理具有多个特征维度的数据，例如彩色图像的红色、绿色和蓝色（RGB）通道。输入图像的每个像素不仅用二维的空间位置（高度和宽度）表示，还<strong>需要包含多个颜色通道的信息</strong>，这一维称为 <strong>通道（<em>channel</em>）</strong>。。因此，输入是一个三维张量，其形状为 <span>\((C_{\text{in}}, H, W)\)
+</span>，其中：</p><ul><li><span>\(C_{\text{in}}\)
+</span>：输入的通道数。</li><li><span>\(H, W\)
+</span>：输入的高度和宽度。</li></ul><p>对于<strong>每个输入通道</strong>，卷积核具有一个<strong>独立的权重矩阵</strong>。这些权重矩阵与对应的输入通道进行逐像素的加权求和，最后将所有输入通道的<strong>结果相加</strong>，形成<strong>单个二维特征图</strong>。对于输入张量 <span>\(\mathbf{X} \in \mathbb{R}^{C_{\text{in}} \times H \times W}\)
+</span>，卷积核权重为 <span>\(\mathbf{W} \in \mathbb{R}^{C_{\text{in}} \times k_h \times k_w}\)
+</span>，偏置为 <span>\(b \in \mathbb{R}\)
+</span>，输出特征图的某个位置 <span>\((i, j)\)
+</span>由以下公式计算：
+<span>\[
+Y[i, j] = \sum_{c=1}^{C_{\text{in}}} \sum_{p=1}^{k_h} \sum_{q=1}^{k_w} X[c, i+p, j+q] \cdot W[c, p, q] + b
+\]</span></p><p>下图展示了含 2 个输入通道的二维互相关计算的例子。在每个通道上，二维输入数组与二维核数组做互相关运算，再按通道相加即得到输出。图中阴影部分为第一个输出元素及其计算所使用的输入和核数组元素：
+<span>\[
+(1×1+2×2+4×3+5×4)+(0×0+1×1+3×2+4×3)=56
+\]</span></p><div align=center><img src=/images/Cin.png width=450px/></div><blockquote class="book-hint warning"><p>当输入通道有多个时，因为我们对各个通道的结果做了<strong>累加</strong>，所以不论输入通道数是多少，<strong>输出通道数总是为 1</strong>。</p></blockquote><hr><h3 id=多输出通道multiple-output-channels><strong>多输出通道（Multiple Output Channels）</strong>
+<a class=anchor href=#%e5%a4%9a%e8%be%93%e5%87%ba%e9%80%9a%e9%81%93multiple-output-channels>#</a></h3><p>多输出通道用于在隐藏层中<strong>生成多个特征图（feature maps）</strong>，每个特征图捕捉不同的特征模式，例如边缘、纹理或特定对象形状。输出特征图也以三维张量表示，其形状为 <span>\((C_{\text{out}}, H_{\text{out}}, W_{\text{out}})\)
+</span>，其中：</p><ul><li><span>\(C_{\text{out}}\)
+</span>：输出通道数。</li><li><span>\(H_{\text{out}}, W_{\text{out}}\)
+</span>：输出特征图的高度和宽度。</li></ul><p><strong>每个输出通道对应一个独立的卷积核组</strong>，每组卷积核与所有输入通道进行卷积并求和。因此，卷积层通过学习不同的卷积核来生成多个输出通道，<strong>每个输出通道表示不同的特征</strong>。对于输出通道 <span>\(o\)
+</span>，卷积结果为：
+<span>\[
+Y_o[i, j] = \sum_{c=1}^{C_{\text{in}}} \sum_{p=1}^{k_h} \sum_{q=1}^{k_w} X[c, i+p, j+q] \cdot W[o, c, p, q] + b[o]
+\]</span></p><p>其中，<span>
+\(W[o, c, p, q]\)
+</span>是第 <span>\(o\)
+</span>个输出通道和第 <span>\(c\)
+</span>个输入通道对应的权重，<span>
+\(b[o]\)
+</span>是第 <span>\(o\)
+</span>个输出通道的偏置。</p><blockquote class="book-hint warning"><p>在卷积过程中，单个卷积核会处理所有的输入通道，并将其加权求和，生成一个单独的输出特征图。所以不论输入通道多少，对于单个卷积核累加输出通道数总是为 1。为了<strong>增加输出通道数，可以通过增加卷积核组的数量来实现</strong>。如果我们使用 N 个卷积核，就可以生成 N 个输出通道。</p></blockquote><hr><h3 id=结合多输入和多输出通道><strong>结合多输入和多输出通道</strong>
+<a class=anchor href=#%e7%bb%93%e5%90%88%e5%a4%9a%e8%be%93%e5%85%a5%e5%92%8c%e5%a4%9a%e8%be%93%e5%87%ba%e9%80%9a%e9%81%93>#</a></h3><p>如果输入有 <span>\(C_{\text{in}}\)
+</span>个通道，输出有 <span>\(C_{\text{out}}\)
+</span>个通道，那么卷积核的权重形状为：
+<span>\[
+\mathbf{W} \in \mathbb{R}^{C_{\text{out}} \times C_{\text{in}} \times k_h \times k_w}
+\]
+</span>这意味着<strong>每个输出通道对应一组卷积核</strong>，这组卷积核与所有输入通道进行卷积，并将结果求和生成该输出通道的特征图。这种设计允许网络在不同输出通道中<strong>捕获多种特征</strong>，从而更好地描述输入数据。</p><ul><li>假设输入有 <span>\(C_{\text{in}}\)
+</span>个通道，我们可以定义 <span>\(C_{\text{out}}\)
+</span>个卷积核。</li><li>每个卷积核的权重形状为 <span>\((C_{\text{in}}, k_h, k_w)\)
+</span>。</li><li>卷积操作会将输入张量形状从 <span>\((C_{\text{in}}, H, W)\)
+</span>转换为输出张量形状 <span>\((C_{\text{out}}, H_{\text{out}}, W_{\text{out}})\)
+</span>。</li></ul><hr><h3 id=11-卷积层><strong>1×1 卷积层</strong>
+<a class=anchor href=#11-%e5%8d%b7%e7%a7%af%e5%b1%82>#</a></h3><p><span>\(1×1\)
+</span>卷积层是一种特殊的卷积层，其中卷积核的大小为 <span>\(1×1\)
+</span>。虽然核的尺寸小，它在卷积神经网络中具有广泛的应用和重要的作用，能够高效地处理输入通道的特征并优化模型结构。<span>
+\(1×1\)
+</span>卷积核<strong>操作的核心</strong>是：</p><ul><li><strong>对输入的每个像素位置</strong>，仅对<strong>通道维度进行线性组合</strong>，而不会涉及空间范围。</li><li>输入的<strong>每个通道的值会被乘以对应卷积核权重后求和，并添加偏置</strong>。</li></ul><p>因为使用了最小窗口，<span>
+\(1×1\)
+</span>卷积<strong>失去了卷积层可以识别高和宽维度上相邻元素构成的模式的功能</strong>。实际上，<strong><span>
+\(1×1\)
+</span>卷积的主要计算发生在通道维上</strong>。下图展示了使用输入通道数为 3、输出通道数为 2 的 <span>\(1×1\)
+</span>卷积核的互相关计算。值得注意的是，输入和输出具有相同的高和宽。输出中的每个元素来自输入中在高和宽上相同位置的元素在不同通道之间的按权重累加。假设我们将通道维当作特征维，将高和宽维度上的元素当成数据样本，<strong>那么 <span>\(1×1\)
+</span>卷积层的作用与全连接层等价</strong>。</p><div align=center><img src=/images/1x1.png width=450px/></div><h4 id=11-卷积层的主要作用><strong>1×1 卷积层的主要作用</strong>
+<a class=anchor href=#11-%e5%8d%b7%e7%a7%af%e5%b1%82%e7%9a%84%e4%b8%bb%e8%a6%81%e4%bd%9c%e7%94%a8>#</a></h4><ol><li><strong>通道维度的特征变换</strong><ul><li><span>\(1×1\)
+</span>卷积核可以在不改变输入空间分辨率（即高和宽）的情况下，通过<strong>加权求和实现输入通道的重新组合，提取新的特征</strong>。</li><li>它本质上是一个<strong>逐像素的全连接层</strong>，作用于每个像素位置上的所有输入通道。</li></ul></li><li><strong>降维与升维</strong><ul><li>通过减少输出通道数，<span>
+\(1×1\)
+</span>卷积可以实现特征图的降维，从而减少计算量和参数数量。</li><li>通过增加输出通道数，它可以进行特征扩展，为后续卷积层提供更丰富的特征。</li></ul></li><li><strong>跨通道交互</strong><ul><li>常规的卷积核会处理空间和通道上的信息，但无法高效地在<strong>通道维度间进行交互</strong>。<span>
+\(1×1\)
+</span>卷积则专注于通道间的关系建模，有助于提取新的特征表示。</li></ul></li></ol><blockquote class="book-hint warning"><p>1x1 卷积的核心在于对<strong>单个像素位置的所有通道元素进行线性组合</strong>。它不涉及空间范围的操作，只在每个像素格的通道维度上进行计算。通过<strong>控制1x1卷积核组的数量</strong>，我们可以达到降维与升维的效果，并在通道维度间进行交互（如红色、绿色和蓝色三个通道之间）</p></blockquote><hr><h2 id=池化层pooling><strong>池化层（Pooling）</strong>
+<a class=anchor href=#%e6%b1%a0%e5%8c%96%e5%b1%82pooling>#</a></h2><p>池化层的作用是逐渐降低隐藏表示的空间分辨率并聚合信息，这样随着神经网络层级的增加，每个神经元对更大范围的输入（感受野）变得敏感。池化层帮助神经网络<strong>在最后一层聚焦于全局特征</strong>（如“图像是否包含猫”）。通过逐渐聚合信息，生成越来越粗糙的映射，最终实现学习全局表示的目标，同时将卷积图层的所有优势保留在中间层。</p><p>池化层还通过减少位置敏感性，提升网络对物体平移等变换的鲁棒性。例如，<strong>图像的小范围平移</strong>（如向右移动一个像素）可能<strong>不会影响网络的输出</strong>。这样，池化不仅帮助提取底层特征，还增强了模型对小变动（如图像移动或拍摄角度变化）的不变性。</p><hr><h3 id=最大池化层和平均池化层maximum-pooling-and-average-pooling><strong>最大池化层和平均池化层（Maximum Pooling and Average Pooling）</strong>
+<a class=anchor href=#%e6%9c%80%e5%a4%a7%e6%b1%a0%e5%8c%96%e5%b1%82%e5%92%8c%e5%b9%b3%e5%9d%87%e6%b1%a0%e5%8c%96%e5%b1%82maximum-pooling-and-average-pooling>#</a></h3><p>同卷积层一样，池化层每次对输入数据的一个固定形状窗口（又称 <strong>池化窗口（pooling window）</strong>）中的元素计算输出。不同于卷积层里计算输入和核的互相关性，池化层直接计算池化窗口内元素的最大值或者平均值。该运算也分别叫做 <strong>最大池化（maximum pooling）</strong> 或 <strong>平均池化（average pooling）</strong>。在二维最大池化中，池化窗口从输入数组的最左上方开始，按从左往右、从上往下的顺序，依次在输入数组上滑动。当池化窗口滑动到某一位置时，窗口中的输入子数组的最大值即输出数组中相应位置的元素。</p><div align=center><img src=/images/pooling.png width=400px/></div><p>上图展示了池化窗口形状为 <span>\(2×2\)
+</span>的最大池化，阴影部分为第一个输出元素及其计算所使用的输入元素。输出数组的高和宽分别为 2，其中的 4 个元素由取最大值运算 <code>max</code> 得出：</p><span>\[
+\max(0,1,3,4)=4 \\
+\max(1,2,4,5)=5 \\
+\max(3,4,6,7)=7 \\
+\max(4,5,7,8)=8 \\
+\]</span><p>平均池化的工作原理与最大池化类似，但将最大运算符替换成平均运算符。由于我们正在组合来自多个相邻像素的信息，因此我们可以对相邻像素进行平均以获得具有更好信噪比的图像。池化窗口形状为 <span>\(p×q\)
+</span>的池化层称为 <span>\(p×q\)
+</span>池化层，其中的池化运算叫作 <span>\(p×q\)
+</span>池化。</p><p>在物体边缘检测的例子中，我们现在将卷积层的输出作为 <span>\(2×2\)
+</span>最大池化的输入。设该卷积层输入是 <span>\(X\)
+</span>、池化层输出为 <span>\(Y\)
+</span>。无论是 <span>\(X[i, j]\)
+</span>和 <span>\(X[i, j+1]\)
+</span>值不同，还是 <span>\(X[i, j+1]\)
+</span>和 <span>\(X[i, j+2]\)
+</span>不同，池化层输出均有 <span>\(Y[i, j]=1\)
+</span>。也就是说，使用 <span>\(2×2\)
+</span><strong>最大池化层时，只要卷积层识别的模式在高和宽上移动不超过一个元素，我们依然可以将它检测出来</strong>。</p><hr><h3 id=填充步幅以及多通道padding-stride-and-multiple-channels><strong>填充，步幅以及多通道（Padding, Stride, and Multiple Channels）</strong>
+<a class=anchor href=#%e5%a1%ab%e5%85%85%e6%ad%a5%e5%b9%85%e4%bb%a5%e5%8f%8a%e5%a4%9a%e9%80%9a%e9%81%93padding-stride-and-multiple-channels>#</a></h3><p>同卷积层一样，池化层也可以在输入的高和宽两侧的填充并调整窗口的移动步幅来改变输出形状。池化层填充和步幅与卷积层填充和步幅的工作机制一样。窗口的高度和宽度决定了局部区域的范围（如 <span>\(2 \times 2\)
+</span>、<span>
+\(3 \times 3\)
+</span>）。步幅较小，则池化后的输出较大。步幅较大，则池化后的输出较小。填充决定了是否在输入边界填充像素。</p><p>在处理多通道输入数据时，池化层对 <strong>每个输入通道分别池化，而不是像卷积层那样将各通道的输入按通道相加</strong>。这意味着<strong>池化层的输出通道数与输入通道数相等</strong>。</p><blockquote class="book-hint warning"><p>池化操作<strong>不会改变通道数</strong>，但会减小空间维度，因此池化操作有效地减少了特征图的总数据量。</p></blockquote><hr><h3 id=池化的主要作用><strong>池化的主要作用</strong>
+<a class=anchor href=#%e6%b1%a0%e5%8c%96%e7%9a%84%e4%b8%bb%e8%a6%81%e4%bd%9c%e7%94%a8>#</a></h3><p>池化层的主要作用是通过下采样（downsampling）来减少输入数据的空间维度，降低计算复杂度，并增强特征的平移不变性。具体来说，池化的作用体现在以下几个方面：</p><ol><li><p><strong>降低计算量和内存消耗</strong>：</p><p>通过减少特征图的空间维度（高度和宽度），池化层<strong>减小了后续卷积层需要处理的输入数据量</strong>。这不仅降低了计算复杂度，还减少了模型所需的内存和存储空间。池化通常使用较小的窗口（如2x2或3x3），并且使用步长（stride）跳跃地遍历输入图像，减小特征图的尺寸。</p></li><li><p><strong>增加平移不变性</strong>：</p><p>池化层通过<strong>聚合局部区域的信息</strong>，使得<strong>小的平移、旋转或者尺度变化对输出结果的影响减小</strong>。例如，如果一个物体从图像的一个区域移动到另一个区域，池化操作会使得相邻区域的特征聚合，而不太依赖于精确的空间位置。</p></li><li><p><strong>突出显著特征</strong>：</p><p>池化操作通过选择区域中的最大值（最大池化）或平均值（平均池化），能够<strong>保留图像中最显著的特征</strong>。例如，在最大池化中，池化窗口中最大的像素值代表该区域最显著的特征，而<strong>小的细节（如噪声）则被抑制</strong>。这有助于模型聚焦于重要的高层次特征，而忽略低层次的细节。</p></li><li><p><strong>减少过拟合</strong>：</p><p>通过池化，网络的<strong>参数量减少</strong>了，从而<strong>降低了模型的复杂度</strong>。较少的参数意味着网络更不容易过拟合。池化通过降低特征图的分辨率，减少了网络对训练数据的过度依赖，使得模型能够更好地泛化到未见过的数据。</p></li><li><p><strong>促进层次特征学习</strong>：</p><p>由于池化使得网络更关注<strong>局部区域的汇总信息</strong>，它有助于学习更具层次性的特征。在卷积神经网络的不同层中，<strong>较底层的卷积层通常会学习到简单的特征</strong>（如边缘和纹理），而较高层的卷积层则会<strong>聚焦于更复杂的特征</strong>（如物体部分和整体形状）。池化通过逐层下采样，帮助网络逐步汇总和聚焦更抽象的层次特征。</p></li></ol></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#从全连接层到卷积from-fc-layer-to-convolutional><strong>从全连接层到卷积（From FC Layer to Convolutional）</strong></a><ul><li><a href=#多层感知机mlp的限制><strong>多层感知机（MLP）的限制</strong></a></li></ul></li><li><a href=#图像卷积convolutions-for-images><strong>图像卷积（Convolutions for Images）</strong></a><ul><li><a href=#互相关操作the-cross-correlation-operation><strong>互相关操作（The Cross-Correlation Operation）</strong></a></li><li><a href=#卷积层convolutional-layers><strong>卷积层（Convolutional Layers）</strong></a></li><li><a href=#利用学习卷积核实现图像边缘检测><strong>利用学习卷积核实现图像边缘检测</strong></a></li><li><a href=#特征映射和感受野feature-map-and-receptive-field><strong>特征映射和感受野（Feature Map and Receptive Field）</strong></a></li></ul></li><li><a href=#填充padding><strong>填充（Padding）</strong></a></li><li><a href=#步幅stride><strong>步幅（Stride）</strong></a></li><li><a href=#多输入通道和多输出通道multiple-input-and-multiple-output-channels><strong>多输入通道和多输出通道（Multiple Input and Multiple Output Channels）</strong></a><ul><li><a href=#多输入通道multiple-input-channels><strong>多输入通道（Multiple Input Channels）</strong></a></li><li><a href=#多输出通道multiple-output-channels><strong>多输出通道（Multiple Output Channels）</strong></a></li><li><a href=#结合多输入和多输出通道><strong>结合多输入和多输出通道</strong></a></li><li><a href=#11-卷积层><strong>1×1 卷积层</strong></a></li></ul></li><li><a href=#池化层pooling><strong>池化层（Pooling）</strong></a><ul><li><a href=#最大池化层和平均池化层maximum-pooling-and-average-pooling><strong>最大池化层和平均池化层（Maximum Pooling and Average Pooling）</strong></a></li><li><a href=#填充步幅以及多通道padding-stride-and-multiple-channels><strong>填充，步幅以及多通道（Padding, Stride, and Multiple Channels）</strong></a></li><li><a href=#池化的主要作用><strong>池化的主要作用</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
