@@ -11,9 +11,6 @@ Note： 正则化通常只在模型的训练（training）阶段生效，不会�
   #
 
 许多正则化方法都是通过向目标函数 
-
-
-
   \(J\)
 
  添加参数范数惩罚 
@@ -102,8 +99,7 @@ Note： 正则化通常只在模型的训练（training）阶段生效，不会�
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
 <label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Regularization</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#参数范数惩罚parameter-norm-penalties><strong>参数范数惩罚（Parameter Norm Penalties）</strong></a><ul><li><a href=#直观理解参数范数正则化的作用><strong>直观理解参数范数正则化的作用</strong></a></li><li><a href=#l2-正则化l2-regularization><strong>L2 正则化（L2 Regularization）</strong></a></li><li><a href=#l1-正则化l1-regularization><strong>L1 正则化（L1 Regularization）</strong></a></li></ul></li><li><a href=#数据增强dataset-augmentation><strong>数据增强（Dataset Augmentation）</strong></a><ul><li><a href=#图像数据增强><strong>图像数据增强</strong></a></li><li><a href=#文本数据增强><strong>文本数据增强</strong></a></li><li><a href=#时间序列数据增强><strong>时间序列数据增强</strong></a></li></ul></li><li><a href=#噪声注入noise-injection><strong>噪声注入（Noise Injection）</strong></a><ul><li><a href=#常见的噪声注入方法><strong>常见的噪声注入方法</strong></a></li></ul></li><li><a href=#正则化在神经网络中的应用><strong>正则化在神经网络中的应用</strong></a><ul><li><a href=#weight-decay><strong>Weight Decay</strong></a></li><li><a href=#early-stopping><strong>Early Stopping</strong></a></li><li><a href=#dropout><strong>Dropout</strong></a></li><li><a href=#batch-normalization><strong>Batch Normalization</strong></a></li></ul></li><li><a href=#集成学习算法ensemble-methods><strong>集成学习算法（Ensemble Methods）</strong></a></li><li><a href=#对抗训练adversarial-training><strong>对抗训练（Adversarial Training）</strong></a><ul><li><a href=#对抗样本的概念><strong>对抗样本的概念</strong></a></li><li><a href=#对抗训练的过程><strong>对抗训练的过程</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=正则化regularization><strong>正则化（Regularization）</strong>
 <a class=anchor href=#%e6%ad%a3%e5%88%99%e5%8c%96regularization>#</a></h1><p>Regularization 是一种用于<strong>防止机器学习模型过拟合（overfitting）<strong>的技术。通过在损失函数中添加正则化项（regularization term）等技术，限制模型的复杂度，从而</strong>提高模型的泛化能力（generalization ability）</strong>。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> 正则化通常<strong>只在模型的训练（training）阶段生效</strong>，不会直接影响 <strong>验证（validation）阶段</strong>和 <strong>推理（inference）阶段</strong>。</p></blockquote><h2 id=参数范数惩罚parameter-norm-penalties><strong>参数范数惩罚（Parameter Norm Penalties）</strong>
-<a class=anchor href=#%e5%8f%82%e6%95%b0%e8%8c%83%e6%95%b0%e6%83%a9%e7%bd%9aparameter-norm-penalties>#</a></h2><p>许多正则化方法都是通过向目标函数
-<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(J\)
+<a class=anchor href=#%e5%8f%82%e6%95%b0%e8%8c%83%e6%95%b0%e6%83%a9%e7%bd%9aparameter-norm-penalties>#</a></h2><p>许多正则化方法都是通过向目标函数 <span>\(J\)
 </span>添加参数范数惩罚 <span>\(\Omega(\theta)\)
 </span>来限制模型（例如神经网络、线性回归或逻辑回归）的容量。我们将正则化的目标函数表示为 <span>\(\tilde{J}\)
 </span>：</p><span>\[
