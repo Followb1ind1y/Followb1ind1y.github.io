@@ -1,0 +1,112 @@
+<!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
+  循环神经网络（Recurrent Neural Networks）
+  #
+
+传统的机器学习模型（如线性回归、逻辑回归和多层感知机）主要针对固定长度的数据，比如表格数据，这些数据通常以行和列的形式组织，其中每一行是一个样本，每一列是一个特征。对于这些模型，数据的结构并不重要，只需确保每个样本的特征数量固定即可。
+在处理图像数据时，由于图像包含固定长度的像素信息，我们可以引入卷积神经网络（CNN）来捕获数据的层次结构和空间不变性。然而，这类数据仍然是固定长度的，例如Fashion-MNIST数据集中每张图像是固定大小的 
+
+
+
+  \(28 \times 28\)
+
+ 的像素网格。
+许多学习任务需要处理序列数据（Sequential Data）。例如，图像字幕生成、语音合成和音乐生成需要模型输出序列化数据；而时间序列预测、视频分析等任务需要模型从序列化数据中学习。在自然语言处理、对话系统设计、机器人控制等领域，这些输入和输出的序列特性通常同时存在。
+循环神经网络（RNN） 是一种深度学习模型，专门设计用来捕获序列数据的动态特性。通过引入循环连接（可看作网络中的循环边），RNN能够跨时间步共享参数并传递信息。在展开视图中（即将循环连接按时间步展开），RNN可以看作一种特殊的前馈神经网络，其参数在各时间步间共享。循环连接动态地跨时间步传播信息，而常规连接则在同一时间步内传播信息。
+RNN的核心思想是：许多输入和目标无法轻易表示为固定长度的向量，但可以表示为固定长度向量的变长序列。例如，文档可以表示为单词序列，医疗记录可以表示为事件序列，视频可以表示为静态图像序列。
+
+
+  处理序列（Working with Sequences）
+  #
+
+在传统模型中，输入通常是单一的特征向量（feature vector）。而在处理序列数据时，输入变为一个有序的特征向量列表，每个特征向量按照时间步（time step）进行索引。这样的序列数据在许多场景中广泛存在，例如长时间的传感器数据流、文本序列或病人住院记录。
+对于序列数据，有两种主要形式：
+
+单个超长序列（如气候科学中的传感器数据流），可以通过随机采样固定长度的子序列生成训练数据集。
+独立的多个序列集合（如文档集合，每个文档由不同长度的单词序列表示；或住院记录，每次住院由不同长度的事件序列组成）。
+
+在传统的独立样本假设下，我们认为每个输入样本是从相同分布中独立采样的。而在序列数据中，尽管整个序列可以被认为是独立的，但序列内部的时间步之间往往具有强相关性。例如，文档后续单词的出现通常依赖于前面的单词，病人第10天的用药往往取决于前9天的病情记录。这种依赖性正是序列模型存在的意义：如果序列中的元素互不相关，就没有必要将其建模为序列。序列模型的核心在于捕捉这些依赖性。
+根据任务目标的不同，序列建模可以分为以下几种类型：
+
+固定目标预测：给定一个序列输入，预测一个固定目标，例如基于电影评论进行情感分类。
+序列目标预测：给定固定输入，预测一个序列目标，例如图像描述生成。
+序列到序列预测：同时处理序列输入和序列输出。例如：
+
+对齐的序列到序列任务：输入和输出在时间步上逐一对应，如词性标注（part-of-speech tagging）。
+非对齐的序列到序列任务：输入与输出没有严格的时间步对应关系，如机器翻译或视频字幕生成。
+
+
+
+
+
+  自回归模型（Autoregressive Models）
+  #
+
+假设一位交易员希望进行短期交易，根据对下一时间步指数价格涨跌的预测来决定买入或卖出。如果没有其他辅助特征（如新闻或财报数据），交易员只能依据截至当前的价格历史数据预测下一时刻的价格。这时需要估计的就是价格在下一时间步可能取值的概率分布 
+  \(P(x_{t+1} | x_1, \dots, x_t)\)
+
+。由于直接估计连续变量的整个概率分布较为困难，交易员通常更关注分布的一些关键统计量，例如期望值（expected value）和方差（variance）。
+一种简单的估计条件期望的方法是应用线性回归模型（linear regression model），即根据信号的历史值预测其未来值。这类模型被称为自回归模型（autoregressive models）。自回归模型假设当前时间步的观测值 
+  \(x_t\)
+
+ 是之前时间步观测值 
+  \(x_{t-1}, x_{t-2}, \dots\)
+
+ 的线性组合加上一个随机噪声项 
+  \(\epsilon_t\)
+
+。表达式如下：
+
+  \[
+x_t = c + \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + \epsilon_t
+\]
+
+"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/deep-learning/recurrent-neural-networks/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Recurrent Neural Networks"><meta property="og:description" content="循环神经网络（Recurrent Neural Networks） # 传统的机器学习模型（如线性回归、逻辑回归和多层感知机）主要针对固定长度的数据，比如表格数据，这些数据通常以行和列的形式组织，其中每一行是一个样本，每一列是一个特征。对于这些模型，数据的结构并不重要，只需确保每个样本的特征数量固定即可。
+在处理图像数据时，由于图像包含固定长度的像素信息，我们可以引入卷积神经网络（CNN）来捕获数据的层次结构和空间不变性。然而，这类数据仍然是固定长度的，例如Fashion-MNIST数据集中每张图像是固定大小的 \(28 \times 28\) 的像素网格。
+许多学习任务需要处理序列数据（Sequential Data）。例如，图像字幕生成、语音合成和音乐生成需要模型输出序列化数据；而时间序列预测、视频分析等任务需要模型从序列化数据中学习。在自然语言处理、对话系统设计、机器人控制等领域，这些输入和输出的序列特性通常同时存在。
+循环神经网络（RNN） 是一种深度学习模型，专门设计用来捕获序列数据的动态特性。通过引入循环连接（可看作网络中的循环边），RNN能够跨时间步共享参数并传递信息。在展开视图中（即将循环连接按时间步展开），RNN可以看作一种特殊的前馈神经网络，其参数在各时间步间共享。循环连接动态地跨时间步传播信息，而常规连接则在同一时间步内传播信息。
+RNN的核心思想是：许多输入和目标无法轻易表示为固定长度的向量，但可以表示为固定长度向量的变长序列。例如，文档可以表示为单词序列，医疗记录可以表示为事件序列，视频可以表示为静态图像序列。
+处理序列（Working with Sequences） # 在传统模型中，输入通常是单一的特征向量（feature vector）。而在处理序列数据时，输入变为一个有序的特征向量列表，每个特征向量按照时间步（time step）进行索引。这样的序列数据在许多场景中广泛存在，例如长时间的传感器数据流、文本序列或病人住院记录。
+对于序列数据，有两种主要形式：
+单个超长序列（如气候科学中的传感器数据流），可以通过随机采样固定长度的子序列生成训练数据集。 独立的多个序列集合（如文档集合，每个文档由不同长度的单词序列表示；或住院记录，每次住院由不同长度的事件序列组成）。 在传统的独立样本假设下，我们认为每个输入样本是从相同分布中独立采样的。而在序列数据中，尽管整个序列可以被认为是独立的，但序列内部的时间步之间往往具有强相关性。例如，文档后续单词的出现通常依赖于前面的单词，病人第10天的用药往往取决于前9天的病情记录。这种依赖性正是序列模型存在的意义：如果序列中的元素互不相关，就没有必要将其建模为序列。序列模型的核心在于捕捉这些依赖性。
+根据任务目标的不同，序列建模可以分为以下几种类型：
+固定目标预测：给定一个序列输入，预测一个固定目标，例如基于电影评论进行情感分类。 序列目标预测：给定固定输入，预测一个序列目标，例如图像描述生成。 序列到序列预测：同时处理序列输入和序列输出。例如： 对齐的序列到序列任务：输入和输出在时间步上逐一对应，如词性标注（part-of-speech tagging）。 非对齐的序列到序列任务：输入与输出没有严格的时间步对应关系，如机器翻译或视频字幕生成。 自回归模型（Autoregressive Models） # 假设一位交易员希望进行短期交易，根据对下一时间步指数价格涨跌的预测来决定买入或卖出。如果没有其他辅助特征（如新闻或财报数据），交易员只能依据截至当前的价格历史数据预测下一时刻的价格。这时需要估计的就是价格在下一时间步可能取值的概率分布 \(P(x_{t+1} | x_1, \dots, x_t)\) 。由于直接估计连续变量的整个概率分布较为困难，交易员通常更关注分布的一些关键统计量，例如期望值（expected value）和方差（variance）。
+一种简单的估计条件期望的方法是应用线性回归模型（linear regression model），即根据信号的历史值预测其未来值。这类模型被称为自回归模型（autoregressive models）。自回归模型假设当前时间步的观测值 \(x_t\) 是之前时间步观测值 \(x_{t-1}, x_{t-2}, \dots\) 的线性组合加上一个随机噪声项 \(\epsilon_t\) 。表达式如下： \[ x_t = c + \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + \epsilon_t \]"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Recurrent Neural Networks | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.2f118f3dcca05c48f29e7b7daacdc9b4cc02501048d4def80debfefb752e4193.js integrity="sha256-LxGPPcygXEjynnt9qs3JtMwCUBBI1N74Dev++3UuQZM=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
+<label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
+<label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
+<label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/recurrent-neural-networks/ class=active>Recurrent Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/computer-vision/>Computer Vision</a><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
+<label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Recurrent Neural Networks</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=循环神经网络recurrent-neural-networks><strong>循环神经网络（Recurrent Neural Networks）</strong>
+<a class=anchor href=#%e5%be%aa%e7%8e%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9crecurrent-neural-networks>#</a></h1><p>传统的机器学习模型（如线性回归、逻辑回归和多层感知机）主要针对固定长度的数据，比如表格数据，这些数据通常以行和列的形式组织，其中每一行是一个样本，每一列是一个特征。对于这些模型，<strong>数据的结构并不重要</strong>，只需确保每个样本的<strong>特征数量固定</strong>即可。</p><p>在处理图像数据时，由于图像包含固定长度的像素信息，我们可以引入卷积神经网络（CNN）来捕获数据的层次结构和空间不变性。然而，<strong>这类数据仍然是固定长度的</strong>，例如Fashion-MNIST数据集中每张图像是固定大小的
+<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(28 \times 28\)
+</span>的像素网格。</p><p>许多学习任务需要<strong>处理序列数据（Sequential Data）</strong>。例如，图像字幕生成、语音合成和音乐生成需要模型输出序列化数据；而时间序列预测、视频分析等任务需要模型从序列化数据中学习。在自然语言处理、对话系统设计、机器人控制等领域，这些输入和输出的序列特性通常同时存在。</p><p>循环神经网络（RNN） 是一种深度学习模型，专门设计用来捕获序列数据的动态特性。通过引入循环连接（可看作网络中的循环边），RNN能够跨时间步共享参数并传递信息。在展开视图中（即将循环连接按时间步展开），RNN可以看作一种特殊的前馈神经网络，其参数在各时间步间共享。循环连接动态地跨时间步传播信息，而常规连接则在同一时间步内传播信息。</p><p><strong>RNN的核心思想</strong>是：许多输入和目标<strong>无法轻易表示为固定长度的向量</strong>，但<strong>可以表示为固定长度向量的变长序列</strong>。例如，文档可以表示为单词序列，医疗记录可以表示为事件序列，视频可以表示为静态图像序列。</p><hr><h2 id=处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong>
+<a class=anchor href=#%e5%a4%84%e7%90%86%e5%ba%8f%e5%88%97working-with-sequences>#</a></h2><p>在传统模型中，输入通常是<strong>单一的特征向量（feature vector）</strong>。而在处理序列数据时，输入变为一个<strong>有序的特征向量列表</strong>，每个特征向量按照时间步（time step）进行索引。这样的序列数据在许多场景中广泛存在，例如长时间的传感器数据流、文本序列或病人住院记录。</p><p>对于序列数据，有两种主要形式：</p><ol><li><strong>单个超长序列</strong>（如气候科学中的传感器数据流），可以通过随机<strong>采样固定长度的子序列生成训练数据集</strong>。</li><li><strong>独立的多个序列集合</strong>（如文档集合，每个文档由不同长度的单词序列表示；或住院记录，每次住院由不同长度的事件序列组成）。</li></ol><p>在传统的独立样本假设下，我们认为每个输入<strong>样本是从相同分布中独立采样的</strong>。而在序列数据中，尽管整个序列可以被认为是独立的，但<strong>序列内部的时间步之间往往具有强相关性</strong>。例如，文档后续单词的出现通常依赖于前面的单词，病人第10天的用药往往取决于前9天的病情记录。这种依赖性正是序列模型存在的意义：<strong>如果序列中的元素互不相关，就没有必要将其建模为序列</strong>。序列模型的核心在于捕捉这些依赖性。</p><p>根据任务目标的不同，序列建模可以分为以下几种类型：</p><ol><li><strong>固定目标预测</strong>：给定一个序列输入，预测一个固定目标，例如基于电影评论进行情感分类。</li><li><strong>序列目标预测</strong>：给定固定输入，预测一个序列目标，例如图像描述生成。</li><li><strong>序列到序列预测</strong>：同时处理序列输入和序列输出。例如：<ul><li>对齐的序列到序列任务：输入和输出在时间步上逐一对应，如词性标注（part-of-speech tagging）。</li><li>非对齐的序列到序列任务：输入与输出没有严格的时间步对应关系，如机器翻译或视频字幕生成。</li></ul></li></ol><hr><h3 id=自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong>
+<a class=anchor href=#%e8%87%aa%e5%9b%9e%e5%bd%92%e6%a8%a1%e5%9e%8bautoregressive-models>#</a></h3><p>假设一位交易员希望进行短期交易，根据对下一时间步指数价格涨跌的预测来决定买入或卖出。如果没有其他辅助特征（如新闻或财报数据），交易员只能依据截至当前的价格历史数据预测下一时刻的价格。这时需要估计的就是价格在下一时间步可能取值的概率分布 <span>\(P(x_{t+1} | x_1, \dots, x_t)\)
+</span>。由于直接估计连续变量的整个概率分布较为困难，交易员通常更关注分布的一些关键统计量，例如期望值（expected value）和方差（variance）。</p><p>一种简单的估计条件期望的方法是应用线性回归模型（linear regression model），即<strong>根据信号的历史值预测其未来值</strong>。这类模型被称为<strong>自回归模型（autoregressive models）</strong>。自回归模型假设当前时间步的观测值 <span>\(x_t\)
+</span>是之前时间步观测值 <span>\(x_{t-1}, x_{t-2}, \dots\)
+</span>的线性组合加上一个随机噪声项 <span>\(\epsilon_t\)
+</span>。表达式如下：
+<span>\[
+x_t = c + \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + \epsilon_t
+\]</span></p><blockquote class="book-hint warning"><p>自回归模型特指那些<strong>仅依赖于序列本身的历史观测值进行预测</strong>的统计模型。如果模型涉及到外部因素、非线性关系或更复杂的结构（如RNN、LSTM等），则它们不再是严格意义上的自回归模型。</p></blockquote><p>然而，自回归模型面临一个主要问题：输入数量 <span>\(t\)
+</span><strong>随着时间步数增长而变化</strong>，导致每个样本的<strong>特征数量不一致</strong>。这给训练过程带来了挑战，因为许多模型（例如线性回归或深度网络）都<strong>要求固定长度的输入向量</strong>。克服这一挑战的常用策略有：</p><ol><li><strong>窗口化（Windowing）</strong>：为了简化模型的输入维度，可以假设在预测短期未来时，仅需要观察最近的 <span>\(\tau\)
+</span>个时间步数据，而无需回溯到整个历史。这种情况下，只需使用一个长度为 <span>\(\tau\)
+</span>的<strong>滑动窗口 <span>\((x_{t-\tau+1}, \dots, x_t)\)
+</span>作为输入</strong>。这种方式<strong>确保了输入特征的数量固定</strong>，适用于许多要求固定输入长度的模型。</li><li><strong>隐变量模型（Latent Autoregressive Models）</strong>：构建一种模型，该模型通过<strong>维护一个过去观测值的总结 <span>\(h_t\)
+</span>来压缩历史信息</strong>。在每个时间步，该模型<strong>不仅预测 <span>\(x_{t+1}\)
+</span>，还更新摘要 <span>\(h_{t+1} = g(h_t, x_t)\)
+</span></strong>。由于 <span>\(h_t\)
+</span>是未观测到的<strong>隐变量（latent variable）</strong>，这样的模型也被称为<strong>隐变量自回归模型</strong>。这种方法可以捕捉更复杂的历史依赖关系。</li></ol><div align=center><img src=/images/sequence-model.svg width=300px/></div><hr><h3 id=序列模型sequence-models><strong>序列模型（Sequence Models）</strong>
+<a class=anchor href=#%e5%ba%8f%e5%88%97%e6%a8%a1%e5%9e%8bsequence-models>#</a></h3><p>在处理序列数据，尤其是语言时，我们常常希望估计整个序列的联合概率。这种任务通常被称为<strong>序列建模（sequence modeling）</strong>，在自然语言处理中，序列建模常被称为语言模型（language model）。语言模型不仅可以用来评估句子的可能性，还能生成新序列或优化生成的序列。在语言建模中，我们可以通过链式法则将序列的联合概率分解成条件概率的乘积，从而将问题转化为自回归预测（autoregressive prediction）。如果序列数据是离散信号（如单词），<strong>自回归模型通常是一个概率分类器，输出词汇表中下一个词的概率分布</strong>。
+<span>\[
+P(x_1, \ldots, x_T) = P(x_1) \prod_{t=2}^T P(x_t \mid x_{t-1}, \ldots, x_1)
+\]</span></p><p>有时我们会希望在建模时 <strong>仅依赖于前几个时间步的历史数据</strong>，而不是整个序列的历史。此时，如果我们丢弃超过前几个时间步的历史而不损失预测能力，我们称该序列满足 <strong>马尔可夫条件（Markov condition）</strong>，即 <strong>未来仅依赖于最近的历史</strong>，而与更早的历史无关。当我们仅依赖于前一个时间步时，数据符合一阶马尔可夫模型；如果依赖于前两个时间步，则符合二阶马尔可夫模型。在实际应用中，我们通常会选择近似满足马尔可夫条件的模型，尽管真实的文本数据会随着更多历史信息的加入逐渐改善预测效果，但增益是有限的。因此，有时我们会选择使用高阶马尔可夫模型，以减少计算和统计上的困难。
+<span>\[
+P(x_1, \ldots, x_T) = P(x_1) \prod_{t=2}^T P(x_t \mid x_{t-1})
+\]</span></p><p>在文本序列解码时，通常选择按照<strong>从左到右的顺序来分解条件概率</strong>。这种顺序更符合我们日常阅读习惯（如大多数语言是从左到右读的），而且我们也能更直观地预测下一个可能出现的词。通过这种方式，我们可以为任意长的序列分配概率，只需要将新的词的条件概率乘以前面已计算的概率。此外，<strong>预测相邻词的模型通常比预测其他位置的词更加精准</strong>，这也是选择从左到右解码的一个原因。对于许多数据类型来说，这种顺序的预测比其他顺序更易于建模。例如，在因果结构数据中，未来的事件不能影响过去的事件，这使得从当前时刻预测未来比反向预测更容易。</p><blockquote class="book-hint warning"><p>基于 n-阶马尔可夫条件（Markov condition），即只依赖于前 n 个数据点来做预测。当我们用这种方式进行 <strong>一步预测（one-step-ahead prediction）时，模型效果良好，因为它依赖于已知的历史数据</strong>。（e.g. 基于时间点604 预测时间点 605）</p><p>然而，当我们进行 <strong>多步预测（multi-step-ahead prediction）</strong> 时，问题变得复杂。（e.g. 基于时间点604 预测时间点 609）我们无法直接通过已知数据计算预测值，因此我们需要利用先前的预测值作为输入来进行后续预测（e.g. 因为我们没有时间点 605-608 的数据，所以需要根据 604 先预测 605，再依据 605 预测 606，以此类推）。<strong>这种逐步递推的方式会导致预测的误差在每一步都积累。这些误差会随着时间步的推进而累积，导致预测结果逐渐偏离真实值</strong>。就像天气预报一样，短期预测较为准确，但长期预测误差逐渐增大。</p></blockquote><hr><h2 id=文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong>
+<a class=anchor href=#%e6%96%87%e6%9c%ac%e9%a2%84%e5%a4%84%e7%90%86converting-raw-text-into-sequence-data>#</a></h2><p>在处理文本数据时，我们通常需要将原始文本转换为适合模型使用的数值形式。这一过程包含以下几个步骤：</p><ol><li><strong>读取文本数据</strong>：将原始文本加载为字符串，并预处理以去掉标点和大小写。</li><li><strong>分词（Tokenization）</strong>：将文本分割为基本的语义单元（Token）。Token可以是单词、字符，或更小的词片（Word Piece）。例如，句子“Baby needs a new pair of shoes”可以被表示为包含7个单词的序列或30个字符的序列。选择哪种形式取决于具体应用。</li><li><strong>构建词汇表（Vocabulary）</strong>：将Token映射到唯一的数值索引。首先确定训练数据中所有唯一Token的集合，并为每个Token分配索引。构建好的词汇表可以将字符串转换为数值序列，同时保留原始信息，支持将数值序列还原为字符串。例如：<pre tabindex=0><code>文本: [&#39;the&#39;, &#39;time&#39;, &#39;machine&#39;, &#39;by&#39;, &#39;h&#39;, &#39;g&#39;, &#39;wells&#39;]
+索引: [1, 19, 50, 40, 2183, 2184, 400]
+文本: [&#39;twinkled&#39;, &#39;and&#39;, &#39;his&#39;, &#39;usually&#39;, &#39;pale&#39;, &#39;face&#39;]
+索引: [2186, 3, 25, 1044, 362, 113]
+</code></pre></li><li>组合到方法中：以HG Wells的《时间机器》为例，数据预处理包括：将文本分割为字符（简化模型训练），并将整个文本转化为一个数值索引的列表，而非分割为句子或段落。</li></ol></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li></ul></nav></div></aside></main></body></html>
