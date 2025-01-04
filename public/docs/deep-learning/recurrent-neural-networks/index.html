@@ -71,13 +71,13 @@ RNN的核心思想是：许多输入和目标无法轻易表示为固定长度�
 根据任务目标的不同，序列建模可以分为以下几种类型：
 固定目标预测：给定一个序列输入，预测一个固定目标，例如基于电影评论进行情感分类。 序列目标预测：给定固定输入，预测一个序列目标，例如图像描述生成。 序列到序列预测：同时处理序列输入和序列输出。例如： 对齐的序列到序列任务：输入和输出在时间步上逐一对应，如词性标注（part-of-speech tagging）。 非对齐的序列到序列任务：输入与输出没有严格的时间步对应关系，如机器翻译或视频字幕生成。 自回归模型（Autoregressive Models） # 假设一位交易员希望进行短期交易，根据对下一时间步指数价格涨跌的预测来决定买入或卖出。如果没有其他辅助特征（如新闻或财报数据），交易员只能依据截至当前的价格历史数据预测下一时刻的价格。这时需要估计的就是价格在下一时间步可能取值的概率分布 \(P(x_{t+1} | x_1, \dots, x_t)\) 。由于直接估计连续变量的整个概率分布较为困难，交易员通常更关注分布的一些关键统计量，例如期望值（expected value）和方差（variance）。
 一种简单的估计条件期望的方法是应用线性回归模型（linear regression model），即根据信号的历史值预测其未来值。这类模型被称为自回归模型（autoregressive models）。自回归模型假设当前时间步的观测值 \(x_t\) 是之前时间步观测值 \(x_{t-1}, x_{t-2}, \dots\) 的线性组合加上一个随机噪声项 \(\epsilon_t\) 。表达式如下： \[ x_t = c + \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + \epsilon_t \]"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Recurrent Neural Networks | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.2f118f3dcca05c48f29e7b7daacdc9b4cc02501048d4def80debfefb752e4193.js integrity="sha256-LxGPPcygXEjynnt9qs3JtMwCUBBI1N74Dev++3UuQZM=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.a9562bac692c2135416893f152862cca7df7a208f560bce73a4f1ce459071b81.js integrity="sha256-qVYrrGksITVBaJPxUoYsyn33ogj1YLznOk8c5FkHG4E=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
 <label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/recurrent-neural-networks/ class=active>Recurrent Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/computer-vision/>Computer Vision</a><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Recurrent Neural Networks</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=循环神经网络recurrent-neural-networks><strong>循环神经网络（Recurrent Neural Networks）</strong>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Recurrent Neural Networks</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li><li><a href=#语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong></a><ul><li></li><li><a href=#困惑度perplexity><strong>困惑度（Perplexity）</strong></a></li><li><a href=#读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong></a></li></ul></li><li><a href=#循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong></a><ul><li><a href=#rnn的结构与计算><strong>RNN的结构与计算</strong></a></li><li><a href=#基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=循环神经网络recurrent-neural-networks><strong>循环神经网络（Recurrent Neural Networks）</strong>
 <a class=anchor href=#%e5%be%aa%e7%8e%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9crecurrent-neural-networks>#</a></h1><p>传统的机器学习模型（如线性回归、逻辑回归和多层感知机）主要针对固定长度的数据，比如表格数据，这些数据通常以行和列的形式组织，其中每一行是一个样本，每一列是一个特征。对于这些模型，<strong>数据的结构并不重要</strong>，只需确保每个样本的<strong>特征数量固定</strong>即可。</p><p>在处理图像数据时，由于图像包含固定长度的像素信息，我们可以引入卷积神经网络（CNN）来捕获数据的层次结构和空间不变性。然而，<strong>这类数据仍然是固定长度的</strong>，例如Fashion-MNIST数据集中每张图像是固定大小的
 <link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(28 \times 28\)
 </span>的像素网格。</p><p>许多学习任务需要<strong>处理序列数据（Sequential Data）</strong>。例如，图像字幕生成、语音合成和音乐生成需要模型输出序列化数据；而时间序列预测、视频分析等任务需要模型从序列化数据中学习。在自然语言处理、对话系统设计、机器人控制等领域，这些输入和输出的序列特性通常同时存在。</p><p>循环神经网络（RNN） 是一种深度学习模型，专门设计用来捕获序列数据的动态特性。通过引入循环连接（可看作网络中的循环边），RNN能够跨时间步共享参数并传递信息。在展开视图中（即将循环连接按时间步展开），RNN可以看作一种特殊的前馈神经网络，其参数在各时间步间共享。循环连接动态地跨时间步传播信息，而常规连接则在同一时间步内传播信息。</p><p><strong>RNN的核心思想</strong>是：许多输入和目标<strong>无法轻易表示为固定长度的向量</strong>，但<strong>可以表示为固定长度向量的变长序列</strong>。例如，文档可以表示为单词序列，医疗记录可以表示为事件序列，视频可以表示为静态图像序列。</p><hr><h2 id=处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong>
@@ -109,4 +109,143 @@ P(x_1, \ldots, x_T) = P(x_1) \prod_{t=2}^T P(x_t \mid x_{t-1})
 索引: [1, 19, 50, 40, 2183, 2184, 400]
 文本: [&#39;twinkled&#39;, &#39;and&#39;, &#39;his&#39;, &#39;usually&#39;, &#39;pale&#39;, &#39;face&#39;]
 索引: [2186, 3, 25, 1044, 362, 113]
-</code></pre></li><li>组合到方法中：以HG Wells的《时间机器》为例，数据预处理包括：将文本分割为字符（简化模型训练），并将整个文本转化为一个数值索引的列表，而非分割为句子或段落。</li></ol></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li></ul></nav></div></aside></main></body></html>
+</code></pre></li></ol><hr><h2 id=语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong>
+<a class=anchor href=#%e8%af%ad%e8%a8%80%e6%a8%a1%e5%9e%8b%e5%92%8c%e6%95%b0%e6%8d%ae%e9%9b%86language-models>#</a></h2><p>语言模型通过估计整个文本序列的联合概率 <span>\(P(x_1, x_2, \dots, x_T)\)
+</span>来建模语言，其中 <span>\(T\)
+</span>是文本序列的长度，<span>
+\(x_t\)
+</span>表示序列中的第 <span>\(t\)
+</span>个 token。这种联合概率可以分解为条件概率的连乘形式：
+<span>\[
+P(x_1, x_2, \dots, x_T) = \prod_{t=1}^{T} P(x_t \mid x_1, x_2, \dots, x_{t-1})
+\]</span></p><blockquote><p>比如:
+<span>\[
+\begin{split}\begin{aligned}&P(\textrm{deep}, \textrm{learning}, \textrm{is}, \textrm{fun}) \\
+=&P(\textrm{deep}) P(\textrm{learning} \mid \textrm{deep}) P(\textrm{is} \mid \textrm{deep}, \textrm{learning}) P(\textrm{fun} \mid \textrm{deep}, \textrm{learning}, \textrm{is}).\end{aligned}\end{split}
+\]</span></p></blockquote><p>理想的语言模型不仅可以生成自然语言文本，还可以通过上下文信息生成合理的对话内容。然而，设计这样一个能够真正理解文本含义的系统仍然非常困难。</p><hr><h4 id=概率规则与马尔可夫模型markov-models><strong>概率规则与马尔可夫模型（Markov Models）</strong>
+<a class=anchor href=#%e6%a6%82%e7%8e%87%e8%a7%84%e5%88%99%e4%b8%8e%e9%a9%ac%e5%b0%94%e5%8f%af%e5%a4%ab%e6%a8%a1%e5%9e%8bmarkov-models>#</a></h4><p>在马尔可夫模型中，序列满足一阶马尔可夫性质，即当前状态只依赖于前一个状态。根据依赖长度，模型可分为单词（Unigram）、双词（Bigram）和三词（Trigram）模型。模型参数包括单词概率和条件概率。
+<span>\[
+\begin{split}\begin{aligned}
+P(x_1, x_2, x_3, x_4) &=  P(x_1) P(x_2) P(x_3) P(x_4),\\
+P(x_1, x_2, x_3, x_4) &=  P(x_1) P(x_2  \mid  x_1) P(x_3 \mid x_2) P(x_4 \mid x_3),\\
+P(x_1, x_2, x_3, x_4) &=  P(x_1) P(x_2  \mid  x_1) P(x_3 \mid x_1, x_2) P(x_4 \mid x_2, x_3).
+\end{aligned}\end{split}
+\]</span></p><hr><h4 id=词频估计word-frequency><strong>词频估计（Word Frequency）</strong>
+<a class=anchor href=#%e8%af%8d%e9%a2%91%e4%bc%b0%e8%ae%a1word-frequency>#</a></h4><p>假设训练数据集是一个大规模的文本语料库，例如维基百科条目或网络上发布的所有文本。<strong>单词的概率可以通过该单词在训练数据中的相对词频来计算</strong>。例如，可以通过统计“deep”作为句子开头出现的次数，来估计概率。另一种稍微不准确的方法是统计“deep”出现的总次数，并除以语料库中的总单词数。这种方法对于频繁出现的单词效果较好。进一步地，可以尝试估计二元组（如“deep learning”）的概率：
+<span>\[
+\hat{P}(\textrm{learning} \mid \textrm{deep}) = \frac{\text{Count}(\text{deep, learning})}{\text{Count}(\text{deep})}
+\]
+</span>其中，分子是二元组的出现次数，分母是单个单词的出现次数。然而，估计二元组的概率更加困难，因为“deep learning”这样的二元组在语料库中出现的频率通常较低。对于一些不常见的词组合，可能很难找到足够的出现次数来进行准确的估计。</p><p>对于三元组及以上的组合情况（如“deep learning models”），问题变得更严重。<strong>许多可能的三词组合在语料库中可能完全不存在</strong>。如果不给这些词组合分配一个非零的计数，就无法在语言模型中使用它们。当数据集较小或单词本身极为罕见时，甚至可能找不到这些组合的任何一个实例。</p><p>因此，基于词频的简单统计方法虽然可以处理常见单词和短语，但在应对长序列或罕见组合时存在明显局限性，需要其他方法进行改进。</p><hr><h4 id=拉普拉斯平滑laplace-smoothing><strong>拉普拉斯平滑（Laplace Smoothing）</strong>
+<a class=anchor href=#%e6%8b%89%e6%99%ae%e6%8b%89%e6%96%af%e5%b9%b3%e6%bb%91laplace-smoothing>#</a></h4><p>为此，我们使用拉普拉斯平滑（Laplace Smoothing）来改善上述问题。具体方法是在所有计数中添加一个小常量。 用<span>
+\(n\)
+</span>表示训练集中的单词总数，用<span>
+\(m\)
+</span>表示唯一单词的数量。
+<span>\[
+\begin{split}\begin{aligned}
+\hat{P}(x) & = \frac{n(x) + \epsilon_1/m}{n + \epsilon_1}, \\
+\hat{P}(x' \mid x) & = \frac{n(x, x') + \epsilon_2 \hat{P}(x')}{n(x) + \epsilon_2}, \\
+\hat{P}(x'' \mid x,x') & = \frac{n(x, x',x'') + \epsilon_3 \hat{P}(x'')}{n(x, x') + \epsilon_3}.
+\end{aligned}\end{split}
+\]
+</span>其中 <span>\(\epsilon_1,\epsilon_2\)
+</span>，和 <span>\(\epsilon_3\)
+</span>是超参数。以 <span>\(\epsilon_1\)
+</span>为例：当 <span>\(\epsilon_1=0\)
+</span>时，不应用平滑；当 <span>\(\epsilon_1\)
+</span>接近正无穷大时，<span>
+\(\hat{P}(x)\)
+</span>接近均匀概率分布 <span>\(1/m\)
+</span>。</p><p>然而，这样的模型很容易变得无效，原因如下： 首先，我们需要存储所有的计数； 其次，这完全忽略了单词的意思。 例如，“猫”（cat）和“猫科动物”（feline）可能出现在相关的上下文中， 但是想根据上下文调整这类模型其实是相当困难的。 最后，长单词序列大部分是没出现过的， 因此一个模型如果只是简单地统计先前“看到”的单词序列频率， 那么模型面对这种问题肯定是表现不佳的。</p><hr><h3 id=困惑度perplexity><strong>困惑度（Perplexity）</strong>
+<a class=anchor href=#%e5%9b%b0%e6%83%91%e5%ba%a6perplexity>#</a></h3><p>衡量语言模型质量的一种方法是评估其对文本的预测能力。一个好的语言模型能够<strong>以较高的准确性预测下一个词（token）</strong>。例如，对于短语“It is raining”，不同模型可能生成以下扩展：</p><ol><li>“It is raining outside”（合理且逻辑通顺）</li><li>“It is raining banana tree”（语法正确但意义不通）</li><li>“It is raining piouw;kcj pwepoiut”（完全无意义且不合规范）</li></ol><p>显然，第一个扩展质量最好，模型能够捕获合理的词序和上下文语义。第二个扩展较差，但至少模型学会了单词拼写和部分词语之间的关联性。而第三个扩展表明模型训练不足，无法正确拟合数据。</p><p>为了量化模型质量，可以通过计算序列的似然（likelihood）。然而，直接比较似然值并不直观，因为较短的序列通常有更高的似然值。因此，需要一种标准化的方法使得不同长度的文档结果具有可比性。在信息论中，我们用交叉熵（cross-entropy）衡量模型对序列的预测能力。具体地，对于给定序列 <span>\(x_1, x_2, \ldots, x_n\)
+</span>，交叉熵损失的公式为：
+<span>\[
+\frac{1}{n} \sum_{t=1}^n -\log P(x_t \mid x_{t-1}, \ldots, x_1)
+\]
+</span>这里， <span>\(P(x_t \mid x_{t-1}, \ldots, x_1)\)
+</span>是模型预测的概率，<span>
+\(x_t\)
+</span>是序列中实际的词。这种方法将不同长度文档的性能变得可比。</p><p>自然语言处理领域通常使用<strong>困惑度（Perplexity</strong> 作为评价标准，它是交叉熵损失的指数形式：
+<span>\[
+\text{Perplexity} = \exp\left(-\frac{1}{n} \sum_{t=1}^n \log P(x_t \mid x_{t-1}, \ldots, x_1)\right)
+\]</span></p><p>困惑度可以理解为我们在选择下一个词时<strong>平均可用的真实选项数的倒数</strong>，具体如下：</p><ol><li><strong>最佳情况</strong>：模型对目标词的概率预测为 1，此时困惑度为 1，表明模型预测完全准确。</li><li><strong>最差情况</strong>：模型对目标词的概率预测为 0，此时困惑度为正无穷。</li><li><strong>基线情况</strong>：模型对所有词分布均匀预测，此时困惑度等于词汇表大小 <span>\(V\)
+</span>。这提供了一个非平凡的上界，任何有用的模型都应超越这一基线。</li></ol><p><strong>困惑度越低，模型质量越高</strong>，表明其对文本序列的预测能力越强。</p><hr><h3 id=读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong>
+<a class=anchor href=#%e8%af%bb%e5%8f%96%e9%95%bf%e5%ba%8f%e5%88%97%e6%95%b0%e6%8d%aepartitioning-sequences>#</a></h3><p>由于序列数据本质上是连续的，因此我们在处理数据时需要解决这个问题。为了高效处理数据，模型通常以<strong>固定长度的序列小批量（minibatch）为单位</strong>进行训练。一个关键问题是如何从数据集中随机读取输入序列和目标序列的小批量。</p><p>假设数据集是一个表示语料库中词索引的序列。我们将其划分为固定长度 <span>\(n\)
+</span>的子序列（subsequence）。为了在每个训练周期（epoch）中覆盖几乎所有的词，同时保证随机性，我们在每轮训练开始时丢弃前 <span>\(r\)
+</span>个词，其中 <span>\(r\)
+</span>是从均匀分布随机采样的整数。接下来，将剩余的序列划分为 <span>\(n\)
+</span>长度的子序列。每个子序列从时间步 <span>\(i\)
+</span>的第 <span>\(n\)
+</span>个词开始，可以记为：
+<span>\[
+x_i = \{x_i, x_{i+1}, \ldots, x_{i+n-1}\}
+\]
+</span>假设网络一次只处理具有<span>
+\(n\)
+</span>个时间步的子序列。 下图画出了 从原始文本序列获得子序列的所有不同的方式， 其中<span>
+\(n=5\)
+</span>，并且每个时间步的词元对应于一个字符。</p><div align=center><img src=/images/timemachine-5gram.svg width=300px/></div><hr><h2 id=循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong>
+<a class=anchor href=#%e5%be%aa%e7%8e%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9crnn%e6%a6%82%e8%bf%b0>#</a></h2><p>在用马尔可夫模型和n-gram模型用于语言建模时，这些模型中某一时刻的词（token）只依赖于前 <span>\(n\)
+</span>个词。如果我们希望将更早时间步的词对当前词的影响考虑进来，就需要增加 <span>\(n\)
+</span>的值。然而，随着 <span>\(n\)
+</span>增加，模型参数的数量也会呈指数级增长，因为需要为词汇表中的每个词存储对应的参数。因此， 因此与其将 <span>\(P(x_t \mid x_{t-1}, \ldots, x_{t-n+1})\)
+</span>模型化，不如使用<strong>隐变量模型（latent variable model）</strong>：
+<span>\[
+P(x_t \mid x_{t-1}, \ldots, x_1) \approx P(x_t \mid h_{t-1})
+\]
+</span>潜在变量模型的核心思想是通过<strong>引入一个隐藏状态（hidden state）</strong>，它保存了直到当前时间步的序列信息。具体来说，隐藏状态在任意时间步 <span>\(t\)
+</span>可以通过<strong>当前输入 <span>\(x_t\)
+</span></strong>和<strong>上一个隐藏状态 <span>\(h_{t-1}\)
+</span></strong>来计算：
+<span>\[
+h_t = f(x_{t}, h_{t-1})
+\]
+</span>这里，<span>
+\(f\)
+</span>是一个强大的函数，通过它可以计算隐藏状态。在这个模型中，隐藏状态不仅存储了之前所有的观测数据，而且通过适当设计，可以避免直接增加模型参数的数量。尽管如此，计算和存储的成本仍然可能较高。<strong>循环神经网络（RNN） 就是通过隐藏状态来建模序列数据的神经网络。</strong></p><blockquote class="book-hint warning"><p><strong>Note：</strong> “隐藏层”（hidden layers）和“隐藏状态”（hidden states）是两个完全不同的概念。隐藏层指的是从输入到输出路径中不可见的层，而<strong>隐藏状态是当前步骤的输入，可以通过查看之前的时间步的数据来计算</strong>。</p></blockquote><hr><h3 id=rnn的结构与计算><strong>RNN的结构与计算</strong>
+<a class=anchor href=#rnn%e7%9a%84%e7%bb%93%e6%9e%84%e4%b8%8e%e8%ae%a1%e7%ae%97>#</a></h3><p>在没有隐藏状态的神经网络中（例如多层感知机，MLP），输入通过隐藏层的激活函数进行处理，得到隐藏层的输出。对于每个小批量 <span>\(\mathbf{X} \in \mathbb{R}^{n \times d}\)
+</span>（minibatch）的输入，通过加权求和（包括偏置项），然后应用激活函数来计算隐藏层的输出 <span>\(\mathbf{H} \in \mathbb{R}^{n \times h}\)
+</span>。
+<span>\[
+\mathbf{H} = \phi(\mathbf{X} \mathbf{W}_{xh} + \mathbf{b}_h)
+\]
+</span>这些输出将作为下一层（通常是输出层）的输入。输出层的计算则通过类似于回归问题的方法得到。如果是分类问题，输出层会通过激活函数（如softmax）生成概率分布，来预测输出类别。通过自动微分和随机梯度下降（SGD），可以优化网络的参数。
+<span>\[
+\mathbf{O} = \mathbf{H} \mathbf{W}_{hq} + \mathbf{b}_q,
+\]</span></p><p>然而，当神经网络引入了 <strong>隐藏状态（hidden states）</strong> 时，情况就有所不同。假设在时间步 <span>\(t\)
+</span>时，我们有一个小批量的输入 <span>\(x_t\)
+</span>。与MLP不同，RNN在每个时间步 <span>\(t\)
+</span>都会保存前一个时间步的隐藏状态 <span>\(h_{t-1}\)
+</span>，并使用一个新的权重矩阵 <span>\(W_{hh}\)
+</span>来结合当前输入和前一个时间步的隐藏状态进行计算。具体地，当前时间步的隐藏状态 <span>\(h_t\)
+</span>由<strong>当前输入 <span>\(x_t\)
+</span>和前一时间步的隐藏状态 <span>\(h_{t-1}\)
+</span>共同决定</strong>：
+<span>\[
+\mathbf{H}_t = \phi(\mathbf{X}_t \mathbf{W}_{xh} + \mathbf{H}_{t-1} \mathbf{W}_{hh} + \mathbf{b}_h)
+\]</span></p><p>其中 <span>\(f\)
+</span>表示激活函数，<span>
+\(W_{xh}\)
+</span>是输入到隐藏层的权重，<span>
+\(W_{hh}\)
+</span>是前一时间步隐藏状态到当前时间步的权重，<span>
+\(b_h\)
+</span>是偏置项。通过这种方式，RNN的隐藏层不仅仅依赖于当前输入，还考虑了历史信息，因此具有”记忆”的功能，<strong>隐藏状态就是网络当前时刻的”记忆”</strong>。</p><p>在RNN中，隐藏状态的计算是递归的，意味着它依赖于前一个时间步的状态。这种递归计算的特点使得RNN能够处理序列数据，并捕捉数据中的时序依赖关系。RNN的每一层都执行这一递归计算，被称为<strong>递归层（recurrent layer）</strong>。</p><p>与MLP类似，RNN的输出层的计算也类似，只是它的输入是当前时间步的隐藏状态 <span>\(h_t\)
+</span>。RNN的目标是根据当前的隐藏状态，输出当前时间步的预测结果：
+<span>\[
+\mathbf{O}_t = \mathbf{H}_t \mathbf{W}_{hq} + \mathbf{b}_q
+\]</span></p><div align=center><img src=/images/rnn.svg width=550px/></div><p>上图展示了循环神经网络在三个相邻时间步的计算逻辑。 在任意时间步<span>
+\(t\)
+</span>，隐状态的计算可以被视为：</p><ol><li><strong>拼接当前时间步 <span>\(t\)
+</span>的输入 <span>\(X_t\)
+</span>和前一时间步 <span>\(t-1\)
+</span>的隐状态 <span>\(H_{t-1}\)
+</span></strong>；</li><li>将拼接的结果送入带有激活函数 <span>\(\phi\)
+</span>的全连接层。 全连接层的输出是当前时间步的隐状态<span>
+\(H_{t}\)
+</span>。</li></ol><hr><h3 id=基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong>
+<a class=anchor href=#%e5%9f%ba%e4%ba%8e%e5%be%aa%e7%8e%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e7%9a%84%e5%ad%97%e7%ac%a6%e7%ba%a7%e8%af%ad%e8%a8%80%e6%a8%a1%e5%9e%8b>#</a></h3><p>假设我们将文本“machine”作为输入序列，并且为了简化训练过程，我们将文本划分为字符，而不是词汇。在训练过程中，对于每个时间步，我们对输出层的结果进行 softmax 操作，然后使用交叉熵损失函数计算模型输出和目标之间的误差。在 RNN 中，由于隐层的隐藏状态是递归计算的，因此第 3 个时间步的输出是由“m”、“a”和“c”三个字符决定的。由于训练数据中序列的下一个字符是“h”，因此第 3 个时间步的损失将依赖于基于特征序列“m”、“a”、“c”生成的下一个字符的概率分布，并与目标“h”进行比较。</p><div align=center><img src=/images/rnn-train.svg width=550px/></div><p>在实际应用中，每个字符通常表示为一个维度为 <span>\(d\)
+</span>的向量，而我们使用批量大小 <span>\(B\)
+</span>。因此，在时间步 <span>\(t\)
+</span>时的输入将是一个 <span>\(B \times d\)
+</span>的矩阵。</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li><li><a href=#语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong></a><ul><li></li><li><a href=#困惑度perplexity><strong>困惑度（Perplexity）</strong></a></li><li><a href=#读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong></a></li></ul></li><li><a href=#循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong></a><ul><li><a href=#rnn的结构与计算><strong>RNN的结构与计算</strong></a></li><li><a href=#基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
