@@ -71,13 +71,13 @@ RNN的核心思想是：许多输入和目标无法轻易表示为固定长度�
 根据任务目标的不同，序列建模可以分为以下几种类型：
 固定目标预测：给定一个序列输入，预测一个固定目标，例如基于电影评论进行情感分类。 序列目标预测：给定固定输入，预测一个序列目标，例如图像描述生成。 序列到序列预测：同时处理序列输入和序列输出。例如： 对齐的序列到序列任务：输入和输出在时间步上逐一对应，如词性标注（part-of-speech tagging）。 非对齐的序列到序列任务：输入与输出没有严格的时间步对应关系，如机器翻译或视频字幕生成。 自回归模型（Autoregressive Models） # 假设一位交易员希望进行短期交易，根据对下一时间步指数价格涨跌的预测来决定买入或卖出。如果没有其他辅助特征（如新闻或财报数据），交易员只能依据截至当前的价格历史数据预测下一时刻的价格。这时需要估计的就是价格在下一时间步可能取值的概率分布 \(P(x_{t+1} | x_1, \dots, x_t)\) 。由于直接估计连续变量的整个概率分布较为困难，交易员通常更关注分布的一些关键统计量，例如期望值（expected value）和方差（variance）。
 一种简单的估计条件期望的方法是应用线性回归模型（linear regression model），即根据信号的历史值预测其未来值。这类模型被称为自回归模型（autoregressive models）。自回归模型假设当前时间步的观测值 \(x_t\) 是之前时间步观测值 \(x_{t-1}, x_{t-2}, \dots\) 的线性组合加上一个随机噪声项 \(\epsilon_t\) 。表达式如下： \[ x_t = c + \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + \epsilon_t \]"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Recurrent Neural Networks | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.a9562bac692c2135416893f152862cca7df7a208f560bce73a4f1ce459071b81.js integrity="sha256-qVYrrGksITVBaJPxUoYsyn33ogj1YLznOk8c5FkHG4E=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.8d7dedb748c28c645cbe56c4476a1fa9e07bbcd840fafe24d07b5e0e4b134a1b.js integrity="sha256-jX3tt0jCjGRcvlbER2ofqeB7vNhA+v4k0HteDksTShs=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
 <label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/recurrent-neural-networks/ class=active>Recurrent Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/computer-vision/>Computer Vision</a><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Recurrent Neural Networks</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li><li><a href=#语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong></a><ul><li></li><li><a href=#困惑度perplexity><strong>困惑度（Perplexity）</strong></a></li><li><a href=#读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong></a></li></ul></li><li><a href=#循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong></a><ul><li><a href=#rnn的结构与计算><strong>RNN的结构与计算</strong></a></li><li><a href=#基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=循环神经网络recurrent-neural-networks><strong>循环神经网络（Recurrent Neural Networks）</strong>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Recurrent Neural Networks</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li><li><a href=#语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong></a><ul><li></li><li><a href=#困惑度perplexity><strong>困惑度（Perplexity）</strong></a></li><li><a href=#读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong></a></li></ul></li><li><a href=#循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong></a><ul><li><a href=#rnn的结构与计算><strong>RNN的结构与计算</strong></a></li><li><a href=#基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong></a></li><li><a href=#one-hot-encoding-独热编码><strong>One-Hot Encoding 独热编码</strong></a></li><li><a href=#梯度裁剪gradient-clipping><strong>梯度裁剪（Gradient Clipping）</strong></a></li><li><a href=#解码-decoding><strong>解码 (Decoding)</strong></a></li></ul></li><li><a href=#简单循环神经网络实现><strong>简单循环神经网络实现</strong></a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=循环神经网络recurrent-neural-networks><strong>循环神经网络（Recurrent Neural Networks）</strong>
 <a class=anchor href=#%e5%be%aa%e7%8e%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9crecurrent-neural-networks>#</a></h1><p>传统的机器学习模型（如线性回归、逻辑回归和多层感知机）主要针对固定长度的数据，比如表格数据，这些数据通常以行和列的形式组织，其中每一行是一个样本，每一列是一个特征。对于这些模型，<strong>数据的结构并不重要</strong>，只需确保每个样本的<strong>特征数量固定</strong>即可。</p><p>在处理图像数据时，由于图像包含固定长度的像素信息，我们可以引入卷积神经网络（CNN）来捕获数据的层次结构和空间不变性。然而，<strong>这类数据仍然是固定长度的</strong>，例如Fashion-MNIST数据集中每张图像是固定大小的
 <link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(28 \times 28\)
 </span>的像素网格。</p><p>许多学习任务需要<strong>处理序列数据（Sequential Data）</strong>。例如，图像字幕生成、语音合成和音乐生成需要模型输出序列化数据；而时间序列预测、视频分析等任务需要模型从序列化数据中学习。在自然语言处理、对话系统设计、机器人控制等领域，这些输入和输出的序列特性通常同时存在。</p><p>循环神经网络（RNN） 是一种深度学习模型，专门设计用来捕获序列数据的动态特性。通过引入循环连接（可看作网络中的循环边），RNN能够跨时间步共享参数并传递信息。在展开视图中（即将循环连接按时间步展开），RNN可以看作一种特殊的前馈神经网络，其参数在各时间步间共享。循环连接动态地跨时间步传播信息，而常规连接则在同一时间步内传播信息。</p><p><strong>RNN的核心思想</strong>是：许多输入和目标<strong>无法轻易表示为固定长度的向量</strong>，但<strong>可以表示为固定长度向量的变长序列</strong>。例如，文档可以表示为单词序列，医疗记录可以表示为事件序列，视频可以表示为静态图像序列。</p><hr><h2 id=处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong>
@@ -223,18 +223,39 @@ h_t = f(x_{t}, h_{t-1})
 </span>共同决定</strong>：
 <span>\[
 \mathbf{H}_t = \phi(\mathbf{X}_t \mathbf{W}_{xh} + \mathbf{H}_{t-1} \mathbf{W}_{hh} + \mathbf{b}_h)
-\]</span></p><p>其中 <span>\(f\)
+\]</span></p><p><span>\(\mathbf{X}_t\)
+</span>是当前时间步的输入向量，其维度为 <span>\((\text{batch size}, \text{num inputs})\)
+</span>，其中 <span>\(\text{batch size}\)
+</span>是批量大小，<span>
+\(\text{num inputs}\)
+</span>是每个输入样本的特征数；<span>
+\(\mathbf{H}_{t-1}\)
+</span>是上一时间步的隐藏状态，维度为 <span>\((\text{batch size}, \text{num hiddens})\)
+</span>，<span>
+\(\text{num hiddens}\)
+</span>表示隐藏单元的数量。权重矩阵 <span>\(\mathbf{W}_{xh}\)
+</span>的维度为 <span>\((\text{num inputs}, \text{num hiddens})\)
+</span>，用于将输入特征映射到隐藏单元；<span>
+\(\mathbf{W}_{hh}\)
+</span>的维度为 <span>\((\text{num hiddens}, \text{num hiddens})\)
+</span>，用于描述隐藏单元之间的递归关系；<span>
+\(\mathbf{b}_h\)
+</span>是偏置向量，维度为 <span>\((\text{num hiddens},)\)
+</span>。隐藏状态 <span>\(\mathbf{H}_t\)
+</span>的维度为 <span>\((\text{batch size}, \text{num hiddens})\)
+</span>，是激活函数 <span>\(\phi\)
+</span>作用后的结果，捕捉当前时间步的特征和动态信息。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> RNN 的隐藏单元与普通神经网络（NN）的隐藏单元<strong>有本质的不同</strong>。在传统的前馈神经网络（如全连接层，CNN）中，<strong>隐藏单元主要负责提取固定的特征表示</strong>。每个隐藏单元通常捕捉输入数据中的某种模式（feature），如图像的边缘、纹理或数据的非线性关系。</p><p>RNN 的隐藏单元不再是独立学习某个静态的特征，而是通过递归公式动态更新，捕捉输入序列中的时间依赖性规律，主要用于<strong>总结从时间步 1 到 t 的所有历史信息</strong>。例如，在自然语言处理中，RNN 的隐藏状态可以表示句子中已经看到的词的语义和语法结构。</p><p><strong>RNN 的隐藏状态仅对当前时间有效</strong>。RNN 的设计目标是逐步传播信息。当前时间步的隐藏状态 h_t 是基于前 t 个输入计算的「总结」，只对当前任务有直接的意义。它<strong>并不显式保留每个时间步的特征，而是对这些特征进行压缩和提炼</strong>。随着时间步的增加，隐藏状态会逐渐遗忘较早的输入信息。</p></blockquote><p>其中 <span>\(f\)
 </span>表示激活函数，<span>
 \(W_{xh}\)
 </span>是输入到隐藏层的权重，<span>
 \(W_{hh}\)
 </span>是前一时间步隐藏状态到当前时间步的权重，<span>
 \(b_h\)
-</span>是偏置项。通过这种方式，RNN的隐藏层不仅仅依赖于当前输入，还考虑了历史信息，因此具有”记忆”的功能，<strong>隐藏状态就是网络当前时刻的”记忆”</strong>。</p><p>在RNN中，隐藏状态的计算是递归的，意味着它依赖于前一个时间步的状态。这种递归计算的特点使得RNN能够处理序列数据，并捕捉数据中的时序依赖关系。RNN的每一层都执行这一递归计算，被称为<strong>递归层（recurrent layer）</strong>。</p><p>与MLP类似，RNN的输出层的计算也类似，只是它的输入是当前时间步的隐藏状态 <span>\(h_t\)
+</span>是偏置项。通过这种方式，RNN的隐藏层不仅仅依赖于当前输入，还考虑了历史信息，因此具有”记忆”的功能，<strong>隐藏状态就是网络当前时刻的”记忆”</strong>。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>「num_inputs」 x 表示输入特征的维度</strong>。每个时间步的输入向量长度。如果输入是一个独热编码（one-hot encoding）表示的词汇，num_inputs 就等于词汇表的大小（vocabulary size）。例如，一个词汇表有 10000 个单词，使用独热编码表示每个单词，那么 num_inputs = 10000。</p><p><strong>「num_hiddens」h 表示 RNN 隐藏层中隐藏状态的维度</strong>。隐藏层状态向量的长度，<strong>控制网络的记忆能力</strong>（越大代表记忆能力越强）。每个时间步 RNN 的隐藏状态维度是固定的。如果 num_hiddens = 128，说明每个时间步的隐藏状态是一个 128 维的向量。</p></blockquote><p>在RNN中，隐藏状态的计算是递归的，意味着它依赖于前一个时间步的状态。这种递归计算的特点使得RNN能够处理序列数据，并捕捉数据中的时序依赖关系。RNN的每一层都执行这一递归计算，被称为<strong>递归层（recurrent layer）</strong>。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> 在标准的RNN模型中，隐藏单元（hidden unit）的权重是共享的，<strong>即相同的权重矩阵 W_xh（从输入到隐藏状态的权重）和 W_hh（从上一个时间步的隐藏状态到当前隐藏状态的权重）在每个时间步都会被复用</strong>。这意味着，RNN通过不断更新隐藏状态，并依赖同一组权重来捕捉序列中的时序信息。尽管RNN在每个时间步都会计算新的隐藏状态，但在基础模型中<strong>没有涉及多层结构的概念</strong>。模型的核心是通过递归地传递隐藏状态来逐步更新信息。因此，RNN的“深度”通常指的是层数，在基础RNN中，只需要学习这些基本的权重。</p></blockquote><p>与MLP类似，RNN的输出层的计算也类似，只是它的输入是当前时间步的隐藏状态 <span>\(h_t\)
 </span>。RNN的目标是根据当前的隐藏状态，输出当前时间步的预测结果：
 <span>\[
 \mathbf{O}_t = \mathbf{H}_t \mathbf{W}_{hq} + \mathbf{b}_q
-\]</span></p><div align=center><img src=/images/rnn.svg width=550px/></div><p>上图展示了循环神经网络在三个相邻时间步的计算逻辑。 在任意时间步<span>
+\]</span></p><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>W_hq 是语言模型的输出层权重矩阵</strong>，主要负责将 RNN 隐藏状态（hidden state）映射到词汇表的概率分布。它将隐藏状态 H_{t} 转换为一个向量，其中<strong>每个维度对应词汇表中的一个词的得分</strong>。得分经过 softmax 转换为概率分布，用于预测下一个词的概率。</p><p>W_{xh} 负责将当前输入 X_{t} 映射到隐藏状态空间。 W_{hh} 负责将前一时间步隐藏状态 H_{t-1} 更新到当前时间步隐藏状态 H_{t} 。</p></blockquote><div align=center><img src=/images/rnn.svg width=550px/></div><p>上图展示了循环神经网络在三个相邻时间步的计算逻辑。 在任意时间步<span>
 \(t\)
 </span>，隐状态的计算可以被视为：</p><ol><li><strong>拼接当前时间步 <span>\(t\)
 </span>的输入 <span>\(X_t\)
@@ -243,9 +264,209 @@ h_t = f(x_{t}, h_{t-1})
 </span></strong>；</li><li>将拼接的结果送入带有激活函数 <span>\(\phi\)
 </span>的全连接层。 全连接层的输出是当前时间步的隐状态<span>
 \(H_{t}\)
-</span>。</li></ol><hr><h3 id=基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong>
+</span>。</li></ol><ul><li><strong>RNN 代码实现</strong><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> torch <span style=color:#f92672>import</span> nn
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>RNNScratch</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, num_inputs, num_hiddens, sigma<span style=color:#f92672>=</span><span style=color:#ae81ff>0.01</span>):
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>num_inputs <span style=color:#f92672>=</span> num_inputs
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>num_hiddens <span style=color:#f92672>=</span> num_hiddens
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 初始化权重参数</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>W_xh <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Parameter(
+</span></span><span style=display:flex><span>            torch<span style=color:#f92672>.</span>randn(num_inputs, num_hiddens) <span style=color:#f92672>*</span> sigma)  <span style=color:#75715e># 输入到隐藏层权重</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>W_hh <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Parameter(
+</span></span><span style=display:flex><span>            torch<span style=color:#f92672>.</span>randn(num_hiddens, num_hiddens) <span style=color:#f92672>*</span> sigma)  <span style=color:#75715e># 隐藏层到隐藏层权重</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>b_h <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Parameter(torch<span style=color:#f92672>.</span>zeros(num_hiddens))  <span style=color:#75715e># 隐藏层偏置</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, inputs, state<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> state <span style=color:#f92672>is</span> <span style=color:#66d9ef>None</span>:
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 初始化隐藏状态为零</span>
+</span></span><span style=display:flex><span>            state <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>zeros((inputs<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>1</span>], self<span style=color:#f92672>.</span>num_hiddens))
+</span></span><span style=display:flex><span>        outputs <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> X <span style=color:#f92672>in</span> inputs:  <span style=color:#75715e># X 的形状为 (batch_size, num_inputs)</span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 隐藏状态更新公式</span>
+</span></span><span style=display:flex><span>            state <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>tanh(torch<span style=color:#f92672>.</span>matmul(X, self<span style=color:#f92672>.</span>W_xh) <span style=color:#f92672>+</span>
+</span></span><span style=display:flex><span>                            torch<span style=color:#f92672>.</span>matmul(state, self<span style=color:#f92672>.</span>W_hh) <span style=color:#f92672>+</span> self<span style=color:#f92672>.</span>b_h)
+</span></span><span style=display:flex><span>            outputs<span style=color:#f92672>.</span>append(state)  <span style=color:#75715e># 保存每个时间步的输出</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> outputs, state
+</span></span></code></pre></div></li></ul><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>为什么以列表保存state</strong>？</p><p>在RNN的过程中，我们通常需要保存每个时间步的隐藏状态（state）。在序列输入-序列输出（Sequence-to-Sequence）任务中，比如机器翻译、时间序列预测、语音生成等，<strong>模型需要对每一个时间步生成对应的输出</strong>。在这些情况下，每个时间步的隐藏状态都需要被保存。</p></blockquote><hr><h3 id=基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong>
 <a class=anchor href=#%e5%9f%ba%e4%ba%8e%e5%be%aa%e7%8e%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e7%9a%84%e5%ad%97%e7%ac%a6%e7%ba%a7%e8%af%ad%e8%a8%80%e6%a8%a1%e5%9e%8b>#</a></h3><p>假设我们将文本“machine”作为输入序列，并且为了简化训练过程，我们将文本划分为字符，而不是词汇。在训练过程中，对于每个时间步，我们对输出层的结果进行 softmax 操作，然后使用交叉熵损失函数计算模型输出和目标之间的误差。在 RNN 中，由于隐层的隐藏状态是递归计算的，因此第 3 个时间步的输出是由“m”、“a”和“c”三个字符决定的。由于训练数据中序列的下一个字符是“h”，因此第 3 个时间步的损失将依赖于基于特征序列“m”、“a”、“c”生成的下一个字符的概率分布，并与目标“h”进行比较。</p><div align=center><img src=/images/rnn-train.svg width=550px/></div><p>在实际应用中，每个字符通常表示为一个维度为 <span>\(d\)
 </span>的向量，而我们使用批量大小 <span>\(B\)
 </span>。因此，在时间步 <span>\(t\)
 </span>时的输入将是一个 <span>\(B \times d\)
-</span>的矩阵。</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li><li><a href=#语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong></a><ul><li></li><li><a href=#困惑度perplexity><strong>困惑度（Perplexity）</strong></a></li><li><a href=#读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong></a></li></ul></li><li><a href=#循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong></a><ul><li><a href=#rnn的结构与计算><strong>RNN的结构与计算</strong></a></li><li><a href=#基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
+</span>的矩阵。</p><hr><h3 id=one-hot-encoding-独热编码><strong>One-Hot Encoding 独热编码</strong>
+<a class=anchor href=#one-hot-encoding-%e7%8b%ac%e7%83%ad%e7%bc%96%e7%a0%81>#</a></h3><p>在处理类别型数据（如词汇中的单词或字符）时，常用 <strong>独热编码（One-Hot Encoding）</strong> 表示。独热<strong>向量的长度等于词汇表大小</strong>，<strong>只有一个位置的值为1，其余为0</strong>。例如，词汇表长度为5时，索引0和2的独热向量分别为：<span>
+\([1, 0, 0, 0, 0] \quad \text{and} \quad [0, 0, 1, 0, 0]\)
+</span>。</p><p>对于每个输入的时间步，独热编码生成的输入张量形状为 (<span>
+\(\text{batch size}, \text{time steps}, \text{vocab size}\)
+</span>)。模型通常会转置输入，以方便循环逐时间步更新隐状态。</p><ul><li><strong>RNN One-Hot Encoding运用代码实现</strong><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>RNNLMScratch</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;从零实现的基于 RNN 的语言模型&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, rnn, vocab_size, sigma<span style=color:#f92672>=</span><span style=color:#ae81ff>0.01</span>):
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>rnn <span style=color:#f92672>=</span> rnn  <span style=color:#75715e># RNN 模型</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>vocab_size <span style=color:#f92672>=</span> vocab_size
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 输出层参数</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>W_hq <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Parameter(torch<span style=color:#f92672>.</span>randn(rnn<span style=color:#f92672>.</span>num_hiddens, vocab_size) <span style=color:#f92672>*</span> sigma)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>b_q <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Parameter(torch<span style=color:#f92672>.</span>zeros(vocab_size))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>one_hot</span>(self, X):
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;将输入转换为独热编码&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> F<span style=color:#f92672>.</span>one_hot(X<span style=color:#f92672>.</span>T, self<span style=color:#f92672>.</span>vocab_size)<span style=color:#f92672>.</span>type(torch<span style=color:#f92672>.</span>float32)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>output_layer</span>(self, rnn_outputs):
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;应用输出层将隐藏状态映射到词表&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        outputs <span style=color:#f92672>=</span> [torch<span style=color:#f92672>.</span>matmul(H, self<span style=color:#f92672>.</span>W_hq) <span style=color:#f92672>+</span> self<span style=color:#f92672>.</span>b_q <span style=color:#66d9ef>for</span> H <span style=color:#f92672>in</span> rnn_outputs]
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> torch<span style=color:#f92672>.</span>stack(outputs, dim<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>)  <span style=color:#75715e># 形状: (batch_size, num_steps, vocab_size)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, X, state<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;前向传播&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        embs <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>one_hot(X)  <span style=color:#75715e># 独热编码: (num_steps, batch_size, vocab_size)</span>
+</span></span><span style=display:flex><span>        rnn_outputs, state <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>rnn(embs, state)  <span style=color:#75715e># 经过 RNN</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>output_layer(rnn_outputs), state  <span style=color:#75715e># 返回输出和最终隐藏状态</span>
+</span></span></code></pre></div></li></ul><hr><h3 id=梯度裁剪gradient-clipping><strong>梯度裁剪（Gradient Clipping）</strong>
+<a class=anchor href=#%e6%a2%af%e5%ba%a6%e8%a3%81%e5%89%aagradient-clipping>#</a></h3><p>在RNN中，序列长度引入了新的深度概念：输入不仅在单个时间步内通过网络从输入传播到输出，还需要沿着时间步形成一个深度为 <span>\(T\)
+</span>的层链。反向传播时，<strong>梯度需要通过这条时间链传递，从而形成长度为 <span>\(T\)
+</span>的矩阵乘积链</strong>。由于权重矩阵的特性，梯度可能会出现数值不稳定的情况，导致<strong>梯度爆炸（exploding gradients）或消失（vanishing gradients）</strong>。</p><p>当梯度过大时，可能在一次梯度更新中对模型造成严重破坏，甚至导致训练发散或损失函数不稳定。最直接的方法是：<strong>减小学习率</strong>，但这会降低所有训练步骤的优化效率，即使大梯度事件是少数。<strong>梯度裁剪</strong> 是一种更常见的替代方法是将<strong>梯度投影到一个以半径 <span>\(\theta\)
+</span>为界的球中，限制梯度范数不超过 <span>\(\theta\)
+</span></strong>，公式为：
+<span>\[
+\mathbf{g} \leftarrow \min\left(1, \frac{\theta}{\|\mathbf{g}\|}\right) \mathbf{g}
+\]</span></p><p>这样做确保了梯度大小受到控制，并且更新后的梯度方向与原始梯度一致。这种方法还可以限制单个小批量数据对模型参数的影响，提高模型的鲁棒性。</p><ul><li><strong>梯度裁剪（Gradient Clipping）代码实现</strong>：<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>clip_gradients</span>(model, grad_clip_val):
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 筛选需要梯度更新的参数</span>
+</span></span><span style=display:flex><span>    params <span style=color:#f92672>=</span> [p <span style=color:#66d9ef>for</span> p <span style=color:#f92672>in</span> model<span style=color:#f92672>.</span>parameters() <span style=color:#66d9ef>if</span> p<span style=color:#f92672>.</span>requires_grad]
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 计算梯度的 L2 范数</span>
+</span></span><span style=display:flex><span>    total_norm <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>sqrt(sum(torch<span style=color:#f92672>.</span>sum(p<span style=color:#f92672>.</span>grad <span style=color:#f92672>**</span> <span style=color:#ae81ff>2</span>) <span style=color:#66d9ef>for</span> p <span style=color:#f92672>in</span> params))
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 如果梯度范数超过阈值，则按比例缩小</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> total_norm <span style=color:#f92672>&gt;</span> grad_clip_val:
+</span></span><span style=display:flex><span>        scaling_factor <span style=color:#f92672>=</span> grad_clip_val <span style=color:#f92672>/</span> total_norm
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> param <span style=color:#f92672>in</span> params:
+</span></span><span style=display:flex><span>            param<span style=color:#f92672>.</span>grad[:] <span style=color:#f92672>*=</span> scaling_factor
+</span></span></code></pre></div>梯度裁剪通常在<strong>训练过程的反向传播（backward pass）之后和参数更新（optimizer.step()）之前</strong>执行。这是因为梯度裁剪的目的是直接对反向传播计算得到的梯度进行操作，在它们被优化器用来更新模型参数之前对其进行规范化或限制。<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>for</span> epoch <span style=color:#f92672>in</span> range(num_epochs):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> batch_inputs, batch_targets <span style=color:#f92672>in</span> dataloader:
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 前向传播</span>
+</span></span><span style=display:flex><span>        logits, hidden_state <span style=color:#f92672>=</span> model(batch_inputs, hidden_state)
+</span></span><span style=display:flex><span>        loss <span style=color:#f92672>=</span> criterion(logits<span style=color:#f92672>.</span>view(<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, vocab_size), batch_targets<span style=color:#f92672>.</span>view(<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 反向传播</span>
+</span></span><span style=display:flex><span>        optimizer<span style=color:#f92672>.</span>zero_grad()
+</span></span><span style=display:flex><span>        loss<span style=color:#f92672>.</span>backward()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 自定义梯度裁剪</span>
+</span></span><span style=display:flex><span>        clip_gradients(model, grad_clip_val)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 参数更新</span>
+</span></span><span style=display:flex><span>        optimizer<span style=color:#f92672>.</span>step()
+</span></span></code></pre></div></li></ul><hr><h3 id=解码-decoding><strong>解码 (Decoding)</strong>
+<a class=anchor href=#%e8%a7%a3%e7%a0%81-decoding>#</a></h3><p>在训练好语言模型后，模型不仅可以预测下一个 token，还可以通过将前一个预测的 token 作为输入，连续地预测后续的 token。这种解码过程既可以从一个空白文档开始生成文本，也可以基于用户提供的前缀 (prefix) 来生成。比如，在搜索引擎的自动补全功能或邮件撰写助手中，可以将用户已经输入的内容作为前缀，生成可能的续写。解码过程的步骤可以总结为：</p><ol><li><strong>Warm-up阶段</strong>：<ul><li>解码开始时，将前缀输入到模型中，不输出任何结果。</li><li>目的是通过传递隐藏状态 <span>\(\text{hidden state}\)
+</span>，初始化模型内部状态以适应上下文。</li></ul></li><li><strong>续写生成</strong>：<ul><li>在输入完前缀后，模型开始生成后续字符。</li><li>每次生成一个字符，将其作为下一个时间步的输入，依次循环生成目标长度的文本。</li></ul></li><li><strong>输入和输出映射</strong>：<ul><li>使用独热编码（one-hot embedding）处理输入。</li><li>通过输出层预测字符分布，并选择概率最大的字符作为结果。</li></ul></li></ol><ul><li><strong>RNN 预测部分代码实现</strong><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>predict</span>(model, prefix, num_preds, vocab, device<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    基于前缀生成文本
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    Parameters:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        model: nn.Module
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>            用于生成文本的语言模型，通常包含 RNN 和输出层。
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        prefix: list[str]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>            文本生成的前缀，即用于初始化上下文信息的一段文本序列。例如 [&#34;I&#34;, &#34;love&#34;]。
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        num_preds: int
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>            需要生成的后续单词数（预测的时间步数）。
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        vocab: object
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>            词汇表对象，通常具有以下属性：
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>                - vocab[token]: 将 token 转换为其对应的索引。
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>                - vocab.idx_to_token: 索引到 token 的映射，用于将生成的索引还原为文本。
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    Returns:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        str
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>            拼接后的生成文本，包括前缀和预测的后续内容。
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    state <span style=color:#f92672>=</span> <span style=color:#66d9ef>None</span>  <span style=color:#75715e># 初始化RNN的状态</span>
+</span></span><span style=display:flex><span>    outputs <span style=color:#f92672>=</span> [vocab[prefix[<span style=color:#ae81ff>0</span>]]]  <span style=color:#75715e># 将前缀的第一个字符的索引加入输出序列</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(len(prefix) <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>):  <span style=color:#75715e># Warm-up阶段</span>
+</span></span><span style=display:flex><span>        X <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>tensor([[outputs[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]]], device<span style=color:#f92672>=</span>device)  <span style=color:#75715e># 当前输入</span>
+</span></span><span style=display:flex><span>        embs <span style=color:#f92672>=</span> model<span style=color:#f92672>.</span>one_hot(X)  <span style=color:#75715e># 获取当前输入的独热编码</span>
+</span></span><span style=display:flex><span>        rnn_outputs, state <span style=color:#f92672>=</span> model<span style=color:#f92672>.</span>rnn(embs, state)  <span style=color:#75715e># 经过RNN更新状态</span>
+</span></span><span style=display:flex><span>        outputs<span style=color:#f92672>.</span>append(vocab[prefix[i <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>]])  <span style=color:#75715e># 继续在输出序列中加入前缀的下一个字符</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 预测阶段，生成后续字符</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> _ <span style=color:#f92672>in</span> range(num_preds):  <span style=color:#75715e># 预测num_preds步</span>
+</span></span><span style=display:flex><span>        X <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>tensor([[outputs[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]]], device<span style=color:#f92672>=</span>device)  <span style=color:#75715e># 当前输入</span>
+</span></span><span style=display:flex><span>        embs <span style=color:#f92672>=</span> model<span style=color:#f92672>.</span>one_hot(X)  <span style=color:#75715e># 获取当前输入的独热编码</span>
+</span></span><span style=display:flex><span>        rnn_outputs, state <span style=color:#f92672>=</span> model<span style=color:#f92672>.</span>rnn(embs, state)  <span style=color:#75715e># 经过RNN更新状态</span>
+</span></span><span style=display:flex><span>        Y <span style=color:#f92672>=</span> model<span style=color:#f92672>.</span>output_layer(rnn_outputs)  <span style=color:#75715e># 通过输出层映射到词汇表</span>
+</span></span><span style=display:flex><span>        next_token <span style=color:#f92672>=</span> int(Y<span style=color:#f92672>.</span>argmax(axis<span style=color:#f92672>=</span><span style=color:#ae81ff>2</span>)<span style=color:#f92672>.</span>reshape(<span style=color:#ae81ff>1</span>))  <span style=color:#75715e># 选择最大概率的字符</span>
+</span></span><span style=display:flex><span>        outputs<span style=color:#f92672>.</span>append(next_token)  <span style=color:#75715e># 将预测结果添加到输出序列</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 将索引转为对应的字符并拼接为生成的文本</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#39;&#39;</span><span style=color:#f92672>.</span>join([vocab<span style=color:#f92672>.</span>idx_to_token[i] <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> outputs])
+</span></span></code></pre></div></li></ul><hr><h2 id=简单循环神经网络实现><strong>简单循环神经网络实现</strong>
+<a class=anchor href=#%e7%ae%80%e5%8d%95%e5%be%aa%e7%8e%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e5%ae%9e%e7%8e%b0>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.nn <span style=color:#66d9ef>as</span> nn
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.optim <span style=color:#66d9ef>as</span> optim
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># RNN模型定义</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>RNN</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, num_inputs, num_hiddens):
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>rnn <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>RNN(num_inputs, num_hiddens, batch_first<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, inputs, hidden_state<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>rnn(inputs, hidden_state)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># RNN语言模型定义</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>RNNLM</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;基于RNN的语言模型&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, rnn, vocab_size, num_hiddens, lr<span style=color:#f92672>=</span><span style=color:#ae81ff>1e-2</span>):
+</span></span><span style=display:flex><span>        super(RNNLM, self)<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>rnn <span style=color:#f92672>=</span> rnn
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>vocab_size <span style=color:#f92672>=</span> vocab_size
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>num_hiddens <span style=color:#f92672>=</span> num_hiddens
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>linear <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Linear(num_hiddens, vocab_size)  <span style=color:#75715e># 输出层</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>softmax <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Softmax(dim<span style=color:#f92672>=-</span><span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>lr <span style=color:#f92672>=</span> lr
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, inputs, hidden_state<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 前向传播，输入通过RNN，接着通过线性层</span>
+</span></span><span style=display:flex><span>        rnn_output, hidden_state <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>rnn(inputs, hidden_state)
+</span></span><span style=display:flex><span>        output <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>linear(rnn_output)  <span style=color:#75715e># 获取输出</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> output, hidden_state
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>output_layer</span>(self, hiddens):
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>linear(hiddens)<span style=color:#f92672>.</span>swapaxes(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>init_params</span>(self):
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;初始化模型参数&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> name, param <span style=color:#f92672>in</span> self<span style=color:#f92672>.</span>named_parameters():
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> <span style=color:#e6db74>&#39;weight&#39;</span> <span style=color:#f92672>in</span> name:
+</span></span><span style=display:flex><span>                nn<span style=color:#f92672>.</span>init<span style=color:#f92672>.</span>normal_(param, mean<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>, std<span style=color:#f92672>=</span><span style=color:#ae81ff>0.01</span>)
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>                nn<span style=color:#f92672>.</span>init<span style=color:#f92672>.</span>zeros_(param)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>predict</span>(self, prefix, num_preds, vocab, device<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;基于前缀生成文本&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        state <span style=color:#f92672>=</span> <span style=color:#66d9ef>None</span>
+</span></span><span style=display:flex><span>        outputs <span style=color:#f92672>=</span> [vocab[prefix[<span style=color:#ae81ff>0</span>]]]
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(len(prefix) <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>):  <span style=color:#75715e># Warm-up 阶段</span>
+</span></span><span style=display:flex><span>            X <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>tensor([[outputs[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]]], device<span style=color:#f92672>=</span>device)  <span style=color:#75715e># 当前输入</span>
+</span></span><span style=display:flex><span>            embs <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>one_hot(X)  <span style=color:#75715e># 获取当前输入的独热编码</span>
+</span></span><span style=display:flex><span>            rnn_outputs, state <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>rnn(embs, state)  <span style=color:#75715e># 经过RNN更新状态</span>
+</span></span><span style=display:flex><span>            outputs<span style=color:#f92672>.</span>append(vocab[prefix[i <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>]])  <span style=color:#75715e># 继续在输出序列中加入前缀的下一个字符</span>
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 预测阶段，生成后续字符</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> _ <span style=color:#f92672>in</span> range(num_preds):  <span style=color:#75715e># 预测num_preds步</span>
+</span></span><span style=display:flex><span>            X <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>tensor([[outputs[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]]], device<span style=color:#f92672>=</span>device)  <span style=color:#75715e># 当前输入</span>
+</span></span><span style=display:flex><span>            embs <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>one_hot(X)  <span style=color:#75715e># 获取当前输入的独热编码</span>
+</span></span><span style=display:flex><span>            rnn_outputs, state <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>rnn(embs, state)  <span style=color:#75715e># 经过RNN更新状态</span>
+</span></span><span style=display:flex><span>            Y <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>output_layer(rnn_outputs)  <span style=color:#75715e># 通过输出层映射到词汇表</span>
+</span></span><span style=display:flex><span>            next_token <span style=color:#f92672>=</span> int(Y<span style=color:#f92672>.</span>argmax(axis<span style=color:#f92672>=</span><span style=color:#ae81ff>2</span>)<span style=color:#f92672>.</span>reshape(<span style=color:#ae81ff>1</span>))  <span style=color:#75715e># 选择最大概率的字符</span>
+</span></span><span style=display:flex><span>            outputs<span style=color:#f92672>.</span>append(next_token)  <span style=color:#75715e># 将预测结果添加到输出序列中</span>
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 将索引转为对应的字符并拼接为生成的文本</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#39;&#39;</span><span style=color:#f92672>.</span>join([vocab<span style=color:#f92672>.</span>idx_to_token[i] <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> outputs])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>one_hot</span>(self, X):
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;将输入转换为独热编码&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> torch<span style=color:#f92672>.</span>nn<span style=color:#f92672>.</span>functional<span style=color:#f92672>.</span>one_hot(X<span style=color:#f92672>.</span>T, self<span style=color:#f92672>.</span>vocab_size)<span style=color:#f92672>.</span>float()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 实例化模型</span>
+</span></span><span style=display:flex><span>rnn <span style=color:#f92672>=</span> RNN(num_inputs<span style=color:#f92672>=</span>len(vocab), num_hiddens<span style=color:#f92672>=</span><span style=color:#ae81ff>32</span>)
+</span></span><span style=display:flex><span>model <span style=color:#f92672>=</span> RNNLM(rnn, vocab_size<span style=color:#f92672>=</span>len(vocab), num_hiddens<span style=color:#f92672>=</span><span style=color:#ae81ff>32</span>, lr<span style=color:#f92672>=</span><span style=color:#ae81ff>0.01</span>)
+</span></span></code></pre></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li><li><a href=#语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong></a><ul><li></li><li><a href=#困惑度perplexity><strong>困惑度（Perplexity）</strong></a></li><li><a href=#读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong></a></li></ul></li><li><a href=#循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong></a><ul><li><a href=#rnn的结构与计算><strong>RNN的结构与计算</strong></a></li><li><a href=#基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong></a></li><li><a href=#one-hot-encoding-独热编码><strong>One-Hot Encoding 独热编码</strong></a></li><li><a href=#梯度裁剪gradient-clipping><strong>梯度裁剪（Gradient Clipping）</strong></a></li><li><a href=#解码-decoding><strong>解码 (Decoding)</strong></a></li></ul></li><li><a href=#简单循环神经网络实现><strong>简单循环神经网络实现</strong></a></li></ul></nav></div></aside></main></body></html>
