@@ -8,6 +8,9 @@
 
 线性回归是一种最简单的回归模型，目标是通过一个或多个输入变量预测一个 连续的（continuous） 输出变量。其核心思想是 拟合一条直线来描述输入（input）与输出（output）之间 的关系。其数学公式为：
 
+
+
+
   \[
 \hat{y} = XW + b
 \]
@@ -62,28 +65,11 @@
   \(y_{i}\)
 
  的差异最小化。
-均方误差（Mean Squared Error, MSE） 是线性回归中最常用的损失函数。它计算预测值与真实值之间差异的平方和的均值：
-
-  \[
-MSE = \frac{1}{n}\sum_{i=1}^{n}(y_{i}-\hat{y}_{i})^2
-\]
-
-
-通过调整参数 
-  \(W\)
-
- 和 
-  \(b\)
-
-，最小化 
-  \(MSE\)
-
- 的目的是："><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/supervised-learning/linear-regression/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Linear Regression"><meta property="og:description" content="线性回归 # 线性回归（Linear Regression） # 线性回归是一种最简单的回归模型，目标是通过一个或多个输入变量预测一个 连续的（continuous） 输出变量。其核心思想是 拟合一条直线来描述输入（input）与输出（output）之间 的关系。其数学公式为：
+均方误差（Mean Squared Error, MSE） 是线性回归中最常用的损失函数。它计算预测值与真实值之间差异的平方和的均值："><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/supervised-learning/linear-regression/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Linear Regression"><meta property="og:description" content="线性回归 # 线性回归（Linear Regression） # 线性回归是一种最简单的回归模型，目标是通过一个或多个输入变量预测一个 连续的（continuous） 输出变量。其核心思想是 拟合一条直线来描述输入（input）与输出（output）之间 的关系。其数学公式为：
 \[ \hat{y} = XW + b \] 其中 \(N\) 是总样本数量， \(\hat{y}\) 是预测值 \(\in \mathbb{R}^{N \times 1}\) ， \(X\) 是输入值 \(\in \mathbb{R}^{N \times D}\) ， \(W\) 是 Weight \(\in \mathbb{R}^{D \times 1}\) ， \(b\) 是 Bias \(\in \mathbb{R}^{1}\) 。
 损失函数（Loss Function） # 线性回归的训练目标是找到一组最优参数（权重 \(W\) 和偏置 \(b\) ），使得模型对训练数据的预测值与实际目标值之间的误差最小。具体来说，模型的目标是最小化误差函数（也称损失函数）。即使预测值 \(\hat{y_{i}}\) 和实际值 \(y_{i}\) 的差异最小化。
-均方误差（Mean Squared Error, MSE） 是线性回归中最常用的损失函数。它计算预测值与真实值之间差异的平方和的均值：
-\[ MSE = \frac{1}{n}\sum_{i=1}^{n}(y_{i}-\hat{y}_{i})^2 \] 通过调整参数 \(W\) 和 \(b\) ，最小化 \(MSE\) 的目的是："><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Linear Regression | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/machine-learning/supervised-learning/linear-regression/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.8d7dedb748c28c645cbe56c4476a1fa9e07bbcd840fafe24d07b5e0e4b134a1b.js integrity="sha256-jX3tt0jCjGRcvlbER2ofqeB7vNhA+v4k0HteDksTShs=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/machine-learning/supervised-learning/linear-regression/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+均方误差（Mean Squared Error, MSE） 是线性回归中最常用的损失函数。它计算预测值与真实值之间差异的平方和的均值："><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Linear Regression | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/machine-learning/supervised-learning/linear-regression/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.a37c533bca1d08923d64616e41a503137214aaa0fd9581ae89a9ee1a38b8fbab.js integrity="sha256-o3xTO8odCJI9ZGFuQaUDE3IUqqD9lYGuianuGji4+6s=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/machine-learning/supervised-learning/linear-regression/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle checked>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/ class=active>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
@@ -91,7 +77,7 @@ MSE = \frac{1}{n}\sum_{i=1}^{n}(y_{i}-\hat{y}_{i})^2
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
 <label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Linear Regression</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#线性回归linear-regression><strong>线性回归（Linear Regression）</strong></a><ul><li><a href=#损失函数loss-function><strong>损失函数（Loss Function）</strong></a></li><li><a href=#梯度下降法在线性回归中的应用gradient-descent><strong>梯度下降法在线性回归中的应用（Gradient Descent）</strong></a></li><li><a href=#性能评估evaluation-metrics><strong>性能评估（Evaluation Metrics）</strong></a></li><li><a href=#linear-regression-代码实现><strong>Linear Regression 代码实现</strong></a></li></ul></li><li><a href=#多项式回归polynomial-regression><strong>多项式回归（Polynomial Regression）</strong></a><ul><li><a href=#多项式回归的步骤><strong>多项式回归的步骤</strong></a></li><li><a href=#polynomial-regression-代码实现><strong>Polynomial Regression 代码实现</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=线性回归><strong>线性回归</strong>
 <a class=anchor href=#%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92>#</a></h1><h2 id=线性回归linear-regression><strong>线性回归（Linear Regression）</strong>
-<a class=anchor href=#%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92linear-regression>#</a></h2><p>线性回归是一种最简单的回归模型，目标是通过一个或多个输入变量预测一个 <strong>连续的（continuous）</strong> 输出变量。其核心思想是 <strong>拟合一条直线来描述输入（input）与输出（output）之间</strong> 的关系。其数学公式为：</p><span>\[
+<a class=anchor href=#%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92linear-regression>#</a></h2><p>线性回归是一种最简单的回归模型，目标是通过一个或多个输入变量预测一个 <strong>连续的（continuous）</strong> 输出变量。其核心思想是 <strong>拟合一条直线来描述输入（input）与输出（output）之间</strong> 的关系。其数学公式为：</p><link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\[
 \hat{y} = XW + b
 \]</span><p>其中 <span>\(N\)
 </span>是总样本数量，<span>
