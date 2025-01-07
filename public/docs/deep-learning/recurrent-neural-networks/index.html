@@ -71,13 +71,13 @@ RNN的核心思想是：许多输入和目标无法轻易表示为固定长度�
 根据任务目标的不同，序列建模可以分为以下几种类型：
 固定目标预测：给定一个序列输入，预测一个固定目标，例如基于电影评论进行情感分类。 序列目标预测：给定固定输入，预测一个序列目标，例如图像描述生成。 序列到序列预测：同时处理序列输入和序列输出。例如： 对齐的序列到序列任务：输入和输出在时间步上逐一对应，如词性标注（part-of-speech tagging）。 非对齐的序列到序列任务：输入与输出没有严格的时间步对应关系，如机器翻译或视频字幕生成。 自回归模型（Autoregressive Models） # 假设一位交易员希望进行短期交易，根据对下一时间步指数价格涨跌的预测来决定买入或卖出。如果没有其他辅助特征（如新闻或财报数据），交易员只能依据截至当前的价格历史数据预测下一时刻的价格。这时需要估计的就是价格在下一时间步可能取值的概率分布 \(P(x_{t+1} | x_1, \dots, x_t)\) 。由于直接估计连续变量的整个概率分布较为困难，交易员通常更关注分布的一些关键统计量，例如期望值（expected value）和方差（variance）。
 一种简单的估计条件期望的方法是应用线性回归模型（linear regression model），即根据信号的历史值预测其未来值。这类模型被称为自回归模型（autoregressive models）。自回归模型假设当前时间步的观测值 \(x_t\) 是之前时间步观测值 \(x_{t-1}, x_{t-2}, \dots\) 的线性组合加上一个随机噪声项 \(\epsilon_t\) 。表达式如下： \[ x_t = c + \phi_1 x_{t-1} + \phi_2 x_{t-2} + \dots + \phi_p x_{t-p} + \epsilon_t \]"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Recurrent Neural Networks | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.a37c533bca1d08923d64616e41a503137214aaa0fd9581ae89a9ee1a38b8fbab.js integrity="sha256-o3xTO8odCJI9ZGFuQaUDE3IUqqD9lYGuianuGji4+6s=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.49e59f5bdf03ee125dd1588193771ad2299d36307bdc6060a1e5ff1cf61bad30.js integrity="sha256-SeWfW98D7hJd0ViBk3ca0imdNjB73GBgoeX/HPYbrTA=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
 <label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/recurrent-neural-networks/ class=active>Recurrent Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/computer-vision/>Computer Vision</a><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Recurrent Neural Networks</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li><li><a href=#语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong></a><ul><li></li><li><a href=#困惑度perplexity><strong>困惑度（Perplexity）</strong></a></li><li><a href=#读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong></a></li></ul></li><li><a href=#循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong></a><ul><li><a href=#rnn的结构与计算><strong>RNN的结构与计算</strong></a></li><li><a href=#基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong></a></li><li><a href=#one-hot-encoding-独热编码><strong>One-Hot Encoding 独热编码</strong></a></li><li><a href=#梯度裁剪gradient-clipping><strong>梯度裁剪（Gradient Clipping）</strong></a></li><li><a href=#解码-decoding><strong>解码 (Decoding)</strong></a></li></ul></li><li><a href=#rnn中的反向传播算法><strong>RNN中的反向传播算法</strong></a><ul><li><a href=#反向传播的细节><strong>反向传播的细节</strong></a></li></ul></li><li><a href=#简单循环神经网络实现><strong>简单循环神经网络实现</strong></a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=循环神经网络recurrent-neural-networks><strong>循环神经网络（Recurrent Neural Networks）</strong>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Recurrent Neural Networks</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li><li><a href=#语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong></a><ul><li></li><li><a href=#困惑度perplexity><strong>困惑度（Perplexity）</strong></a></li><li><a href=#读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong></a></li></ul></li><li><a href=#循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong></a><ul><li><a href=#rnn的结构与计算><strong>RNN的结构与计算</strong></a></li><li><a href=#基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong></a></li><li><a href=#one-hot-encoding-独热编码><strong>One-Hot Encoding 独热编码</strong></a></li><li><a href=#梯度裁剪gradient-clipping><strong>梯度裁剪（Gradient Clipping）</strong></a></li><li><a href=#解码-decoding><strong>解码 (Decoding)</strong></a></li></ul></li><li><a href=#rnn中的反向传播算法><strong>RNN中的反向传播算法</strong></a><ul><li><a href=#反向传播的细节><strong>反向传播的细节</strong></a></li></ul></li><li><a href=#简单循环神经网络实现><strong>简单循环神经网络实现</strong></a></li><li><a href=#经典循环神经网络modern-recurrent-neural-networks><strong>经典循环神经网络（Modern Recurrent Neural Networks）</strong></a><ul><li><a href=#长短时记忆网络long-short-term-memory-lstm><strong>长短时记忆网络（Long Short-Term Memory, LSTM）</strong></a></li><li><a href=#门控循环单元gated-recurrent-units-gru><strong>门控循环单元（Gated Recurrent Units, GRU）</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=循环神经网络recurrent-neural-networks><strong>循环神经网络（Recurrent Neural Networks）</strong>
 <a class=anchor href=#%e5%be%aa%e7%8e%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9crecurrent-neural-networks>#</a></h1><p>传统的机器学习模型（如线性回归、逻辑回归和多层感知机）主要针对固定长度的数据，比如表格数据，这些数据通常以行和列的形式组织，其中每一行是一个样本，每一列是一个特征。对于这些模型，<strong>数据的结构并不重要</strong>，只需确保每个样本的<strong>特征数量固定</strong>即可。</p><p>在处理图像数据时，由于图像包含固定长度的像素信息，我们可以引入卷积神经网络（CNN）来捕获数据的层次结构和空间不变性。然而，<strong>这类数据仍然是固定长度的</strong>，例如Fashion-MNIST数据集中每张图像是固定大小的
 <link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(28 \times 28\)
 </span>的像素网格。</p><p>许多学习任务需要<strong>处理序列数据（Sequential Data）</strong>。例如，图像字幕生成、语音合成和音乐生成需要模型输出序列化数据；而时间序列预测、视频分析等任务需要模型从序列化数据中学习。在自然语言处理、对话系统设计、机器人控制等领域，这些输入和输出的序列特性通常同时存在。</p><p>循环神经网络（RNN） 是一种深度学习模型，专门设计用来捕获序列数据的动态特性。通过引入循环连接（可看作网络中的循环边），RNN能够跨时间步共享参数并传递信息。在展开视图中（即将循环连接按时间步展开），RNN可以看作一种特殊的前馈神经网络，其参数在各时间步间共享。循环连接动态地跨时间步传播信息，而常规连接则在同一时间步内传播信息。</p><p><strong>RNN的核心思想</strong>是：许多输入和目标<strong>无法轻易表示为固定长度的向量</strong>，但<strong>可以表示为固定长度向量的变长序列</strong>。例如，文档可以表示为单词序列，医疗记录可以表示为事件序列，视频可以表示为静态图像序列。</p><hr><h2 id=处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong>
@@ -554,4 +554,119 @@ L = \frac{1}{T} \sum_{t=1}^T l(\mathbf{o}_t, y_t).
 </span></span><span style=display:flex><span><span style=color:#75715e># 实例化模型</span>
 </span></span><span style=display:flex><span>rnn <span style=color:#f92672>=</span> RNN(num_inputs<span style=color:#f92672>=</span>len(vocab), num_hiddens<span style=color:#f92672>=</span><span style=color:#ae81ff>32</span>)
 </span></span><span style=display:flex><span>model <span style=color:#f92672>=</span> RNNLM(rnn, vocab_size<span style=color:#f92672>=</span>len(vocab), num_hiddens<span style=color:#f92672>=</span><span style=color:#ae81ff>32</span>, lr<span style=color:#f92672>=</span><span style=color:#ae81ff>0.01</span>)
-</span></span></code></pre></div></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li><li><a href=#语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong></a><ul><li></li><li><a href=#困惑度perplexity><strong>困惑度（Perplexity）</strong></a></li><li><a href=#读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong></a></li></ul></li><li><a href=#循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong></a><ul><li><a href=#rnn的结构与计算><strong>RNN的结构与计算</strong></a></li><li><a href=#基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong></a></li><li><a href=#one-hot-encoding-独热编码><strong>One-Hot Encoding 独热编码</strong></a></li><li><a href=#梯度裁剪gradient-clipping><strong>梯度裁剪（Gradient Clipping）</strong></a></li><li><a href=#解码-decoding><strong>解码 (Decoding)</strong></a></li></ul></li><li><a href=#rnn中的反向传播算法><strong>RNN中的反向传播算法</strong></a><ul><li><a href=#反向传播的细节><strong>反向传播的细节</strong></a></li></ul></li><li><a href=#简单循环神经网络实现><strong>简单循环神经网络实现</strong></a></li></ul></nav></div></aside></main></body></html>
+</span></span></code></pre></div><h2 id=经典循环神经网络modern-recurrent-neural-networks><strong>经典循环神经网络（Modern Recurrent Neural Networks）</strong>
+<a class=anchor href=#%e7%bb%8f%e5%85%b8%e5%be%aa%e7%8e%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9cmodern-recurrent-neural-networks>#</a></h2><hr><h3 id=长短时记忆网络long-short-term-memory-lstm><strong>长短时记忆网络（Long Short-Term Memory, LSTM）</strong>
+<a class=anchor href=#%e9%95%bf%e7%9f%ad%e6%97%b6%e8%ae%b0%e5%bf%86%e7%bd%91%e7%bb%9clong-short-term-memory-lstm>#</a></h3><p>循环神经网络（RNN）通过反向传播进行训练之后，人们发现了学习长期依赖问题的显著难点，这主要是由于<strong>梯度消失和梯度爆炸问题</strong>。虽然梯度裁剪（gradient clipping）可以部分缓解梯度爆炸，但处理梯度消失需要更复杂的解决方案。Hochreiter和Schmidhuber于1997年提出的长短时记忆网络（LSTM）是解决梯度消失问题的早期且成功的技术之一。</p><p>LSTM与标准的RNN类似，但在LSTM中，每个普通的循环节点被替换为一个<strong>记忆单元（memory cell）</strong>。记忆单元内部包含一个<strong>内部状态（internal state）</strong>，这是一个具有固定权重为1的自连接回边的节点。这种设计确保了梯度能够在多个时间步内传播，而不会因梯度消失或梯度爆炸而中断。</p><hr><h4 id=门控记忆单元gated-memory-cell><strong>门控记忆单元（Gated Memory Cell）</strong>
+<a class=anchor href=#%e9%97%a8%e6%8e%a7%e8%ae%b0%e5%bf%86%e5%8d%95%e5%85%83gated-memory-cell>#</a></h4><p>门控记忆单元通过内部状态（internal state）和多个乘性门控机制（multiplicative gates）管理信息流动。具体包括以下三种门控：</p><ol><li><strong>输入门（Input Gate）</strong>：控制是否允许当前输入影响记忆单元的内部状态。它决定了<strong>多少输入值应该加入当前的记忆单元状态</strong>。</li><li><strong>遗忘门（Forget Gate）</strong>：决定<strong>是否清除</strong>部分或全部内部状态。</li><li><strong>输出门（Output Gate）</strong>：确定内部状态<strong>是否可以影响单元的输出</strong>。</li></ol><p>在LSTM中，输入门（Input Gate）、遗忘门（Forget Gate）和输出门（Output Gate）的计算依赖于当前<strong>时间步的输入数据</strong>和<strong>前一时间步的隐藏状态</strong>，如下图所示。三个全连接层通过sigmoid激活函数计算输入门、遗忘门和输出门的值，因此这三个门的值都被限制在0到1的区间内。此外，我们还需要一个输入节点，通常使用tanh激活函数进行计算。</p><div align=center><img src=/images/lstm-1.svg width=450px/></div><p>数学上，假设有 <span>\(h\)
+</span>个隐藏单元，批次大小为 <span>\(n\)
+</span>，输入的维度为 <span>\(d\)
+</span>，则输入为 <span>\(\mathbf{X}_t \in \mathbb{R}^{n \times d}\)
+</span>，前一时间步的隐藏状态为 <span>\(\mathbf{H}_{t-1} \in \mathbb{R}^{n \times h}\)
+</span>。在此基础上，输入门、遗忘门和输出门的定义如下：输入门为 <span>\(\mathbf{I}_t \in \mathbb{R}^{n \times h}\)
+</span>，遗忘门为 <span>\(\mathbf{F}_t \in \mathbb{R}^{n \times h}\)
+</span>，输出门为 <span>\(\mathbf{O}_t \in \mathbb{R}^{n \times h}\)
+</span>。它们的计算公式为：</p><span>\[
+\begin{split}\begin{aligned}
+\mathbf{I}_t &= \sigma(\mathbf{X}_t \mathbf{W}_{xi} + \mathbf{H}_{t-1} \mathbf{W}_{hi} + \mathbf{b}_i),\\
+\mathbf{F}_t &= \sigma(\mathbf{X}_t \mathbf{W}_{xf} + \mathbf{H}_{t-1} \mathbf{W}_{hf} + \mathbf{b}_f),\\
+\mathbf{O}_t &= \sigma(\mathbf{X}_t \mathbf{W}_{xo} + \mathbf{H}_{t-1} \mathbf{W}_{ho} + \mathbf{b}_o),
+\end{aligned}\end{split}
+\]</span><blockquote class="book-hint warning"><p><strong>Note：</strong> 尽管公式形式类似，LSTM 中的门和一般 RNN 中的 Hidden state 的<strong>核心作用完全不同</strong>：</p><ol><li><strong>门的作用是“控制流动”</strong>：<ul><li>每个门的输出 [0, 1] 表示“通过”信息的比例。</li><li>它们主要用于<strong>调节信息的流动</strong>，而不是直接参与信息存储。</li></ul></li><li><strong>Hidden State 的作用是“存储和传递信息”</strong>：<ul><li>Hidden state 是序列模型的核心状态，用于传递时间步之间的主要信息。</li><li>它不仅受门控机制影响，还通过非线性变换从记忆单元中提取信息。</li></ul></li></ol></blockquote><p>我们需要设计了一个输入节点（Input node）。输入节点的计算方式类似于前面提到的门控单元（gate），但它使用一个具有特定值范围的激活函数（tanh），函数的值范围为 <span>\((-1, 1)\)
+</span>。具体来说，输入节点的计算公式为：
+<span>\[
+\tilde{\mathbf{C}}_t = \textrm{tanh}(\mathbf{X}_t \mathbf{W}_{\textrm{xc}} + \mathbf{H}_{t-1} \mathbf{W}_{\textrm{hc}} + \mathbf{b}_\textrm{c}),
+\]</span></p><p>输入门 <span>\(I_t\)
+</span>（input gate）控制我们在多大程度上考虑新输入数据 <span>\(\tilde{\mathbf{C}}_t\)
+</span>，而遗忘门 <span>\(F_{t}\)
+</span>（forget gate）则决定了我们保留多少旧的记忆单元内部状态 <span>\(\mathbf{C}_{t-1} \in \mathbb{R}^{n \times h}\)
+</span>。通过使用Hadamard积 <span>\(\odot\)
+</span>（逐元素相乘）运算符，LSTM的记忆单元内部状态的更新方程为：
+<span>\[
+\mathbf{C}_t = \mathbf{F}_t \odot \mathbf{C}_{t-1} + \mathbf{I}_t \odot \tilde{\mathbf{C}}_t
+\]</span></p><blockquote><p><strong>关于 Hadamard积 <span>\(\odot\)
+</span>：</strong> Hadamard 积是逐元素相乘的操作，对于两个相同形状的矩阵或向量 <span>\(\mathbf{a}\)
+</span>和 <span>\(\mathbf{b}\)
+</span>，定义如下：<span>
+\(\mathbf{c} = \mathbf{a} \odot \mathbf{b}, \quad c_i = a_i \cdot b_i\)
+</span>。这里的 <span>\(\odot\)
+</span>表示逐元素相乘，而不是普通的矩阵乘法。</p></blockquote><blockquote><p><strong>例如：</strong>
+<span>\[
+\mathbf{a} =
+\begin{bmatrix}
+1 \\ 2 \\ 3
+\end{bmatrix}, \quad
+\mathbf{b} =
+\begin{bmatrix}
+0.1 \\ 0.5 \\ 0.9
+\end{bmatrix}, \quad
+\mathbf{a} \odot \mathbf{b} =
+\begin{bmatrix}
+1 \cdot 0.1 \\ 2 \cdot 0.5 \\ 3 \cdot 0.9
+\end{bmatrix} =
+\begin{bmatrix}
+0.1 \\ 1 \\ 2.7
+\end{bmatrix}
+\]</span></p><p>如果遗忘门 <span>\(\mathbf{F}_t = [1, 0.5, 0]\)
+</span>，则：</p><ul><li>第一维的旧信息完全保留（*1）。</li><li>第二维的旧信息减半（*0.5）。</li><li>第三维的旧信息完全丢弃（*0）。</li></ul></blockquote><p>如果遗忘门始终为1且输入门始终为0，则记忆单元的内部状态将保持不变，传递到每个后续时间步。然而，输入门和遗忘门赋予模型灵活性，使其能够学习何时保持值不变，以及何时根据后续输入调整这一值。这一设计有效<strong>缓解了梯度消失问题</strong>，尤其在处理长序列数据集时，使得模型训练变得更加容易。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>为什么门的公式需要 Sigmoid 激活</strong>：</p><ul><li>LSTM 的门本质上是一种控制开关，它的输出必须在 [0, 1] 之间，这样才能<strong>直观地表示“通过的信息比例”</strong>。</li><li>而 Hidden state 的激活函数使用的是 tanh，其范围为 [-1, 1]，<strong>更适合表示信息本身的动态特征</strong>。</li></ul></blockquote><div align=center><img src=/images/lstm-2.svg width=550px/></div><p>最后，隐藏状态 <span>\(I_t\)
+</span>（Hidden State）定义了记忆单元的输出方式，它由输出门 <span>\(O_t\)
+</span>（Output Gate）控制。具体计算步骤如下：首先，对记忆单元的内部状态 <span>\(\mathbf{C}_t\)
+</span>应用 <span>\(\tanh\)
+</span>函数，使其值被规范化到 <span>\((-1, 1)\)
+</span>区间内。然后，将这一结果与输出门的值 <span>\(\mathbf{O}_t\)
+</span>逐元素相乘，计算得到隐藏状态 <span>\(\mathbf{H}_t\)
+</span>：
+<span>\[
+\mathbf{H}_t = \mathbf{O}_t \odot \tanh(\mathbf{C}_t)
+\]</span></p><p>这一机制确保了隐藏状态 <span>\(\mathbf{H}_t\)
+</span>的值始终在 <span>\((-1, 1)\)
+</span>区间内。</p><ul><li>当输出门 <span>\(\mathbf{o}_t\)
+</span>的值接近 1 时，记忆单元的内部状态 <span>\(\mathbf{c}_t\)
+</span>会直接影响后续网络层；</li><li>当输出门 <span>\(\mathbf{o}_t\)
+</span>的值接近 0 时，记忆单元当前的状态对其他层没有影响。</li></ul><p>这种设计使得记忆单元可以在多个时间步内积累信息，而不会对网络的其他部分造成干扰（只要输出门保持接近 0）。当输出门的值突然从接近 0 变为接近 1 时，记忆单元会迅速对网络的其他部分产生显著影响。这种特性允许 LSTM 高效地处理长时间的依赖关系。</p><div align=center><img src=/images/lstm-3.svg width=550px/></div><hr><h3 id=门控循环单元gated-recurrent-units-gru><strong>门控循环单元（Gated Recurrent Units, GRU）</strong>
+<a class=anchor href=#%e9%97%a8%e6%8e%a7%e5%be%aa%e7%8e%af%e5%8d%95%e5%85%83gated-recurrent-units-gru>#</a></h3><p>GRU（门控循环单元）是<strong>LSTM记忆单元的简化版本</strong>并保留内部状态和乘法门控机制（multiplicative gating mechanisms）的核心思想。相比LSTM，GRU在很多任务中可以达到相似的性能，但由于结构更加简单，计算速度更快。</p><p>在GRU（Gated Recurrent Unit）中，LSTM的三个门被替换为两个门：<strong>重置门（Reset Gate）<strong>和</strong>更新门（Update Gate）</strong>。这两个门使用了Sigmoid激活函数，输出值限制在区间 [0, 1] 内。</p><ul><li><strong>重置门</strong>：决定了当前状态需要记住多少之前隐藏状态的信息。</li><li><strong>更新门</strong>：控制新状态有多少是继承自旧状态的。</li></ul><p>在GRU中，给定当前时间步的输入 <span>\(\mathbf{X}_t\)
+</span>和上一时间步的隐藏状态 <span>\(\mathbf{H}_{t-1}\)
+</span>，重置门和更新门通过两个全连接层计算，激活函数为 Sigmoid。</p><div align=center><img src=/images/gru-1.svg width=400px/></div><p>对于给定的时间步 <span>\(t\)
+</span>，假设输入是一个小批量 <span>\(\mathbf{X}_t \in \mathbb{R}^{n \times d}\)
+</span>（样本个数 <span>\(n\)
+</span>，输入个数 <span>\(d\)
+</span>），上一个时间步的隐状态是 <span>\(\mathbf{H}_{t-1} \in \mathbb{R}^{n \times h}\)
+</span>（隐藏单元个数 <span>\(t\)
+</span>）。那么，重置门 <span>\(\mathbf{R}_t \in \mathbb{R}^{n \times h}\)
+</span>和更新门 <span>\(\mathbf{Z}_t \in \mathbb{R}^{n \times h}\)
+</span>的计算如下所示：
+<span>\[
+\begin{split}\begin{aligned}
+\mathbf{R}_t = \sigma(\mathbf{X}_t \mathbf{W}_{xr} + \mathbf{H}_{t-1} \mathbf{W}_{hr} + \mathbf{b}_r),\\
+\mathbf{Z}_t = \sigma(\mathbf{X}_t \mathbf{W}_{xz} + \mathbf{H}_{t-1} \mathbf{W}_{hz} + \mathbf{b}_z),
+\end{aligned}\end{split}
+\]</span></p><p>重置门（reset gate）<span>
+\(\mathbf{R}_t\)
+</span>与标准更新机制相结合，生成时间步 <span>\(t\)
+</span>的<strong>候选隐藏状态（candidate hidden state） <span>\(\tilde{\mathbf{H}}_t \in \mathbb{R}^{n \times h}\)
+</span></strong>，公式如下：
+<span>\[
+\tilde{\mathbf{H}}_t = \tanh(\mathbf{X}_t \mathbf{W}_{xh} + \left(\mathbf{R}_t \odot \mathbf{H}_{t-1}\right) \mathbf{W}_{hh} + \mathbf{b}_h),
+\]</span></p><p><strong>重置门 <span>\(\mathbf{R}t\)
+</span>控制前一时间步隐藏状态</strong> <span>\(\mathbf{H}_{t-1}\)
+</span>对候选隐藏状态的影响：</p><ul><li>当 <span>\(\mathbf{R}_t\)
+</span>的某些元素接近 1，公式退化为标准RNN。</li><li>当 <span>\(\mathbf{R}_t\)
+</span>的某些元素接近 0，前一时间步隐藏状态被忽略，候选隐藏状态仅依赖于当前输入 <span>\(\mathbf{x}_t\)
+</span>。</li></ul><p>候选隐藏状态中通过 <span>\(\left(\mathbf{R}_t \odot \mathbf{H}_{t-1}\right) \mathbf{W}_{hh}\)
+</span>限制了 <span>\(\mathbf{H}_{t-1}\)
+</span>的影响，增强了模型的灵活性，使其能够在必要时“重置”某些隐藏状态。</p><div align=center><img src=/images/gru-2.svg width=550px/></div><p><strong>更新门（update gate, <span>\(\mathbf{Z}_t\)
+</span>）决定了新隐藏状态</strong> <span>\(\mathbf{H}_t \in \mathbb{R}^{n \times h}\)
+</span>在多大程度上保留旧状态 <span>\(\mathbf{H}_{t-1}\)
+</span>与新候选状态 <span>\(\tilde{\mathbf{H}}_t\)
+</span>的信息。具体而言，<span>
+\(\mathbf{Z}_t\)
+</span>控制了二者的加权组合，公式如下：
+<span>\[
+\mathbf{H}_t = \mathbf{Z}_t \odot \mathbf{H}_{t-1} + (1 - \mathbf{Z}_t) \odot \tilde{\mathbf{H}}_t.
+\]</span></p><ul><li>当 <span>\(\mathbf{Z}_t\)
+</span>接近 1 时，旧状态 <span>\(\mathbf{H}_{t-1}\)
+</span>被主要保留，忽略了新候选状态 <span>\(\tilde{\mathbf{H}}_t\)
+</span>，从而在依赖链中跳过了当前时间步 <span>\(t\)
+</span>。</li><li>当 <span>\(\mathbf{Z}_t\)
+</span>接近 0 时，隐藏状态 <span>\(\mathbf{H}_t\)
+</span>接近于新候选状态 <span>\(\tilde{\mathbf{H}}_t\)
+</span>，将当前时间步的信息更强地融入到模型中。</li></ul><p>这些设计可以帮助我们处理循环神经网络中的梯度消失问题，并更好地捕获时间步距离很长的序列的依赖关系。例如，如果整个子序列的所有时间步的更新门都接近于 1，则无论序列的长度如何，在序列起始时间步的旧隐状态都将很容易保留并传递到序列结束。</p><div align=center><img src=/images/gru-3.svg width=550px/></div><p>总结来说，门控循环单元具有以下两个显著特征：</p><ol><li>重置门（reset gate）帮助捕捉序列中的 <strong>短期依赖关系</strong>。</li><li>更新门（update gate）帮助捕捉序列中的 <strong>长期依赖关系</strong>。</li></ol></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li><li><a href=#语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong></a><ul><li></li><li><a href=#困惑度perplexity><strong>困惑度（Perplexity）</strong></a></li><li><a href=#读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong></a></li></ul></li><li><a href=#循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong></a><ul><li><a href=#rnn的结构与计算><strong>RNN的结构与计算</strong></a></li><li><a href=#基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong></a></li><li><a href=#one-hot-encoding-独热编码><strong>One-Hot Encoding 独热编码</strong></a></li><li><a href=#梯度裁剪gradient-clipping><strong>梯度裁剪（Gradient Clipping）</strong></a></li><li><a href=#解码-decoding><strong>解码 (Decoding)</strong></a></li></ul></li><li><a href=#rnn中的反向传播算法><strong>RNN中的反向传播算法</strong></a><ul><li><a href=#反向传播的细节><strong>反向传播的细节</strong></a></li></ul></li><li><a href=#简单循环神经网络实现><strong>简单循环神经网络实现</strong></a></li><li><a href=#经典循环神经网络modern-recurrent-neural-networks><strong>经典循环神经网络（Modern Recurrent Neural Networks）</strong></a><ul><li><a href=#长短时记忆网络long-short-term-memory-lstm><strong>长短时记忆网络（Long Short-Term Memory, LSTM）</strong></a></li><li><a href=#门控循环单元gated-recurrent-units-gru><strong>门控循环单元（Gated Recurrent Units, GRU）</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
