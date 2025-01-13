@@ -74,7 +74,7 @@ RNN的核心思想是：许多输入和目标无法轻易表示为固定长度�
 单个超长序列（如气候科学中的传感器数据流），可以通过随机采样固定长度的子序列生成训练数据集。 独立的多个序列集合（如文档集合，每个文档由不同长度的单词序列表示；或住院记录，每次住院由不同长度的事件序列组成）。 在传统的独立样本假设下，我们认为每个输入样本是从相同分布中独立采样的。而在序列数据中，尽管整个序列可以被认为是独立的，但序列内部的时间步之间往往具有强相关性。例如，文档后续单词的出现通常依赖于前面的单词，病人第10天的用药往往取决于前9天的病情记录。这种依赖性正是序列模型存在的意义：如果序列中的元素互不相关，就没有必要将其建模为序列。序列模型的核心在于捕捉这些依赖性。
 根据任务目标的不同，序列建模可以分为以下几种类型：
 固定目标预测：给定一个序列输入，预测一个固定目标，例如基于电影评论进行情感分类。 输入： 一个文本序列，例如电影评论。 dim = [batch_size, seq_length]，其中 batch_size 是批次大小，seq_length 是每个文本序列的长度。 输出：对应的情感类别（通常是一个标量），例如“正面”或“负面”。dim = [batch_size, 1] 或 [batch_size]，这是一个标量值表示类别。 序列目标预测：给定固定输入，预测一个序列目标，例如图像描述生成。 输入： 一个图像输入，通常是一个张量表示的图像或图像的特征（例如从CNN提取的特征向量）。 [batch_size, feature_size]，其中 feature_size 是图像特征的维度。 输出： 一个文本序列（描述）。[batch_size, seq_length]，其中 seq_length 是生成的描述的词数。 序列到序列预测：同时处理序列输入和序列输出。例如： 对齐的序列到序列任务：输入和输出在时间步上逐一对应，如词性标注（part-of-speech tagging）。 输入： 一个输入文本序列，例如源语言句子（例如英文句子）。[batch_size, seq_length]，其中 seq_length 是源语言句子的长度。 输出：一个输出文本序列，目标语言的翻译（例如中文句子）。 [batch_size, seq_length]，其中 seq_length 是目标语言句子的长度。 非对齐的序列到序列任务：输入与输出没有严格的时间步对应关系，如机器翻译或视频字幕生成。 输入：一个视频帧序列（或者是视频帧的特征表示）。[batch_size, num_frames, feature_size]，其中 num_frames 是视频帧数，feature_size 是每个帧的特征维度。 输出： 一个文本描述序列，描述视频内容。[batch_size, seq_length]，这是生成的字幕。 自回归模型（Autoregressive Models） # 假设一位交易员希望进行短期交易，根据对下一时间步指数价格涨跌的预测来决定买入或卖出。如果没有其他辅助特征（如新闻或财报数据），交易员只能依据截至当前的价格历史数据预测下一时刻的价格。这时需要估计的就是价格在下一时间步可能取值的概率分布 \(P(x_{t+1} | x_1, \dots, x_t)\) 。由于直接估计连续变量的整个概率分布较为困难，交易员通常更关注分布的一些关键统计量，例如期望值（expected value）和方差（variance）。"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Recurrent Neural Networks | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.66524e4f4972115b7a6fb59173d1516ba32462966f56cc52fb1020aacdfd988a.js integrity="sha256-ZlJOT0lyEVt6b7WRc9FRa6MkYpZvVsxS+xAgqs39mIo=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.5524b17f930ecc82d640e17bcb18a9bddbe34e667f313e69da4a815f2d47369f.js integrity="sha256-VSSxf5MOzILWQOF7yxipvdvjTmZ/MT5p2kqBXy1HNp8=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><span>Common Libraries</span><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
@@ -913,5 +913,207 @@ L = \frac{1}{T} \sum_{t=1}^T l(\mathbf{o}_t, y_t).
 <span>\[
 \mathbf{O}_t = \mathbf{H}_t \mathbf{W}_{hq} + \mathbf{b}_q.
 \]</span></p><hr><h3 id=编码器-解码器encoder-decoder架构><strong>编码器-解码器（Encoder-Decoder）架构</strong>
-<a class=anchor href=#%e7%bc%96%e7%a0%81%e5%99%a8-%e8%a7%a3%e7%a0%81%e5%99%a8encoder-decoder%e6%9e%b6%e6%9e%84>#</a></h3><p>在序列到序列（sequence-to-sequence）问题中（如机器翻译），<strong>输入和输出通常具有不同的长度，且无法直接对齐</strong>。为了解决这一问题，通常采用编码器-解码器（encoder-decoder）架构。这个架构包括两个主要组件：</p><ol><li><strong>编码器（Encoder）</strong>：接收一个变长的输入序列，并将其<strong>编码成一个固定长度的状态向量（state）</strong>。</li><li><strong>解码器（Decoder）</strong>：作为一个条件语言模型（conditional language model），根据编码器生成的状态向量以及目标序列的左侧上下文，<strong>逐步预测目标序列中的下一个标记（token）</strong>。</li></ol><p>例如，在将英语翻译成法语的任务中，假设输入序列为：“They”， “are”， “watching”， “.”，编码器会将这个变长的输入序列编码为一个状态向量。随后，解码器利用该状态向量逐步生成翻译后的序列：“Ils”， “regardent”， “.”。</p><div align=center><img src=/images/encoder-decoder.svg width=450px/></div><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>RNN与 Encoder-Decoder 架构的区别</strong></p><ol><li><strong>上下文向量（Context Vector）</strong>：<ul><li>在标准的 Encoder-Decoder 架构中，编码器生成一个<strong>全局的上下文向量</strong> c，该向量是解码器生成输出的主要依据。</li><li>在 RNN 中，每个时间步的隐藏状态，既充当上下文向量的角色，也直接作为解码的输入。</li></ul></li><li><strong>输入输出的对齐</strong>：<ul><li>RNN 假设<strong>输入和输出的长度一致</strong>，并且在时间维度上严格对齐（例如时间序列预测、语言模型）。</li><li>Encoder-Decoder 架构专为解决<strong>输入与输出长度不对齐</strong>的问题设计（例如机器翻译）。</li></ul></li><li><strong>信息流方向</strong>：<ul><li>在 RNN 中，信息流是<strong>逐时间步递归</strong>的，依赖于当前时刻的隐藏状态。</li><li>在 Encoder-Decoder 中，编码器<strong>先完成输入序列的处理，生成上下文向量</strong>，解码器<strong>再从上下文向量开始生成输出</strong>。</li></ul></li></ol></blockquote><hr><h3 id=序列到序列学习seq2seq><strong>序列到序列学习（seq2seq）</strong>
-<a class=anchor href=#%e5%ba%8f%e5%88%97%e5%88%b0%e5%ba%8f%e5%88%97%e5%ad%a6%e4%b9%a0seq2seq>#</a></h3><p>在序列到序列（sequence-to-sequence）问题中，例如机器翻译（machine translation），输入和输出都是变长的、未对齐的序列。在这种情况下，我们通常依赖编码器-解码器（encoder-decoder）架构来处理这些任务。</p><div align=center><img src=/images/seq2seq.svg width=500px/></div><p>特定的<code>&lt;eos></code>表示序列结束词元。 一旦输出序列生成此词元，模型就会停止预测。在设计中，通常有两个特别的设计决策：首先，每个输入序列开始时都会有一个特殊的序列开始标记（<code>&lt;bos></code>），它是解码器的输入序列的第一个词元；其次，使用循环神经网络编码器最终的隐状态来初始化解码器的隐状态。</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li><li><a href=#语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong></a><ul><li></li><li><a href=#困惑度perplexity><strong>困惑度（Perplexity）</strong></a></li><li><a href=#读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong></a></li></ul></li><li><a href=#循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong></a><ul><li><a href=#rnn的结构与计算><strong>RNN的结构与计算</strong></a></li><li><a href=#基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong></a></li><li><a href=#one-hot-encoding-独热编码><strong>One-Hot Encoding 独热编码</strong></a></li><li><a href=#梯度裁剪gradient-clipping><strong>梯度裁剪（Gradient Clipping）</strong></a></li><li><a href=#解码-decoding><strong>解码 (Decoding)</strong></a></li></ul></li><li><a href=#rnn中的反向传播算法><strong>RNN中的反向传播算法</strong></a><ul><li><a href=#反向传播的细节><strong>反向传播的细节</strong></a></li></ul></li><li><a href=#简单循环神经网络实现><strong>简单循环神经网络实现</strong></a></li><li><a href=#经典循环神经网络modern-recurrent-neural-networks><strong>经典循环神经网络（Modern Recurrent Neural Networks）</strong></a><ul><li><a href=#长短时记忆网络long-short-term-memory-lstm><strong>长短时记忆网络（Long Short-Term Memory, LSTM）</strong></a></li><li><a href=#门控循环单元gated-recurrent-units-gru><strong>门控循环单元（Gated Recurrent Units, GRU）</strong></a></li><li><a href=#深层循环神经网络deep-recurrent-neural-networks-drnn><strong>深层循环神经网络（Deep Recurrent Neural Networks, DRNN）</strong></a></li><li><a href=#双向循环神经网络bidirectional-recurrent-neural-networks><strong>双向循环神经网络（Bidirectional Recurrent Neural Networks）</strong></a></li><li><a href=#编码器-解码器encoder-decoder架构><strong>编码器-解码器（Encoder-Decoder）架构</strong></a></li><li><a href=#序列到序列学习seq2seq><strong>序列到序列学习（seq2seq）</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
+<a class=anchor href=#%e7%bc%96%e7%a0%81%e5%99%a8-%e8%a7%a3%e7%a0%81%e5%99%a8encoder-decoder%e6%9e%b6%e6%9e%84>#</a></h3><p>在序列到序列（sequence-to-sequence）问题中（如机器翻译），<strong>输入和输出通常具有不同的长度，且无法直接对齐</strong>。为了解决这一问题，通常采用编码器-解码器（encoder-decoder）架构。这个架构包括两个主要组件：</p><ol><li><strong>编码器（Encoder）</strong>：接收一个变长的输入序列，并将其<strong>编码成一个固定长度的状态向量（state）</strong>。</li><li><strong>解码器（Decoder）</strong>：作为一个条件语言模型（conditional language model），根据编码器生成的状态向量以及目标序列的左侧上下文，<strong>逐步预测目标序列中的下一个标记（token）</strong>。</li></ol><blockquote class="book-hint warning"><p><strong>Note：</strong> 固定形状是指该向量的维度是预先设定的，<strong>不依赖于输入序列的长度</strong>。例如，假设我们设定上下文变量的维度为 d，那么无论输入序列包含 5 个、50 个还是 500 个词，最终生成的上下文变量都会是一个 d-维向量。</p></blockquote><p>例如，在将英语翻译成法语的任务中，假设输入序列为：“They”， “are”， “watching”， “.”，编码器会将这个变长的输入序列编码为一个状态向量。随后，解码器利用该状态向量逐步生成翻译后的序列：“Ils”， “regardent”， “.”。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> Encoder 的 <strong>核心目的</strong> 是找到一个能够浓缩输入序列中长期记忆和短期记忆的隐藏状态（hidden state），并将其作为 Decoder 的输入，从而让 Decoder 能够基于这些信息生成合理的输出。</p></blockquote><div align=center><img src=/images/encoder-decoder.svg width=450px/></div><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>RNN与 Encoder-Decoder 架构的区别</strong></p><ol><li><strong>上下文向量（Context Vector）</strong>：<ul><li>在标准的 Encoder-Decoder 架构中，编码器生成一个<strong>全局的上下文向量</strong> c，该向量是解码器生成输出的主要依据。</li><li>在 RNN 中，每个时间步的隐藏状态，既充当上下文向量的角色，也直接作为解码的输入。</li></ul></li><li><strong>输入输出的对齐</strong>：<ul><li>RNN 假设<strong>输入和输出的长度一致</strong>，并且在时间维度上严格对齐（例如时间序列预测、语言模型）。</li><li>Encoder-Decoder 架构专为解决<strong>输入与输出长度不对齐</strong>的问题设计（例如机器翻译）。</li></ul></li><li><strong>信息流方向</strong>：<ul><li>在 RNN 中，信息流是<strong>逐时间步递归</strong>的，依赖于当前时刻的隐藏状态。</li><li>在 Encoder-Decoder 中，编码器<strong>先完成输入序列的处理，生成上下文向量</strong>，解码器<strong>再从上下文向量开始生成输出</strong>。</li></ul></li></ol></blockquote><hr><h3 id=序列到序列学习seq2seq><strong>序列到序列学习（seq2seq）</strong>
+<a class=anchor href=#%e5%ba%8f%e5%88%97%e5%88%b0%e5%ba%8f%e5%88%97%e5%ad%a6%e4%b9%a0seq2seq>#</a></h3><p>在序列到序列（sequence-to-sequence）问题中，例如机器翻译（machine translation），输入和输出都是变长的、未对齐的序列。在这种情况下，我们通常依赖编码器-解码器（encoder-decoder）架构来处理这些任务。</p><div align=center><img src=/images/seq2seq.svg width=500px/></div><p>特定的<code>&lt;eos></code>表示序列结束词元。 一旦输出序列生成此词元，模型就会停止预测。在设计中，通常有两个特别的设计决策：首先，每个输入序列开始时都会有一个特殊的序列开始标记（<code>&lt;bos></code>），它是解码器的输入序列的第一个词元；其次，使用循环神经网络编码器最终的隐状态来初始化解码器的隐状态。</p><hr><h4 id=编码器encoder-部分><strong>编码器（Encoder） 部分</strong>
+<a class=anchor href=#%e7%bc%96%e7%a0%81%e5%99%a8encoder-%e9%83%a8%e5%88%86>#</a></h4><p>Encoder的主要作用是将一个 <strong>长度可变的输入序列</strong> 转换为 <strong>固定形状的上下文变量（context variable）</strong>。假设输入序列为 <span>\(\{x_1, x_2, \dots, x_T\}\)
+</span>，其中 <span>\(x_t\)
+</span>是第 <span>\(t\)
+</span>个时间步的输入标记（token）。在时间步 <span>\(t\)
+</span>，RNN 根据输入特征向量 <span>\(x_t\)
+</span>和前一个时间步的隐藏状态 <span>\(h_{t-1}\)
+</span>来计算当前的隐藏状态 <span>\(h_t\)
+</span>。这一过程可表示为：
+<span>\[
+\mathbf{h}_t = f(\mathbf{x}_t, \mathbf{h}_{t-1}).
+\]</span></p><p>其中 <span>\(f\)
+</span>表示 RNN 的递归计算函数（例如 GRU 或 LSTM 的单元函数）。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>Encoder 的设计目的</strong>：</p><ol><li><strong>压缩输入信息</strong>：将输入序列的所有信息压缩到一个低维表示中，确保模型能够以固定大小的特征表示处理任意长度的输入。</li><li><strong>捕捉序列的全局语义</strong>： Encoder 会通过递归网络（如 RNN、GRU 或 LSTM）处理输入序列，将序列中的时序依赖关系和语义信息编码到隐藏状态中。</li><li><strong>作为中间表示</strong>： Encoder 的输出（隐藏状态或上下文变量）提供了一种抽象的、高效的输入表示，适合传递给其他模块（如 Decoder）或用于分类、翻译等下游任务。</li></ol></blockquote><p>Encoder 会利用自定义的函数 <span>\(g\)
+</span>将所有时间步的隐藏状态 <span>\(\{h_1, h_2, \dots, h_T\}\)
+</span>转换为一个固定形状的上下文变量 <span>\(c\)
+</span>：
+<span>\[
+\mathbf{c} = q(\mathbf{h}_1, \ldots, \mathbf{h}_T).
+\]</span></p><p>在某些情况下，上下文变量 <span>\(c\)
+</span>可以直接选取为最后一个时间步的隐藏状态 <span>\(h_T\)
+</span>，即：<span>
+\(c = h_T\)
+</span>。</p><p>在实现 Encoder 时，常使用 <strong>嵌入层（Embedding Layer）</strong> 来将每个输入标记转换为对应的特征向量：</p><ul><li><p>嵌入层的权重是一个矩阵，行数等于词汇表大小 <span>\(vocab\_size\)
+</span>，列数等于嵌入向量维度 <span>\(embed\_size\)
+</span>。</p></li><li><p>对于输入标记的索引 <span>\(i\)
+</span>，嵌入层返回权重矩阵的第 <span>\(i\)
+</span>行，作为该标记的特征向量。</p></li><li><p><strong>Encoder 示例代码实现</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.nn <span style=color:#66d9ef>as</span> nn
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Seq2SeqEncoder</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;用于序列到序列学习的循环神经网络编码器&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, vocab_size, embed_size, num_hiddens, num_layers, 
+</span></span><span style=display:flex><span>                dropout<span style=color:#f92672>=</span><span style=color:#ae81ff>0.1</span>, bidirectional<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>):
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 嵌入层</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>embedding <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Embedding(vocab_size, embed_size)
+</span></span><span style=display:flex><span>        <span style=color:#75715e># GRU 层</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>rnn <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>GRU(embed_size, num_hiddens, num_layers, 
+</span></span><span style=display:flex><span>                        dropout<span style=color:#f92672>=</span>dropout, bidirectional<span style=color:#f92672>=</span>bidirectional)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 双向 GRU 会将隐藏状态的维度翻倍</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>bidirectional <span style=color:#f92672>=</span> bidirectional
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>num_hiddens <span style=color:#f92672>=</span> num_hiddens
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>num_layers <span style=color:#f92672>=</span> num_layers
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, X):
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        参数：
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        - X: 输入序列，形状为 (batch_size, num_steps)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        返回：
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        - output: 所有时间步的隐藏状态，形状为 (num_steps, batch_size, num_hiddens * (2 if bidirectional else 1))
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        - state: 最后一层每个方向的隐藏状态，形状为 (num_layers * (2 if bidirectional else 1), batch_size, num_hiddens)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 嵌入层输出形状为 (batch_size, num_steps, embed_size)</span>
+</span></span><span style=display:flex><span>        X <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>embedding(X)
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 调整输入形状为 (num_steps, batch_size, embed_size)</span>
+</span></span><span style=display:flex><span>        X <span style=color:#f92672>=</span> X<span style=color:#f92672>.</span>permute(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>2</span>)
+</span></span><span style=display:flex><span>        <span style=color:#75715e># output 的形状为 (num_steps, batch_size, num_hiddens * num_directions)</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># state 的形状为 (num_layers * num_directions, batch_size, num_hiddens)</span>
+</span></span><span style=display:flex><span>        output, state <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>rnn(X)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> output, state
+</span></span></code></pre></div></li></ul><hr><h4 id=解码器decoder-部分><strong>解码器（Decoder） 部分</strong>
+<a class=anchor href=#%e8%a7%a3%e7%a0%81%e5%99%a8decoder-%e9%83%a8%e5%88%86>#</a></h4><p>在序列到序列（Seq2Seq）模型中，解码器（decoder）负责根据目标输出序列 <span>\(y_1, y_2, \dots, y_T\)
+</span>，在每个时间步 <span>\(t\)
+</span>预测下一步的输出 <span>\(y_t\)
+</span>。解码器的核心是基于目标序列中前一时间步的输出 <span>\(y_{t-1}\)
+</span>、前一时间步的隐藏状态 <span>\(\mathbf{s}_{t-1}\)
+</span>和上下文变量 <span>\(\mathbf{c}\)
+</span>来计算当前时间步的隐藏状态 <span>\(\mathbf{s}_t\)
+</span>。公式如下：
+<span>\[
+\mathbf{s}_{t} = g(y_{t}, \mathbf{c}, \mathbf{s}_{t}).
+\]
+</span>在得到当前时间步的隐藏状态 <span>\(\mathbf{s}_t\)
+</span>后，通过输出层和 softmax 操作计算下一步的输出 <span>\(y_t\)
+</span>的概率分布 <span>\(P(y_{t} \mid y_1, \ldots, y_{t}, \mathbf{c})\)
+</span>。</p><div align=center><img src=/images/seq2seq-details.svg width=400px/></div><p>当实现解码器时， 我们直接使用编码器最后一个时间步的隐状态来初始化解码器的隐状态。 这就要求使用循环神经网络实现的编码器和解码器具有相同数量的层和隐藏单元。 为了进一步包含经过编码的输入序列的信息， 上下文变量在所有的时间步与解码器的输入进行拼接（concatenate）。 为了预测输出词元的概率分布， 在循环神经网络解码器的最后一层使用全连接层来变换隐状态。</p><ul><li><strong>Decoder 示例代码实现</strong><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> torch <span style=color:#f92672>import</span> nn
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Seq2SeqDecoder</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;用于序列到序列学习的循环神经网络解码器&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, vocab_size, embed_size, num_hiddens, num_layers, dropout<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>):
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>embedding <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Embedding(vocab_size, embed_size)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>rnn <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>GRU(embed_size <span style=color:#f92672>+</span> num_hiddens, num_hiddens, num_layers, dropout<span style=color:#f92672>=</span>dropout)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>dense <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Linear(num_hiddens, vocab_size)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>init_state</span>(self, enc_outputs, <span style=color:#f92672>*</span>args):
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 初始化解码器的隐状态</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> enc_outputs[<span style=color:#ae81ff>1</span>]  <span style=color:#75715e># 通常是编码器的最后一层隐状态</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, X, state):
+</span></span><span style=display:flex><span>        <span style=color:#75715e># &#39;X&#39; 的形状: (batch_size, num_steps)</span>
+</span></span><span style=display:flex><span>        X <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>embedding(X)<span style=color:#f92672>.</span>permute(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>2</span>)  <span style=color:#75715e># 转换为 (num_steps, batch_size, embed_size)</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 获取编码器传来的 context，重复以匹配时间步长</span>
+</span></span><span style=display:flex><span>        context <span style=color:#f92672>=</span> state[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]<span style=color:#f92672>.</span>repeat(X<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>0</span>], <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>)  <span style=color:#75715e># (num_layers, batch_size, num_hiddens)</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 将嵌入向量与 context 拼接</span>
+</span></span><span style=display:flex><span>        X_and_context <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>cat((X, context), dim<span style=color:#f92672>=</span><span style=color:#ae81ff>2</span>)
+</span></span><span style=display:flex><span>        output, state <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>rnn(X_and_context, state)  <span style=color:#75715e># 使用 GRU 处理序列</span>
+</span></span><span style=display:flex><span>        output <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>dense(output)<span style=color:#f92672>.</span>permute(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>2</span>)  <span style=color:#75715e># 转换为 (batch_size, num_steps, vocab_size)</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> output, state
+</span></span></code></pre></div></li></ul><hr><h4 id=强制教学teacher-forcing><strong>强制教学（teacher forcing）</strong>
+<a class=anchor href=#%e5%bc%ba%e5%88%b6%e6%95%99%e5%ad%a6teacher-forcing>#</a></h4><p>在序列到序列模型中，编码器 (encoder) 的运行相对直接，但解码器 (decoder) 的输入和输出处理需要更加谨慎。最常见的方法是 强制教学（teacher forcing）。在这种方法中，解码器的 <strong>输入使用的是目标序列 (target sequence) 的原始标签</strong>。具体来说，解码器的输入由特殊的起始标记 <code>&lt;bos></code> 和目标序列（去掉最后一个标记）拼接而成，而解码器的输出（用于训练的标签）是原始目标序列 <strong>向右偏移一个标记</strong>。例如：</p><ul><li>输入: <code>&lt;bos></code>, “Ils”, “regardent”, “.”</li><li>输出: “Ils”, “regardent”, “.”, <code>&lt;eos></code></li></ul><p>这种设计确保解码器的每一步输入可以准确地参考目标序列，从而加速训练并提高初期学习效果。</p><hr><h4 id=损失函数><strong>损失函数</strong>
+<a class=anchor href=#%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0>#</a></h4><p>在序列到序列（sequence-to-sequence）任务中，每个时间步的解码器会为输出标记预测一个概率分布。通过 softmax 可以得到该分布，并使用交叉熵损失（cross-entropy loss）进行优化。为了高效处理长度不同的序列，在小批量中会对齐形状，在序列末尾 <strong>填充特殊的填充标记（padding tokens）</strong>。然而，这些填充标记不应参与损失的计算。</p><p>为了解决这个问题，可以使用 <strong>掩码（masking）技术</strong>，将无关的填充部分设为零，使得这些无关部分在与预测结果相乘时结果仍为零，从而避免其对损失计算的影响。</p><p>假设预测分布为 <span>\(\mathbf{P}\)
+</span>，目标分布为 <span>\(\mathbf{T}\)
+</span>，掩码为 <span>\(\mathbf{M}\)
+</span>，交叉熵损失的计算可以表示为：
+<span>\[
+\text{Loss} = - \sum_{i} \mathbf{M}_i \cdot \mathbf{T}_i \cdot \log(\mathbf{P}_i)
+\]
+</span>其中 <span>\(\mathbf{M}_i\)
+</span>对应填充部分为零，非填充部分为一。</p><blockquote class="book-hint warning"><p><strong>e.g.</strong> 目标序列（Target Sequences）：</p><ol><li>[“I”, “am”, “happy”, <code>&lt;PAD></code>, <code>&lt;PAD></code>]</li><li>[“You”, “are”, “amazing”, “too”, <code>&lt;PAD></code>]</li><li>[“We”, “are”, “here”, “to”, “learn”]</li></ol><p>&ndash;>
+M =
+[[1, 1, 1, 0, 0],
+[1, 1, 1, 1, 0],
+[1, 1, 1, 1, 1]]</p></blockquote><ul><li><strong>seq2seq 训练示例代码实现</strong><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> torch <span style=color:#f92672>import</span> nn, optim
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> torch.utils.data <span style=color:#f92672>import</span> DataLoader, Dataset
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.nn.functional <span style=color:#66d9ef>as</span> F
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 定义模型</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Seq2Seq</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;序列到序列模型，集成编码器和解码器&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, encoder, decoder):
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>encoder <span style=color:#f92672>=</span> encoder
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>decoder <span style=color:#f92672>=</span> decoder
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, src, tgt, src_valid_len):
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 编码器前向传播</span>
+</span></span><span style=display:flex><span>        enc_outputs <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>encoder(src)
+</span></span><span style=display:flex><span>        enc_state <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>decoder<span style=color:#f92672>.</span>init_state(enc_outputs)
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 解码器前向传播</span>
+</span></span><span style=display:flex><span>        dec_outputs, _ <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>decoder(tgt, enc_state)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> dec_outputs
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 训练过程</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>train_seq2seq</span>(model, data_iter, loss_fn, optimizer, num_epochs, tgt_vocab, device):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;训练序列到序列模型&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    model<span style=color:#f92672>.</span>to(device)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> epoch <span style=color:#f92672>in</span> range(num_epochs):
+</span></span><span style=display:flex><span>        model<span style=color:#f92672>.</span>train()
+</span></span><span style=display:flex><span>        total_loss <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> src, tgt <span style=color:#f92672>in</span> data_iter:
+</span></span><span style=display:flex><span>            src, tgt <span style=color:#f92672>=</span> src<span style=color:#f92672>.</span>to(device), tgt<span style=color:#f92672>.</span>to(device)
+</span></span><span style=display:flex><span>            tgt_input <span style=color:#f92672>=</span> tgt[:, :<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>            tgt_output <span style=color:#f92672>=</span> tgt[:, <span style=color:#ae81ff>1</span>:]
+</span></span><span style=display:flex><span>            valid_len <span style=color:#f92672>=</span> (tgt_output <span style=color:#f92672>!=</span> tgt_vocab[<span style=color:#e6db74>&#34;&lt;pad&gt;&#34;</span>])<span style=color:#f92672>.</span>sum(dim<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            optimizer<span style=color:#f92672>.</span>zero_grad()
+</span></span><span style=display:flex><span>            pred <span style=color:#f92672>=</span> model(src, tgt_input, valid_len)
+</span></span><span style=display:flex><span>            loss <span style=color:#f92672>=</span> loss_fn(pred, tgt_output, valid_len)
+</span></span><span style=display:flex><span>            loss<span style=color:#f92672>.</span>mean()<span style=color:#f92672>.</span>backward()
+</span></span><span style=display:flex><span>            optimizer<span style=color:#f92672>.</span>step()
+</span></span><span style=display:flex><span>            total_loss <span style=color:#f92672>+=</span> loss<span style=color:#f92672>.</span>sum()<span style=color:#f92672>.</span>item()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Epoch </span><span style=color:#e6db74>{</span>epoch <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span><span style=color:#e6db74>}</span><span style=color:#e6db74>, Loss: </span><span style=color:#e6db74>{</span>total_loss <span style=color:#f92672>/</span> len(data_iter<span style=color:#f92672>.</span>dataset)<span style=color:#e6db74>:</span><span style=color:#e6db74>.4f</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span></code></pre></div></li></ul><hr><h4 id=预测部分><strong>预测部分</strong>
+<a class=anchor href=#%e9%a2%84%e6%b5%8b%e9%83%a8%e5%88%86>#</a></h4><p>在序列预测任务中，解码器会在每个时间步中将前一时间步的预测结果作为输入。具体来说，在每一步中，解码器会选择 <strong>预测概率最高的标记（token）作为当前时间步的输出</strong>。这一策略被称为 greedy decoding（贪婪解码）。</p><p>在预测开始时，初始输入是序列的开始标记（<code>&lt;bos></code>）。当解码器输出序列的结束标记（<code>&lt;eos></code>）时，预测过程结束。</p><div align=center><img src=/images/seq2seq-predict.svg width=500px/></div><ul><li><strong>预测示例代码实现</strong></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># 简化版的预测函数</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>predict_seq2seq</span>(net, src_sentence, src_vocab, tgt_vocab, num_steps, device):
+</span></span><span style=display:flex><span>    net<span style=color:#f92672>.</span>eval()
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 处理源句子并转为索引</span>
+</span></span><span style=display:flex><span>    src_tokens <span style=color:#f92672>=</span> src_vocab[src_sentence<span style=color:#f92672>.</span>lower()<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#39; &#39;</span>)] <span style=color:#f92672>+</span> [src_vocab[<span style=color:#e6db74>&#39;&lt;eos&gt;&#39;</span>]]
+</span></span><span style=display:flex><span>    src_tokens <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>tensor(src_tokens, dtype<span style=color:#f92672>=</span>torch<span style=color:#f92672>.</span>long, device<span style=color:#f92672>=</span>device)<span style=color:#f92672>.</span>unsqueeze(<span style=color:#ae81ff>0</span>)  <span style=color:#75715e># (1, num_steps)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 编码器的输出</span>
+</span></span><span style=display:flex><span>    enc_outputs <span style=color:#f92672>=</span> net<span style=color:#f92672>.</span>encoder(src_tokens)
+</span></span><span style=display:flex><span>    dec_state <span style=color:#f92672>=</span> net<span style=color:#f92672>.</span>decoder<span style=color:#f92672>.</span>init_state(enc_outputs)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 解码器初始输入是目标语言的 &lt;bos&gt; 标记</span>
+</span></span><span style=display:flex><span>    dec_X <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>tensor([tgt_vocab[<span style=color:#e6db74>&#39;&lt;bos&gt;&#39;</span>]], dtype<span style=color:#f92672>=</span>torch<span style=color:#f92672>.</span>long, device<span style=color:#f92672>=</span>device)<span style=color:#f92672>.</span>unsqueeze(<span style=color:#ae81ff>0</span>)  <span style=color:#75715e># (1, 1)</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    output_seq <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> _ <span style=color:#f92672>in</span> range(num_steps):
+</span></span><span style=display:flex><span>        Y, dec_state <span style=color:#f92672>=</span> net<span style=color:#f92672>.</span>decoder(dec_X, dec_state)
+</span></span><span style=display:flex><span>        dec_X <span style=color:#f92672>=</span> Y<span style=color:#f92672>.</span>argmax(dim<span style=color:#f92672>=</span><span style=color:#ae81ff>2</span>)  <span style=color:#75715e># 选择最大概率的词元作为下一个输入</span>
+</span></span><span style=display:flex><span>        pred <span style=color:#f92672>=</span> dec_X<span style=color:#f92672>.</span>squeeze(dim<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>)<span style=color:#f92672>.</span>item()  <span style=color:#75715e># 取出预测的词元</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> pred <span style=color:#f92672>==</span> tgt_vocab[<span style=color:#e6db74>&#39;&lt;eos&gt;&#39;</span>]:  <span style=color:#75715e># 遇到 &lt;eos&gt; 时停止</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>break</span>
+</span></span><span style=display:flex><span>        output_seq<span style=color:#f92672>.</span>append(pred)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 将预测的词元索引转换回词语</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#39; &#39;</span><span style=color:#f92672>.</span>join(tgt_vocab<span style=color:#f92672>.</span>to_tokens(output_seq))
+</span></span></code></pre></div><hr><h4 id=预测序列的评估><strong>预测序列的评估</strong>
+<a class=anchor href=#%e9%a2%84%e6%b5%8b%e5%ba%8f%e5%88%97%e7%9a%84%e8%af%84%e4%bc%b0>#</a></h4><p>我们可以通过与真实的标签序列进行比较来评估预测序列。虽然 (Papineni et al., 2002) 提出的 <strong>BLEU（bilingual evaluation understudy）</strong> 最先是用于评估机器翻译的结果，但现在它已经被广泛用于测量许多应用的输出序列的质量。 原则上说，对于预测序列中的任意n元语法（n-grams）， BLEU的评估都是这个n元语法是否出现在标签序列中。我们将BLEU定义为：
+<span>\[
+\exp\left(\min\left(0, 1 - \frac{\mathrm{len}_{\text{label}}}{\mathrm{len}_{\text{pred}}}\right)\right) \prod_{n=1}^k p_n^{1/2^n},\]</span></p><ul><li><strong>惩罚因子（BP, brevity penalty）</strong>：<span>
+\(
+\exp\left(\min\left(0, 1 - \frac{\mathrm{len}{\text{label}}}{\mathrm{len}{\text{pred}}}\right)\right)
+\)</span><ul><li><span>\(\mathrm{len}{\text{label}}\)
+</span>：目标序列（ground truth）的长度。</li><li><span>\(\mathrm{len}{\text{pred}}\)
+</span>：预测序列的长度。</li><li>当 <span>\(\mathrm{len}{\text{pred}} \geq \mathrm{len}{\text{label}}\)
+</span>，此时，<span>
+\(\text{BP} = \exp(0) = 1\)
+</span>，说明预测序列长度足够，不会被惩罚。</li><li>当 <span>\(\mathrm{len}{\text{pred}} < \mathrm{len}{\text{label}}，\text{BP}\)
+</span>会小于 1，表示预测序列过短，从而受到惩罚。</li><li><strong>作用</strong>：防止模型为了提升 n-gram 精确度而倾向于生成不完整的短序列。</li></ul></li><li><strong>精确度分数（n-gram precision）</strong>：<span>
+\(\prod_{n=1}^k p_n^{w_n}\)</span><ul><li><span>\(p_n\)
+</span>： n-gram 的精确度，即预测序列中与目标序列匹配的 n-gram 个数占预测序列中所有 n-gram 的比例。</li><li><span>\(w_n\)
+</span>：权重，通常是 <span>\(\frac{1}{k}\)
+</span>，或者特定任务中递减的权重（如 <span>\(w_n = \frac{1}{2^n}\)
+</span>）。</li></ul></li></ul><blockquote class="book-hint warning"><p><strong>e.g.</strong> <strong>目标序列</strong>：the cat is on the mat，<strong>预测序列</strong>：the cat the mat</p><ul><li>1-gram 匹配：the, cat, mat（3 个匹配），总共 4 个 1-gram，故 p_1 = 3/4 。</li><li>2-gram 匹配：the cat, the mat（2 个匹配），总共 3 个 2-gram，故 p_2 = 2/3 。</li></ul></blockquote></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#处理序列working-with-sequences><strong>处理序列（Working with Sequences）</strong></a><ul><li><a href=#自回归模型autoregressive-models><strong>自回归模型（Autoregressive Models）</strong></a></li><li><a href=#序列模型sequence-models><strong>序列模型（Sequence Models）</strong></a></li></ul></li><li><a href=#文本预处理converting-raw-text-into-sequence-data><strong>文本预处理（Converting Raw Text into Sequence Data）</strong></a></li><li><a href=#语言模型和数据集language-models><strong>语言模型和数据集（Language Models）</strong></a><ul><li></li><li><a href=#困惑度perplexity><strong>困惑度（Perplexity）</strong></a></li><li><a href=#读取长序列数据partitioning-sequences><strong>读取长序列数据（Partitioning Sequences）</strong></a></li></ul></li><li><a href=#循环神经网络rnn概述><strong>循环神经网络（RNN）概述</strong></a><ul><li><a href=#rnn的结构与计算><strong>RNN的结构与计算</strong></a></li><li><a href=#基于循环神经网络的字符级语言模型><strong>基于循环神经网络的字符级语言模型</strong></a></li><li><a href=#one-hot-encoding-独热编码><strong>One-Hot Encoding 独热编码</strong></a></li><li><a href=#梯度裁剪gradient-clipping><strong>梯度裁剪（Gradient Clipping）</strong></a></li><li><a href=#解码-decoding><strong>解码 (Decoding)</strong></a></li></ul></li><li><a href=#rnn中的反向传播算法><strong>RNN中的反向传播算法</strong></a><ul><li><a href=#反向传播的细节><strong>反向传播的细节</strong></a></li></ul></li><li><a href=#简单循环神经网络实现><strong>简单循环神经网络实现</strong></a></li><li><a href=#经典循环神经网络modern-recurrent-neural-networks><strong>经典循环神经网络（Modern Recurrent Neural Networks）</strong></a><ul><li><a href=#长短时记忆网络long-short-term-memory-lstm><strong>长短时记忆网络（Long Short-Term Memory, LSTM）</strong></a></li><li><a href=#门控循环单元gated-recurrent-units-gru><strong>门控循环单元（Gated Recurrent Units, GRU）</strong></a></li><li><a href=#深层循环神经网络deep-recurrent-neural-networks-drnn><strong>深层循环神经网络（Deep Recurrent Neural Networks, DRNN）</strong></a></li><li><a href=#双向循环神经网络bidirectional-recurrent-neural-networks><strong>双向循环神经网络（Bidirectional Recurrent Neural Networks）</strong></a></li><li><a href=#编码器-解码器encoder-decoder架构><strong>编码器-解码器（Encoder-Decoder）架构</strong></a></li><li><a href=#序列到序列学习seq2seq><strong>序列到序列学习（seq2seq）</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
