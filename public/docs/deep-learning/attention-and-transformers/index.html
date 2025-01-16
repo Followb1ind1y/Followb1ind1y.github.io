@@ -14,9 +14,6 @@ Attention最初作为增强RNN的机制，在机器翻译任务中表现优异�
 
 目前接触过的网络模型大多依赖于 固定大小的输入。例如，ImageNet中的图像尺寸固定为特定像素大小，而卷积神经网络（CNNs）针对这种固定尺寸进行了优化。在自然语言处理中，循环神经网络（RNNs）的输入通常也是固定的，若输入大小可变，则通过逐步处理每个token或设计专用卷积核来解决。然而，当输入序列长度不定且信息含量变化时（如文本生成任务中），这些方法会带来显著问题，尤其在长序列中，网络难以跟踪已经生成或处理过的内容。
 这种问题可以与数据库的运作方式类比。数据库通常是由 键-值 (key-value) 对组成的集合，例如：
-
-
-
   \(\{(“Zhang”, “Aston”), (“Lipton”, “Zachary”), (“Li”, “Mu”), (“Smola”, “Alex”)\}\)
 
 。键是姓氏，值是名字。查询可以通过提供键来找到对应的值（如查询“Li”返回“Mu”）。这一简单示例表明：
@@ -59,17 +56,17 @@ Attention最初作为增强RNN的机制，在机器翻译任务中表现优异�
 这种问题可以与数据库的运作方式类比。数据库通常是由 键-值 (key-value) 对组成的集合，例如： \(\{(“Zhang”, “Aston”), (“Lipton”, “Zachary”), (“Li”, “Mu”), (“Smola”, “Alex”)\}\) 。键是姓氏，值是名字。查询可以通过提供键来找到对应的值（如查询“Li”返回“Mu”）。这一简单示例表明：
 查询可以在不同大小的数据库上有效运行。 相同的查询根据数据库内容可能 返回不同结果。 数据库操作的“代码”（如精确匹配、近似匹配）可以非常简洁，无需压缩或简化数据库即可有效运行。 这种理念引出了深度学习中的重要概念：注意力机制（Attention Mechanism）。它的核心思想是将 输入看作键-值对的数据库，并基于查询计算注意力权重 (attention weights)。假设数据库包含 \(\mathcal{D} \stackrel{\textrm{def}}{=} \{(\mathbf{k}_1, \mathbf{v}_1), \ldots (\mathbf{k}_m, \mathbf{v}_m)\}\) 个键值对，键和值分别记为 \(k_m\) 和 \(v_m\) ，查询记为 \(q\) 。关于的 \(\mathcal{D}\) 的注意力机制定义如下：
 \[ \textrm{Attention}(\mathbf{q}, \mathcal{D}) \stackrel{\textrm{def}}{=} \sum_{i=1}^m \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i, \] 其中， \(\alpha(\mathbf{q}, \mathbf{k}_i) \in \mathbb{R}（i = 1, \ldots）\) 。这一操作称为 注意力池化（Attention Pooling），其关键点如下："><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Attention and Transformers | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/attention-and-transformers/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.5524b17f930ecc82d640e17bcb18a9bddbe34e667f313e69da4a815f2d47369f.js integrity="sha256-VSSxf5MOzILWQOF7yxipvdvjTmZ/MT5p2kqBXy1HNp8=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/attention-and-transformers/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/attention-and-transformers/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.06a8f8d7667478250051a87e474857c739c3cbac8d24a739daf7c49c66c50818.js integrity="sha256-Bqj412Z0eCUAUah+R0hXxznDy6yNJKc52vfEnGbFCBg=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/attention-and-transformers/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-7e28d5ac3e9843e0deb580be9504447e class=toggle>
 <label for=section-7e28d5ac3e9843e0deb580be9504447e class="flex justify-between"><a role=button>Common Libraries</a></label><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
-<label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/recurrent-neural-networks/>Recurrent Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/attention-and-transformers/ class=active>Attention and Transformers</a><ul></ul></li><li><a href=/docs/deep-learning/computer-vision/>Computer Vision</a><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
+<label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/recurrent-neural-networks/>Recurrent Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/attention-and-transformers/ class=active>Attention and Transformers</a><ul></ul></li><li><a href=/docs/deep-learning/natural-language-processing/>Natural Language Processing</a><ul></ul></li><li><a href=/docs/deep-learning/computer-vision/>Computer Vision</a><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Attention and Transformers</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#注意力机制中的查询-query键-key-和值-value><strong>注意力机制中的查询 (Query)、键 (Key) 和值 (Value)</strong></a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=注意力机制attention-and-transformers><strong>注意力机制（Attention and Transformers）</strong>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Attention and Transformers</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#注意力机制中的查询-query键-key-和值-value><strong>注意力机制中的查询 (Query)、键 (Key) 和值 (Value)</strong></a></li><li><a href=#通过相似性实现注意力池化attention-pooling-by-similarity><strong>通过相似性实现注意力池化（Attention Pooling by Similarity）</strong></a><ul><li><a href=#nadaraya-watson核回归><strong>Nadaraya-Watson核回归</strong></a></li></ul></li><li><a href=#注意力评分函数attention-scoring-functions><strong>注意力评分函数（Attention Scoring Functions）</strong></a><ul><li><a href=#掩码softmax操作masked-softmax-operation><strong>掩码Softmax操作（Masked Softmax Operation）</strong></a></li><li><a href=#批量矩阵乘法batch-matrix-multiplication-bmm><strong>批量矩阵乘法（Batch Matrix Multiplication, BMM）</strong></a></li><li><a href=#scaled-dot-product-attention缩放点积注意力机制><strong>Scaled Dot Product Attention（缩放点积注意力机制）</strong></a></li><li><a href=#加性注意力additive-attention><strong>加性注意力（Additive Attention）</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=注意力机制attention-and-transformers><strong>注意力机制（Attention and Transformers）</strong>
 <a class=anchor href=#%e6%b3%a8%e6%84%8f%e5%8a%9b%e6%9c%ba%e5%88%b6attention-and-transformers>#</a></h1><p>Transformer架构已成为几乎所有NLP任务的核心模型。处理NLP任务的默认方法是选择一个预训练的Transformer模型（如BERT、ELECTRA、RoBERTa或Longformer），根据下游任务调整输出层并进行微调。此外，Transformer架构也已成为视觉任务（如图像识别、目标检测、语义分割和超分辨率）的默认选择，并在语音识别、强化学习以及图神经网络中表现出竞争力。</p><p>Transformer模型的 <strong>核心是Attention机制</strong>，最初被设计为增强编码器-解码器RNN在序列到序列（seq2seq）任务中的表现（如机器翻译）。在传统的seq2seq模型中，编码器将输入压缩为固定长度的向量再传递给解码器。<strong>Attention的直觉是，解码器在每个时间步可以动态关注输入序列的不同部分，而不是使用单一的固定表示。</strong></p><p>Bahdanau等（2014）提出了一种简单的Attention机制，允许解码器在每个时间步选择性地关注输入序列的某些部分。具体而言，编码器生成与输入序列长度相等的表示；解码器通过一个控制机制，从这些表示中计算加权和（context vector）作为输入。这些权重表示了 <strong>解码器在某一时间步对输入序列每个元素的“关注程度”</strong>，并通过可微分的方式学习。</p><p>Attention最初作为增强RNN的机制，在机器翻译任务中表现优异，并展示了对跨语言词义对齐的解释性。然而，Vaswani等（2017）提出了完全基于Attention的Transformer架构，彻底摒弃了循环结构。Transformer通过Attention机制捕获输入和输出序列中所有元素之间的关系，在性能上超过了传统架构。到2018年，Transformer在大多数NLP任务中成为主流。</p><p>此外，NLP领域逐渐采用大规模预训练的模式：在庞大的通用语料上进行自监督预训练，然后使用下游任务数据进行微调。这种预训练-微调范式进一步拉大了Transformer与传统架构的性能差距。如今，基于Transformer的预训练模型（如GPT系列）被称为 <strong>基础模型（Foundation Models）</strong>，其广泛应用标志着Transformer的全面崛起。</p><hr><h2 id=注意力机制中的查询-query键-key-和值-value><strong>注意力机制中的查询 (Query)、键 (Key) 和值 (Value)</strong>
-<a class=anchor href=#%e6%b3%a8%e6%84%8f%e5%8a%9b%e6%9c%ba%e5%88%b6%e4%b8%ad%e7%9a%84%e6%9f%a5%e8%af%a2-query%e9%94%ae-key-%e5%92%8c%e5%80%bc-value>#</a></h2><p>目前接触过的网络模型大多依赖于 <strong>固定大小的输入</strong>。例如，ImageNet中的图像尺寸固定为特定像素大小，而卷积神经网络（CNNs）针对这种固定尺寸进行了优化。在自然语言处理中，循环神经网络（RNNs）的输入通常也是固定的，若输入大小可变，则通过逐步处理每个token或设计专用卷积核来解决。然而，当输入序列长度不定且信息含量变化时（如文本生成任务中），这些方法会带来显著问题，尤其在长序列中，<strong>网络难以跟踪已经生成或处理过的内容</strong>。</p><p>这种问题可以与数据库的运作方式类比。数据库通常是由 <strong>键-值 (key-value)</strong> 对组成的集合，例如：
-<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(\{(“Zhang”, “Aston”), (“Lipton”, “Zachary”), (“Li”, “Mu”), (“Smola”, “Alex”)\}\)
+<a class=anchor href=#%e6%b3%a8%e6%84%8f%e5%8a%9b%e6%9c%ba%e5%88%b6%e4%b8%ad%e7%9a%84%e6%9f%a5%e8%af%a2-query%e9%94%ae-key-%e5%92%8c%e5%80%bc-value>#</a></h2><p>目前接触过的网络模型大多依赖于 <strong>固定大小的输入</strong>。例如，ImageNet中的图像尺寸固定为特定像素大小，而卷积神经网络（CNNs）针对这种固定尺寸进行了优化。在自然语言处理中，循环神经网络（RNNs）的输入通常也是固定的，若输入大小可变，则通过逐步处理每个token或设计专用卷积核来解决。然而，当输入序列长度不定且信息含量变化时（如文本生成任务中），这些方法会带来显著问题，尤其在长序列中，<strong>网络难以跟踪已经生成或处理过的内容</strong>。</p><p>这种问题可以与数据库的运作方式类比。数据库通常是由 <strong>键-值 (key-value)</strong> 对组成的集合，例如：<span>
+\(\{(“Zhang”, “Aston”), (“Lipton”, “Zachary”), (“Li”, “Mu”), (“Smola”, “Alex”)\}\)
 </span>。键是姓氏，值是名字。查询可以通过提供键来找到对应的值（如查询“Li”返回“Mu”）。这一简单示例表明：</p><ol><li>查询可以在不同大小的数据库上有效运行。</li><li>相同的查询根据数据库内容可能 <strong>返回不同结果</strong>。</li><li>数据库操作的“代码”（如精确匹配、近似匹配）可以非常简洁，无需压缩或简化数据库即可有效运行。</li></ol><p>这种理念引出了深度学习中的重要概念：<strong>注意力机制（Attention Mechanism）</strong>。它的核心思想是将 <strong>输入看作键-值对的数据库</strong>，并<strong>基于查询计算注意力权重 (attention weights)</strong>。假设数据库包含 <span>\(\mathcal{D} \stackrel{\textrm{def}}{=} \{(\mathbf{k}_1, \mathbf{v}_1), \ldots (\mathbf{k}_m, \mathbf{v}_m)\}\)
 </span>个键值对，键和值分别记为 <span>\(k_m\)
 </span>和 <span>\(v_m\)
@@ -79,10 +76,10 @@ Attention最初作为增强RNN的机制，在机器翻译任务中表现优异�
 \textrm{Attention}(\mathbf{q}, \mathcal{D}) \stackrel{\textrm{def}}{=} \sum_{i=1}^m \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i,
 \]</span><p>其中，<span>
 \(\alpha(\mathbf{q}, \mathbf{k}_i) \in \mathbb{R}（i = 1, \ldots）\)
-</span>。这一操作称为 <strong>注意力池化（Attention Pooling）</strong>，其关键点如下：</p><ul><li><p>当权重 <span>\(\alpha\)
+</span>。这一操作称为 <strong>注意力池化（Attention Pooling）</strong>，其关键点如下：</p><ul><li>当权重 <span>\(\alpha\)
 </span>较大时，机制对对应的值 <span>\(v_i\)
-</span>赋予更多关注。</p></li><li><p>结果 <span>\(\textrm{Attention}(\mathbf{q}, \mathcal{D})\)
-</span>是数据库中值的线性组合。</p><p><strong>权重 <span>\(\alpha(\mathbf{q}, \mathbf{k}_i)\)
+</span>赋予更多关注。</li><li>结果 <span>\(\textrm{Attention}(\mathbf{q}, \mathcal{D})\)
+</span>是数据库中值的线性组合。</li></ul><blockquote class="book-hint warning"><p><strong>查询（Query）</strong> 是当前模型试图“寻找”或“关注”的目标。它是一个向量，代表了你想匹配的信息。 <strong>Example</strong>：在机器翻译任务中，假如模型正在翻译句子时生成一个新单词，例如“猫”（cat）。此时的查询向量可以看作是模型生成“猫”时，试图从输入句子中找出哪些词与“猫”相关的信息。</p></blockquote><blockquote class="book-hint warning"><p><strong>键（key）</strong> 是所有潜在匹配目标的特征表示。每个键对应于输入中的一个元素，表示这个元素的特性或身份。 <strong>Example</strong>：如果输入句子是“我喜欢吃鱼”，<strong>每个单词“我”“喜欢”“吃”“鱼”都有一个对应的键向量</strong>，表示它们的特性或含义，比如语义信息、位置等。</p></blockquote><blockquote class="book-hint warning"><p><strong>值（value）</strong> 是和键一起存储的信息，也是最终被提取的信息。注意力机制的目标是通过查询和键找到最相关的值。 <strong>Example</strong>：仍以“我喜欢吃鱼”为例，每个单词的值向量可以看作<strong>它承载的具体信息</strong>，比如“我”的值是表示主语身份的信息，“鱼”的值是关于“鱼”的语义内容。</p></blockquote><blockquote class="book-hint warning"><p><strong>Example：</strong> 假设我们在阅读一篇文章，想要找出与“健康饮食”相关的信息：</p><ul><li>查询 (Query)：你正在脑中思考“健康饮食”这个主题。</li><li>键 (Key)：文章中的每个段落都携带一个特性，比如它是讲“运动”、还是“饮食”、或者是“健康习惯”。</li><li>值 (Value)：段落具体的内容。</li></ul><p>通过查询和键的匹配，注意力机制会计算出每个段落与“健康饮食”的相关性，最终提取出最相关段落的信息。</p></blockquote><p><strong>权重 <span>\(\alpha(\mathbf{q}, \mathbf{k}_i)\)
 </span>的特殊情况</strong>：</p><ol><li><p><strong>非负权重</strong>：若所有 <span>\(\alpha(\mathbf{q}, \mathbf{k}_i) \geq 0\)
 </span>，输出在值的凸锥中。</p></li><li><p><strong>权重归一化</strong>：若 <span>\(\sum_{i=1}^n \alpha(\mathbf{q}, \mathbf{k}_i) = 1\)
 </span>，且 <span>\(\alpha(\mathbf{q}, \mathbf{k}_i) \geq 0\)
@@ -94,4 +91,103 @@ Attention最初作为增强RNN的机制，在机器翻译任务中表现优异�
 </span>。</p></li><li><p><strong>单一选择</strong>：若 <span>\(\alpha(\mathbf{q}, \mathbf{k}_i) = 1\)
 </span>（其余为0），等同于传统的数据库精确查询。</p></li><li><p><strong>平均池化</strong>：若 <span>\(\alpha(\mathbf{q}, \mathbf{k}_i)\)
 </span>均相等，即 <span>\(\alpha(\mathbf{q}, \mathbf{k}_i) = 1/n\)
-</span>，等同于对所有值进行平均。</p></li></ol></li></ul><div align=center><img src=/images/qkv.svg width=400px/></div><p>虽然上述注意力机制可微分且适用于深度学习，但也有非可微的注意力模型（例如使用强化学习训练）。现代研究多集中于这种可微机制的变体。</p><p>通过注意力机制，<strong>网络可以高效操作任意大小的键值对集合</strong>，而无需改变操作方式。这种灵活性和参数高效性使其成为深度学习中重要的工具。</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#注意力机制中的查询-query键-key-和值-value><strong>注意力机制中的查询 (Query)、键 (Key) 和值 (Value)</strong></a></li></ul></nav></div></aside></main></body></html>
+</span>，等同于对所有值进行平均。</p></li></ol><div align=center><img src=/images/qkv.svg width=400px/></div><blockquote><p><strong>注意力机制如何工作？</strong></p><ol><li>对查询和每个键计算相似度 <span>\(\text{Similarity} = \alpha(\mathbf{q}, \mathbf{k}_i)\)</span></li><li>对这些相似度进行归一化（通常使用 Softmax 函数）<span>
+\(\alpha(\mathbf{q}, \mathbf{k}_i) = \frac{\exp(a(\mathbf{q}, \mathbf{k}_i))}{\sum_j \exp(a(\mathbf{q}, \mathbf{k}_j))}\)
+</span>。归一化后的结果称为注意力权重（Attention Weights）。</li><li>将注意力权重与对应的值相乘，得到一个加权求和结果。这个结果就是当前查询的输出：<span>
+\(\textrm{Attention}(\mathbf{q}, \mathcal{D}) \stackrel{\textrm{def}}{=} \sum_{i=1}^m \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i\)
+</span>。</li></ol></blockquote><p>虽然上述注意力机制可微分且适用于深度学习，但也有非可微的注意力模型（例如使用强化学习训练）。现代研究多集中于这种可微机制的变体。</p><p>通过注意力机制，<strong>网络可以高效操作任意大小的键值对集合</strong>，而无需改变操作方式。这种灵活性和参数高效性使其成为深度学习中重要的工具。</p><hr><h2 id=通过相似性实现注意力池化attention-pooling-by-similarity><strong>通过相似性实现注意力池化（Attention Pooling by Similarity）</strong>
+<a class=anchor href=#%e9%80%9a%e8%bf%87%e7%9b%b8%e4%bc%bc%e6%80%a7%e5%ae%9e%e7%8e%b0%e6%b3%a8%e6%84%8f%e5%8a%9b%e6%b1%a0%e5%8c%96attention-pooling-by-similarity>#</a></h2><p>在了解了注意力机制的核心组件后，可以将其应用于经典的回归与分类任务，例如基于核密度估计（Kernel Density Estimation, KDE）的方法。这种方法核心是通过相似性核函数（Similarity Kernel）将查询（Query）与键（Key）关联。常见的核函数形式包括：
+<span>\[
+\begin{split}\begin{aligned}
+\alpha(\mathbf{q}, \mathbf{k}) & = \exp\left(-\frac{1}{2} \|\mathbf{q} - \mathbf{k}\|^2 \right) && \textrm{Gaussian;} \\
+\alpha(\mathbf{q}, \mathbf{k}) & = 1 \textrm{ if } \|\mathbf{q} - \mathbf{k}\| \leq 1 && \textrm{Boxcar;} \\
+\alpha(\mathbf{q}, \mathbf{k}) & = \mathop{\mathrm{max}}\left(0, 1 - \|\mathbf{q} - \mathbf{k}\|\right) && \textrm{Epanechikov.}
+\end{aligned}\end{split}
+\]</span></p><div align=center><img src=/images/output_attention-pooling_d5e6b2_18_0.svg width=700px/></div><blockquote class="book-hint warning"><p><strong>Note：</strong> Kernel（核函数） 是一种用来度量 <strong>数据之间相似度</strong> 的数学工具。它帮助我们将 <strong>数据映射到一个更高维度的空间</strong>，在这个空间中，数据的结构可能变得更加容易理解和操作。</p><p><strong>Example：</strong> 假设有两个水果，分别是苹果和橙子。如果你只看果实的直径（一个特征），你可能很难区分这两种水果，因为它们的尺寸可能非常接近。但是如果你使用一个“核函数”来 <strong>考虑更多的信息</strong>，比如水果的颜色、口感、质地等，你就能更准确地判断它们的区别。</p></blockquote><p>核函数选择是启发式的，可根据实际需求调整。例如，可以全局或按坐标单独调整核函数带宽 width。此外，这种方法无需训练，直接基于观测值和核函数即可进行预测。核函数最终会导致统一的计算公式，适用于回归和分类：
+<span>\[
+f(\mathbf{q}) = \sum_i \mathbf{v}_i \frac{\alpha(\mathbf{q}, \mathbf{k}_i)}{\sum_j \alpha(\mathbf{q}, \mathbf{k}_j)}
+\]</span></p><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>核函数如何工作？</strong></p><ol><li><strong>相似度度量</strong>：核函数会对两个数据点之间的相似度进行度量，常见的核函数有线性核、高斯核（RBF）、多项式核等。它们会根据 <strong>数据的特征来计算一个值，表示两个数据点的相似度</strong>。这个值可以帮助模型决定如何结合不同的数据点来做出预测。</li><li><strong>高维空间映射</strong>：有时，数据本身并不在一个容易分类或处理的空间中。例如，数据可能是非线性分布的。如果你将数据映射到一个更高维度的空间，这些数据可能变得更加分离或更容易分类。核函数帮助你“隐式”地将数据映射到高维空间，而不需要显式地进行转换，这样既高效又省去了计算高维空间坐标的麻烦。</li></ol></blockquote><hr><h3 id=nadaraya-watson核回归><strong>Nadaraya-Watson核回归</strong>
+<a class=anchor href=#nadaraya-watson%e6%a0%b8%e5%9b%9e%e5%bd%92>#</a></h3><p>在注意力池化（attention pooling）的背景下，<strong>Nadaraya-Watson核回归</strong> 提供了一种简单的方法来计算核回归估计。首先，我们计算训练特征（covariates）和验证特征之间的核，然后对其进行归一化。将归一化后的核权重与训练标签相乘，即可获得估计值。在这里，每个验证特征作为查询（query），每个训练特征-标签对作为键值对（key-value pair），而计算得到的归一化相对核权重即为注意力权重。</p><span>\[
+f(x) = \sum_{i=1}^n \frac{K(x - x_i)}{\sum_{j=1}^n K(x - x_j)} y_i,
+\]</span><p>其中 <span>\(K\)
+</span>是核（kernel）。为了更好地理解注意力汇聚，下面考虑一个高斯核（Gaussian kernel），其定义为：
+<span>\[
+K(u) = \frac{1}{\sqrt{2\pi}} \exp(-\frac{u^2}{2})
+\]
+</span>将高斯核代入可以得到：
+<span>\[
+\begin{split}\begin{aligned} f(x) &=\sum_{i=1}^n \alpha(x, x_i) y_i\\ &= \sum_{i=1}^n \frac{\exp\left(-\frac{1}{2}(x - x_i)^2\right)}{\sum_{j=1}^n \exp\left(-\frac{1}{2}(x - x_j)^2\right)} y_i \\&= \sum_{i=1}^n \mathrm{softmax}\left(-\frac{1}{2}(x - x_i)^2\right) y_i. \end{aligned}\end{split}
+\]</span></p><p>如果一个键 <span>\(x_i\)
+</span><strong>越是接近给定的查询 <span>\(x\)
+</span></strong>，那么分配给这个键对应值的 <strong>注意力权重就会越大</strong>，也就“获得了更多的注意力”。</p><p>值得注意的是，Nadaraya-Watson核回归是一个 <strong>非参数模型</strong>。 因此，这是 <strong>非参数的注意力汇聚（nonparametric attention pooling）模型</strong>。</p><blockquote class="book-hint warning"><p><strong>Nadaraya-Watson核回归的核心思想可以总结为</strong>：</p><ol><li><strong>计算相似度（通过kernel）</strong>：<ul><li>对每个需要预测的输入（query），计算它与数据集中所有输入（keys）的相似度。</li><li>使用核函数（如高斯核、Boxcar核等）来度量这种相似度。</li></ul></li><li><strong>归一化</strong>：<ul><li>将所有相似度值归一化，使它们的总和为1。这一步确保了 <strong>注意力权重（attention weights）是一个概率分布</strong>。</li></ul></li><li><strong>加权平均</strong>：<ul><li>对于数据集中的每个输出值（value），根据归一化后的注意力权重对其进行加权。</li><li>最终的预测值是所有加权值的总和。</li></ul></li></ol></blockquote><p>非参数的Nadaraya-Watson核回归具有一致性（consistency）的优点：如果有足够的数据，此模型会收敛到最优结果。尽管如此，我们还是可以轻松地将 <strong>可学习的参数集成到注意力汇聚中</strong> 。例如，在下面的查询 <span>\(x\)
+</span>和键 <span>\(x_i\)
+</span>之间的距离乘以可学习参数<span>
+\(w\)
+</span>：
+<span>\[
+\begin{split}\begin{aligned}f(x) &= \sum_{i=1}^n \alpha(x, x_i) y_i \\&= \sum_{i=1}^n \frac{\exp\left(-\frac{1}{2}((x - x_i)w)^2\right)}{\sum_{j=1}^n \exp\left(-\frac{1}{2}((x - x_j)w)^2\right)} y_i \\&= \sum_{i=1}^n \mathrm{softmax}\left(-\frac{1}{2}((x - x_i)w)^2\right) y_i.\end{aligned}\end{split}
+\]</span></p><hr><h2 id=注意力评分函数attention-scoring-functions><strong>注意力评分函数（Attention Scoring Functions）</strong>
+<a class=anchor href=#%e6%b3%a8%e6%84%8f%e5%8a%9b%e8%af%84%e5%88%86%e5%87%bd%e6%95%b0attention-scoring-functions>#</a></h2><p>上一部分使用了高斯核来对查询和键之间的关系建模。其中的 高斯核指数部分可以视为 <strong>注意力评分函数（Attention scoring function）</strong>，简称 <strong>评分函数（Scoring function）</strong>。然而，与点积（dot product）相比，<strong>距离函数的计算开销稍大</strong>。因此，许多研究重点放在如何简化注意力评分函数（Attention scoring function）的计算上，同时通过 Softmax 操作确保注意力权重（Attention weights）为非负。</p><div align=center><img src=/images/attention-output.svg width=450px/></div><p>重新回顾高斯核的注意力函数：
+<span>\[
+a(\mathbf{q}, \mathbf{k}_i) = -\frac{1}{2} \|\mathbf{q} - \mathbf{k}_i\|^2 = \mathbf{q}^\top \mathbf{k}_i -\frac{1}{2} \|\mathbf{k}_i\|^2 -\frac{1}{2} \|\mathbf{q}\|^2.
+\]</span></p><ul><li>在公式中，常数 <span>\(c\)
+</span>只与查询 <span>\(q\)
+</span>有关，对所有键值对 <span>\((q, k_i)\)
+</span>都相同。将权重归一化为概率分布，可以直接消除 <span>\(c\)
+</span>的影响。</li><li>如果键 <span>\(k_i\)
+</span>由层归一化（Layer Normalization）生成，其范数（Norm）通常是常数。因此，忽略 <span>\(k_i\)
+</span>范数的影响对结果几乎没有变化。</li></ul><p>所以这里的函数变为点积操作：
+<span>\[
+a(\mathbf{q}, \mathbf{k}_i)=\mathbf{q}^\top \mathbf{k} = q_1 k_1 + q_2 k_2 + \cdots + q_{d} k_{d}
+\]</span></p><p>接下来，为控制指数函数中参数的量级，我们对点积进行缩放：</p><ul><li>假设 <span>\(\mathbf{q} \in \mathbb{R}^d\)
+</span>和 <span>\(\mathbf{k}_i \in \mathbb{R}^d\)
+</span>的元素是独立同分布的随机变量，均值为0，方差为1，则点积 <span>\(q \cdot k\)
+</span>的均值为0，方差为 <span>\(d\)
+</span>（向量长度）。</li><li>为了使点积的方差与向量长度无关，我们将点积缩放为：
+<span>\[
+a(\mathbf{q}, \mathbf{k}_i) = \mathbf{q}^\top \mathbf{k}_i / \sqrt{d}.
+\]
+</span>随后通过 Softmax 归一化：
+<span>\[
+\alpha(\mathbf{q}, \mathbf{k}_i) = \mathrm{softmax}(a(\mathbf{q}, \mathbf{k}_i)) = \frac{\exp(\mathbf{q}^\top \mathbf{k}_i / \sqrt{d})}{\sum_{j=1} \exp(\mathbf{q}^\top \mathbf{k}_j / \sqrt{d})}.
+\]</span></li></ul><p><strong>点积注意力（Dot Product Attention）在Transformers 等模型中被广泛应用</strong>，其特点是通过缩放点积和softmax操作来控制参数的范围并归一化权重。</p><hr><h3 id=掩码softmax操作masked-softmax-operation><strong>掩码Softmax操作（Masked Softmax Operation）</strong>
+<a class=anchor href=#%e6%8e%a9%e7%a0%81softmax%e6%93%8d%e4%bd%9cmasked-softmax-operation>#</a></h3><p>在序列模型中，处理不同长度的序列是常见需求。当序列被打包到同一个小批量中时，较短的序列通常需要用 <strong>填充符（dummy tokens）</strong> 补齐。填充符不携带实际含义，因此在计算注意力权重时，需要屏蔽这些填充符。这种 <strong>屏蔽操作称为 掩码Softmax操作</strong>。其实现原理如下：</p><ul><li>将超出有效长度部分的值 <span>\(\mathbf{v}_i\)
+</span>设置为零。</li><li>将注意力权重中的这些无效部分设为一个较大的负值（如 <span>\(-10^{6}\)
+</span>），这样它们在梯度计算和实际值中被忽略。</li><li>此方法避免了复杂的条件语句（if-else），充分利用了GPU优化的线性代数操作，即使在计算上略有冗余，也能提高效率。</li></ul><hr><h3 id=批量矩阵乘法batch-matrix-multiplication-bmm><strong>批量矩阵乘法（Batch Matrix Multiplication, BMM）</strong>
+<a class=anchor href=#%e6%89%b9%e9%87%8f%e7%9f%a9%e9%98%b5%e4%b9%98%e6%b3%95batch-matrix-multiplication-bmm>#</a></h3><p>在注意力机制中，批量矩阵乘法是一种常用操作，特别是在处理查询（queries）、键（keys）和值（values）的情况下。例如，假设有以下矩阵定义：
+<span>\[
+\begin{split}\mathbf{Q} = [\mathbf{Q}_1, \mathbf{Q}_2, \ldots, \mathbf{Q}_n] \in \mathbb{R}^{n \times a \times b}, \\
+\mathbf{K} = [\mathbf{K}_1, \mathbf{K}_2, \ldots, \mathbf{K}_n] \in \mathbb{R}^{n \times b \times c}.\end{split}
+\]</span></p><p>批量矩阵乘法（BMM）的作用是按批量逐元素地计算矩阵乘法，例如：
+<span>\[
+\textrm{BMM}(\mathbf{Q}, \mathbf{K}) = [\mathbf{Q}_1 \mathbf{K}_1, \mathbf{Q}_2 \mathbf{K}_2, \ldots, \mathbf{Q}_n \mathbf{K}_n] \in \mathbb{R}^{n \times a \times c}.
+\]
+</span>批量矩阵乘法能够高效地并行处理小批量的查询、键和值矩阵，是注意力机制计算中的核心操作。</p><hr><h3 id=scaled-dot-product-attention缩放点积注意力机制><strong>Scaled Dot Product Attention（缩放点积注意力机制）</strong>
+<a class=anchor href=#scaled-dot-product-attention%e7%bc%a9%e6%94%be%e7%82%b9%e7%a7%af%e6%b3%a8%e6%84%8f%e5%8a%9b%e6%9c%ba%e5%88%b6>#</a></h3><p>缩放点积注意力机制是基于点积注意力的一种优化方法。在标准点积注意力中，查询（query）和键（key）的 <strong>向量长度需要一致</strong>，记为 <span>\(d\)
+</span>。如果查询和键的向量长度不一致，可以通过引入一个矩阵 <span>\(M\)
+</span>来将两者 <span>\(\mathbf{q}^\top \mathbf{k}\)
+</span>映射到相同的空间 <span>\(\mathbf{q}^\top \mathbf{M} \mathbf{k}\)
+</span>。</p><blockquote class="book-hint warning"><p>为了确保点积操作的数学意义和计算的合理性，<strong>查询和键必须有相同的维度</strong>（即相同的长度）。如果它们的维度不一致，点积就无法进行，因为维度不匹配意味着没有明确的一一对应的元素可以进行乘法操作。</p><p>矩阵 M 本身并不固定，而是在模型训练时 <strong>通过学习来调整的</strong>，以便最适合任务需求。</p></blockquote><p>为了提高计算效率，通常在小批量（minibatch）中计算注意力。现在假设查询（query）和键（key）的向量长度一致，对于 <span>\(n\)
+</span>个查询（queries）和 <span>\(m\)
+</span>个键值对（key-value pairs），假设查询和键的维度为 <span>\(d\)
+</span>，值（values）的维度为 <span>\(v\)
+</span>。关于查询（query） <span>\(\mathbf Q\in\mathbb R^{n\times d}\)
+</span>，键（key）<span>
+\(\mathbf K\in\mathbb R^{m\times d}\)
+</span>和值（values）<span>
+\(\mathbf V\in\mathbb R^{m\times v}\)
+</span>的缩放点积注意力公式如下：
+<span>\[
+\mathrm{softmax}\left(\frac{\mathbf Q \mathbf K^\top }{\sqrt{d}}\right) \mathbf V \in \mathbb{R}^{n\times v}.
+\]</span></p><blockquote class="book-hint warning"><p><strong>关于维度：</strong> 在模型中，每个词（如 “The”、“cat” 等）被表示为一个向量，假设每个词的表示是一个 64 维的向量。</p><ul><li>查询向量（Query）：如果你正在对“cat”进行查询，查询向量 q 是该词的表示（64 维向量），表示你想要寻找与“cat”相关的词。</li><li>键向量（Key）：同样，其他词（比如“sat”，“on”）也有键向量，表示它们的特征，维度也是 64。</li></ul><p><strong>所以当查询（query）和键（key）Embedding 向量的维度不同时，我们需要引入一个矩阵 M 来将它们的维度统一，使得点积操作能够正常进行。</strong></p></blockquote><p>为了避免模型过拟合，在计算注意力输出时 <strong>通常会应用 dropout 进行正则化</strong>。</p><hr><h3 id=加性注意力additive-attention><strong>加性注意力（Additive Attention）</strong>
+<a class=anchor href=#%e5%8a%a0%e6%80%a7%e6%b3%a8%e6%84%8f%e5%8a%9badditive-attention>#</a></h3><p>当查询（query）和键（key）的维度不同，可以通过使用矩阵进行维度匹配 <span>\(\mathbf{q}^\top \mathbf{M} \mathbf{k}\)
+</span>，或者使用 <strong>加性注意力作为评分函数</strong>。加性注意力的一个优势是它的“加性”特性，这可以带来一些计算上的节省。在加性注意力中，给定一个查询向量 <span>\(\mathbf{q} \in \mathbb{R}^q\)
+</span>和一个键向量 <span>\(\mathbf{k} \in \mathbb{R}^k\)
+</span>，其评分函数定义为：
+<span>\[
+a(\mathbf q, \mathbf k) = \mathbf w_v^\top \textrm{tanh}(\mathbf W_q\mathbf q + \mathbf W_k \mathbf k) \in \mathbb{R},
+\]</span></p><p>其中 <span>\(\mathbf W_q\in\mathbb R^{h\times q}\)
+</span>, <span>\(\mathbf W_k\in\mathbb R^{h\times k}\)
+</span>, <span>\(\mathbf w_v\in\mathbb R^{h}\)
+</span>是可学习的参数。这个评分函数的输出被输入到 softmax 函数中，以确保其非负性和归一化。一个等价的解释是，查询和键被连接在一起，<strong>作为输入传递给一个具有单隐藏层的多层感知机（MLP）</strong>。在该过程中，我们使用激活函数 <span>\(\tanh\)
+</span>，并且不使用偏置项。加性注意力的计算可以通过以下方式实现：</p><ol><li>首先，查询和键被合并。</li><li>然后通过 MLP 进行处理，最后通过 softmax 获得归一化的注意力权重。</li></ol></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#注意力机制中的查询-query键-key-和值-value><strong>注意力机制中的查询 (Query)、键 (Key) 和值 (Value)</strong></a></li><li><a href=#通过相似性实现注意力池化attention-pooling-by-similarity><strong>通过相似性实现注意力池化（Attention Pooling by Similarity）</strong></a><ul><li><a href=#nadaraya-watson核回归><strong>Nadaraya-Watson核回归</strong></a></li></ul></li><li><a href=#注意力评分函数attention-scoring-functions><strong>注意力评分函数（Attention Scoring Functions）</strong></a><ul><li><a href=#掩码softmax操作masked-softmax-operation><strong>掩码Softmax操作（Masked Softmax Operation）</strong></a></li><li><a href=#批量矩阵乘法batch-matrix-multiplication-bmm><strong>批量矩阵乘法（Batch Matrix Multiplication, BMM）</strong></a></li><li><a href=#scaled-dot-product-attention缩放点积注意力机制><strong>Scaled Dot Product Attention（缩放点积注意力机制）</strong></a></li><li><a href=#加性注意力additive-attention><strong>加性注意力（Additive Attention）</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
