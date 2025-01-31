@@ -8,44 +8,167 @@
   数据准备与预处理（Data Preparation & Preprocessing）
   #
 
+数据准备与预处理流程从原始文本到模型输入的完整链路可归纳为：
+
+数据预处理：通过清洗（移除噪声、特殊符号、冗余数字）、分词（按词/子词/字符粒度切分）、编码（One-Hot/TF-IDF/标签编码等）将文本转化为结构化数值；
+嵌入表示：基于编码结果生成低维稠密向量，传统方法（Word2Vec/GloVe）学习静态词向量，深度模型（BERT/Transformer）生成上下文动态向量；
+模型适配：将向量输入任务模型（分类器/生成器）前，需进行标准化（归一化/降维）、序列对齐（填充/截断）及数据划分（训练/验证/测试集），最终完成端到端训练。
 
 
-  模型选择与加载（Model Selection & Loading）
+
+  文本清理（Text Cleaning）
   #
 
+文本数据清洗是自然语言处理（NLP）中至关重要的第一步，其目标是将原始文本转化为干净、结构化的输入数据。
+
+噪声去除（Noise Removal）：删除或替换文本中无意义、干扰性的字符或片段。
+
+结构化标签去除
+
+HTML/XML标签：网页文本中常包含 <div>, <a href> 等标签，需完全删除。
+
+处理方法：正则表达式（如 re.sub(r'<.*?>', '', text)）或专用库（如 BeautifulSoup）。
 
 
-  模型微调与训练（Fine-Tuning & Training）
+Markdown标记：删除 **粗体**、![图片]() 等格式符号。
+
+
+特殊符号处理
+
+无用符号：如版权符号（©）、商标符号（®）、乱码字符（�）。
+保留符号：感叹号（!）、问号（?）等可能携带情感或语义的符号需保留。
+
+
+链接与用户提及
+
+URL：http:// 或 www. 开头的链接需删除（如 re.sub(r'http\S+', '', text)）。
+社交媒体标签：删除 @用户名 或 #话题（如 re.sub(r'[@#]\w+', '', text)）。
+
+
+冗余空白处理
+
+合并多个空格为单个空格：re.sub(r'\s+', ' ', text)。
+删除首尾空格：text.strip()。
+
+
+
+
+文本规范化（Text Normalization）：将文本转化为一致的格式，消除非标准变体。
+
+大小写统一
+
+常规做法：全部转为小写（text.lower()）。
+例外场景：
+
+专有名词（如产品名“iPhone”需保留大写）。
+情感分析中大写可能表示强调（如“LOVE” vs “love”）。
+
+
+
+
+数字处理策略
+
+直接删除：当数字不携带语义时（如通用文本中的随机数字）。
+替换为标记：统一为 <NUM>（适用于分类任务）。
+保留特殊格式：日期（2023-08-20）、金额（$199）需按需处理。
+
+
+缩写与拼写校正
+
+缩写展开：
+
+规则库映射（如 “don’t” → “do not”, “I’m” → “I am”）。
+
+
+拼写纠错：
+
+规则方法：pyenchant 库检测并建议修正。
+深度学习方法：BERT等模型预测上下文正确拼写。
+
+
+
+
+表情符号与颜文字
+
+删除：当任务不需要情感信号时（如法律文本分析）。
+转换文字描述：使用 emoji 库将😊转为“笑脸”（保留语义）。
+
+
+
+
+语言与编码处理
+
+多语言文本处理
+
+语言检测：使用 langdetect 库过滤非目标语言文本。
+混合语言处理：中英文混杂时需统一分词策略（如“Apple发布会”需切分为[“Apple”, “发布”, “会”]）。
+
+
+编码标准化
+
+Unicode规范化：统一为NFC格式（避免字形相同但编码不同的问题）。
+处理乱码：检测并删除无法解码的字节（如 text.encode('utf-8', 'ignore').decode('utf-8')）。
+
+
+
+
+
+
+
+  分词（Tokenization）
   #
 
-
-
-  模型部署与推理（Deployment & Inference）
-  #
-
-
-
-  检索增强生成（Retrieval-Augmented Generation, RAG）
-  #
-
-
-
-  Prompt Engineering 与评估（Prompt Engineering & Evaluation）
-  #
-"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/deep-learning/natural-language-processing/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Natural Language Processing"><meta property="og:description" content="自然语言处理（Natural Language Processing） # 大语言模型（Large Language Models, LLMs）是基于深度学习的人工智能技术，能够理解和生成自然语言文本。这些模型通常以Transformer架构为核心，经过大规模的文本数据预训练，从而掌握语法、语义和上下文推理能力。LLMs的关键特点在于其通用性，不仅可以执行文本生成、翻译、问答等自然语言处理（NLP）任务，还能够通过微调适应特定领域需求，如医疗诊断、金融分析和法律文书撰写。在现代应用中，LLMs常被用作聊天机器人（Chatbot）、智能助理（Agent）、检索增强生成（Retrieval-Augmented Generation, RAG）系统的核心组件，同时也为复杂的多模态交互和自动化决策提供支持。随着技术的进步，LLMs通过集成增强知识检索、多模态融合和高效部署方法，正逐步成为AI驱动型产品开发中的核心工具。
-数据准备与预处理（Data Preparation & Preprocessing） # 模型选择与加载（Model Selection & Loading） # 模型微调与训练（Fine-Tuning & Training） # 模型部署与推理（Deployment & Inference） # 检索增强生成（Retrieval-Augmented Generation, RAG） # Prompt Engineering 与评估（Prompt Engineering & Evaluation） #"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Natural Language Processing | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/natural-language-processing/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.f83ed026b3bfefa6d77b0464400aa69b2615f24b0cc6aba2dcb6ea0035ea177e.js integrity="sha256-+D7QJrO/76bXewRkQAqmmyYV8ksMxqui3LbqADXqF34=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/natural-language-processing/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+分词（Tokenization）的目标是将连续的自然语言文本切分为有语义的离散单元（Token）。分词的粒度与质量直接影响模型对语义的理解能力。其核心目标包括：语义单元提取（将文本分割为模型可理解的原子单元（如词、子词、字符）），跨语言兼容性（适应不同语言的分词规则（如中文无空格、德语复合词）），未登录词（OOV）处理（解决词典未覆盖的新词或罕见词问题）。基础的分词方法有："><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/deep-learning/natural-language-processing/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Natural Language Processing"><meta property="og:description" content="自然语言处理（Natural Language Processing） # 大语言模型（Large Language Models, LLMs）是基于深度学习的人工智能技术，能够理解和生成自然语言文本。这些模型通常以Transformer架构为核心，经过大规模的文本数据预训练，从而掌握语法、语义和上下文推理能力。LLMs的关键特点在于其通用性，不仅可以执行文本生成、翻译、问答等自然语言处理（NLP）任务，还能够通过微调适应特定领域需求，如医疗诊断、金融分析和法律文书撰写。在现代应用中，LLMs常被用作聊天机器人（Chatbot）、智能助理（Agent）、检索增强生成（Retrieval-Augmented Generation, RAG）系统的核心组件，同时也为复杂的多模态交互和自动化决策提供支持。随着技术的进步，LLMs通过集成增强知识检索、多模态融合和高效部署方法，正逐步成为AI驱动型产品开发中的核心工具。
+数据准备与预处理（Data Preparation & Preprocessing） # 数据准备与预处理流程从原始文本到模型输入的完整链路可归纳为：
+数据预处理：通过清洗（移除噪声、特殊符号、冗余数字）、分词（按词/子词/字符粒度切分）、编码（One-Hot/TF-IDF/标签编码等）将文本转化为结构化数值； 嵌入表示：基于编码结果生成低维稠密向量，传统方法（Word2Vec/GloVe）学习静态词向量，深度模型（BERT/Transformer）生成上下文动态向量； 模型适配：将向量输入任务模型（分类器/生成器）前，需进行标准化（归一化/降维）、序列对齐（填充/截断）及数据划分（训练/验证/测试集），最终完成端到端训练。 文本清理（Text Cleaning） # 文本数据清洗是自然语言处理（NLP）中至关重要的第一步，其目标是将原始文本转化为干净、结构化的输入数据。
+噪声去除（Noise Removal）：删除或替换文本中无意义、干扰性的字符或片段。 结构化标签去除 HTML/XML标签：网页文本中常包含 <div>, <a href> 等标签，需完全删除。 处理方法：正则表达式（如 re.sub(r'<.*?>', '', text)）或专用库（如 BeautifulSoup）。 Markdown标记：删除 **粗体**、![图片]() 等格式符号。 特殊符号处理 无用符号：如版权符号（©）、商标符号（®）、乱码字符（�）。 保留符号：感叹号（!）、问号（?）等可能携带情感或语义的符号需保留。 链接与用户提及 URL：http:// 或 www. 开头的链接需删除（如 re.sub(r'http\S+', '', text)）。 社交媒体标签：删除 @用户名 或 #话题（如 re.sub(r'[@#]\w+', '', text)）。 冗余空白处理 合并多个空格为单个空格：re.sub(r'\s+', ' ', text)。 删除首尾空格：text.strip()。 文本规范化（Text Normalization）：将文本转化为一致的格式，消除非标准变体。 大小写统一 常规做法：全部转为小写（text.lower()）。 例外场景： 专有名词（如产品名“iPhone”需保留大写）。 情感分析中大写可能表示强调（如“LOVE” vs “love”）。 数字处理策略 直接删除：当数字不携带语义时（如通用文本中的随机数字）。 替换为标记：统一为 <NUM>（适用于分类任务）。 保留特殊格式：日期（2023-08-20）、金额（$199）需按需处理。 缩写与拼写校正 缩写展开： 规则库映射（如 “don’t” → “do not”, “I’m” → “I am”）。 拼写纠错： 规则方法：pyenchant 库检测并建议修正。 深度学习方法：BERT等模型预测上下文正确拼写。 表情符号与颜文字 删除：当任务不需要情感信号时（如法律文本分析）。 转换文字描述：使用 emoji 库将😊转为“笑脸”（保留语义）。 语言与编码处理 多语言文本处理 语言检测：使用 langdetect 库过滤非目标语言文本。 混合语言处理：中英文混杂时需统一分词策略（如“Apple发布会”需切分为[“Apple”, “发布”, “会”]）。 编码标准化 Unicode规范化：统一为NFC格式（避免字形相同但编码不同的问题）。 处理乱码：检测并删除无法解码的字节（如 text.encode('utf-8', 'ignore').decode('utf-8')）。 分词（Tokenization） # 分词（Tokenization）的目标是将连续的自然语言文本切分为有语义的离散单元（Token）。分词的粒度与质量直接影响模型对语义的理解能力。其核心目标包括：语义单元提取（将文本分割为模型可理解的原子单元（如词、子词、字符）），跨语言兼容性（适应不同语言的分词规则（如中文无空格、德语复合词）），未登录词（OOV）处理（解决词典未覆盖的新词或罕见词问题）。基础的分词方法有："><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Natural Language Processing | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/natural-language-processing/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.137cc8870539e099d1af3bab259661db25f76475639910a887c25a53edbf2794.js integrity="sha256-E3zIhwU54JnRrzurJZZh2yX3ZHVjmRCoh8JaU+2/J5Q=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/natural-language-processing/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-7e28d5ac3e9843e0deb580be9504447e class=toggle>
 <label for=section-7e28d5ac3e9843e0deb580be9504447e class="flex justify-between"><a role=button>Common Libraries</a></label><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
 <label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/recurrent-neural-networks/>Recurrent Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/attention-and-transformers/>Attention and Transformers</a><ul></ul></li><li><a href=/docs/deep-learning/natural-language-processing/ class=active>Natural Language Processing</a><ul></ul></li><li><a href=/docs/deep-learning/computer-vision/>Computer Vision</a><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Natural Language Processing</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#数据准备与预处理data-preparation--preprocessing><strong>数据准备与预处理（Data Preparation & Preprocessing）</strong></a></li><li><a href=#模型选择与加载model-selection--loading><strong>模型选择与加载（Model Selection & Loading）</strong></a></li><li><a href=#模型微调与训练fine-tuning--training><strong>模型微调与训练（Fine-Tuning & Training）</strong></a></li><li><a href=#模型部署与推理deployment--inference><strong>模型部署与推理（Deployment & Inference）</strong></a></li><li><a href=#检索增强生成retrieval-augmented-generation-rag><strong>检索增强生成（Retrieval-Augmented Generation, RAG）</strong></a></li><li><a href=#prompt-engineering-与评估prompt-engineering--evaluation><strong>Prompt Engineering 与评估（Prompt Engineering & Evaluation）</strong></a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=自然语言处理natural-language-processing><strong>自然语言处理（Natural Language Processing）</strong>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Natural Language Processing</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#数据准备与预处理data-preparation--preprocessing><strong>数据准备与预处理（Data Preparation & Preprocessing）</strong></a><ul><li><a href=#文本清理text-cleaning><strong>文本清理（Text Cleaning）</strong></a></li><li><a href=#分词tokenization><strong>分词（Tokenization）</strong></a></li><li><a href=#停用词stopwords词干提取stemming和句子处理sentence-processing><strong>停用词（Stopwords）、词干提取（Stemming）和句子处理（Sentence Processing）</strong></a></li><li><a href=#nlp-数据集text-datasets><strong>NLP 数据集（Text Datasets）</strong></a></li></ul></li><li><a href=#文本表示encoding--embedding><strong>文本表示（Encoding & Embedding）</strong></a><ul><li><a href=#编码encoding><strong>编码（Encoding）</strong></a></li></ul></li><li><a href=#模型选择与加载model-selection--loading><strong>模型选择与加载（Model Selection & Loading）</strong></a></li><li><a href=#模型微调与训练fine-tuning--training><strong>模型微调与训练（Fine-Tuning & Training）</strong></a></li><li><a href=#模型部署与推理deployment--inference><strong>模型部署与推理（Deployment & Inference）</strong></a></li><li><a href=#检索增强生成retrieval-augmented-generation-rag><strong>检索增强生成（Retrieval-Augmented Generation, RAG）</strong></a></li><li><a href=#prompt-engineering-与评估prompt-engineering--evaluation><strong>Prompt Engineering 与评估（Prompt Engineering & Evaluation）</strong></a></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=自然语言处理natural-language-processing><strong>自然语言处理（Natural Language Processing）</strong>
 <a class=anchor href=#%e8%87%aa%e7%84%b6%e8%af%ad%e8%a8%80%e5%a4%84%e7%90%86natural-language-processing>#</a></h1><p>大语言模型（Large Language Models, LLMs）是基于深度学习的人工智能技术，能够理解和生成自然语言文本。这些模型通常以Transformer架构为核心，经过大规模的文本数据预训练，从而掌握语法、语义和上下文推理能力。LLMs的关键特点在于其通用性，不仅可以执行文本生成、翻译、问答等自然语言处理（NLP）任务，还能够通过微调适应特定领域需求，如医疗诊断、金融分析和法律文书撰写。在现代应用中，LLMs常被用作聊天机器人（Chatbot）、智能助理（Agent）、检索增强生成（Retrieval-Augmented Generation, RAG）系统的核心组件，同时也为复杂的多模态交互和自动化决策提供支持。随着技术的进步，LLMs通过集成增强知识检索、多模态融合和高效部署方法，正逐步成为AI驱动型产品开发中的核心工具。</p><hr><h2 id=数据准备与预处理data-preparation--preprocessing><strong>数据准备与预处理（Data Preparation & Preprocessing）</strong>
-<a class=anchor href=#%e6%95%b0%e6%8d%ae%e5%87%86%e5%a4%87%e4%b8%8e%e9%a2%84%e5%a4%84%e7%90%86data-preparation--preprocessing>#</a></h2><hr><h2 id=模型选择与加载model-selection--loading><strong>模型选择与加载（Model Selection & Loading）</strong>
+<a class=anchor href=#%e6%95%b0%e6%8d%ae%e5%87%86%e5%a4%87%e4%b8%8e%e9%a2%84%e5%a4%84%e7%90%86data-preparation--preprocessing>#</a></h2><p>数据准备与预处理流程从原始文本到模型输入的完整链路可归纳为：</p><ol><li><strong>数据预处理</strong>：通过清洗（移除噪声、特殊符号、冗余数字）、分词（按词/子词/字符粒度切分）、编码（One-Hot/TF-IDF/标签编码等）将文本转化为结构化数值；</li><li><strong>嵌入表示</strong>：基于编码结果生成低维稠密向量，传统方法（Word2Vec/GloVe）学习静态词向量，深度模型（BERT/Transformer）生成上下文动态向量；</li><li><strong>模型适配</strong>：将向量输入任务模型（分类器/生成器）前，需进行标准化（归一化/降维）、序列对齐（填充/截断）及数据划分（训练/验证/测试集），最终完成端到端训练。</li></ol><hr><h3 id=文本清理text-cleaning><strong>文本清理（Text Cleaning）</strong>
+<a class=anchor href=#%e6%96%87%e6%9c%ac%e6%b8%85%e7%90%86text-cleaning>#</a></h3><p>文本数据清洗是自然语言处理（NLP）中至关重要的第一步，其目标是将原始文本转化为干净、结构化的输入数据。</p><ul><li><strong>噪声去除（Noise Removal）</strong>：删除或替换文本中无意义、干扰性的字符或片段。<ol><li><strong>结构化标签去除</strong><ul><li>HTML/XML标签：网页文本中常包含 <code>&lt;div></code>, <code>&lt;a href></code> 等标签，需完全删除。<ul><li>处理方法：正则表达式（如 <code>re.sub(r'&lt;.*?>', '', text)</code>）或专用库（如 <code>BeautifulSoup</code>）。</li></ul></li><li>Markdown标记：删除 <code>**粗体**</code>、<code>![图片]()</code> 等格式符号。</li></ul></li><li><strong>特殊符号处理</strong><ul><li>无用符号：如版权符号（<code>©</code>）、商标符号（<code>®</code>）、乱码字符（<code>�</code>）。</li><li>保留符号：感叹号（<code>!</code>）、问号（<code>?</code>）等可能携带情感或语义的符号需保留。</li></ul></li><li><strong>链接与用户提及</strong><ul><li><code>URL：http://</code> 或 <code>www.</code> 开头的链接需删除（如 <code>re.sub(r'http\S+', '', text)</code>）。</li><li>社交媒体标签：删除 <code>@用户名</code> 或 <code>#话题</code>（如 <code>re.sub(r'[@#]\w+', '', text)</code>）。</li></ul></li><li><strong>冗余空白处理</strong><ul><li>合并多个空格为单个空格：<code>re.sub(r'\s+', ' ', text)</code>。</li><li>删除首尾空格：<code>text.strip()</code>。</li></ul></li></ol></li><li><strong>文本规范化（Text Normalization）</strong>：将文本转化为一致的格式，消除非标准变体。<ol><li><strong>大小写统一</strong><ul><li>常规做法：全部转为小写（<code>text.lower()</code>）。</li><li>例外场景：<ul><li>专有名词（如产品名“iPhone”需保留大写）。</li><li>情感分析中大写可能表示强调（如“LOVE” vs “love”）。</li></ul></li></ul></li><li><strong>数字处理策略</strong><ul><li>直接删除：当数字不携带语义时（如通用文本中的随机数字）。</li><li>替换为标记：统一为 <code>&lt;NUM></code>（适用于分类任务）。</li><li>保留特殊格式：日期（2023-08-20）、金额（$199）需按需处理。</li></ul></li><li>缩写与拼写校正<ul><li>缩写展开：<ul><li>规则库映射（如 “don’t” → “do not”, “I’m” → “I am”）。</li></ul></li><li>拼写纠错：<ul><li>规则方法：<code>pyenchant</code> 库检测并建议修正。</li><li>深度学习方法：BERT等模型预测上下文正确拼写。</li></ul></li></ul></li><li>表情符号与颜文字<ul><li>删除：当任务不需要情感信号时（如法律文本分析）。</li><li>转换文字描述：使用 <code>emoji</code> 库将😊转为“笑脸”（保留语义）。</li></ul></li></ol></li><li><strong>语言与编码处理</strong><ol><li><strong>多语言文本处理</strong><ul><li>语言检测：使用 <code>langdetect</code> 库过滤非目标语言文本。</li><li>混合语言处理：中英文混杂时需统一分词策略（如“Apple发布会”需切分为[“Apple”, “发布”, “会”]）。</li></ul></li><li><strong>编码标准化</strong><ul><li>Unicode规范化：统一为NFC格式（避免字形相同但编码不同的问题）。</li><li>处理乱码：检测并删除无法解码的字节（如 <code>text.encode('utf-8', 'ignore').decode('utf-8')</code>）。</li></ul></li></ol></li></ul><hr><h3 id=分词tokenization><strong>分词（Tokenization）</strong>
+<a class=anchor href=#%e5%88%86%e8%af%8dtokenization>#</a></h3><p>分词（Tokenization）的目标是将连续的自然语言文本切分为有语义的离散单元（Token）。分词的粒度与质量直接影响模型对语义的理解能力。其核心目标包括：<strong>语义单元提取</strong>（将文本分割为模型可理解的原子单元（如词、子词、字符）），<strong>跨语言兼容性</strong>（适应不同语言的分词规则（如中文无空格、德语复合词）），<strong>未登录词（OOV）处理</strong>（解决词典未覆盖的新词或罕见词问题）。基础的分词方法有：</p><ol><li><strong>基于规则的分词</strong>：<ul><li><strong>空格分词</strong>：适用于英语等以空格分隔的语言，但对连字符（state-of-the-art）、缩写（Mr.）处理不佳。</li><li>正则表达式：自定义模式匹配，如切分带连字符的复合词（<code>r'\w+-\w+'</code>）。</li><li>最大匹配法（MaxMatch）：从右向左或从左向右扫描，选择词典中最长的匹配词。<ul><li>缺点：无法解决歧义（如“南京市长江大桥”可能误切为“南京市长/江/大桥”）。</li></ul></li></ul></li><li><strong>子词分词（Subword Tokenization）</strong>：将词分解为更小的可重用单元（子词），平衡词典大小与OOV问题。<ul><li><strong>BPE（Byte-Pair Encoding）</strong> 是一种基于频率统计的子词分词算法<ul><li>其训练过程分为两个阶段：<strong>首先将文本拆分为单个字符作为初始词汇表，随后迭代合并出现频率最高的相邻字符对，逐步扩展子词单元</strong>。</li><li>例如，高频组合“e”和“s”可能被合并为“es”，最终形成包含高频完整词和可读子词的词典。BPE的特点在于通过频率驱动合并，能够保留常见词的完整性（如“ing”作为整体），同时生成具有可解释性的子词（如“un”和“friend”组合成“unfriend”）。</li><li>这一方法在生成式模型中得到广泛应用，例如 <strong>GPT系列模型通过BPE处理文本</strong>，有效平衡词典规模与未登录词（OOV）问题。</li></ul></li><li><strong>WordPiece</strong> 的核心理念与BPE相似，但合并策略更注重语义完整性。<ul><li><strong>其训练过程同样从基础单元（如字符）开始，但选择合并的标准并非单纯依赖频率，而是通过计算合并后对语言模型概率的提升幅度，优先保留能够增强语义连贯性的子词。</strong></li><li>例如，若合并“##ing”比拆分更符合上下文概率，则将其作为独立单元。这种策略使得WordPiece生成的子词更贴近自然语言形态（如保留“##ly”作为后缀），从而在理解任务中表现更优。</li><li><strong>BERT模型即采用WordPiece分词</strong>，通过动态上下文编码实现高效的语义捕捉。</li></ul></li><li><strong>SentencePiece</strong> 是一种更通用的分词框架，其核心创新在于直接处理原始文本（包括空格和特殊符号），无需依赖预分词步骤。<ul><li>它支持两种底层算法：BPE或基于概率的Unigram Language Model。训练时，SentencePiece将空格视为普通字符，可 <strong>直接处理多语言混合文本（如中英文混杂）</strong>，并自动学习跨语言的统一子词划分规则。例如，中文句子“我喜欢NLP”可能被切分为“我/喜/欢/N/L/P”，其中“”表示空格。</li><li><strong>这一特性使其在需要多语言支持的场景（如T5模型）中表现突出</strong>，同时简化了数据处理流程，特别适合处理社交媒体文本等非规范化输入。</li></ul></li></ul></li></ol><hr><h3 id=停用词stopwords词干提取stemming和句子处理sentence-processing><strong>停用词（Stopwords）、词干提取（Stemming）和句子处理（Sentence Processing）</strong>
+<a class=anchor href=#%e5%81%9c%e7%94%a8%e8%af%8dstopwords%e8%af%8d%e5%b9%b2%e6%8f%90%e5%8f%96stemming%e5%92%8c%e5%8f%a5%e5%ad%90%e5%a4%84%e7%90%86sentence-processing>#</a></h3><ul><li><p><strong>停用词（Stopwords）</strong>：停用词是指在文本处理中经常出现、但对 NLP <strong>任务贡献较小的词</strong>。这些词通常是介词、冠词、代词、连词、助动词等，例如：</p><ul><li>英语：the, is, at, which, on, in, a, an, and, but, or</li><li>中文：的, 了, 在, 是, 和, 有, 也, 与, 都</li></ul><p>去除停用词的<strong>作用主要有</strong>：</p><ol><li><strong>降维（Dimensionality Reduction）</strong>：许多 NLP 任务（如文本分类）只关心关键信息，去除停用词可以减少词表大小，提高计算效率。</li><li><strong>减少噪声（Noise Reduction）</strong>：在 TF-IDF 计算或文本聚类等任务中，停用词可能会干扰语义分析，因为它们频繁出现但不提供额外信息。</li><li><strong>提高模型效率（Efficiency Improvement）</strong>：停用词可能会增加计算复杂度，而它们的去除可以使得 NLP 模型在更少的特征上训练，提高训练和推理速度。</li></ol></li><li><p><strong>词干提取（Stemming）</strong>：词干提取是一种规则化处理方法，通过截取单词的词根，去掉变形部分（如时态、复数、动名词后缀），使得同一词根的不同变体归一化。常见 Stemming 算法有</p><ul><li>Porter Stemmer（最常用）：<ul><li>running → run</li><li>flies → fli</li><li>happiness → happi（去掉 “-ness”）</li></ul></li></ul></li><li><p><strong>词形还原（Lemmatization）</strong>：词形还原（Lemmatization）通过词典映射将单词还原为词典中的标准形式（Lemma），不同于 Stemming，它考虑单词的词性。</p><ul><li>词干提取（Stemming）：<code>caring → car</code> 规则化处理，速度快，但有误差</li><li>词形还原（Lemmatization）：<code>caring → care</code> 语法正确，但需要词性标注，速度慢</li></ul></li><li><p><strong>句子处理（Sentence Processing）</strong>：句子处理包括分词、分句、词性标注、句法分析等</p><ul><li>句子分割（Sentence Segmentation）：直接基于标点 &lsquo;.&rsquo;, &lsquo;?&rsquo;, &lsquo;!&rsquo; 进行拆分</li><li>词性标注（POS Tagging）：识别每个词的词性（名词、动词、形容词等）。</li></ul></li></ul><hr><h3 id=nlp-数据集text-datasets><strong>NLP 数据集（Text Datasets）</strong>
+<a class=anchor href=#nlp-%e6%95%b0%e6%8d%ae%e9%9b%86text-datasets>#</a></h3><table><thead><tr><th>任务类型</th><th>数据集示例</th><th>数据特点</th><th>典型应用</th></tr></thead><tbody><tr><td><strong>文本分类</strong></td><td>IMDb影评、AG News</td><td>文本 + 类别标签</td><td>情感分析、主题分类</td></tr><tr><td><strong>序列标注</strong></td><td>CoNLL-2003、OntoNotes</td><td>字符/词级标签</td><td>命名实体识别、词性标注</td></tr><tr><td><strong>问答系统</strong></td><td>SQuAD、HotpotQA</td><td>问题 + 上下文 + 答案</td><td>阅读理解、开放域问答</td></tr><tr><td><strong>文本生成</strong></td><td>CNN/DailyMail、Gigaword</td><td>原文 + 摘要</td><td>摘要生成、对话系统</td></tr><tr><td><strong>语义相似度</strong></td><td>STS-B、MRPC</td><td>句子对 + 相似度分数</td><td>检索排序、复述检测</td></tr></tbody></table><ul><li><strong>结构化数据</strong>：<ul><li>格式：CSV/JSON中的字段化文本（如电商评论包含评分、用户ID）</li><li>处理重点：字段提取与关联分析</li></ul></li><li><strong>非结构化文本</strong>：<ul><li>格式：纯文本文件、网页爬取内容
+*处理重点：清洗与段落分割</li></ul></li><li><strong>对话数据</strong>：<ul><li>格式：多轮对话记录（如Customer Support聊天记录）</li><li>处理重点：对话轮次划分与角色标注</li></ul></li></ul><hr><h2 id=文本表示encoding--embedding><strong>文本表示（Encoding & Embedding）</strong>
+<a class=anchor href=#%e6%96%87%e6%9c%ac%e8%a1%a8%e7%a4%baencoding--embedding>#</a></h2><hr><h3 id=编码encoding><strong>编码（Encoding）</strong>
+<a class=anchor href=#%e7%bc%96%e7%a0%81encoding>#</a></h3><p>在自然语言处理（NLP）中，Encoding（编码）是将文本数据转换为计算机可以处理的数值形式的过程。由于计算机无法直接理解文字，所以我们需要将文字映射到数值空间中，便于后续的处理和分析。编码技术的选择通常取决于具体任务和数据特性。</p><p>Encoding 主要做的事情是 <strong>把文本转换成结构化的、可索引的格式，这样后续的模型或者算法可以进行查询和计算</strong>，这个过程类似于构建一个 “字典”（vocabulary），把文本转换成可以查询的 ID 表示。除了构建可查询的字典，Encoding 还可以：</p><ul><li>加入词频或语法信息（如 TF-IDF, Bag-of-Words）</li><li>考虑位置信息（如 Position Encoding in Transformers）</li><li>压缩文本信息（如 Huffman Encoding, Byte-Pair Encoding）</li></ul><blockquote class="book-hint warning"><p><strong>Note：</strong> 在 NLP 流程中，Encoding 是预处理步骤，Embedding 是特征学习步骤。</p></blockquote><ul><li><p><strong>独热编码（One-Hot Encoding）</strong></p><p>One-Hot编码是一种最基础的编码方法。它将每个词表示为一个稀疏的向量，在这个向量中，词汇表中每个词都有一个唯一的索引。如果一个词在文本中出现，那么它对应的向量在该位置上取1，其他位置则取0。假设我们有一个简单的词汇表 <code>{“I”, “love”, “AI”}</code>，那么词“love”在One-Hot编码中的表示就是 <code>[0, 1, 0]</code>。</p><ul><li>这种表示方式非常简单，但其最大的问题是它并 <strong>没有捕捉到词汇之间的语义关系</strong>，因为每个词都被表示为一个独立的离散向量。</li><li><strong>维度灾难（Curse of Dimensionality）</strong>：词汇表大小较大时内存开销极高。</li></ul></li><li><p><strong>Bag-of-Words (BoW)</strong></p><p>Bag-of-Words是一种常用的文本表示方法，它将文本视为一个词袋，忽略词序和语法，<strong>仅考虑每个词在文本中出现的频率</strong>。在BoW模型中，<strong>每篇文本被表示为一个向量，向量的维度等于词汇表的大小</strong>，每个位置表示词汇表中某个词出现的次数或频率。例如句子 <code>“I love NLP and love coding”</code> → <code>{"I":1, "love":2, "NLP":1, "and":1, "coding":1}</code>。</p><ul><li>虽然这种表示方法比One-Hot编码更灵活，能捕捉到词频信息，但它同样不能反映词汇间的关系，且当词汇表很大时，生成的向量非常稀疏，计算效率较低。</li></ul></li><li><p><strong>TF-IDF (Term Frequency-Inverse Document Frequency)</strong></p><p>TF-IDF是改进BoW的一种方法，它考虑了 <strong>词频（Term Frequency, TF）</strong> 和 <strong>逆文档频率（Inverse Document Frequency, IDF）</strong> 两个因素，旨在提高词语在文档中的重要性衡量。TF衡量某个词在一篇文档中出现的频率，而IDF则衡量该词在整个语料库中出现的稀有程度。TF-IDF 通过计算公式：
+<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\[
+\text{TF-IDF}(t, d) = \text{TF}(t, d) \times \text{IDF}(t)
+\]
+</span>其中， <span>\(t\)
+</span>是词，<span>
+\(d\)
+</span>是文档，<span>
+\(\text{TF}(t, d)\)
+</span>表示词 <span>\(t\)
+</span>在文档 <span>\(d\)
+</span>中出现的频率，<span>
+\(\text{IDF}(t) = \log \frac{N}{df(t)}\)
+</span>，其中 <span>\(N\)
+</span>是文档总数，<span>
+\(df(t)\)
+</span>是包含词 <span>\(t\)
+</span>的文档数。通过这种方法，TF-IDF能够给予在少数文档中出现的词更高的权重，从而使得模型能够识别出更具区分性的词。</p></li><li><p><strong>BPE (Byte Pair Encoding)</strong></p><p>BPE是一种基于频率的子词分解方法，它通过 <strong>反复合并出现频率最高的字节对来生成词汇表</strong>。这意味着BPE会将词语分解为多个子词（subword）或字符单元。BPE的主要目的是能够将稀有词或未登录词分解成较常见的子词，从而避免直接处理未知的词汇。BPE的编码过程：</p><ol><li><p>将所有词分解为字符级别的单元。</p><pre tabindex=0><code>[&#34;l&#34;, &#34;o&#34;, &#34;w&#34;, &#34; &#34;, &#34;l&#34;, &#34;o&#34;, &#34;w&#34;, &#34;e&#34;, &#34;r&#34;, &#34; &#34;, &#34;n&#34;, &#34;e&#34;, &#34;w&#34;, &#34;e&#34;, &#34;s&#34;, &#34;t&#34;, &#34; &#34;, &#34;w&#34;, &#34;i&#34;, &#34;d&#34;, &#34;e&#34;, &#34;s&#34;, &#34;t&#34;]
+</code></pre></li><li><p>通过统计训练语料中最常见的字符对，合并频率最高的字符对为一个新的子词单位。</p><pre tabindex=0><code>(&#34;l&#34;, &#34;o&#34;) -&gt; 2次
+(&#34;o&#34;, &#34;w&#34;) -&gt; 2次
+(&#34;e&#34;, &#34;s&#34;) -&gt; 2次
+(&#34;s&#34;, &#34;t&#34;) -&gt; 2次
+...
+</code></pre></li><li><p>重复这个过程直到得到预定大小的词汇表。</p><pre tabindex=0><code>[&#34;low&#34;, &#34;low&#34;, &#34;er&#34;, &#34;newest&#34;, &#34;widest&#34;]
+</code></pre><pre tabindex=0><code>vocab = {&#34;low&#34;: 100, &#34;lower&#34;: 101, &#34;er&#34;: 102, &#34;newest&#34;: 103, &#34;widest&#34;: 104}
+</code></pre></li></ol><p>BPE的优点是它 <strong>能够有效地处理未登录词</strong>，并且在处理长尾词（rare words）时表现良好。比如，词”unhappiness”可以被分解为”un” + “happiness”，而不是完全看作一个新的词。</p></li><li><p><strong>WordPiece</strong></p><p>WordPiece是由Google开发的分词技术，最初用于 BERT 中。它与BPE类似，也是通过子词分解处理词汇表，旨在解决词汇表过大导致的存储和计算问题，并提高模型处理稀有词的能力。WordPiece通过统计训练语料中的子词频率来构建词汇表。WordPiece的编码过程：</p><ol><li>与BPE类似，首先将所有词分解为最小的单位（如字符）。<pre tabindex=0><code>[&#34;l&#34;, &#34;o&#34;, &#34;w&#34;, &#34; &#34;, &#34;l&#34;, &#34;o&#34;, &#34;w&#34;, &#34;e&#34;, &#34;r&#34;, &#34; &#34;, &#34;n&#34;, &#34;e&#34;, &#34;w&#34;, &#34;e&#34;, &#34;s&#34;, &#34;t&#34;, &#34; &#34;, &#34;w&#34;, &#34;i&#34;, &#34;d&#34;, &#34;e&#34;, &#34;s&#34;, &#34;t&#34;]
+</code></pre></li><li>基于子词的出现频率来选择最常见的子词，并合并它们。这里的 <code>##</code> 表示这个 token 只能作为后缀出现，不会单独存在。<pre tabindex=0><code>{&#34;low&#34;, &#34;##er&#34;, &#34;##ing&#34;, &#34;new&#34;, &#34;##est&#34;, &#34;wide&#34;, &#34;##st&#34;}
+</code></pre></li><li>直到构建出一个具有固定大小的子词词汇表。<pre tabindex=0><code>vocab = {&#34;low&#34;: 100, &#34;##er&#34;: 101, &#34;##ing&#34;: 102, &#34;new&#34;: 103, &#34;##est&#34;: 104, &#34;wide&#34;: 105, &#34;##st&#34;: 106}
+</code></pre></li></ol><p>WordPiece通常通过在训练过程中反复构建最优的子词分解，使模型能够有效地处理复杂和未登录的词。</p></li></ul><hr><h2 id=模型选择与加载model-selection--loading><strong>模型选择与加载（Model Selection & Loading）</strong>
 <a class=anchor href=#%e6%a8%a1%e5%9e%8b%e9%80%89%e6%8b%a9%e4%b8%8e%e5%8a%a0%e8%bd%bdmodel-selection--loading>#</a></h2><hr><h2 id=模型微调与训练fine-tuning--training><strong>模型微调与训练（Fine-Tuning & Training）</strong>
 <a class=anchor href=#%e6%a8%a1%e5%9e%8b%e5%be%ae%e8%b0%83%e4%b8%8e%e8%ae%ad%e7%bb%83fine-tuning--training>#</a></h2><hr><h2 id=模型部署与推理deployment--inference><strong>模型部署与推理（Deployment & Inference）</strong>
 <a class=anchor href=#%e6%a8%a1%e5%9e%8b%e9%83%a8%e7%bd%b2%e4%b8%8e%e6%8e%a8%e7%90%86deployment--inference>#</a></h2><hr><h2 id=检索增强生成retrieval-augmented-generation-rag><strong>检索增强生成（Retrieval-Augmented Generation, RAG）</strong>
 <a class=anchor href=#%e6%a3%80%e7%b4%a2%e5%a2%9e%e5%bc%ba%e7%94%9f%e6%88%90retrieval-augmented-generation-rag>#</a></h2><hr><h2 id=prompt-engineering-与评估prompt-engineering--evaluation><strong>Prompt Engineering 与评估（Prompt Engineering & Evaluation）</strong>
-<a class=anchor href=#prompt-engineering-%e4%b8%8e%e8%af%84%e4%bc%b0prompt-engineering--evaluation>#</a></h2></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#数据准备与预处理data-preparation--preprocessing><strong>数据准备与预处理（Data Preparation & Preprocessing）</strong></a></li><li><a href=#模型选择与加载model-selection--loading><strong>模型选择与加载（Model Selection & Loading）</strong></a></li><li><a href=#模型微调与训练fine-tuning--training><strong>模型微调与训练（Fine-Tuning & Training）</strong></a></li><li><a href=#模型部署与推理deployment--inference><strong>模型部署与推理（Deployment & Inference）</strong></a></li><li><a href=#检索增强生成retrieval-augmented-generation-rag><strong>检索增强生成（Retrieval-Augmented Generation, RAG）</strong></a></li><li><a href=#prompt-engineering-与评估prompt-engineering--evaluation><strong>Prompt Engineering 与评估（Prompt Engineering & Evaluation）</strong></a></li></ul></nav></div></aside></main></body></html>
+<a class=anchor href=#prompt-engineering-%e4%b8%8e%e8%af%84%e4%bc%b0prompt-engineering--evaluation>#</a></h2></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#数据准备与预处理data-preparation--preprocessing><strong>数据准备与预处理（Data Preparation & Preprocessing）</strong></a><ul><li><a href=#文本清理text-cleaning><strong>文本清理（Text Cleaning）</strong></a></li><li><a href=#分词tokenization><strong>分词（Tokenization）</strong></a></li><li><a href=#停用词stopwords词干提取stemming和句子处理sentence-processing><strong>停用词（Stopwords）、词干提取（Stemming）和句子处理（Sentence Processing）</strong></a></li><li><a href=#nlp-数据集text-datasets><strong>NLP 数据集（Text Datasets）</strong></a></li></ul></li><li><a href=#文本表示encoding--embedding><strong>文本表示（Encoding & Embedding）</strong></a><ul><li><a href=#编码encoding><strong>编码（Encoding）</strong></a></li></ul></li><li><a href=#模型选择与加载model-selection--loading><strong>模型选择与加载（Model Selection & Loading）</strong></a></li><li><a href=#模型微调与训练fine-tuning--training><strong>模型微调与训练（Fine-Tuning & Training）</strong></a></li><li><a href=#模型部署与推理deployment--inference><strong>模型部署与推理（Deployment & Inference）</strong></a></li><li><a href=#检索增强生成retrieval-augmented-generation-rag><strong>检索增强生成（Retrieval-Augmented Generation, RAG）</strong></a></li><li><a href=#prompt-engineering-与评估prompt-engineering--evaluation><strong>Prompt Engineering 与评估（Prompt Engineering & Evaluation）</strong></a></li></ul></nav></div></aside></main></body></html>
