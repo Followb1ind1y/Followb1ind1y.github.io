@@ -1,13 +1,328 @@
 <!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
-  Data Preprocessing
+  数据预处理（Data Preprocessing）
   #
-"><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/data-preprocessing/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Data Preprocessing"><meta property="og:description" content="Data Preprocessing #"><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Data Preprocessing | Followblindly</title>
-<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/machine-learning/data-preprocessing/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.5654e1c29922e8373ddb4772bc399c14101bb7bc2a26065dc78af6cc9fd827aa.js integrity="sha256-VlThwpki6Dc920dyvDmcFBAbt7wqJgZdx4r2zJ/YJ6o=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/machine-learning/data-preprocessing/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+
+
+
+  自然语言预处理（Natural Language Preprocessing）
+  #
+
+大语言模型（Large Language Models, LLMs）是基于深度学习的人工智能技术，能够理解和生成自然语言文本。这些模型通常以Transformer架构为核心，经过大规模的文本数据预训练，从而掌握语法、语义和上下文推理能力。LLMs的关键特点在于其通用性，不仅可以执行文本生成、翻译、问答等自然语言处理（NLP）任务，还能够通过微调适应特定领域需求，如医疗诊断、金融分析和法律文书撰写。在现代应用中，LLMs常被用作聊天机器人（Chatbot）、智能助理（Agent）、检索增强生成（Retrieval-Augmented Generation, RAG）系统的核心组件，同时也为复杂的多模态交互和自动化决策提供支持。随着技术的进步，LLMs通过集成增强知识检索、多模态融合和高效部署方法，正逐步成为AI驱动型产品开发中的核心工具。
+
+
+  数据准备与预处理（Data Preparation & Preprocessing）
+  #
+
+数据准备与预处理流程从原始文本到模型输入的完整链路可归纳为：
+
+数据预处理：通过清洗（移除噪声、特殊符号、冗余数字）、分词（按词/子词/字符粒度切分）、编码（One-Hot/TF-IDF/标签编码等）将文本转化为结构化数值；
+嵌入表示：基于编码结果生成低维稠密向量，传统方法（Word2Vec/GloVe）学习静态词向量，深度模型（BERT/Transformer）生成上下文动态向量；
+模型适配：将向量输入任务模型（分类器/生成器）前，需进行标准化（归一化/降维）、序列对齐（填充/截断）及数据划分（训练/验证/测试集），最终完成端到端训练。
+
+
+
+  文本清理（Text Cleaning）
+  #
+
+文本数据清洗是自然语言处理（NLP）中至关重要的第一步，其目标是将原始文本转化为干净、结构化的输入数据。
+
+噪声去除（Noise Removal）：删除或替换文本中无意义、干扰性的字符或片段。
+
+结构化标签去除
+
+HTML/XML标签：网页文本中常包含 <div>, <a href> 等标签，需完全删除。
+
+处理方法：正则表达式（如 re.sub(r'<.*?>', '', text)）或专用库（如 BeautifulSoup）。
+
+
+Markdown标记：删除 **粗体**、![图片]() 等格式符号。
+
+
+特殊符号处理
+
+无用符号：如版权符号（©）、商标符号（®）、乱码字符（�）。
+保留符号：感叹号（!）、问号（?）等可能携带情感或语义的符号需保留。
+
+
+链接与用户提及
+
+URL：http:// 或 www. 开头的链接需删除（如 re.sub(r'http\S+', '', text)）。
+社交媒体标签：删除 @用户名 或 #话题（如 re.sub(r'[@#]\w+', '', text)）。
+
+
+冗余空白处理
+
+合并多个空格为单个空格：re.sub(r'\s+', ' ', text)。
+删除首尾空格：text.strip()。
+
+
+
+
+文本规范化（Text Normalization）：将文本转化为一致的格式，消除非标准变体。
+
+大小写统一
+
+常规做法：全部转为小写（text.lower()）。
+例外场景：
+
+专有名词（如产品名“iPhone”需保留大写）。
+情感分析中大写可能表示强调（如“LOVE” vs “love”）。
+
+
+
+
+数字处理策略
+
+直接删除：当数字不携带语义时（如通用文本中的随机数字）。
+替换为标记：统一为 <NUM>（适用于分类任务）。
+保留特殊格式：日期（2023-08-20）、金额（$199）需按需处理。
+
+
+缩写与拼写校正
+
+缩写展开：
+
+规则库映射（如 “don’t” → “do not”, “I’m” → “I am”）。
+
+
+拼写纠错：
+
+规则方法：pyenchant 库检测并建议修正。
+深度学习方法：BERT等模型预测上下文正确拼写。
+
+
+
+
+表情符号与颜文字
+
+删除：当任务不需要情感信号时（如法律文本分析）。
+转换文字描述：使用 emoji 库将😊转为“笑脸”（保留语义）。
+
+
+
+
+语言与编码处理
+
+多语言文本处理
+
+语言检测：使用 langdetect 库过滤非目标语言文本。
+混合语言处理：中英文混杂时需统一分词策略（如“Apple发布会”需切分为[“Apple”, “发布”, “会”]）。
+
+
+编码标准化
+
+Unicode规范化：统一为NFC格式（避免字形相同但编码不同的问题）。
+处理乱码：检测并删除无法解码的字节（如 text.encode('utf-8', 'ignore').decode('utf-8')）。
+
+
+
+
+
+
+
+  分词（Tokenization）
+  #
+
+分词（Tokenization）的目标是将连续的自然语言文本切分为有语义的离散单元（Token）。分词的粒度与质量直接影响模型对语义的理解能力。其核心目标包括：语义单元提取（将文本分割为模型可理解的原子单元（如词、子词、字符）），跨语言兼容性（适应不同语言的分词规则（如中文无空格、德语复合词）），未登录词（OOV）处理（解决词典未覆盖的新词或罕见词问题）。基础的分词方法有："><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/machine-learning/data-preprocessing/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Data Preprocessing"><meta property="og:description" content="数据预处理（Data Preprocessing） # 自然语言预处理（Natural Language Preprocessing） # 大语言模型（Large Language Models, LLMs）是基于深度学习的人工智能技术，能够理解和生成自然语言文本。这些模型通常以Transformer架构为核心，经过大规模的文本数据预训练，从而掌握语法、语义和上下文推理能力。LLMs的关键特点在于其通用性，不仅可以执行文本生成、翻译、问答等自然语言处理（NLP）任务，还能够通过微调适应特定领域需求，如医疗诊断、金融分析和法律文书撰写。在现代应用中，LLMs常被用作聊天机器人（Chatbot）、智能助理（Agent）、检索增强生成（Retrieval-Augmented Generation, RAG）系统的核心组件，同时也为复杂的多模态交互和自动化决策提供支持。随着技术的进步，LLMs通过集成增强知识检索、多模态融合和高效部署方法，正逐步成为AI驱动型产品开发中的核心工具。
+数据准备与预处理（Data Preparation & Preprocessing） # 数据准备与预处理流程从原始文本到模型输入的完整链路可归纳为：
+数据预处理：通过清洗（移除噪声、特殊符号、冗余数字）、分词（按词/子词/字符粒度切分）、编码（One-Hot/TF-IDF/标签编码等）将文本转化为结构化数值； 嵌入表示：基于编码结果生成低维稠密向量，传统方法（Word2Vec/GloVe）学习静态词向量，深度模型（BERT/Transformer）生成上下文动态向量； 模型适配：将向量输入任务模型（分类器/生成器）前，需进行标准化（归一化/降维）、序列对齐（填充/截断）及数据划分（训练/验证/测试集），最终完成端到端训练。 文本清理（Text Cleaning） # 文本数据清洗是自然语言处理（NLP）中至关重要的第一步，其目标是将原始文本转化为干净、结构化的输入数据。
+噪声去除（Noise Removal）：删除或替换文本中无意义、干扰性的字符或片段。 结构化标签去除 HTML/XML标签：网页文本中常包含 <div>, <a href> 等标签，需完全删除。 处理方法：正则表达式（如 re.sub(r'<.*?>', '', text)）或专用库（如 BeautifulSoup）。 Markdown标记：删除 **粗体**、![图片]() 等格式符号。 特殊符号处理 无用符号：如版权符号（©）、商标符号（®）、乱码字符（�）。 保留符号：感叹号（!）、问号（?）等可能携带情感或语义的符号需保留。 链接与用户提及 URL：http:// 或 www. 开头的链接需删除（如 re.sub(r'http\S+', '', text)）。 社交媒体标签：删除 @用户名 或 #话题（如 re.sub(r'[@#]\w+', '', text)）。 冗余空白处理 合并多个空格为单个空格：re.sub(r'\s+', ' ', text)。 删除首尾空格：text.strip()。 文本规范化（Text Normalization）：将文本转化为一致的格式，消除非标准变体。 大小写统一 常规做法：全部转为小写（text.lower()）。 例外场景： 专有名词（如产品名“iPhone”需保留大写）。 情感分析中大写可能表示强调（如“LOVE” vs “love”）。 数字处理策略 直接删除：当数字不携带语义时（如通用文本中的随机数字）。 替换为标记：统一为 <NUM>（适用于分类任务）。 保留特殊格式：日期（2023-08-20）、金额（$199）需按需处理。 缩写与拼写校正 缩写展开： 规则库映射（如 “don’t” → “do not”, “I’m” → “I am”）。 拼写纠错： 规则方法：pyenchant 库检测并建议修正。 深度学习方法：BERT等模型预测上下文正确拼写。 表情符号与颜文字 删除：当任务不需要情感信号时（如法律文本分析）。 转换文字描述：使用 emoji 库将😊转为“笑脸”（保留语义）。 语言与编码处理 多语言文本处理 语言检测：使用 langdetect 库过滤非目标语言文本。 混合语言处理：中英文混杂时需统一分词策略（如“Apple发布会”需切分为[“Apple”, “发布”, “会”]）。 编码标准化 Unicode规范化：统一为NFC格式（避免字形相同但编码不同的问题）。 处理乱码：检测并删除无法解码的字节（如 text.encode('utf-8', 'ignore').decode('utf-8')）。 分词（Tokenization） # 分词（Tokenization）的目标是将连续的自然语言文本切分为有语义的离散单元（Token）。分词的粒度与质量直接影响模型对语义的理解能力。其核心目标包括：语义单元提取（将文本分割为模型可理解的原子单元（如词、子词、字符）），跨语言兼容性（适应不同语言的分词规则（如中文无空格、德语复合词）），未登录词（OOV）处理（解决词典未覆盖的新词或罕见词问题）。基础的分词方法有："><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Data Preprocessing | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/machine-learning/data-preprocessing/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.19c687bfdb47c973d92046444581b3486f0ed1b311302a8bb55450dd59e49806.js integrity="sha256-GcaHv9tHyXPZIEZERYGzSG8O0bMRMCqLtVRQ3VnkmAY=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/machine-learning/data-preprocessing/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
 <label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-7e28d5ac3e9843e0deb580be9504447e class=toggle>
 <label for=section-7e28d5ac3e9843e0deb580be9504447e class="flex justify-between"><a role=button>Common Libraries</a></label><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/ class=active>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
 <label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
-<label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/recurrent-neural-networks/>Recurrent Neural Networks</a><ul></ul></li><li><a href=/docs/deep-learning/attention-and-transformers/>Attention and Transformers</a><ul></ul></li><li><a href=/docs/deep-learning/natural-language-processing/>Natural Language Processing</a><ul></ul></li><li><a href=/docs/deep-learning/computer-vision/>Computer Vision</a><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
+<label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><input type=checkbox id=section-d0dd931d60033c220ecd4cd60b7c9170 class=toggle>
+<label for=section-d0dd931d60033c220ecd4cd60b7c9170 class="flex justify-between"><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a></label><ul><li><a href=/docs/deep-learning/convolutional-neural-networks/modern-convolutional-neural-networks/>Modern Convolutional Neural Networks</a><ul></ul></li></ul></li><li><input type=checkbox id=section-a3019bfa8037cc33ed6405d1589b6219 class=toggle>
+<label for=section-a3019bfa8037cc33ed6405d1589b6219 class="flex justify-between"><a href=/docs/deep-learning/recurrent-neural-networks/>Recurrent Neural Networks</a></label><ul><li><a href=/docs/deep-learning/recurrent-neural-networks/modern-recurrent-neural-networks/>Modern Recurrent Neural Networks</a><ul></ul></li></ul></li><li><input type=checkbox id=section-0a43584c16258b228ae9aa8d70efc320 class=toggle>
+<label for=section-0a43584c16258b228ae9aa8d70efc320 class="flex justify-between"><a href=/docs/deep-learning/attention-and-transformers/>Attention and Transformers</a></label><ul><li><a href=/docs/deep-learning/attention-and-transformers/large-scale-pretraining-with-transformers/>Large-Scale Pretraining with Transformers</a><ul></ul></li><li><a href=/docs/deep-learning/attention-and-transformers/modern-large-language-models-copy/>Modern Large Language Models</a><ul></ul></li></ul></li><li><input type=checkbox id=section-92e8358c45c96009753cf4227e9daea8 class=toggle>
+<label for=section-92e8358c45c96009753cf4227e9daea8 class="flex justify-between"><a href=/docs/deep-learning/llm-pipelines/>Large Language Model Pipelines</a></label><ul><li><a href=/docs/deep-learning/llm-pipelines/llm-inference-and-deployment/>LLM Inference and Deployment</a><ul></ul></li></ul></li><li><a href=/docs/deep-learning/computer-vision/>Computer Vision</a><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
 <label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
-<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Data Preprocessing</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents></nav></aside></header><article class="markdown book-article"><h1 id=data-preprocessing>Data Preprocessing
-<a class=anchor href=#data-preprocessing>#</a></h1></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents></nav></div></aside></main></body></html>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Data Preprocessing</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#自然语言预处理natural-language-preprocessing><strong>自然语言预处理（Natural Language Preprocessing）</strong></a><ul><li><a href=#数据准备与预处理data-preparation--preprocessing><strong>数据准备与预处理（Data Preparation & Preprocessing）</strong></a></li><li><a href=#编码encoding><strong>编码（Encoding）</strong></a></li><li><a href=#词嵌入embedding><strong>词嵌入（Embedding）</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=数据预处理data-preprocessing><strong>数据预处理（Data Preprocessing）</strong>
+<a class=anchor href=#%e6%95%b0%e6%8d%ae%e9%a2%84%e5%a4%84%e7%90%86data-preprocessing>#</a></h1><hr><h2 id=自然语言预处理natural-language-preprocessing><strong>自然语言预处理（Natural Language Preprocessing）</strong>
+<a class=anchor href=#%e8%87%aa%e7%84%b6%e8%af%ad%e8%a8%80%e9%a2%84%e5%a4%84%e7%90%86natural-language-preprocessing>#</a></h2><p>大语言模型（Large Language Models, LLMs）是基于深度学习的人工智能技术，能够理解和生成自然语言文本。这些模型通常以Transformer架构为核心，经过大规模的文本数据预训练，从而掌握语法、语义和上下文推理能力。LLMs的关键特点在于其通用性，不仅可以执行文本生成、翻译、问答等自然语言处理（NLP）任务，还能够通过微调适应特定领域需求，如医疗诊断、金融分析和法律文书撰写。在现代应用中，LLMs常被用作聊天机器人（Chatbot）、智能助理（Agent）、检索增强生成（Retrieval-Augmented Generation, RAG）系统的核心组件，同时也为复杂的多模态交互和自动化决策提供支持。随着技术的进步，LLMs通过集成增强知识检索、多模态融合和高效部署方法，正逐步成为AI驱动型产品开发中的核心工具。</p><hr><h3 id=数据准备与预处理data-preparation--preprocessing><strong>数据准备与预处理（Data Preparation & Preprocessing）</strong>
+<a class=anchor href=#%e6%95%b0%e6%8d%ae%e5%87%86%e5%a4%87%e4%b8%8e%e9%a2%84%e5%a4%84%e7%90%86data-preparation--preprocessing>#</a></h3><p>数据准备与预处理流程从原始文本到模型输入的完整链路可归纳为：</p><ol><li><strong>数据预处理</strong>：通过清洗（移除噪声、特殊符号、冗余数字）、分词（按词/子词/字符粒度切分）、编码（One-Hot/TF-IDF/标签编码等）将文本转化为结构化数值；</li><li><strong>嵌入表示</strong>：基于编码结果生成低维稠密向量，传统方法（Word2Vec/GloVe）学习静态词向量，深度模型（BERT/Transformer）生成上下文动态向量；</li><li><strong>模型适配</strong>：将向量输入任务模型（分类器/生成器）前，需进行标准化（归一化/降维）、序列对齐（填充/截断）及数据划分（训练/验证/测试集），最终完成端到端训练。</li></ol><hr><h4 id=文本清理text-cleaning><strong>文本清理（Text Cleaning）</strong>
+<a class=anchor href=#%e6%96%87%e6%9c%ac%e6%b8%85%e7%90%86text-cleaning>#</a></h4><p>文本数据清洗是自然语言处理（NLP）中至关重要的第一步，其目标是将原始文本转化为干净、结构化的输入数据。</p><ul><li><strong>噪声去除（Noise Removal）</strong>：删除或替换文本中无意义、干扰性的字符或片段。<ol><li><strong>结构化标签去除</strong><ul><li>HTML/XML标签：网页文本中常包含 <code>&lt;div></code>, <code>&lt;a href></code> 等标签，需完全删除。<ul><li>处理方法：正则表达式（如 <code>re.sub(r'&lt;.*?>', '', text)</code>）或专用库（如 <code>BeautifulSoup</code>）。</li></ul></li><li>Markdown标记：删除 <code>**粗体**</code>、<code>![图片]()</code> 等格式符号。</li></ul></li><li><strong>特殊符号处理</strong><ul><li>无用符号：如版权符号（<code>©</code>）、商标符号（<code>®</code>）、乱码字符（<code>�</code>）。</li><li>保留符号：感叹号（<code>!</code>）、问号（<code>?</code>）等可能携带情感或语义的符号需保留。</li></ul></li><li><strong>链接与用户提及</strong><ul><li><code>URL：http://</code> 或 <code>www.</code> 开头的链接需删除（如 <code>re.sub(r'http\S+', '', text)</code>）。</li><li>社交媒体标签：删除 <code>@用户名</code> 或 <code>#话题</code>（如 <code>re.sub(r'[@#]\w+', '', text)</code>）。</li></ul></li><li><strong>冗余空白处理</strong><ul><li>合并多个空格为单个空格：<code>re.sub(r'\s+', ' ', text)</code>。</li><li>删除首尾空格：<code>text.strip()</code>。</li></ul></li></ol></li><li><strong>文本规范化（Text Normalization）</strong>：将文本转化为一致的格式，消除非标准变体。<ol><li><strong>大小写统一</strong><ul><li>常规做法：全部转为小写（<code>text.lower()</code>）。</li><li>例外场景：<ul><li>专有名词（如产品名“iPhone”需保留大写）。</li><li>情感分析中大写可能表示强调（如“LOVE” vs “love”）。</li></ul></li></ul></li><li><strong>数字处理策略</strong><ul><li>直接删除：当数字不携带语义时（如通用文本中的随机数字）。</li><li>替换为标记：统一为 <code>&lt;NUM></code>（适用于分类任务）。</li><li>保留特殊格式：日期（2023-08-20）、金额（$199）需按需处理。</li></ul></li><li>缩写与拼写校正<ul><li>缩写展开：<ul><li>规则库映射（如 “don’t” → “do not”, “I’m” → “I am”）。</li></ul></li><li>拼写纠错：<ul><li>规则方法：<code>pyenchant</code> 库检测并建议修正。</li><li>深度学习方法：BERT等模型预测上下文正确拼写。</li></ul></li></ul></li><li>表情符号与颜文字<ul><li>删除：当任务不需要情感信号时（如法律文本分析）。</li><li>转换文字描述：使用 <code>emoji</code> 库将😊转为“笑脸”（保留语义）。</li></ul></li></ol></li><li><strong>语言与编码处理</strong><ol><li><strong>多语言文本处理</strong><ul><li>语言检测：使用 <code>langdetect</code> 库过滤非目标语言文本。</li><li>混合语言处理：中英文混杂时需统一分词策略（如“Apple发布会”需切分为[“Apple”, “发布”, “会”]）。</li></ul></li><li><strong>编码标准化</strong><ul><li>Unicode规范化：统一为NFC格式（避免字形相同但编码不同的问题）。</li><li>处理乱码：检测并删除无法解码的字节（如 <code>text.encode('utf-8', 'ignore').decode('utf-8')</code>）。</li></ul></li></ol></li></ul><hr><h4 id=分词tokenization><strong>分词（Tokenization）</strong>
+<a class=anchor href=#%e5%88%86%e8%af%8dtokenization>#</a></h4><p>分词（Tokenization）的目标是将连续的自然语言文本切分为有语义的离散单元（Token）。分词的粒度与质量直接影响模型对语义的理解能力。其核心目标包括：<strong>语义单元提取</strong>（将文本分割为模型可理解的原子单元（如词、子词、字符）），<strong>跨语言兼容性</strong>（适应不同语言的分词规则（如中文无空格、德语复合词）），<strong>未登录词（OOV）处理</strong>（解决词典未覆盖的新词或罕见词问题）。基础的分词方法有：</p><ol><li><strong>基于规则的分词</strong>：<ul><li><strong>空格分词</strong>：适用于英语等以空格分隔的语言，但对连字符（state-of-the-art）、缩写（Mr.）处理不佳。</li><li>正则表达式：自定义模式匹配，如切分带连字符的复合词（<code>r'\w+-\w+'</code>）。</li><li>最大匹配法（MaxMatch）：从右向左或从左向右扫描，选择词典中最长的匹配词。<ul><li>缺点：无法解决歧义（如“南京市长江大桥”可能误切为“南京市长/江/大桥”）。</li></ul></li></ul></li><li><strong>子词分词（Subword Tokenization）</strong>：将词分解为更小的可重用单元（子词），平衡词典大小与OOV问题。<ul><li><strong>BPE（Byte-Pair Encoding）</strong> 是一种基于频率统计的子词分词算法<ul><li>其训练过程分为两个阶段：<strong>首先将文本拆分为单个字符作为初始词汇表，随后迭代合并出现频率最高的相邻字符对，逐步扩展子词单元</strong>。</li><li>例如，高频组合“e”和“s”可能被合并为“es”，最终形成包含高频完整词和可读子词的词典。BPE的特点在于通过频率驱动合并，能够保留常见词的完整性（如“ing”作为整体），同时生成具有可解释性的子词（如“un”和“friend”组合成“unfriend”）。</li><li>这一方法在生成式模型中得到广泛应用，例如 <strong>GPT系列模型通过BPE处理文本</strong>，有效平衡词典规模与未登录词（OOV）问题。</li></ul></li><li><strong>WordPiece</strong> 的核心理念与BPE相似，但合并策略更注重语义完整性。<ul><li><strong>其训练过程同样从基础单元（如字符）开始，但选择合并的标准并非单纯依赖频率，而是通过计算合并后对语言模型概率的提升幅度，优先保留能够增强语义连贯性的子词。</strong></li><li>例如，若合并“##ing”比拆分更符合上下文概率，则将其作为独立单元。这种策略使得WordPiece生成的子词更贴近自然语言形态（如保留“##ly”作为后缀），从而在理解任务中表现更优。</li><li><strong>BERT模型即采用WordPiece分词</strong>，通过动态上下文编码实现高效的语义捕捉。</li></ul></li><li><strong>SentencePiece</strong> 是一种更通用的分词框架，其核心创新在于直接处理原始文本（包括空格和特殊符号），无需依赖预分词步骤。<ul><li>它支持两种底层算法：BPE或基于概率的Unigram Language Model。训练时，SentencePiece将空格视为普通字符，可 <strong>直接处理多语言混合文本（如中英文混杂）</strong>，并自动学习跨语言的统一子词划分规则。例如，中文句子“我喜欢NLP”可能被切分为“我/喜/欢/N/L/P”，其中“”表示空格。</li><li><strong>这一特性使其在需要多语言支持的场景（如T5模型）中表现突出</strong>，同时简化了数据处理流程，特别适合处理社交媒体文本等非规范化输入。</li></ul></li></ul></li></ol><hr><h4 id=停用词stopwords词干提取stemming和句子处理sentence-processing><strong>停用词（Stopwords）、词干提取（Stemming）和句子处理（Sentence Processing）</strong>
+<a class=anchor href=#%e5%81%9c%e7%94%a8%e8%af%8dstopwords%e8%af%8d%e5%b9%b2%e6%8f%90%e5%8f%96stemming%e5%92%8c%e5%8f%a5%e5%ad%90%e5%a4%84%e7%90%86sentence-processing>#</a></h4><ul><li><p><strong>停用词（Stopwords）</strong>：停用词是指在文本处理中经常出现、但对 NLP <strong>任务贡献较小的词</strong>。这些词通常是介词、冠词、代词、连词、助动词等，例如：</p><ul><li>英语：the, is, at, which, on, in, a, an, and, but, or</li><li>中文：的, 了, 在, 是, 和, 有, 也, 与, 都</li></ul><p>去除停用词的<strong>作用主要有</strong>：</p><ol><li><strong>降维（Dimensionality Reduction）</strong>：许多 NLP 任务（如文本分类）只关心关键信息，去除停用词可以减少词表大小，提高计算效率。</li><li><strong>减少噪声（Noise Reduction）</strong>：在 TF-IDF 计算或文本聚类等任务中，停用词可能会干扰语义分析，因为它们频繁出现但不提供额外信息。</li><li><strong>提高模型效率（Efficiency Improvement）</strong>：停用词可能会增加计算复杂度，而它们的去除可以使得 NLP 模型在更少的特征上训练，提高训练和推理速度。</li></ol></li><li><p><strong>词干提取（Stemming）</strong>：词干提取是一种规则化处理方法，通过截取单词的词根，去掉变形部分（如时态、复数、动名词后缀），使得同一词根的不同变体归一化。常见 Stemming 算法有</p><ul><li>Porter Stemmer（最常用）：<ul><li>running → run</li><li>flies → fli</li><li>happiness → happi（去掉 “-ness”）</li></ul></li></ul></li><li><p><strong>词形还原（Lemmatization）</strong>：词形还原（Lemmatization）通过词典映射将单词还原为词典中的标准形式（Lemma），不同于 Stemming，它考虑单词的词性。</p><ul><li>词干提取（Stemming）：<code>caring → car</code> 规则化处理，速度快，但有误差</li><li>词形还原（Lemmatization）：<code>caring → care</code> 语法正确，但需要词性标注，速度慢</li></ul></li><li><p><strong>句子处理（Sentence Processing）</strong>：句子处理包括分词、分句、词性标注、句法分析等</p><ul><li>句子分割（Sentence Segmentation）：直接基于标点 &lsquo;.&rsquo;, &lsquo;?&rsquo;, &lsquo;!&rsquo; 进行拆分</li><li>词性标注（POS Tagging）：识别每个词的词性（名词、动词、形容词等）。</li></ul></li></ul><hr><h4 id=nlp-数据集text-datasets><strong>NLP 数据集（Text Datasets）</strong>
+<a class=anchor href=#nlp-%e6%95%b0%e6%8d%ae%e9%9b%86text-datasets>#</a></h4><table><thead><tr><th>任务类型</th><th>数据集示例</th><th>数据特点</th><th>典型应用</th></tr></thead><tbody><tr><td><strong>文本分类</strong></td><td>IMDb影评、AG News</td><td>文本 + 类别标签</td><td>情感分析、主题分类</td></tr><tr><td><strong>序列标注</strong></td><td>CoNLL-2003、OntoNotes</td><td>字符/词级标签</td><td>命名实体识别、词性标注</td></tr><tr><td><strong>问答系统</strong></td><td>SQuAD、HotpotQA</td><td>问题 + 上下文 + 答案</td><td>阅读理解、开放域问答</td></tr><tr><td><strong>文本生成</strong></td><td>CNN/DailyMail、Gigaword</td><td>原文 + 摘要</td><td>摘要生成、对话系统</td></tr><tr><td><strong>语义相似度</strong></td><td>STS-B、MRPC</td><td>句子对 + 相似度分数</td><td>检索排序、复述检测</td></tr></tbody></table><ul><li><strong>结构化数据</strong>：<ul><li>格式：CSV/JSON中的字段化文本（如电商评论包含评分、用户ID）</li><li>处理重点：字段提取与关联分析</li></ul></li><li><strong>非结构化文本</strong>：<ul><li>格式：纯文本文件、网页爬取内容
+*处理重点：清洗与段落分割</li></ul></li><li><strong>对话数据</strong>：<ul><li>格式：多轮对话记录（如Customer Support聊天记录）</li><li>处理重点：对话轮次划分与角色标注</li></ul></li></ul><hr><h3 id=编码encoding><strong>编码（Encoding）</strong>
+<a class=anchor href=#%e7%bc%96%e7%a0%81encoding>#</a></h3><p>在自然语言处理（NLP）中，Encoding（编码）是将文本数据转换为计算机可以处理的数值形式的过程。由于计算机无法直接理解文字，所以我们需要将文字映射到数值空间中，便于后续的处理和分析。编码技术的选择通常取决于具体任务和数据特性。</p><p>Encoding 主要做的事情是 <strong>把文本转换成结构化的、可索引的格式，这样后续的模型或者算法可以进行查询和计算</strong>，这个过程类似于构建一个 “字典”（vocabulary），把文本转换成可以查询的 ID 表示。除了构建可查询的字典，Encoding 还可以：</p><ul><li>加入词频或语法信息（如 TF-IDF, Bag-of-Words）</li><li>考虑位置信息（如 Position Encoding in Transformers）</li><li>压缩文本信息（如 Huffman Encoding, Byte-Pair Encoding）</li></ul><blockquote class="book-hint warning"><p><strong>Note：</strong> 在 NLP 流程中，Encoding 是预处理步骤，Embedding 是特征学习步骤。</p></blockquote><hr><h4 id=独热编码one-hot-encoding><strong>独热编码（One-Hot Encoding）</strong>
+<a class=anchor href=#%e7%8b%ac%e7%83%ad%e7%bc%96%e7%a0%81one-hot-encoding>#</a></h4><p>One-Hot编码是一种最基础的编码方法。它将每个词表示为一个稀疏的向量，在这个向量中，词汇表中每个词都有一个唯一的索引。如果一个词在文本中出现，那么它对应的向量在该位置上取1，其他位置则取0。假设我们有一个简单的词汇表 <code>{“I”, “love”, “AI”}</code>，那么词“love”在One-Hot编码中的表示就是 <code>[0, 1, 0]</code>。</p><ul><li>这种表示方式非常简单，但其最大的问题是它并 <strong>没有捕捉到词汇之间的语义关系</strong>，因为每个词都被表示为一个独立的离散向量。</li><li><strong>维度灾难（Curse of Dimensionality）</strong>：词汇表大小较大时内存开销极高。</li></ul><hr><h4 id=bag-of-words-bow><strong>Bag-of-Words (BoW)</strong>
+<a class=anchor href=#bag-of-words-bow>#</a></h4><p>Bag-of-Words是一种常用的文本表示方法，它将文本视为一个词袋，忽略词序和语法，<strong>仅考虑每个词在文本中出现的频率</strong>。在BoW模型中，<strong>每篇文本被表示为一个向量，向量的维度等于词汇表的大小</strong>，每个位置表示词汇表中某个词出现的次数或频率。例如句子 <code>“I love NLP and love coding”</code> → <code>{"I":1, "love":2, "NLP":1, "and":1, "coding":1}</code>。</p><ul><li>虽然这种表示方法比One-Hot编码更灵活，能捕捉到词频信息，但它同样不能反映词汇间的关系，且当词汇表很大时，生成的向量非常稀疏，计算效率较低。</li></ul><hr><h4 id=tf-idf-term-frequency-inverse-document-frequency><strong>TF-IDF (Term Frequency-Inverse Document Frequency)</strong>
+<a class=anchor href=#tf-idf-term-frequency-inverse-document-frequency>#</a></h4><p>TF-IDF是改进BoW的一种方法，它考虑了 <strong>词频（Term Frequency, TF）</strong> 和 <strong>逆文档频率（Inverse Document Frequency, IDF）</strong> 两个因素，旨在提高词语在文档中的重要性衡量。TF衡量某个词在一篇文档中出现的频率，而IDF则衡量该词在整个语料库中出现的稀有程度。TF-IDF 通过计算公式：
+<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\[
+\text{TF-IDF}(t, d) = \text{TF}(t, d) \times \text{IDF}(t)
+\]
+</span>其中， <span>\(t\)
+</span>是词，<span>
+\(d\)
+</span>是文档，<span>
+\(\text{TF}(t, d)\)
+</span>表示词 <span>\(t\)
+</span>在文档 <span>\(d\)
+</span>中出现的频率，<span>
+\(\text{IDF}(t) = \log \frac{N}{df(t)}\)
+</span>，其中 <span>\(N\)
+</span>是文档总数，<span>
+\(df(t)\)
+</span>是包含词 <span>\(t\)
+</span>的文档数。通过这种方法，TF-IDF能够给予在少数文档中出现的词更高的权重，从而使得模型能够识别出更具区分性的词。</p><hr><h4 id=bpe-byte-pair-encoding><strong>BPE (Byte Pair Encoding)</strong>
+<a class=anchor href=#bpe-byte-pair-encoding>#</a></h4><p>BPE是一种基于频率的子词分解方法，它通过 <strong>反复合并出现频率最高的字节对来生成词汇表</strong>。这意味着BPE会将词语分解为多个子词（subword）或字符单元。BPE的主要目的是能够将稀有词或未登录词分解成较常见的子词，从而避免直接处理未知的词汇。BPE的编码过程：</p><ol><li><p>将所有词分解为字符级别的单元。</p><pre tabindex=0><code>[&#34;l&#34;, &#34;o&#34;, &#34;w&#34;, &#34; &#34;, &#34;l&#34;, &#34;o&#34;, &#34;w&#34;, &#34;e&#34;, &#34;r&#34;, &#34; &#34;, &#34;n&#34;, &#34;e&#34;, &#34;w&#34;, &#34;e&#34;, &#34;s&#34;, &#34;t&#34;, &#34; &#34;, &#34;w&#34;, &#34;i&#34;, &#34;d&#34;, &#34;e&#34;, &#34;s&#34;, &#34;t&#34;]
+</code></pre></li><li><p>通过统计训练语料中最常见的字符对，合并频率最高的字符对为一个新的子词单位。</p><pre tabindex=0><code>(&#34;l&#34;, &#34;o&#34;) -&gt; 2次
+(&#34;o&#34;, &#34;w&#34;) -&gt; 2次
+(&#34;e&#34;, &#34;s&#34;) -&gt; 2次
+(&#34;s&#34;, &#34;t&#34;) -&gt; 2次
+    ...
+</code></pre></li><li><p>重复这个过程直到得到预定大小的词汇表。</p><pre tabindex=0><code>[&#34;low&#34;, &#34;low&#34;, &#34;er&#34;, &#34;newest&#34;, &#34;widest&#34;]
+</code></pre><pre tabindex=0><code>vocab = {&#34;low&#34;: 100, &#34;lower&#34;: 101, &#34;er&#34;: 102, &#34;newest&#34;: 103, &#34;widest&#34;: 104}
+</code></pre></li></ol><p>BPE的优点是它 <strong>能够有效地处理未登录词</strong>，并且在处理长尾词（rare words）时表现良好。比如，词”unhappiness”可以被分解为”un” + “happiness”，而不是完全看作一个新的词。</p><hr><h4 id=wordpiece><strong>WordPiece</strong>
+<a class=anchor href=#wordpiece>#</a></h4><p>WordPiece是由Google开发的分词技术，最初用于 BERT 中。它与BPE类似，也是通过子词分解处理词汇表，旨在解决词汇表过大导致的存储和计算问题，并提高模型处理稀有词的能力。WordPiece通过统计训练语料中的子词频率来构建词汇表。WordPiece的编码过程：</p><ol><li>与BPE类似，首先将所有词分解为最小的单位（如字符）。<pre tabindex=0><code>[&#34;l&#34;, &#34;o&#34;, &#34;w&#34;, &#34; &#34;, &#34;l&#34;, &#34;o&#34;, &#34;w&#34;, &#34;e&#34;, &#34;r&#34;, &#34; &#34;, &#34;n&#34;, &#34;e&#34;, &#34;w&#34;, &#34;e&#34;, &#34;s&#34;, &#34;t&#34;, &#34; &#34;, &#34;w&#34;, &#34;i&#34;, &#34;d&#34;, &#34;e&#34;, &#34;s&#34;, &#34;t&#34;]
+</code></pre></li><li>基于子词的出现频率来选择最常见的子词，并合并它们。这里的 <code>##</code> 表示这个 token 只能作为后缀出现，不会单独存在。<pre tabindex=0><code>{&#34;low&#34;, &#34;##er&#34;, &#34;##ing&#34;, &#34;new&#34;, &#34;##est&#34;, &#34;wide&#34;, &#34;##st&#34;}
+</code></pre></li><li>直到构建出一个具有固定大小的子词词汇表。<pre tabindex=0><code>vocab = {&#34;low&#34;: 100, &#34;##er&#34;: 101, &#34;##ing&#34;: 102, &#34;new&#34;: 103, &#34;##est&#34;: 104, &#34;wide&#34;: 105, &#34;##st&#34;: 106}
+</code></pre></li></ol><p>WordPiece通常通过在训练过程中反复构建最优的子词分解，使模型能够有效地处理复杂和未登录的词。</p><hr><h3 id=词嵌入embedding><strong>词嵌入（Embedding）</strong>
+<a class=anchor href=#%e8%af%8d%e5%b5%8c%e5%85%a5embedding>#</a></h3><p>在自然语言处理中，Embedding（词嵌入）是将 <strong>离散的文本数据（如单词、短语或句子）映射到一个连续的、低维度的向量空间（vector space）的过程</strong>。这种表示方式不仅减少了数据的维度，还能捕捉到文本中的语义信息，使得语义相近的词在嵌入空间中具有相似的向量表示。词嵌入（Embedding）也可区分为：</p><ul><li><strong>静态词向量（Static Word Embeddings）</strong> 是一种将每个词映射为固定不变的低维稠密向量的技术，其核心特点是 <strong>无论词语出现在何种上下文中，其向量表示均保持不变</strong>。这类方法通过大规模语料训练，捕捉词语间的语义和语法关系，例如通过词共现模式（如Word2Vec的局部窗口预测、GloVe的全局矩阵分解）或子词组合（如FastText的字符级n-gram）生成向量。静态词向量的优势在于训练高效、资源消耗低，且生成的向量可直观反映语义相似性（如“猫”和“狗”向量接近）；但其 <strong>局限性是无法处理多义词</strong>（如“苹果”在“水果”和“手机”场景中的不同含义），因为每个词仅对应单一向量。</li><li><strong>上下文动态词向量（Contextual Word Embeddings）</strong>：静态嵌入虽然可以表示词语的语义，但它们无法根据上下文动态调整，例如 “bank” 在 “river bank” 和 “bank account” 里的含义不同。而 动态词嵌入 解决了这个问题，代表性模型包括 ELMo、BERT 和 GPT。</li></ul><hr><h4 id=word2vec><strong>Word2Vec</strong>
+<a class=anchor href=#word2vec>#</a></h4><p>Word2Vec 是 Google 在 2013 年提出的词嵌入方法，它将每个词映射到一个固定长度的向量，这些向量能更好地表达不同词之间的相似性和类比关系。word2vec工具包含两个模型，即跳元模型（skip-gram） (Mikolov et al., 2013)和连续词袋（CBOW） (Mikolov et al., 2013)。对于在语义上有意义的表示，它们的训练依赖于条件概率，条件概率可以被看作使用语料库中一些词来预测另一些单词。由于是不带标签的数据，因此跳元模型和连续词袋都是 <strong>自监督模型</strong>。</p><hr><h5 id=跳元模型skip-gram><strong>跳元模型（Skip-Gram）</strong>
+<a class=anchor href=#%e8%b7%b3%e5%85%83%e6%a8%a1%e5%9e%8bskip-gram>#</a></h5><p>跳元模型假设 <strong>一个词可以用来在文本序列中生成其周围的单词</strong>。以文本序列“the”“man”“loves”“his”“son”为例。假设中心词选择“loves”，并将上下文窗口设置为2，给定中心词“loves”，跳元模型考虑生成上下文词“the”“man”“him”“son”的条件概率：
+<span>\[
+P(\textrm{"the"},\textrm{"man"},\textrm{"his"},\textrm{"son"}\mid\textrm{"loves"}).
+\]</span></p><div align=center><img src=/images/skip-gram.svg width=300px/></div><p>在跳元模型中，每个词都有两个 <span>\(d\)
+</span>维向量表示，用于计算条件概率。更具体地说，对于词典中索引为 <span>\(i\)
+</span>的任何词，分别用 <span>\(\mathbf{v}_i\in\mathbb{R}^d\)
+</span>和 <span>\(\mathbf{u}_i\in\mathbb{R}^d\)
+</span>表示其用作中心词和上下文词时的两个向量。给定中心词 <span>\(w_c\)
+</span>（词典中的索引 <span>\(c\)
+</span>），生成任何上下文词 <span>\(w_o\)
+</span>（词典中的索引 <span>\(o\)
+</span>）的条件概率可以通过对向量点积的softmax操作来建模：
+<span>\[
+P(w_o \mid w_c) = \frac{\text{exp}(\mathbf{u}_o^\top \mathbf{v}_c)}{ \sum_{i \in \mathcal{V}} \text{exp}(\mathbf{u}_i^\top \mathbf{v}_c)},
+\]</span></p><p>换个角度来说，Word2Vec 的核心是 <strong>一个浅层神经网络（Shallow Neural Network）</strong>，由一个输入层、一个隐藏层（线性变换层）、一个输出层（Softmax 或其他采样方法）组成：</p><ol><li><strong>输入示例</strong>：<ul><li>句子：“I love natural language processing.”</li><li>若窗口大小为1，中心词为“natural”，则上下文词为“love”和“language”。</li></ul></li><li><strong>输入通过 One-Hot 编码 表示为一个稀疏向量</strong>。例如，若词汇表为 [&ldquo;cat&rdquo;, &ldquo;dog&rdquo;, &ldquo;fish&rdquo;]，则“dog”的输入编码为 [0, 1, 0]。</li><li><strong>输入层到隐藏层</strong>：输入向量与 输入权重矩阵 <span>\(W_{in}\)
+</span>（维度为 <span>\(V×d\)
+</span>，<span>
+\(V\)
+</span>是词汇表大小，<span>
+\(d\)
+</span>是词向量维度）相乘，得到中心词的嵌入向量 <span>\(v_i\)
+</span>。
+<span>\[
+v_i=W_{in}⋅OneHot(w)。
+\]</span></li><li><strong>通过 输出权重矩阵 <span>\(W_{out}\)
+</span>（维度为 <span>\(d×V\)
+</span>）将隐层向量映射到输出概率</strong>：
+<span>\[
+u_i = W_{out}⋅v_i。
+\]</span></li><li>使用 Softmax 归一化，通过梯度下降优化词向量，使得上下文词的概率最大化。</li></ol><blockquote><p><strong>Note：</strong> 训练后，<strong>输入矩阵中的向量 <span>\(v_i\)
+</span>即为词的低维表示。输入向量更聚焦中心词语义，输出向量辅助建模上下文关系，最终通常只使用输入向量。</strong></p></blockquote><p><strong>在 PyTorch 的实现中，Word2Vec（Skip-gram）通常使用 <code>nn.Embedding</code> 来替代传统的神经网络全连接层</strong>：</p><ul><li>用 <code>nn.Embedding</code> 代替输入层权重矩阵 <span>\(W_{\text{in}}\)
+</span>，它会直接输出词向量（即中心词的 embedding）。负责学习词本身的表示。</li><li>用 <code>nn.Embedding</code> 代替输出层权重矩阵 <span>\(W_{\text{out}}\)
+</span>，它会直接输出目标词的向量（即上下文词的 embedding）。负责学习上下文词的关系。</li><li>最终用两个 embedding 向量进行点积，然后计算 loss</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.nn <span style=color:#66d9ef>as</span> nn
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.optim <span style=color:#66d9ef>as</span> optim
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Word2Vec</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, vocab_size, embed_dim):
+</span></span><span style=display:flex><span>        super(Word2Vec, self)<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>in_embedding <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Embedding(vocab_size, embed_dim)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>out_embedding <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Embedding(vocab_size, embed_dim)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, center_word, context_word):
+</span></span><span style=display:flex><span>        center_embed <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>in_embedding(center_word)  <span style=color:#75715e># (batch_size, embed_dim)</span>
+</span></span><span style=display:flex><span>        context_embed <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>out_embedding(context_word)  <span style=color:#75715e># (batch_size, embed_dim)</span>
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 计算两个 embedding 向量的点积</span>
+</span></span><span style=display:flex><span>        score <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>sum(center_embed <span style=color:#f92672>*</span> context_embed, dim<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>)  <span style=color:#75715e># (batch_size,)</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> score
+</span></span></code></pre></div><hr><h5 id=连续词袋cbow模型><strong>连续词袋（CBOW）模型</strong>
+<a class=anchor href=#%e8%bf%9e%e7%bb%ad%e8%af%8d%e8%a2%8bcbow%e6%a8%a1%e5%9e%8b>#</a></h5><p>连续词袋（continuous bag of words, CBOW）模型类似于跳元模型。与跳元模型的主要区别在于，<strong>连续词袋模型假设中心词是基于其在文本序列中的周围上下文词生成的</strong>。例如，在文本序列“the”“man”“loves”“his”“son”中，在“loves”为中心词且上下文窗口为2的情况下，连续词袋模型考虑基于上下文词“the”“man”“him”“son” 生成中心词“loves”的条件概率，即：
+<span>\[
+P(\textrm{"loves"}\mid\textrm{"the"},\textrm{"man"},\textrm{"his"},\textrm{"son"}).
+\]</span></p><div align=center><img src=/images/cbow.svg width=300px/></div><p>连续词袋（CBOW）的训练细节与 跳元模型（Skip-Gram）大部分类似，但是在输入 One-Hot 编码表示时，<strong>跳元模型（Skip-Gram）将中心词进行 One-Hot 编码，而连续词袋（CBOW）将上下文词进行 One-Hot 编码并取平均值。</strong> 例如，中心词为“natural”，上下文词为“love”和“language”。输入为 <code>[0, 1, 0, 0, 0]</code>（“love”）和 <code>[0, 0, 0, 1, 0]</code>（“language”）的平均向量 <code>[0, 0.5, 0, 0.5, 0]</code>。此外，输出概率通过 Softmax 计算公式也有不同：
+<span>\[
+P(w_c \mid \mathcal{W}_o) = \frac{\exp\left(\mathbf{u}_c^\top \bar{\mathbf{v}}_o\right)}{\sum_{i \in \mathcal{V}} \exp\left(\mathbf{u}_i^\top \bar{\mathbf{v}}_o\right)}.
+\]</span></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.nn <span style=color:#66d9ef>as</span> nn
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>CBOWModel</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, vocab_size, embedding_dim):
+</span></span><span style=display:flex><span>        super(CBOWModel, self)<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>embeddings <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Embedding(vocab_size, embedding_dim)  <span style=color:#75715e># 词嵌入层</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>linear <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Linear(embedding_dim, vocab_size)  <span style=color:#75715e># 输出层（全连接层）</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, context_words):
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 1. 查找词向量</span>
+</span></span><span style=display:flex><span>        embedded <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>embeddings(context_words)  <span style=color:#75715e># (batch_size, context_size, embedding_dim)</span>
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 2. 计算上下文词向量的平均值</span>
+</span></span><span style=display:flex><span>        embedded <span style=color:#f92672>=</span> embedded<span style=color:#f92672>.</span>mean(dim<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>)  <span style=color:#75715e># (batch_size, embedding_dim)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 3. 通过全连接层计算每个单词的概率</span>
+</span></span><span style=display:flex><span>        output <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>linear(embedded)  <span style=color:#75715e># (batch_size, vocab_size)</span>
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> output
+</span></span></code></pre></div><table><thead><tr><th>维度</th><th>CBOW</th><th>Skip-Gram</th></tr></thead><tbody><tr><td><strong>输入-输出关系</strong></td><td>多个上下文词 → 中心词</td><td>中心词 → 多个上下文词</td></tr><tr><td><strong>训练速度</strong></td><td>更快（上下文词平均后单次预测）</td><td>更慢（每个上下文词单独预测）</td></tr><tr><td><strong>小数据集表现</strong></td><td>更好（利用上下文词共现信息）</td><td>较差（依赖中心词独立预测）</td></tr><tr><td><strong>生僻词处理</strong></td><td>较差（上下文噪声平均可能稀释语义）</td><td>更好（直接建模中心词与上下文关联）</td></tr><tr><td><strong>典型应用场景</strong></td><td>高频词密集的语料（如新闻文本）</td><td>生僻词多或上下文稀疏的语料</td></tr></tbody></table><hr><h5 id=近似训练><strong>近似训练</strong>
+<a class=anchor href=#%e8%bf%91%e4%bc%bc%e8%ae%ad%e7%bb%83>#</a></h5><p>由于softmax操作的性质，上下文词可以是词表 <span>\(V\)
+</span>中的任意项，但是，在一个词典上（通常有几十万或数百万个单词）求和的梯度的计算成本是巨大的！为了降低计算复杂度，可以采用两种近似训练方法：负采样（Negative Sampling）和层序softmax（Hierarchical Softmax）。</p><ul><li><p><strong>负采样（Negative Sampling）</strong>：</p><ul><li><strong>核心思想</strong>：将复杂的多分类问题（预测所有词的概率）简化为二分类问题，用少量负样本近似全词汇的Softmax计算。</li><li><strong>正负样本构建</strong>：<ul><li>对每个正样本（中心词与真实上下文词对），随机采样 <span>\(K\)
+</span>个负样本（非上下文词）。</li><li>例如，中心词“apple”的真实上下文词为“fruit”，则负样本可能是随机选择的“car”“book”等无关词。</li></ul></li><li><strong>目标函数</strong>：最大化正样本对的相似度，同时最小化负样本对的相似度：
+<span>\[
+\log \sigma\left( \mathbf{u}_{\text{正}}^\top \mathbf{v}_c \right) + \sum_{k=1}^K \log \sigma\left( -\mathbf{u}_{\text{负}_k}^\top \mathbf{v}_c \right)
+\]</span></li><li><strong>参数选择</strong>：负样本数 <span>\(K\)
+</span>一般取5~20，越小则训练越快，但可能欠拟合；越大则逼近原始Softmax，但计算量增加。</li><li><strong>缺点</strong>：采样质量依赖分布设计，可能引入偏差（如高频负样本主导训练）。</li></ul></li><li><p><strong>层序softmax（Hierarchical Softmax）</strong>：</p><ul><li><strong>核心思想</strong>：通过二叉树（如霍夫曼树）编码词汇表，将全局Softmax分解为路径上的二分类概率乘积，减少计算量。</li><li><strong>霍夫曼树构建</strong>：按词频从高到低排列词汇，高频词靠近根节点，形成最短路径。每个内部节点含一个可训练的向量参数 <span>\(\theta_n\)
+</span>。</li><li><strong>概率计算</strong>：<ul><li>预测词 <span>\(w\)
+</span>的概率转化为从根节点到叶节点 <span>\(w\)
+</span>的路径概率乘积：
+<span>\[
+P(w \mid c) = \prod_{n \in \text{Path}(w)} \sigma\left( \mathbf{\theta}_n^\top \mathbf{v}_c \right)^{\text{dir}(n)}
+\]
+</span>其中 <span>\(dir(n)\)
+</span>表示路径方向（左分支为1，右分支为-1）。</li><li>例如，词“dog”的路径为根→A→B，则概率为：
+<span>\[
+\sigma\left( \mathbf{\theta}_A^\top \mathbf{v}_c \right) \sigma\left( -\mathbf{\theta}_B^\top \mathbf{v}_c \right)
+\]</span></li><li>缺点：<ul><li>树结构需预构建，无法动态调整（如新增词需重构树）。</li><li>高频词路径短，低频词路径长，可能放大频次差异的影响。</li></ul></li></ul></li></ul></li></ul><table><thead><tr><th><strong>维度</strong></th><th><strong>Negative Sampling</strong></th><th><strong>Hierarchical Softmax</strong></th></tr></thead><tbody><tr><td><strong>计算效率</strong></td><td>( <span>\(O(K+1)\)
+</span>)，( <span>\(K\)
+</span>) 通常为 5~20</td><td>( <span>\(O(\log V)\)
+</span>)，( <span>\(V\)
+</span>) 为词汇表大小</td></tr><tr><td><strong>内存占用</strong></td><td>需存储负样本分布</td><td>需存储树结构，但无需额外采样矩阵</td></tr><tr><td><strong>低频词处理</strong></td><td>依赖采样策略，可能欠拟合</td><td>路径长度随词频变化，低频词更新机会少</td></tr><tr><td><strong>训练稳定性</strong></td><td>简单，适合大规模数据</td><td>树结构影响收敛，需预计算</td></tr><tr><td><strong>适用场景</strong></td><td>Skip-Gram、实时训练</td><td>CBOW、内存敏感场景</td></tr></tbody></table><hr><h4 id=glove><strong>GloVe</strong>
+<a class=anchor href=#glove>#</a></h4><p>GloVe（Global Vectors for Word Representation）是一种基于全局统计信息的词嵌入方法，由斯坦福大学的研究者在 2014 年提出。它的核心思想是利用整个语料库的共现信息（co-occurrence information），通过构建词与词之间的共现矩阵，并使用矩阵分解技术学习词的向量表示。GloVe 直接基于全局词频统计信息，从更宏观的角度捕捉词语之间的关系。</p><p>GloVe 的目标是通过学习一个能很好地拟合 <strong>词共现概率的向量表示</strong>。给定一个大型文本语料库，首先构建一个 共现矩阵（co-occurrence matrix） <span>\(X\)
+</span>，其中 <span>\(X_{ij}\)
+</span>表示词 <span>\(i\)
+</span>和词 <span>\(j\)
+</span>在一定窗口范围内共同出现的次数。然后计算共现概率：
+<span>\[
+P_{ij} = \frac{X_{ij}}{\sum_k X_{ik}}
+\]</span></p><p>即，给定词 <span>\(i\)
+</span>，在所有可能的词 <span>\(k\)
+</span>里，词 <span>\(j\)
+</span>作为上下文词的概率。GloVe 的核心目标是学习一个词向量映射，使得向量之间的点积能够近似这个共现概率的对数：
+<span>\[
+\mathbf{u}_j^\top \mathbf{v}_i + b_i + c_j = \log(X_{ij})
+\]</span></p><ul><li><span>\(\mathbf{v}_i, \mathbf{u}_j\)
+</span>是词 <span>\(i\)
+</span>和词 <span>\(j\)
+</span>的向量表示，<strong>每个词都由两个向量组成，一个是中心词向量 ，一个是上下文词向量</strong></li><li><span>\(b_i, c_j\)
+</span>是学习到的偏置项。</li></ul><blockquote><p><strong>GloVe 试图通过优化使得词向量的点积能够反映它们在全局统计中的共现关系。</strong></p></blockquote><p>为了有效优化上面的目标，GloVe 设计了一个加权的平方误差损失函数：
+<span>\[
+J = \sum_{i,j} f(X_{ij}) (\mathbf{u}_j^\top \mathbf{v}_i + b_i + c_j - \log(X_{ij}))^2
+\]</span></p><p>其中 <span>\(f(X_{ij})\)
+</span>是一个权重函数，用于控制低频词的影响，避免数据稀疏问题。</p><blockquote class="book-hint warning"><p><strong>Note:</strong> 严格来说，GloVe 并不依赖传统的神经网络，它的学习过程 <strong>更接近矩阵分解（Matrix Factorization）的优化方法</strong>，而非 Word2Vec 这样的前馈神经网络（Feedforward Neural Network）。GloVe <strong>不依赖反向传播（Backpropagation）</strong>，而是直接最小化共现概率对数的加权平方误差，来学习词向量。但GloVe 仍然需要通过优化方法（如 SGD 或 AdaGrad）来更新词向量，但它不使用神经网络的前向传播和激活函数。</p></blockquote><p>在传统的矩阵分解方法（如 奇异值分解 SVD）中，我们通常希望找到一个低维的潜在表示（latent representation），使得某个矩阵的近似表示能够捕捉数据的主要结构。例如，我们可以对共现矩阵 <span>\(X\)
+</span>进行奇异值分解：</p><span>\[
+X \approx W \Sigma W^T
+\]</span><p>这里的 <span>\(W\)
+</span>就是我们想要学习的词向量矩阵。GloVe 的目标函数本质上也是在优化类似于矩阵分解的目标。</p><p><strong>实际训练过程中</strong>：</p><ol><li>首先需要构建一个 共现矩阵（Co-occurrence Matrix）<span>
+\(X\)
+</span>，其中：<ul><li><span>\(X_{ij}\)
+</span>代表词 <span>\(x_i\)
+</span>和词 <span>\(x_j\)
+</span>在一定窗口大小内共同出现的次数。</li><li>窗口可以是 滑动窗口（例如 5 个单词）或者基于 整个文档（如 PMI 方法）。</li><li>之后计算共现概率：<span>
+\(P_{ij} = \frac{X_{ij}}{\sum_k X_{ik}}\)</span></li></ul></li><li>试图学习词向量 <span>\(\mathbf{v}_i 和 \mathbf{u}_j\)
+</span>使得它们的点积可以近似拟合共现概率的对数：<span>
+\(\mathbf{u}_j^\top \mathbf{v}_i + b_i + c_j \approx \log(X_{ij})\)</span></li></ol><ul><li><strong>初始化词向量</strong>：随机初始化每个词的主词向量 <span>\(\mathbf{v}_i\)
+</span>和上下文词向量 <span>\(\mathbf{u}_j\)
+</span>，以及它们对应的偏置项 <span>\(b_i\)
+</span>和 <span>\(c_j\)
+</span>。</li><li><strong>计算误差</strong>：对于每一对词 <span>\((x_i, x_j)\)
+</span>，计算 <span>\(\mathbf{u}_j^\top \mathbf{v}_i + b_i + c_j\)
+</span>与 <span>\(\log(X_{ij})\)
+</span>之间的误差。</li><li><strong>计算梯度并更新参数</strong>：使用 梯度下降（Gradient Descent） 或者 AdaGrad 进行参数更新</li></ul><hr><h4 id=fasttext><strong>FastText</strong>
+<a class=anchor href=#fasttext>#</a></h4><p>fastText 是由 Facebook AI 研究团队（FAIR）在 2016 年提出的一种高效的文本表示和分类方法，它在 Word2Vec 的基础上进行了改进，引入了子词（subword）信息，使得模型能够更好地捕捉词的内部结构，并且在处理低频词、未登录词（OOV, Out-Of-Vocabulary）和多语言文本时表现更优。</p><p><strong>fastText 的基本思想：基于子词的嵌入（Subword Embeddings）</strong>：在传统的 Word2Vec（CBOW 和 Skip-gram）模型中，<strong>每个单词都被视为一个独立的最小单位</strong>，训练后会得到一个固定的词向量。然而，这种方法有一些明显的不足：</p><ul><li><strong>无法处理未见过的新词（OOV）</strong>：如果一个单词没有出现在训练语料中，它就无法被表示。</li><li><strong>对形态丰富的语言表现较差</strong>：例如在英语中，“run”、“running”、“runner” 可能共享相似的语义，但 Word2Vec 仍然会将它们视为完全独立的单词。</li></ul><p>为了缓解这些问题，fastText 引入了子词（subword）信息，即把一个单词拆分成多个 n-gram 片段，并分别计算这些子词的向量。例如，单词 &ldquo;apple&rdquo; 可能被分解为：</p><pre tabindex=0><code>&lt;ap, app, ppl, ple, le&gt;   （3-gram 表示）
+</code></pre><p>fastText 的训练方式 <strong>仍然基于CBOW（Continuous Bag of Words）和 Skip-gram</strong>，但在计算过程中，它并不直接对完整的单词进行 embedding，而是 <strong>使用所有子词 n-gram 片段的向量之和来计算单词的最终表示</strong>。例如，在 Skip-gram 训练过程中，目标是最大化一个中心词的 embedding 与其上下文词的 embedding 之间的点积。</p><hr><h4 id=上下文敏感词表示模型bert><strong>上下文敏感词表示模型（BERT）</strong>
+<a class=anchor href=#%e4%b8%8a%e4%b8%8b%e6%96%87%e6%95%8f%e6%84%9f%e8%af%8d%e8%a1%a8%e7%a4%ba%e6%a8%a1%e5%9e%8bbert>#</a></h4><p>传统词嵌入模型（如Word2Vec、GloVe）的局限性在于上下文无关性，即无论词语出现在何种上下文中（如 “a crane is flying”（一只鹤在飞）和 “a crane driver came”（一名吊车司机来了）中含义不同），其向量表示均固定。这种静态表示无法捕捉多义词和复杂语义关系。上下文敏感词表示模型（如ELMo、GPT、BERT）的改进在于：</p><ul><li><strong>动态语义编码</strong>：词向量根据上下文动态生成。</li><li><strong>模型架构演进</strong>：<ul><li>ELMo：基于双向LSTM，将各层隐藏状态加权融合，作为词表示。ELMo向量作为附加特征与任务模型（如GloVe）拼接，冻结预训练参数，在6类NLP任务（情感分析、问答等）中刷新SOTA。</li><li>GPT：基于Transformer解码器，通过单向语言模型（左到右）生成词表示，全参数微调下游任务，在12类任务中提升9类性能。但其单向性导致无法捕捉右侧上下文（如"bank" 在 “i went to the bank to deposit cash”（我去银行存现金）和“i went to the bank to sit down”（我去河岸边坐下）场景中的歧义）。</li><li><strong>BERT融合了ELMo和GPT的优势</strong>：<ul><li><strong>双向上下文编码</strong>：通过Transformer编码器捕捉左右两侧上下文信息。</li><li><strong>任务无关设计</strong>：仅需微调预训练模型并添加简单输出层，即可适配多种任务。</li><li><strong>核心改进</strong>：<ul><li><strong>预训练目标</strong>：掩码语言模型（MLM）和下一句预测（NSP）联合优化。</li><li><strong>参数微调</strong>：所有预训练参数在下游任务中可调（不同于ELMo的冻结），提升模型灵活性。</li></ul></li></ul></li></ul></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#自然语言预处理natural-language-preprocessing><strong>自然语言预处理（Natural Language Preprocessing）</strong></a><ul><li><a href=#数据准备与预处理data-preparation--preprocessing><strong>数据准备与预处理（Data Preparation & Preprocessing）</strong></a></li><li><a href=#编码encoding><strong>编码（Encoding）</strong></a></li><li><a href=#词嵌入embedding><strong>词嵌入（Embedding）</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>

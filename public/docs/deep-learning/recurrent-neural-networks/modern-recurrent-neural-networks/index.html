@@ -1,0 +1,584 @@
+<!doctype html><html lang=en-us dir=ltr><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="
+  经典循环神经网络（Modern Recurrent Neural Networks）
+  #
+
+
+
+  长短时记忆网络（Long Short-Term Memory, LSTM）
+  #
+
+循环神经网络（RNN）通过反向传播进行训练之后，人们发现了学习长期依赖问题的显著难点，这主要是由于梯度消失和梯度爆炸问题。虽然梯度裁剪（gradient clipping）可以部分缓解梯度爆炸，但处理梯度消失需要更复杂的解决方案。Hochreiter和Schmidhuber于1997年提出的长短时记忆网络（LSTM）是解决梯度消失问题的早期且成功的技术之一。
+LSTM与标准的RNN类似，但在LSTM中，每个普通的循环节点被替换为一个记忆单元（memory cell）。记忆单元内部包含一个内部状态（internal state），这是一个具有固定权重为1的自连接回边的节点。这种设计确保了梯度能够在多个时间步内传播，而不会因梯度消失或梯度爆炸而中断。
+
+
+  门控记忆单元（Gated Memory Cell）
+  #
+
+门控记忆单元通过内部状态（internal state）和多个乘性门控机制（multiplicative gates）管理信息流动。具体包括以下三种门控：
+
+输入门（Input Gate）：控制是否允许当前输入影响记忆单元的内部状态。它决定了多少输入值应该加入当前的记忆单元状态。
+遗忘门（Forget Gate）：决定是否清除部分或全部内部状态。
+输出门（Output Gate）：确定内部状态是否可以影响单元的输出。
+
+在LSTM中，输入门（Input Gate）、遗忘门（Forget Gate）和输出门（Output Gate）的计算依赖于当前时间步的输入数据和前一时间步的隐藏状态，如下图所示。三个全连接层通过sigmoid激活函数计算输入门、遗忘门和输出门的值，因此这三个门的值都被限制在0到1的区间内。此外，我们还需要一个输入节点，通常使用tanh激活函数进行计算。
+
+
+
+数学上，假设有 
+
+
+
+  \(h\)
+
+ 个隐藏单元，批次大小为 
+  \(n\)
+
+ ，输入的维度为 
+  \(d\)
+
+ ，则输入为 
+  \(\mathbf{X}_t \in \mathbb{R}^{n \times d}\)
+
+，前一时间步的隐藏状态为 
+  \(\mathbf{H}_{t-1} \in \mathbb{R}^{n \times h}\)
+
+。在此基础上，输入门、遗忘门和输出门的定义如下：输入门为 
+  \(\mathbf{I}_t \in \mathbb{R}^{n \times h}\)
+
+，遗忘门为 
+  \(\mathbf{F}_t \in \mathbb{R}^{n \times h}\)
+
+，输出门为 
+  \(\mathbf{O}_t \in \mathbb{R}^{n \times h}\)
+
+。它们的计算公式为："><meta name=theme-color media="(prefers-color-scheme: light)" content="#ffffff"><meta name=theme-color media="(prefers-color-scheme: dark)" content="#343a40"><meta name=color-scheme content="light dark"><meta property="og:url" content="http://localhost:1313/docs/deep-learning/recurrent-neural-networks/modern-recurrent-neural-networks/"><meta property="og:site_name" content="Followblindly"><meta property="og:title" content="Modern Recurrent Neural Networks"><meta property="og:description" content="经典循环神经网络（Modern Recurrent Neural Networks） # 长短时记忆网络（Long Short-Term Memory, LSTM） # 循环神经网络（RNN）通过反向传播进行训练之后，人们发现了学习长期依赖问题的显著难点，这主要是由于梯度消失和梯度爆炸问题。虽然梯度裁剪（gradient clipping）可以部分缓解梯度爆炸，但处理梯度消失需要更复杂的解决方案。Hochreiter和Schmidhuber于1997年提出的长短时记忆网络（LSTM）是解决梯度消失问题的早期且成功的技术之一。
+LSTM与标准的RNN类似，但在LSTM中，每个普通的循环节点被替换为一个记忆单元（memory cell）。记忆单元内部包含一个内部状态（internal state），这是一个具有固定权重为1的自连接回边的节点。这种设计确保了梯度能够在多个时间步内传播，而不会因梯度消失或梯度爆炸而中断。
+门控记忆单元（Gated Memory Cell） # 门控记忆单元通过内部状态（internal state）和多个乘性门控机制（multiplicative gates）管理信息流动。具体包括以下三种门控：
+输入门（Input Gate）：控制是否允许当前输入影响记忆单元的内部状态。它决定了多少输入值应该加入当前的记忆单元状态。 遗忘门（Forget Gate）：决定是否清除部分或全部内部状态。 输出门（Output Gate）：确定内部状态是否可以影响单元的输出。 在LSTM中，输入门（Input Gate）、遗忘门（Forget Gate）和输出门（Output Gate）的计算依赖于当前时间步的输入数据和前一时间步的隐藏状态，如下图所示。三个全连接层通过sigmoid激活函数计算输入门、遗忘门和输出门的值，因此这三个门的值都被限制在0到1的区间内。此外，我们还需要一个输入节点，通常使用tanh激活函数进行计算。
+数学上，假设有 \(h\) 个隐藏单元，批次大小为 \(n\) ，输入的维度为 \(d\) ，则输入为 \(\mathbf{X}_t \in \mathbb{R}^{n \times d}\) ，前一时间步的隐藏状态为 \(\mathbf{H}_{t-1} \in \mathbb{R}^{n \times h}\) 。在此基础上，输入门、遗忘门和输出门的定义如下：输入门为 \(\mathbf{I}_t \in \mathbb{R}^{n \times h}\) ，遗忘门为 \(\mathbf{F}_t \in \mathbb{R}^{n \times h}\) ，输出门为 \(\mathbf{O}_t \in \mathbb{R}^{n \times h}\) 。它们的计算公式为："><meta property="og:locale" content="en_us"><meta property="og:type" content="website"><title>Modern Recurrent Neural Networks | Followblindly</title>
+<link rel=icon href=/favicon.png><link rel=manifest href=/manifest.json><link rel=canonical href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/modern-recurrent-neural-networks/><link rel=stylesheet href=/book.min.bff4c6870ba26abd815329272c8df8231704f9ac54bee84c3ef1f649e394d14f.css integrity="sha256-v/TGhwuiar2BUyknLI34IxcE+axUvuhMPvH2SeOU0U8=" crossorigin=anonymous><script defer src=/fuse.min.js></script><script defer src=/en.search.min.19c687bfdb47c973d92046444581b3486f0ed1b311302a8bb55450dd59e49806.js integrity="sha256-GcaHv9tHyXPZIEZERYGzSG8O0bMRMCqLtVRQ3VnkmAY=" crossorigin=anonymous></script><link rel=alternate type=application/rss+xml href=http://localhost:1313/docs/deep-learning/recurrent-neural-networks/modern-recurrent-neural-networks/index.xml title=Followblindly></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><img src=/As.png alt=Logo class=book-icon><span>Followblindly</span></a></h2><div class="book-search hidden"><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><script>document.querySelector(".book-search").classList.remove("hidden")</script><ul><li class=book-section-flat><span>Python Basics</span><ul><li><a href=/docs/python-basics/python-fundamentals/>Python Fundamentals</a><ul></ul></li><li><input type=checkbox id=section-b0810fa42fa69050cb4968ec00fbf282 class=toggle>
+<label for=section-b0810fa42fa69050cb4968ec00fbf282 class="flex justify-between"><a href=/docs/python-basics/leetcode/>Leetcode Notes</a></label><ul><li><a href=/docs/python-basics/leetcode/practice-history/>Practice History</a><ul></ul></li></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-7e28d5ac3e9843e0deb580be9504447e class=toggle>
+<label for=section-7e28d5ac3e9843e0deb580be9504447e class="flex justify-between"><a role=button>Common Libraries</a></label><ul><li><a href=/docs/common-libraries/numpy/>NumPy</a><ul></ul></li><li><a href=/docs/common-libraries/pandas/>Pandas</a><ul></ul></li><li><a href=/docs/common-libraries/pytorch/>PyTorch</a><ul></ul></li></ul></li><li class=book-section-flat><span>Machine Learning</span><ul><li><a href=/docs/machine-learning/machine-learning-basics/>Machine Learning Basics</a><ul></ul></li><li><a href=/docs/machine-learning/data-preprocessing/>Data Preprocessing</a><ul></ul></li><li><input type=checkbox id=section-89d4dd5d95507b817cf74368af5982ba class=toggle>
+<label for=section-89d4dd5d95507b817cf74368af5982ba class="flex justify-between"><a href=/docs/machine-learning/supervised-learning/>Supervised Learning</a></label><ul><li><a href=/docs/machine-learning/supervised-learning/linear-regression/>Linear Regression</a><ul></ul></li><li><a href=/docs/machine-learning/supervised-learning/logistic-regression/>Logistic Regression</a><ul></ul></li></ul></li><li><input type=checkbox id=section-452d9bf73a55e6b3d947afcc89364ff4 class=toggle>
+<label for=section-452d9bf73a55e6b3d947afcc89364ff4 class="flex justify-between"><a href=/docs/machine-learning/unsupervised-learning/>Unsupervised Learning</a></label><ul></ul></li><li><a href=/docs/machine-learning/regularization/>Regularization</a><ul></ul></li><li><a href=/docs/machine-learning/optimization/>Optimization</a><ul></ul></li></ul></li><li class=book-section-flat><span>Deep Learning</span><ul><li><a href=/docs/deep-learning/perceptrons-and-neural-network/>Perceptrons and Neural Network</a><ul></ul></li><li><input type=checkbox id=section-d0dd931d60033c220ecd4cd60b7c9170 class=toggle>
+<label for=section-d0dd931d60033c220ecd4cd60b7c9170 class="flex justify-between"><a href=/docs/deep-learning/convolutional-neural-networks/>Convolutional Neural Networks</a></label><ul><li><a href=/docs/deep-learning/convolutional-neural-networks/modern-convolutional-neural-networks/>Modern Convolutional Neural Networks</a><ul></ul></li></ul></li><li><input type=checkbox id=section-a3019bfa8037cc33ed6405d1589b6219 class=toggle checked>
+<label for=section-a3019bfa8037cc33ed6405d1589b6219 class="flex justify-between"><a href=/docs/deep-learning/recurrent-neural-networks/>Recurrent Neural Networks</a></label><ul><li><a href=/docs/deep-learning/recurrent-neural-networks/modern-recurrent-neural-networks/ class=active>Modern Recurrent Neural Networks</a><ul></ul></li></ul></li><li><input type=checkbox id=section-0a43584c16258b228ae9aa8d70efc320 class=toggle>
+<label for=section-0a43584c16258b228ae9aa8d70efc320 class="flex justify-between"><a href=/docs/deep-learning/attention-and-transformers/>Attention and Transformers</a></label><ul><li><a href=/docs/deep-learning/attention-and-transformers/large-scale-pretraining-with-transformers/>Large-Scale Pretraining with Transformers</a><ul></ul></li><li><a href=/docs/deep-learning/attention-and-transformers/modern-large-language-models-copy/>Modern Large Language Models</a><ul></ul></li></ul></li><li><input type=checkbox id=section-92e8358c45c96009753cf4227e9daea8 class=toggle>
+<label for=section-92e8358c45c96009753cf4227e9daea8 class="flex justify-between"><a href=/docs/deep-learning/llm-pipelines/>Large Language Model Pipelines</a></label><ul><li><a href=/docs/deep-learning/llm-pipelines/llm-inference-and-deployment/>LLM Inference and Deployment</a><ul></ul></li></ul></li><li><a href=/docs/deep-learning/computer-vision/>Computer Vision</a><ul></ul></li><li><input type=checkbox id=section-92c62e5374862501ed6fa038204a433f class=toggle>
+<label for=section-92c62e5374862501ed6fa038204a433f class="flex justify-between"><a href=/docs/deep-learning/generative-models/>Generative Models</a></label><ul></ul></li></ul></li><li class=book-section-flat><input type=checkbox id=section-8b0266d7d6ac3da61ec6acf4e97681ca class=toggle>
+<label for=section-8b0266d7d6ac3da61ec6acf4e97681ca class="flex justify-between"><a role=button>Others</a></label><ul></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label><h3>Modern Recurrent Neural Networks</h3><label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><link rel=stylesheet href=/css/prism-one-dark.css><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#长短时记忆网络long-short-term-memory-lstm><strong>长短时记忆网络（Long Short-Term Memory, LSTM）</strong></a><ul><li><a href=#门控记忆单元gated-memory-cell><strong>门控记忆单元（Gated Memory Cell）</strong></a></li><li><a href=#lstm解决的问题和原因><strong>LSTM解决的问题和原因</strong></a></li></ul></li><li><a href=#门控循环单元gated-recurrent-units-gru><strong>门控循环单元（Gated Recurrent Units, GRU）</strong></a></li><li><a href=#深层循环神经网络deep-recurrent-neural-networks-drnn><strong>深层循环神经网络（Deep Recurrent Neural Networks, DRNN）</strong></a></li><li><a href=#双向循环神经网络bidirectional-recurrent-neural-networks><strong>双向循环神经网络（Bidirectional Recurrent Neural Networks）</strong></a></li><li><a href=#编码器-解码器encoder-decoder架构><strong>编码器-解码器（Encoder-Decoder）架构</strong></a></li><li><a href=#序列到序列学习seq2seq><strong>序列到序列学习（seq2seq）</strong></a><ul><li><a href=#编码器encoder-部分><strong>编码器（Encoder） 部分</strong></a></li><li><a href=#解码器decoder-部分><strong>解码器（Decoder） 部分</strong></a></li><li><a href=#强制教学teacher-forcing><strong>强制教学（teacher forcing）</strong></a></li><li><a href=#损失函数><strong>损失函数</strong></a></li><li><a href=#预测部分><strong>预测部分</strong></a></li><li><a href=#预测序列的评估><strong>预测序列的评估</strong></a></li></ul></li></ul></nav></aside></header><article class="markdown book-article"><h1 id=经典循环神经网络modern-recurrent-neural-networks><strong>经典循环神经网络（Modern Recurrent Neural Networks）</strong>
+<a class=anchor href=#%e7%bb%8f%e5%85%b8%e5%be%aa%e7%8e%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9cmodern-recurrent-neural-networks>#</a></h1><hr><h2 id=长短时记忆网络long-short-term-memory-lstm><strong>长短时记忆网络（Long Short-Term Memory, LSTM）</strong>
+<a class=anchor href=#%e9%95%bf%e7%9f%ad%e6%97%b6%e8%ae%b0%e5%bf%86%e7%bd%91%e7%bb%9clong-short-term-memory-lstm>#</a></h2><p>循环神经网络（RNN）通过反向传播进行训练之后，人们发现了学习长期依赖问题的显著难点，这主要是由于<strong>梯度消失和梯度爆炸问题</strong>。虽然梯度裁剪（gradient clipping）可以部分缓解梯度爆炸，但处理梯度消失需要更复杂的解决方案。Hochreiter和Schmidhuber于1997年提出的长短时记忆网络（LSTM）是解决梯度消失问题的早期且成功的技术之一。</p><p>LSTM与标准的RNN类似，但在LSTM中，每个普通的循环节点被替换为一个<strong>记忆单元（memory cell）</strong>。记忆单元内部包含一个<strong>内部状态（internal state）</strong>，这是一个具有固定权重为1的自连接回边的节点。这种设计确保了梯度能够在多个时间步内传播，而不会因梯度消失或梯度爆炸而中断。</p><hr><h3 id=门控记忆单元gated-memory-cell><strong>门控记忆单元（Gated Memory Cell）</strong>
+<a class=anchor href=#%e9%97%a8%e6%8e%a7%e8%ae%b0%e5%bf%86%e5%8d%95%e5%85%83gated-memory-cell>#</a></h3><p>门控记忆单元通过内部状态（internal state）和多个乘性门控机制（multiplicative gates）管理信息流动。具体包括以下三种门控：</p><ol><li><strong>输入门（Input Gate）</strong>：控制是否允许当前输入影响记忆单元的内部状态。它决定了<strong>多少输入值应该加入当前的记忆单元状态</strong>。</li><li><strong>遗忘门（Forget Gate）</strong>：决定<strong>是否清除</strong>部分或全部内部状态。</li><li><strong>输出门（Output Gate）</strong>：确定内部状态<strong>是否可以影响单元的输出</strong>。</li></ol><p>在LSTM中，输入门（Input Gate）、遗忘门（Forget Gate）和输出门（Output Gate）的计算依赖于当前<strong>时间步的输入数据</strong>和<strong>前一时间步的隐藏状态</strong>，如下图所示。三个全连接层通过sigmoid激活函数计算输入门、遗忘门和输出门的值，因此这三个门的值都被限制在0到1的区间内。此外，我们还需要一个输入节点，通常使用tanh激活函数进行计算。</p><div align=center><img src=/images/lstm-1.svg width=450px/></div><p>数学上，假设有
+<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>\(h\)
+</span>个隐藏单元，批次大小为 <span>\(n\)
+</span>，输入的维度为 <span>\(d\)
+</span>，则输入为 <span>\(\mathbf{X}_t \in \mathbb{R}^{n \times d}\)
+</span>，前一时间步的隐藏状态为 <span>\(\mathbf{H}_{t-1} \in \mathbb{R}^{n \times h}\)
+</span>。在此基础上，输入门、遗忘门和输出门的定义如下：输入门为 <span>\(\mathbf{I}_t \in \mathbb{R}^{n \times h}\)
+</span>，遗忘门为 <span>\(\mathbf{F}_t \in \mathbb{R}^{n \times h}\)
+</span>，输出门为 <span>\(\mathbf{O}_t \in \mathbb{R}^{n \times h}\)
+</span>。它们的计算公式为：</p><span>\[
+\begin{split}\begin{aligned}
+\mathbf{I}_t &= \sigma(\mathbf{X}_t \mathbf{W}_{xi} + \mathbf{H}_{t-1} \mathbf{W}_{hi} + \mathbf{b}_i),\\
+\mathbf{F}_t &= \sigma(\mathbf{X}_t \mathbf{W}_{xf} + \mathbf{H}_{t-1} \mathbf{W}_{hf} + \mathbf{b}_f),\\
+\mathbf{O}_t &= \sigma(\mathbf{X}_t \mathbf{W}_{xo} + \mathbf{H}_{t-1} \mathbf{W}_{ho} + \mathbf{b}_o),
+\end{aligned}\end{split}
+\]</span><blockquote class="book-hint warning"><p><strong>Note：</strong> 尽管公式形式类似，LSTM 中的门和一般 RNN 中的 Hidden state 的<strong>核心作用完全不同</strong>：</p><ol><li><strong>门的作用是“控制流动”</strong>：<ul><li>每个门的输出 [0, 1] 表示“通过”信息的比例。</li><li>它们主要用于<strong>调节信息的流动</strong>，而不是直接参与信息存储。</li></ul></li><li><strong>Hidden State 的作用是“存储和传递信息”</strong>：<ul><li>Hidden state 是序列模型的核心状态，用于传递时间步之间的主要信息。</li><li>它不仅受门控机制影响，还通过非线性变换从记忆单元中提取信息。</li></ul></li></ol></blockquote><p>我们需要设计了一个输入节点（Input node）。输入节点的计算方式类似于前面提到的门控单元（gate），但它使用一个具有特定值范围的激活函数（tanh），函数的值范围为 <span>\((-1, 1)\)
+</span>。具体来说，输入节点的计算公式为：
+<span>\[
+\tilde{\mathbf{C}}_t = \textrm{tanh}(\mathbf{X}_t \mathbf{W}_{\textrm{xc}} + \mathbf{H}_{t-1} \mathbf{W}_{\textrm{hc}} + \mathbf{b}_\textrm{c}),
+\]</span></p><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>为什么门的公式需要 Sigmoid 激活</strong>：</p><ul><li>LSTM 的门本质上是一种控制开关，它的输出必须在 [0, 1] 之间，这样才能<strong>直观地表示“通过的信息比例”</strong>。</li><li>而 Hidden state 的激活函数使用的是 tanh，其范围为 [-1, 1]，<strong>更适合表示信息本身的动态特征</strong>。</li></ul></blockquote><p>输入门 <span>\(I_t\)
+</span>（input gate）控制我们在多大程度上考虑新输入数据 <span>\(\tilde{\mathbf{C}}_t\)
+</span>，而遗忘门 <span>\(F_{t}\)
+</span>（forget gate）则决定了我们保留多少旧的记忆单元内部状态 <span>\(\mathbf{C}_{t-1} \in \mathbb{R}^{n \times h}\)
+</span>。通过使用Hadamard积 <span>\(\odot\)
+</span>（逐元素相乘）运算符，LSTM的记忆单元内部状态的更新方程为：
+<span>\[
+\mathbf{C}_t = \mathbf{F}_t \odot \mathbf{C}_{t-1} + \mathbf{I}_t \odot \tilde{\mathbf{C}}_t
+\]</span></p><div align=center><img src=/images/lstm-2.svg width=550px/></div><blockquote><p><strong>关于 Hadamard积 <span>\(\odot\)
+</span>：</strong> Hadamard 积是逐元素相乘的操作，对于两个相同形状的矩阵或向量 <span>\(\mathbf{a}\)
+</span>和 <span>\(\mathbf{b}\)
+</span>，定义如下：<span>
+\(\mathbf{c} = \mathbf{a} \odot \mathbf{b}, \quad c_i = a_i \cdot b_i\)
+</span>。这里的 <span>\(\odot\)
+</span>表示逐元素相乘，而不是普通的矩阵乘法。</p></blockquote><blockquote><p><strong>例如：</strong>
+<span>\[
+\mathbf{a} =
+\begin{bmatrix}
+1 \\ 2 \\ 3
+\end{bmatrix}, \quad
+\mathbf{b} =
+\begin{bmatrix}
+0.1 \\ 0.5 \\ 0.9
+\end{bmatrix}, \quad
+\mathbf{a} \odot \mathbf{b} =
+\begin{bmatrix}
+1 \cdot 0.1 \\ 2 \cdot 0.5 \\ 3 \cdot 0.9
+\end{bmatrix} =
+\begin{bmatrix}
+0.1 \\ 1 \\ 2.7
+\end{bmatrix}
+\]</span></p><p>如果遗忘门 <span>\(\mathbf{F}_t = [1, 0.5, 0]\)
+</span>，则：</p><ul><li>第一维的旧信息完全保留（*1）。</li><li>第二维的旧信息减半（*0.5）。</li><li>第三维的旧信息完全丢弃（*0）。</li></ul></blockquote><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>Cell State（Internal State）</strong> 是 LSTM 相比经典 RNN 的核心创新之一，用于长期存储信息。它是贯穿整个时间序列的一条“主线”，可以通过加法和遗忘门机制实现对信息的选择性记忆或删除。它<strong>负责长时依赖信息的存储</strong>。可以<strong>直接从一个时间步传播到下一个时间步</strong>（通过“直通”机制），不会像hidden state那样受到非线性变换的影响。因为cell state的“直通性”，梯度不会像传统RNN中那样容易消失或爆炸，从而使LSTM能够更好地捕捉长距离依赖关系。</p><p>而Hidden state 是LSTM在每个时间步的输出。它是对<strong>当前时间步下所有输入信息和记忆信息的非线性处理结果</strong>，是一种“短时记忆”。提供即时输出信息，作为<strong>当前时间步的表征（representation）</strong>。在序列的每个时间步中，hidden state通过非线性变换与cell state交互，提取即时特征。Hidden state通常被用于后续任务（例如，分类或生成）中。</p></blockquote><p>如果遗忘门始终为1且输入门始终为0，则记忆单元的内部状态将保持不变，传递到每个后续时间步。然而，输入门和遗忘门赋予模型灵活性，使其能够学习何时保持值不变，以及何时根据后续输入调整这一值。这一设计有效<strong>缓解了梯度消失问题</strong>，尤其在处理长序列数据集时，使得模型训练变得更加容易。</p><div align=center><img src=/images/lstm-3.svg width=550px/></div><p>最后，隐藏状态 <span>\(I_t\)
+</span>（Hidden State）定义了记忆单元的输出方式，它由输出门 <span>\(O_t\)
+</span>（Output Gate）控制。具体计算步骤如下：首先，对记忆单元的内部状态 <span>\(\mathbf{C}_t\)
+</span>应用 <span>\(\tanh\)
+</span>函数，使其值被规范化到 <span>\((-1, 1)\)
+</span>区间内。然后，将这一结果与输出门的值 <span>\(\mathbf{O}_t\)
+</span>逐元素相乘，计算得到隐藏状态 <span>\(\mathbf{H}_t\)
+</span>：
+<span>\[
+\mathbf{H}_t = \mathbf{O}_t \odot \tanh(\mathbf{C}_t)
+\]</span></p><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>输出门（Output Gate） 的主要作用</strong>是控制 <strong>当前时刻的隐藏状态的输出</strong>内容，从而决定 LSTM 的对外信息传递。Cell State 是 LSTM 的内部长期记忆，但它并不直接对外输出。输出门通过<strong>选择性地提取 Cell State 中的信息</strong>，并结合门控机制生成 <strong>新的Hidden State（短期记忆的表达）</strong>，作为当前时间步的隐藏状态对外输出。这种机制确保 LSTM 在对外传递信息时，<strong>不会将 Cell State 中的所有内容暴露出去</strong>，避免噪声干扰，同时保留最相关的信息。</p></blockquote><p>这一机制确保了隐藏状态 <span>\(\mathbf{H}_t\)
+</span>的值始终在 <span>\((-1, 1)\)
+</span>区间内。</p><ul><li>当输出门 <span>\(\mathbf{O}_t\)
+</span>的值接近 1 时，记忆单元的内部状态 <span>\(\mathbf{C}_t\)
+</span>会直接影响后续网络层；</li><li>当输出门 <span>\(\mathbf{O}_t\)
+</span>的值接近 0 时，记忆单元当前的状态对其他层没有影响。</li></ul><p>这种设计使得记忆单元可以在多个时间步内积累信息，而不会对网络的其他部分造成干扰（只要输出门保持接近 0）。当输出门的值突然从接近 0 变为接近 1 时，记忆单元会迅速对网络的其他部分产生显著影响。这种特性允许 LSTM 高效地处理长时间的依赖关系。</p><blockquote class="book-hint warning"><p>LSTM 和RNN 一样 Hidden state 是对 <strong>当前时刻输入和历史信息的总结</strong>，而 <strong>非直接表示最终的概率输出</strong>。<strong>最终输出需要通过额外的线性变换和可能的激活函数处理</strong>，来生成模型的最终预测值或概率分布。</p></blockquote><hr><h3 id=lstm解决的问题和原因><strong>LSTM解决的问题和原因</strong>
+<a class=anchor href=#lstm%e8%a7%a3%e5%86%b3%e7%9a%84%e9%97%ae%e9%a2%98%e5%92%8c%e5%8e%9f%e5%9b%a0>#</a></h3><p>LSTM（Long Short-Term Memory）主要解决了标准RNN在处理长序列时的 <strong>梯度消失（vanishing gradients）和梯度爆炸（exploding gradients）</strong> 问题。 这些问题导致普通RNN在处理长期依赖（long-term dependencies）时性能较差，无法有效捕获长时间跨度的信息。</p><ol><li><strong>细胞状态（Cell State）作为长期记忆的载体</strong><ul><li>LSTM引入了一个额外的细胞状态 <span>\(\mathbf{C}_t = \mathbf{F}_t \odot \mathbf{C}_{t-1} + \mathbf{I}_t \odot \tilde{\mathbf{C}}_t\)
+</span>，它可以通过直通路径（&ldquo;constant error carousel&rdquo;）跨时间步传播信息，<strong>几乎不受梯度消失或梯度爆炸的影响</strong>。</li><li><span>\(\mathbf{F}_t \odot \mathbf{C}_{t-1}\)
+</span>这一项将上一时间步的细胞状态 <span>\(\mathbf{C}_{t-1}\)
+</span>直接传递到当前时间步，乘以遗忘门 <span>\(\mathbf{F}_t\)
+</span>的值来控制保留的比例。由于 <strong>这部分没有激活函数的非线性变换，梯度可以在反向传播中稳定地通过时间步传播</strong>。</li><li><span>\(\mathbf{I}_t \odot \tilde{\mathbf{C}}_t\)
+</span>这一项将当前时间步的候选记忆 <span>\(\tilde{\mathbf{C}}_t\)
+</span>加入到细胞状态中，比例由输入门 <span>\(\mathbf{I}_t\)
+</span>控制。这使得 LSTM 能够<strong>灵活地选择哪些新的信息需要加入长期记忆</strong>。</li></ul></li><li><strong>梯度传播更稳定</strong><ul><li>普通RNN的梯度通过时间步传播时，会被<strong>反复乘以隐状态的权重矩阵 <span>\(\mathbf{W}\)
+</span></strong>。当权重矩阵的特征值远离 1 时，梯度会出现指数增长（梯度爆炸）或指数衰减（梯度消失）。</li><li>在LSTM中，<strong>细胞状态通过线性加权方式更新</strong>（不直接经过激活函数的非线性变换），从而避免了梯度的剧烈变化。门机制确保了信息流动的可控性，进一步减轻了梯度不稳定的问题。</li></ul></li><li><strong>更强的记忆能力</strong><ul><li>LSTM能<strong>同时捕获短期依赖（通过隐藏状态 <span>\(\mathbf{H}_t\)
+</span>）和长期依赖（通过细胞状态 <span>\(\mathbf{C}_t\)
+</span>）</strong>。</li><li>在长时间序列中，它可以动态调整对不同时间跨度的信息的关注程度，使其既能够记住长期信息，又不会因记忆过多导致模型过载。</li></ul></li></ol><ul><li><strong>LSTM 代码实现</strong></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.nn <span style=color:#66d9ef>as</span> nn
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>LSTMScratch</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, num_inputs, num_hiddens, sigma<span style=color:#f92672>=</span><span style=color:#ae81ff>0.01</span>):
+</span></span><span style=display:flex><span>        super(LSTMScratch, self)<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>num_hiddens <span style=color:#f92672>=</span> num_hiddens
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 定义初始化函数</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>init_weight</span>(<span style=color:#f92672>*</span>shape):
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> nn<span style=color:#f92672>.</span>Parameter(torch<span style=color:#f92672>.</span>randn(<span style=color:#f92672>*</span>shape) <span style=color:#f92672>*</span> sigma)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 定义门所需的权重和偏置初始化</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>triple</span>():
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> (init_weight(num_inputs, num_hiddens),  <span style=color:#75715e># 输入到隐藏层</span>
+</span></span><span style=display:flex><span>                    init_weight(num_hiddens, num_hiddens), <span style=color:#75715e># 隐藏到隐藏层</span>
+</span></span><span style=display:flex><span>                    nn<span style=color:#f92672>.</span>Parameter(torch<span style=color:#f92672>.</span>zeros(num_hiddens))) <span style=color:#75715e># 偏置</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 初始化各门的权重和偏置</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>W_xi, self<span style=color:#f92672>.</span>W_hi, self<span style=color:#f92672>.</span>b_i <span style=color:#f92672>=</span> triple()  <span style=color:#75715e># 输入门</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>W_xf, self<span style=color:#f92672>.</span>W_hf, self<span style=color:#f92672>.</span>b_f <span style=color:#f92672>=</span> triple()  <span style=color:#75715e># 遗忘门</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>W_xo, self<span style=color:#f92672>.</span>W_ho, self<span style=color:#f92672>.</span>b_o <span style=color:#f92672>=</span> triple()  <span style=color:#75715e># 输出门</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>W_xc, self<span style=color:#f92672>.</span>W_hc, self<span style=color:#f92672>.</span>b_c <span style=color:#f92672>=</span> triple()  <span style=color:#75715e># 候选细胞状态</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, inputs, H_C<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        前向传播
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        inputs: [seq_length, batch_size, num_inputs]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        H_C: 一个元组 (H, C)，分别为初始化的隐藏状态和细胞状态
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        seq_length, batch_size, _ <span style=color:#f92672>=</span> inputs<span style=color:#f92672>.</span>shape
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> H_C <span style=color:#f92672>is</span> <span style=color:#66d9ef>None</span>:
+</span></span><span style=display:flex><span>            H <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>zeros((batch_size, self<span style=color:#f92672>.</span>num_hiddens), device<span style=color:#f92672>=</span>inputs<span style=color:#f92672>.</span>device)
+</span></span><span style=display:flex><span>            C <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>zeros((batch_size, self<span style=color:#f92672>.</span>num_hiddens), device<span style=color:#f92672>=</span>inputs<span style=color:#f92672>.</span>device)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>            H, C <span style=color:#f92672>=</span> H_C
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        outputs <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> t <span style=color:#f92672>in</span> range(seq_length):
+</span></span><span style=display:flex><span>            X_t <span style=color:#f92672>=</span> inputs[t]  <span style=color:#75715e># 当前时间步输入: [batch_size, num_inputs]</span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 输入门</span>
+</span></span><span style=display:flex><span>            I <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>sigmoid(torch<span style=color:#f92672>.</span>matmul(X_t, self<span style=color:#f92672>.</span>W_xi) <span style=color:#f92672>+</span>
+</span></span><span style=display:flex><span>                              torch<span style=color:#f92672>.</span>matmul(H, self<span style=color:#f92672>.</span>W_hi) <span style=color:#f92672>+</span> self<span style=color:#f92672>.</span>b_i)
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 遗忘门</span>
+</span></span><span style=display:flex><span>            F <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>sigmoid(torch<span style=color:#f92672>.</span>matmul(X_t, self<span style=color:#f92672>.</span>W_xf) <span style=color:#f92672>+</span>
+</span></span><span style=display:flex><span>                              torch<span style=color:#f92672>.</span>matmul(H, self<span style=color:#f92672>.</span>W_hf) <span style=color:#f92672>+</span> self<span style=color:#f92672>.</span>b_f)
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 输出门</span>
+</span></span><span style=display:flex><span>            O <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>sigmoid(torch<span style=color:#f92672>.</span>matmul(X_t, self<span style=color:#f92672>.</span>W_xo) <span style=color:#f92672>+</span>
+</span></span><span style=display:flex><span>                              torch<span style=color:#f92672>.</span>matmul(H, self<span style=color:#f92672>.</span>W_ho) <span style=color:#f92672>+</span> self<span style=color:#f92672>.</span>b_o)
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 候选细胞状态</span>
+</span></span><span style=display:flex><span>            C_tilde <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>tanh(torch<span style=color:#f92672>.</span>matmul(X_t, self<span style=color:#f92672>.</span>W_xc) <span style=color:#f92672>+</span>
+</span></span><span style=display:flex><span>                                 torch<span style=color:#f92672>.</span>matmul(H, self<span style=color:#f92672>.</span>W_hc) <span style=color:#f92672>+</span> self<span style=color:#f92672>.</span>b_c)
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 更新细胞状态</span>
+</span></span><span style=display:flex><span>            C <span style=color:#f92672>=</span> F <span style=color:#f92672>*</span> C <span style=color:#f92672>+</span> I <span style=color:#f92672>*</span> C_tilde
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 更新隐藏状态</span>
+</span></span><span style=display:flex><span>            H <span style=color:#f92672>=</span> O <span style=color:#f92672>*</span> torch<span style=color:#f92672>.</span>tanh(C)
+</span></span><span style=display:flex><span>            outputs<span style=color:#f92672>.</span>append(H)
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 将所有时间步的隐藏状态拼接成张量</span>
+</span></span><span style=display:flex><span>        outputs <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>stack(outputs, dim<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>)  <span style=color:#75715e># [seq_length, batch_size, num_hiddens]</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> outputs, (H, C)
+</span></span></code></pre></div><hr><h2 id=门控循环单元gated-recurrent-units-gru><strong>门控循环单元（Gated Recurrent Units, GRU）</strong>
+<a class=anchor href=#%e9%97%a8%e6%8e%a7%e5%be%aa%e7%8e%af%e5%8d%95%e5%85%83gated-recurrent-units-gru>#</a></h2><p>GRU（门控循环单元）是<strong>LSTM记忆单元的简化版本</strong>并保留内部状态和乘法门控机制（multiplicative gating mechanisms）的核心思想。相比LSTM，GRU在很多任务中可以达到相似的性能，但由于结构更加简单，计算速度更快。</p><p>在GRU（Gated Recurrent Unit）中，LSTM的三个门被替换为两个门：<strong>重置门（Reset Gate）<strong>和</strong>更新门（Update Gate）</strong>。这两个门使用了Sigmoid激活函数，输出值限制在区间 [0, 1] 内。</p><ul><li><strong>重置门</strong>：决定了当前状态需要记住多少之前隐藏状态的信息。</li><li><strong>更新门</strong>：控制新状态有多少是继承自旧状态的。</li></ul><p>在GRU中，给定当前时间步的输入 <span>\(\mathbf{X}_t\)
+</span>和上一时间步的隐藏状态 <span>\(\mathbf{H}_{t-1}\)
+</span>，重置门和更新门通过两个全连接层计算，激活函数为 Sigmoid。</p><div align=center><img src=/images/gru-1.svg width=400px/></div><p>对于给定的时间步 <span>\(t\)
+</span>，假设输入是一个小批量 <span>\(\mathbf{X}_t \in \mathbb{R}^{n \times d}\)
+</span>（样本个数 <span>\(n\)
+</span>，输入个数 <span>\(d\)
+</span>），上一个时间步的隐状态是 <span>\(\mathbf{H}_{t-1} \in \mathbb{R}^{n \times h}\)
+</span>（隐藏单元个数 <span>\(t\)
+</span>）。那么，重置门 <span>\(\mathbf{R}_t \in \mathbb{R}^{n \times h}\)
+</span>和更新门 <span>\(\mathbf{Z}_t \in \mathbb{R}^{n \times h}\)
+</span>的计算如下所示：
+<span>\[
+\begin{split}\begin{aligned}
+\mathbf{R}_t = \sigma(\mathbf{X}_t \mathbf{W}_{xr} + \mathbf{H}_{t-1} \mathbf{W}_{hr} + \mathbf{b}_r),\\
+\mathbf{Z}_t = \sigma(\mathbf{X}_t \mathbf{W}_{xz} + \mathbf{H}_{t-1} \mathbf{W}_{hz} + \mathbf{b}_z),
+\end{aligned}\end{split}
+\]</span></p><p>重置门（reset gate）<span>
+\(\mathbf{R}_t\)
+</span>与标准更新机制相结合，生成时间步 <span>\(t\)
+</span>的<strong>候选隐藏状态（candidate hidden state） <span>\(\tilde{\mathbf{H}}_t \in \mathbb{R}^{n \times h}\)
+</span></strong>，公式如下：
+<span>\[
+\tilde{\mathbf{H}}_t = \tanh(\mathbf{X}_t \mathbf{W}_{xh} + \left(\mathbf{R}_t \odot \mathbf{H}_{t-1}\right) \mathbf{W}_{hh} + \mathbf{b}_h),
+\]</span></p><p><strong>重置门 <span>\(\mathbf{R}t\)
+</span>控制前一时间步隐藏状态</strong> <span>\(\mathbf{H}_{t-1}\)
+</span>对候选隐藏状态的影响：</p><ul><li>当 <span>\(\mathbf{R}_t\)
+</span>的某些元素接近 1，公式退化为标准RNN。</li><li>当 <span>\(\mathbf{R}_t\)
+</span>的某些元素接近 0，前一时间步隐藏状态被忽略，候选隐藏状态仅依赖于当前输入 <span>\(\mathbf{x}_t\)
+</span>。</li></ul><p>候选隐藏状态中通过 <span>\(\left(\mathbf{R}_t \odot \mathbf{H}_{t-1}\right) \mathbf{W}_{hh}\)
+</span>限制了 <span>\(\mathbf{H}_{t-1}\)
+</span>的影响，增强了模型的灵活性，使其能够在必要时“重置”某些隐藏状态。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> 重置门主要是对长期记忆进行筛选，在计算候选隐藏状态时，抑制过去隐藏状态中的某些部分，使得模型更多地依赖当前输入。这种机制让模型能够<strong>专注于短期依赖</strong>，通过结合当前输入<strong>产生一个更符合短期记忆的候选状态</strong>。</p></blockquote><div align=center><img src=/images/gru-2.svg width=550px/></div><p><strong>更新门（update gate, <span>\(\mathbf{Z}_t\)
+</span>）决定了新隐藏状态</strong> <span>\(\mathbf{H}_t \in \mathbb{R}^{n \times h}\)
+</span>在多大程度上保留旧状态 <span>\(\mathbf{H}_{t-1}\)
+</span>与新候选状态 <span>\(\tilde{\mathbf{H}}_t\)
+</span>的信息。具体而言，<span>
+\(\mathbf{Z}_t\)
+</span>控制了二者的加权组合，公式如下：
+<span>\[
+\mathbf{H}_t = \mathbf{Z}_t \odot \mathbf{H}_{t-1} + (1 - \mathbf{Z}_t) \odot \tilde{\mathbf{H}}_t.
+\]</span></p><ul><li>当 <span>\(\mathbf{Z}_t\)
+</span>接近 1 时，旧状态 <span>\(\mathbf{H}_{t-1}\)
+</span>被主要保留，忽略了新候选状态 <span>\(\tilde{\mathbf{H}}_t\)
+</span>，从而在依赖链中跳过了当前时间步 <span>\(t\)
+</span>。</li><li>当 <span>\(\mathbf{Z}_t\)
+</span>接近 0 时，隐藏状态 <span>\(\mathbf{H}_t\)
+</span>接近于新候选状态 <span>\(\tilde{\mathbf{H}}_t\)
+</span>，将当前时间步的信息更强地融入到模型中。</li></ul><p>这些设计可以帮助我们处理循环神经网络中的梯度消失问题，并更好地捕获时间步距离很长的序列的依赖关系。例如，如果整个子序列的所有时间步的更新门都接近于 1，则无论序列的长度如何，在序列起始时间步的旧隐状态都将很容易保留并传递到序列结束。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> 更新门通过在过去隐藏状态（长期记忆）和候选隐藏状态（短期记忆）之间进行加权平均，决定当前隐藏状态的更新方式。当更新门更倾向于长期记忆时，模型保留更多的历史信息；当更倾向于短期记忆时，模型更关注当前输入。这样，更新门实现了<strong>长期和短期记忆的动态平衡</strong>。</p></blockquote><div align=center><img src=/images/gru-3.svg width=550px/></div><p>总结来说，门控循环单元具有以下两个显著特征：</p><ol><li>重置门（reset gate）帮助捕捉序列中的 <strong>短期依赖关系</strong>。</li><li>更新门（update gate）帮助捕捉序列中的 <strong>长期依赖关系</strong>。</li></ol><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>重置门（reset gate）</strong> 通过控制<strong>当前时刻的隐藏状态与之前隐藏状态的结合程度</strong>，帮助捕捉短期依赖关系。当重置门的值接近0时，模型几乎完全忽略过去的信息，只依赖当前输入来计算候选隐藏状态，这使得模型能够专注于当前时刻的短期信息，从而适应短期依赖。</p><p><strong>更新门（update gate）</strong> 则决定<strong>当前时刻的隐藏状态是由之前的隐藏状态（长期记忆）和当前输入（短期信息）以何种比例组合而成</strong>。更新门的值接近1时，模型保留大部分的长期记忆，接近0时则依赖更多的当前输入。这种机制帮助GRU捕捉长期依赖关系，因为更新门可以调节模型在序列中如何传递和利用过去的记忆。</p></blockquote><ul><li><strong>GRU 代码实现</strong></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.nn <span style=color:#66d9ef>as</span> nn
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>GRUScratch</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, num_inputs, num_hiddens, sigma<span style=color:#f92672>=</span><span style=color:#ae81ff>0.01</span>):
+</span></span><span style=display:flex><span>        super(GRUScratch, self)<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>num_hiddens <span style=color:#f92672>=</span> num_hiddens
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 定义初始化函数</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>init_weight</span>(<span style=color:#f92672>*</span>shape):
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> nn<span style=color:#f92672>.</span>Parameter(torch<span style=color:#f92672>.</span>randn(<span style=color:#f92672>*</span>shape) <span style=color:#f92672>*</span> sigma)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 定义权重和偏置初始化</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>double</span>():
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> (init_weight(num_inputs, num_hiddens),  <span style=color:#75715e># 输入到隐藏层</span>
+</span></span><span style=display:flex><span>                    init_weight(num_hiddens, num_hiddens), <span style=color:#75715e># 隐藏到隐藏层</span>
+</span></span><span style=display:flex><span>                    nn<span style=color:#f92672>.</span>Parameter(torch<span style=color:#f92672>.</span>zeros(num_hiddens))) <span style=color:#75715e># 偏置</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 更新门权重和偏置</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>W_xz, self<span style=color:#f92672>.</span>W_hz, self<span style=color:#f92672>.</span>b_z <span style=color:#f92672>=</span> double()  <span style=color:#75715e># 更新门</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 重置门权重和偏置</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>W_xr, self<span style=color:#f92672>.</span>W_hr, self<span style=color:#f92672>.</span>b_r <span style=color:#f92672>=</span> double()  <span style=color:#75715e># 重置门</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 候选隐藏状态权重和偏置</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>W_xh, self<span style=color:#f92672>.</span>W_hh, self<span style=color:#f92672>.</span>b_h <span style=color:#f92672>=</span> double()  <span style=color:#75715e># 候选隐藏状态</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, inputs, H<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        前向传播
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        inputs: [seq_length, batch_size, num_inputs]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        H: 初始化的隐藏状态 [batch_size, num_hiddens]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        seq_length, batch_size, _ <span style=color:#f92672>=</span> inputs<span style=color:#f92672>.</span>shape
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> H <span style=color:#f92672>is</span> <span style=color:#66d9ef>None</span>:
+</span></span><span style=display:flex><span>            H <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>zeros((batch_size, self<span style=color:#f92672>.</span>num_hiddens), device<span style=color:#f92672>=</span>inputs<span style=color:#f92672>.</span>device)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        outputs <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> t <span style=color:#f92672>in</span> range(seq_length):
+</span></span><span style=display:flex><span>            X_t <span style=color:#f92672>=</span> inputs[t]  <span style=color:#75715e># 当前时间步输入: [batch_size, num_inputs]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 更新门</span>
+</span></span><span style=display:flex><span>            Z <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>sigmoid(torch<span style=color:#f92672>.</span>matmul(X_t, self<span style=color:#f92672>.</span>W_xz) <span style=color:#f92672>+</span>
+</span></span><span style=display:flex><span>                              torch<span style=color:#f92672>.</span>matmul(H, self<span style=color:#f92672>.</span>W_hz) <span style=color:#f92672>+</span> self<span style=color:#f92672>.</span>b_z)
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 重置门</span>
+</span></span><span style=display:flex><span>            R <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>sigmoid(torch<span style=color:#f92672>.</span>matmul(X_t, self<span style=color:#f92672>.</span>W_xr) <span style=color:#f92672>+</span>
+</span></span><span style=display:flex><span>                              torch<span style=color:#f92672>.</span>matmul(H, self<span style=color:#f92672>.</span>W_hr) <span style=color:#f92672>+</span> self<span style=color:#f92672>.</span>b_r)
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 候选隐藏状态</span>
+</span></span><span style=display:flex><span>            H_tilde <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>tanh(torch<span style=color:#f92672>.</span>matmul(X_t, self<span style=color:#f92672>.</span>W_xh) <span style=color:#f92672>+</span>
+</span></span><span style=display:flex><span>                                 torch<span style=color:#f92672>.</span>matmul(R <span style=color:#f92672>*</span> H, self<span style=color:#f92672>.</span>W_hh) <span style=color:#f92672>+</span> self<span style=color:#f92672>.</span>b_h)
+</span></span><span style=display:flex><span>            <span style=color:#75715e># 新的隐藏状态</span>
+</span></span><span style=display:flex><span>            H <span style=color:#f92672>=</span> Z <span style=color:#f92672>*</span> H <span style=color:#f92672>+</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>-</span> Z) <span style=color:#f92672>*</span> H_tilde
+</span></span><span style=display:flex><span>            outputs<span style=color:#f92672>.</span>append(H)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 将所有时间步的隐藏状态拼接成张量</span>
+</span></span><span style=display:flex><span>        outputs <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>stack(outputs, dim<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>)  <span style=color:#75715e># [seq_length, batch_size, num_hiddens]</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> outputs, H
+</span></span></code></pre></div><hr><h2 id=深层循环神经网络deep-recurrent-neural-networks-drnn><strong>深层循环神经网络（Deep Recurrent Neural Networks, DRNN）</strong>
+<a class=anchor href=#%e6%b7%b1%e5%b1%82%e5%be%aa%e7%8e%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9cdeep-recurrent-neural-networks-drnn>#</a></h2><p>深层循环神经网络（Deep Recurrent Neural Networks, DRNN）是通过<strong>堆叠多个RNN层</strong>实现的。单隐藏层的RNN网络结构，由一个序列输入、一层隐藏层（hidden layer），以及一个输出层组成。尽管这样的网络在时间方向上只有一层隐藏层，但输入在初始时间步的影响可以通过隐藏层在时间上的递归传播。</p><p>然而，这种单层结构在捕捉时间步内部输入与输出之间复杂关系时存在局限。因此，为了同时增强 <strong>模型对时间依赖（temporal dependency）</strong> 和 <strong>时间步内部输入与输出关系</strong> 的建模能力，常会构造在时间方向和输入输出方向上都更深的RNN网络。这种深度的概念类似于在多层感知机（MLP）和深度卷积神经网络（CNN）中见到的层级加深方法。</p><p>在深层RNN中，每一时间步的隐藏单元 <strong>不仅依赖于同层前一个时间步的隐藏状态</strong>，还依赖于 <strong>前一层相同时间步的隐藏状态</strong>。这种结构使得深层RNN能够 <strong>同时捕获长期依赖关系（long-term dependency）和复杂的输入-输出关系</strong>。</p><div align=center><img src=/images/deep-rnn.svg width=300px/></div><p>假设在时间步 <span>\(t\)
+</span>，我们有一个小批量输入 <span>\(\mathbf{X}_t \in \mathbb{R}^{n \times d}\)
+</span>（样本数：<span>
+\(n\)
+</span>，每个样本中的输入数： <span>\(d\)
+</span>） 同时，将 <span>\(l^\mathrm{th}\)
+</span>隐藏层（<span>
+\(l=1,\ldots,L\)
+</span>）的隐状态设为
+<span>\(\mathbf{H}_t^{(l)} \in \mathbb{R}^{n \times h}\)
+</span>（隐藏单元数： <span>\(h\)
+</span>）， 输出层变量设为 <span>\(\mathbf{O}_t \in \mathbb{R}^{n \times q}\)
+</span>（输出数：<span>
+\(q\)
+</span>）。 设置 <span>\(\mathbf{H}_t^{(0)} = \mathbf{X}_t\)
+</span>， 第 <span>\(l\)
+</span>个隐藏层的隐状态使用激活函数 <span>\(\phi_l\)
+</span>，则：
+<span>\[
+\mathbf{H}_t^{(l)} = \phi_l(\mathbf{H}_t^{(l-1)} \mathbf{W}_{xh}^{(l)} + \mathbf{H}_{t-1}^{(l)} \mathbf{W}_{hh}^{(l)} + \mathbf{b}_h^{(l)}),
+\]
+</span>其中，权重 <span>\(\mathbf{W}_{xh}^{(l)} \in \mathbb{R}^{h \times h}\)
+</span>，<span>
+\(\mathbf{W}_{hh}^{(l)} \in \mathbb{R}^{h \times h}\)
+</span>和偏置 <span>\(\mathbf{b}_h^{(l)} \in \mathbb{R}^{1 \times h}\)
+</span>都是第 <span>\(l\)
+</span>个隐藏层的模型参数。</p><p>最后，输出层的计算仅基于第<span>
+\(l\)
+</span>个隐藏层最终的隐状态：
+<span>\[
+\mathbf{O}_t = \mathbf{H}_t^{(L)} \mathbf{W}_{hq} + \mathbf{b}_q,
+\]</span></p><p>其中，权重 <span>\(\mathbf{W}_{hq} \in \mathbb{R}^{h \times q}\)
+</span>和偏置 <span>\(\mathbf{b}_q \in \mathbb{R}^{1 \times q}\)
+</span>都是输出层的模型参数。</p><hr><h2 id=双向循环神经网络bidirectional-recurrent-neural-networks><strong>双向循环神经网络（Bidirectional Recurrent Neural Networks）</strong>
+<a class=anchor href=#%e5%8f%8c%e5%90%91%e5%be%aa%e7%8e%af%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9cbidirectional-recurrent-neural-networks>#</a></h2><p>我们之前使用的例子主要关于是语言建模（language modeling），目标是 <strong>根据序列中所有前面的token（单词或符号）预测下一个token</strong>。在这种情况下，我们只需要依赖左侧的上下文信息，因此使用 <strong>单向RNN（unidirectional RNN）</strong> 是合理的。然而，在某些序列学习任务中，预测每个时间步的结果时可以同时利用左侧和右侧的上下文信息。例如，<strong>词性标注（part of speech detection）</strong> 就是一个典型任务（i.e. 为句子中的每个单词分配其语法类别（词性）。词性反映了单词在句子中的语法功能和作用，例如名词、动词、形容词等。），在判断一个单词的词性时，考虑其两侧的上下文会更加准确。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> 另一个常见任务是 <strong>文本中随机遮盖部分token（masking tokens）</strong>，并训练模型预测这些缺失的token。这种任务通常被用于预训练模型（pretraining），之后再进行特定任务的微调（fine-tuning）。例如，根据句子中缺失位置的上下文，不同的填充值可能有显著变化：</p><ul><li>“I am ___.” （可能是 “happy”）</li><li>“I am ___ hungry.” （可能是 “not” 或 “very”）</li><li>“I am ___ hungry, and I can eat half a pig.” （“not” 在上下文中显然不合适）</li></ul></blockquote><p><strong>双向RNN（Bidirectional RNN）</strong> 是一种简单但有效的方法，它将单向RNN扩展为同时考虑两个方向的上下文信息。具体实现方式如下：</p><ol><li>在同一个输入序列上，<strong>构建两个单向RNN层</strong>：</li></ol><ul><li>第一个RNN层从左到右（forward direction）处理输入序列，第一个输入为 <span>\(X_1\)
+</span>，最后一个输入为 <span>\(X_T\)
+</span>。</li><li>第二个RNN层从右到左（backward direction）处理输入序列，第一个输入为 <span>\(X_T\)
+</span>，最后一个输入为 <span>\(X_1\)
+</span>。</li></ul><ol start=2><li>双向RNN层的输出是两个单向RNN层在<strong>每个时间步的输出拼接（concatenate）</strong>。</li></ol><div align=center><img src=/images/birnn.svg width=300px/></div><p>对于任意时间步 <span>\(t\)
+</span>，给定一个小批量的输入数据 <span>\(\mathbf{X}_t \in \mathbb{R}^{n \times d}\)
+</span>（样本数 <span>\(n\)
+</span>，每个示例中的输入数 <span>\(d\)
+</span>）， 并且令隐藏层激活函数为 <span>\(\phi\)
+</span>。在双向架构中，我们设该时间步的前向和反向隐状态分别为 <span>\(\overrightarrow{\mathbf{H}}_t \in \mathbb{R}^{n \times h}\)
+</span>和 <span>\(\overleftarrow{\mathbf{H}}_t \in \mathbb{R}^{n \times h}\)
+</span>， 其中 <span>\(h\)
+</span>是隐藏单元的数目。前向和反向隐状态的更新如下：
+<span>\[
+\begin{split}\begin{aligned}
+\overrightarrow{\mathbf{H}}_t &= \phi(\mathbf{X}_t \mathbf{W}_{xh}^{(f)} + \overrightarrow{\mathbf{H}}_{t-1} \mathbf{W}_{hh}^{(f)} + \mathbf{b}_h^{(f)}),\\
+\overleftarrow{\mathbf{H}}_t &= \phi(\mathbf{X}_t \mathbf{W}_{xh}^{(b)} + \overleftarrow{\mathbf{H}}_{t+1} \mathbf{W}_{hh}^{(b)} + \mathbf{b}_h^{(b)}),
+\end{aligned}\end{split}
+\]</span></p><p>其中，权重 <span>\(\mathbf{W}_{xh}^{(f)} \in \mathbb{R}^{d \times h}, \mathbf{W}_{hh}^{(f)} \in \mathbb{R}^{h \times h}, \mathbf{W}_{xh}^{(b)} \in \mathbb{R}^{d \times h}, \mathbf{W}_{hh}^{(b)} \in \mathbb{R}^{h \times h}\)
+</span>和偏置 <span>\(\mathbf{b}_h^{(f)} \in \mathbb{R}^{1 \times h}, \mathbf{b}_h^{(b)} \in \mathbb{R}^{1 \times h}\)
+</span>都是模型参数。</p><p>接下来，将前向隐状态 <span>\(\overrightarrow{\mathbf{H}}_t\)
+</span>和反向隐状态 <span>\(\overleftarrow{\mathbf{H}}_t\)
+</span>连接起来，获得需要送入输出层的隐状态 <span>\(\mathbf{H}_t \in \mathbb{R}^{n \times 2h}\)
+</span>。在具有多个隐藏层的深度双向循环神经网络中，该信息作为输入传递到下一个双向层。
+<span>\[
+\mathbf{H}_t = \begin{bmatrix} \overrightarrow{\mathbf{H}}_t \\ \overleftarrow{\mathbf{H}}_t \end{bmatrix}
+\]
+</span>最后，输出层计算得到的输出为 <span>\(\mathbf{O}_t \in \mathbb{R}^{n \times q}\)
+</span>（<span>
+\(q\)
+</span>是输出单元的数目）：
+<span>\[
+\mathbf{O}_t = \mathbf{H}_t \mathbf{W}_{hq} + \mathbf{b}_q.
+\]</span></p><hr><h2 id=编码器-解码器encoder-decoder架构><strong>编码器-解码器（Encoder-Decoder）架构</strong>
+<a class=anchor href=#%e7%bc%96%e7%a0%81%e5%99%a8-%e8%a7%a3%e7%a0%81%e5%99%a8encoder-decoder%e6%9e%b6%e6%9e%84>#</a></h2><p>在序列到序列（sequence-to-sequence）问题中（如机器翻译），<strong>输入和输出通常具有不同的长度，且无法直接对齐</strong>。为了解决这一问题，通常采用编码器-解码器（encoder-decoder）架构。这个架构包括两个主要组件：</p><ol><li><strong>编码器（Encoder）</strong>：接收一个变长的输入序列，并将其<strong>编码成一个固定长度的状态向量（state）</strong>。</li><li><strong>解码器（Decoder）</strong>：作为一个条件语言模型（conditional language model），根据编码器生成的状态向量以及目标序列的左侧上下文，<strong>逐步预测目标序列中的下一个标记（token）</strong>。</li></ol><blockquote class="book-hint warning"><p><strong>Note：</strong> 固定形状是指该向量的维度是预先设定的，<strong>不依赖于输入序列的长度</strong>。例如，假设我们设定上下文变量的维度为 d，那么无论输入序列包含 5 个、50 个还是 500 个词，最终生成的上下文变量都会是一个 d-维向量。</p></blockquote><p>例如，在将英语翻译成法语的任务中，假设输入序列为：“They”， “are”， “watching”， “.”，编码器会将这个变长的输入序列编码为一个状态向量。随后，解码器利用该状态向量逐步生成翻译后的序列：“Ils”， “regardent”， “.”。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> Encoder 的 <strong>核心目的</strong> 是找到一个能够浓缩输入序列中长期记忆和短期记忆的隐藏状态（hidden state），并将其作为 Decoder 的输入，从而让 Decoder 能够基于这些信息生成合理的输出。</p></blockquote><div align=center><img src=/images/encoder-decoder.svg width=450px/></div><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>RNN与 Encoder-Decoder 架构的区别</strong></p><ol><li><strong>上下文向量（Context Vector）</strong>：<ul><li>在标准的 Encoder-Decoder 架构中，编码器生成一个<strong>全局的上下文向量</strong> c，该向量是解码器生成输出的主要依据。</li><li>在 RNN 中，每个时间步的隐藏状态，既充当上下文向量的角色，也直接作为解码的输入。</li></ul></li><li><strong>输入输出的对齐</strong>：<ul><li>RNN 假设<strong>输入和输出的长度一致</strong>，并且在时间维度上严格对齐（例如时间序列预测、语言模型）。</li><li>Encoder-Decoder 架构专为解决<strong>输入与输出长度不对齐</strong>的问题设计（例如机器翻译）。</li></ul></li><li><strong>信息流方向</strong>：<ul><li>在 RNN 中，信息流是<strong>逐时间步递归</strong>的，依赖于当前时刻的隐藏状态。</li><li>在 Encoder-Decoder 中，编码器<strong>先完成输入序列的处理，生成上下文向量</strong>，解码器<strong>再从上下文向量开始生成输出</strong>。</li></ul></li></ol></blockquote><hr><h2 id=序列到序列学习seq2seq><strong>序列到序列学习（seq2seq）</strong>
+<a class=anchor href=#%e5%ba%8f%e5%88%97%e5%88%b0%e5%ba%8f%e5%88%97%e5%ad%a6%e4%b9%a0seq2seq>#</a></h2><p>在序列到序列（sequence-to-sequence）问题中，例如机器翻译（machine translation），输入和输出都是变长的、未对齐的序列。在这种情况下，我们通常依赖编码器-解码器（encoder-decoder）架构来处理这些任务。</p><div align=center><img src=/images/seq2seq.svg width=500px/></div><p>特定的<code>&lt;eos></code>表示序列结束词元。 一旦输出序列生成此词元，模型就会停止预测。在设计中，通常有两个特别的设计决策：首先，每个输入序列开始时都会有一个特殊的序列开始标记（<code>&lt;bos></code>），它是解码器的输入序列的第一个词元；其次，使用循环神经网络编码器最终的隐状态来初始化解码器的隐状态。</p><hr><h3 id=编码器encoder-部分><strong>编码器（Encoder） 部分</strong>
+<a class=anchor href=#%e7%bc%96%e7%a0%81%e5%99%a8encoder-%e9%83%a8%e5%88%86>#</a></h3><p>Encoder的主要作用是将一个 <strong>长度可变的输入序列</strong> 转换为 <strong>固定形状的上下文变量（context variable）</strong>。假设输入序列为 <span>\(\{x_1, x_2, \dots, x_T\}\)
+</span>，其中 <span>\(x_t\)
+</span>是第 <span>\(t\)
+</span>个时间步的输入标记（token）。在时间步 <span>\(t\)
+</span>，RNN 根据输入特征向量 <span>\(x_t\)
+</span>和前一个时间步的隐藏状态 <span>\(h_{t-1}\)
+</span>来计算当前的隐藏状态 <span>\(h_t\)
+</span>。这一过程可表示为：
+<span>\[
+\mathbf{h}_t = f(\mathbf{x}_t, \mathbf{h}_{t-1}).
+\]</span></p><p>其中 <span>\(f\)
+</span>表示 RNN 的递归计算函数（例如 GRU 或 LSTM 的单元函数）。</p><blockquote class="book-hint warning"><p><strong>Note：</strong> <strong>Encoder 的设计目的</strong>：</p><ol><li><strong>压缩输入信息</strong>：将输入序列的所有信息压缩到一个低维表示中，确保模型能够以固定大小的特征表示处理任意长度的输入。</li><li><strong>捕捉序列的全局语义</strong>： Encoder 会通过递归网络（如 RNN、GRU 或 LSTM）处理输入序列，将序列中的时序依赖关系和语义信息编码到隐藏状态中。</li><li><strong>作为中间表示</strong>： Encoder 的输出（隐藏状态或上下文变量）提供了一种抽象的、高效的输入表示，适合传递给其他模块（如 Decoder）或用于分类、翻译等下游任务。</li></ol></blockquote><p>Encoder 会利用自定义的函数 <span>\(g\)
+</span>将所有时间步的隐藏状态 <span>\(\{h_1, h_2, \dots, h_T\}\)
+</span>转换为一个固定形状的上下文变量 <span>\(c\)
+</span>：
+<span>\[
+\mathbf{c} = q(\mathbf{h}_1, \ldots, \mathbf{h}_T).
+\]</span></p><p>在某些情况下，上下文变量 <span>\(c\)
+</span>可以直接选取为最后一个时间步的隐藏状态 <span>\(h_T\)
+</span>，即：<span>
+\(c = h_T\)
+</span>。</p><p>在实现 Encoder 时，常使用 <strong>嵌入层（Embedding Layer）</strong> 来将每个输入标记转换为对应的特征向量：</p><ul><li><p>嵌入层的权重是一个矩阵，行数等于词汇表大小 <span>\(vocab\_size\)
+</span>，列数等于嵌入向量维度 <span>\(embed\_size\)
+</span>。</p></li><li><p>对于输入标记的索引 <span>\(i\)
+</span>，嵌入层返回权重矩阵的第 <span>\(i\)
+</span>行，作为该标记的特征向量。</p></li><li><p><strong>Encoder 示例代码实现</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.nn <span style=color:#66d9ef>as</span> nn
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Seq2SeqEncoder</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;用于序列到序列学习的循环神经网络编码器&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, vocab_size, embed_size, num_hiddens, num_layers, 
+</span></span><span style=display:flex><span>                dropout<span style=color:#f92672>=</span><span style=color:#ae81ff>0.1</span>, bidirectional<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>):
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 嵌入层</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>embedding <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Embedding(vocab_size, embed_size)
+</span></span><span style=display:flex><span>        <span style=color:#75715e># GRU 层</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>rnn <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>GRU(embed_size, num_hiddens, num_layers, 
+</span></span><span style=display:flex><span>                        dropout<span style=color:#f92672>=</span>dropout, bidirectional<span style=color:#f92672>=</span>bidirectional)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 双向 GRU 会将隐藏状态的维度翻倍</span>
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>bidirectional <span style=color:#f92672>=</span> bidirectional
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>num_hiddens <span style=color:#f92672>=</span> num_hiddens
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>num_layers <span style=color:#f92672>=</span> num_layers
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, X):
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        参数：
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        - X: 输入序列，形状为 (batch_size, num_steps)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        返回：
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        - output: 所有时间步的隐藏状态，形状为 (num_steps, batch_size, num_hiddens * (2 if bidirectional else 1))
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        - state: 最后一层每个方向的隐藏状态，形状为 (num_layers * (2 if bidirectional else 1), batch_size, num_hiddens)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 嵌入层输出形状为 (batch_size, num_steps, embed_size)</span>
+</span></span><span style=display:flex><span>        X <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>embedding(X)
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 调整输入形状为 (num_steps, batch_size, embed_size)</span>
+</span></span><span style=display:flex><span>        X <span style=color:#f92672>=</span> X<span style=color:#f92672>.</span>permute(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>2</span>)
+</span></span><span style=display:flex><span>        <span style=color:#75715e># output 的形状为 (num_steps, batch_size, num_hiddens * num_directions)</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># state 的形状为 (num_layers * num_directions, batch_size, num_hiddens)</span>
+</span></span><span style=display:flex><span>        output, state <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>rnn(X)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> output, state
+</span></span></code></pre></div></li></ul><hr><h3 id=解码器decoder-部分><strong>解码器（Decoder） 部分</strong>
+<a class=anchor href=#%e8%a7%a3%e7%a0%81%e5%99%a8decoder-%e9%83%a8%e5%88%86>#</a></h3><p>在序列到序列（Seq2Seq）模型中，解码器（decoder）负责根据目标输出序列 <span>\(y_1, y_2, \dots, y_T\)
+</span>，在每个时间步 <span>\(t\)
+</span>预测下一步的输出 <span>\(y_t\)
+</span>。解码器的核心是基于目标序列中前一时间步的输出 <span>\(y_{t-1}\)
+</span>、前一时间步的隐藏状态 <span>\(\mathbf{s}_{t-1}\)
+</span>和上下文变量 <span>\(\mathbf{c}\)
+</span>来计算当前时间步的隐藏状态 <span>\(\mathbf{s}_t\)
+</span>。公式如下：
+<span>\[
+\mathbf{s}_{t} = g(y_{t}, \mathbf{c}, \mathbf{s}_{t}).
+\]
+</span>在得到当前时间步的隐藏状态 <span>\(\mathbf{s}_t\)
+</span>后，通过输出层和 softmax 操作计算下一步的输出 <span>\(y_t\)
+</span>的概率分布 <span>\(P(y_{t} \mid y_1, \ldots, y_{t}, \mathbf{c})\)
+</span>。</p><div align=center><img src=/images/seq2seq-details.svg width=400px/></div><p>当实现解码器时， 我们直接使用编码器最后一个时间步的隐状态来初始化解码器的隐状态。 这就要求使用循环神经网络实现的编码器和解码器具有相同数量的层和隐藏单元。 为了进一步包含经过编码的输入序列的信息， 上下文变量在所有的时间步与解码器的输入进行拼接（concatenate）。 为了预测输出词元的概率分布， 在循环神经网络解码器的最后一层使用全连接层来变换隐状态。</p><ul><li><strong>Decoder 示例代码实现</strong><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> torch <span style=color:#f92672>import</span> nn
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Seq2SeqDecoder</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;用于序列到序列学习的循环神经网络解码器&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, vocab_size, embed_size, num_hiddens, num_layers, dropout<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>):
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>embedding <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Embedding(vocab_size, embed_size)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>rnn <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>GRU(embed_size <span style=color:#f92672>+</span> num_hiddens, num_hiddens, num_layers, dropout<span style=color:#f92672>=</span>dropout)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>dense <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Linear(num_hiddens, vocab_size)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>init_state</span>(self, enc_outputs, <span style=color:#f92672>*</span>args):
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 初始化解码器的隐状态</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> enc_outputs[<span style=color:#ae81ff>1</span>]  <span style=color:#75715e># 通常是编码器的最后一层隐状态</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, X, state):
+</span></span><span style=display:flex><span>        <span style=color:#75715e># &#39;X&#39; 的形状: (batch_size, num_steps)</span>
+</span></span><span style=display:flex><span>        X <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>embedding(X)<span style=color:#f92672>.</span>permute(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>2</span>)  <span style=color:#75715e># 转换为 (num_steps, batch_size, embed_size)</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 获取编码器传来的 context，重复以匹配时间步长</span>
+</span></span><span style=display:flex><span>        context <span style=color:#f92672>=</span> state[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]<span style=color:#f92672>.</span>repeat(X<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>0</span>], <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>)  <span style=color:#75715e># (num_layers, batch_size, num_hiddens)</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 将嵌入向量与 context 拼接</span>
+</span></span><span style=display:flex><span>        X_and_context <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>cat((X, context), dim<span style=color:#f92672>=</span><span style=color:#ae81ff>2</span>)
+</span></span><span style=display:flex><span>        output, state <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>rnn(X_and_context, state)  <span style=color:#75715e># 使用 GRU 处理序列</span>
+</span></span><span style=display:flex><span>        output <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>dense(output)<span style=color:#f92672>.</span>permute(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>2</span>)  <span style=color:#75715e># 转换为 (batch_size, num_steps, vocab_size)</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> output, state
+</span></span></code></pre></div></li></ul><hr><h3 id=强制教学teacher-forcing><strong>强制教学（teacher forcing）</strong>
+<a class=anchor href=#%e5%bc%ba%e5%88%b6%e6%95%99%e5%ad%a6teacher-forcing>#</a></h3><p>在序列到序列模型中，编码器 (encoder) 的运行相对直接，但解码器 (decoder) 的输入和输出处理需要更加谨慎。最常见的方法是 强制教学（teacher forcing）。在这种方法中，解码器的 <strong>输入使用的是目标序列 (target sequence) 的原始标签</strong>。具体来说，解码器的输入由特殊的起始标记 <code>&lt;bos></code> 和目标序列（去掉最后一个标记）拼接而成，而解码器的输出（用于训练的标签）是原始目标序列 <strong>向右偏移一个标记</strong>。例如：</p><ul><li>输入: <code>&lt;bos></code>, “Ils”, “regardent”, “.”</li><li>输出: “Ils”, “regardent”, “.”, <code>&lt;eos></code></li></ul><p>这种设计确保解码器的每一步输入可以准确地参考目标序列，从而加速训练并提高初期学习效果。</p><hr><h3 id=损失函数><strong>损失函数</strong>
+<a class=anchor href=#%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0>#</a></h3><p>在序列到序列（sequence-to-sequence）任务中，每个时间步的解码器会为输出标记预测一个概率分布。通过 softmax 可以得到该分布，并使用交叉熵损失（cross-entropy loss）进行优化。为了高效处理长度不同的序列，在小批量中会对齐形状，在序列末尾 <strong>填充特殊的填充标记（padding tokens）</strong>。然而，这些填充标记不应参与损失的计算。</p><p>为了解决这个问题，可以使用 <strong>掩码（masking）技术</strong>，将无关的填充部分设为零，使得这些无关部分在与预测结果相乘时结果仍为零，从而避免其对损失计算的影响。</p><p>假设预测分布为 <span>\(\mathbf{P}\)
+</span>，目标分布为 <span>\(\mathbf{T}\)
+</span>，掩码为 <span>\(\mathbf{M}\)
+</span>，交叉熵损失的计算可以表示为：
+<span>\[
+\text{Loss} = - \sum_{i} \mathbf{M}_i \cdot \mathbf{T}_i \cdot \log(\mathbf{P}_i)
+\]
+</span>其中 <span>\(\mathbf{M}_i\)
+</span>对应填充部分为零，非填充部分为一。</p><blockquote class="book-hint warning"><p><strong>e.g.</strong> 目标序列（Target Sequences）：</p><ol><li>[“I”, “am”, “happy”, <code>&lt;PAD></code>, <code>&lt;PAD></code>]</li><li>[“You”, “are”, “amazing”, “too”, <code>&lt;PAD></code>]</li><li>[“We”, “are”, “here”, “to”, “learn”]</li></ol><p>&ndash;>
+M =
+[[1, 1, 1, 0, 0],
+[1, 1, 1, 1, 0],
+[1, 1, 1, 1, 1]]</p></blockquote><ul><li><strong>seq2seq 训练示例代码实现</strong><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> torch <span style=color:#f92672>import</span> nn, optim
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> torch.utils.data <span style=color:#f92672>import</span> DataLoader, Dataset
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch.nn.functional <span style=color:#66d9ef>as</span> F
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 定义模型</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Seq2Seq</span>(nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;序列到序列模型，集成编码器和解码器&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, encoder, decoder):
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span>__init__()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>encoder <span style=color:#f92672>=</span> encoder
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>decoder <span style=color:#f92672>=</span> decoder
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, src, tgt, src_valid_len):
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 编码器前向传播</span>
+</span></span><span style=display:flex><span>        enc_outputs <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>encoder(src)
+</span></span><span style=display:flex><span>        enc_state <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>decoder<span style=color:#f92672>.</span>init_state(enc_outputs)
+</span></span><span style=display:flex><span>        <span style=color:#75715e># 解码器前向传播</span>
+</span></span><span style=display:flex><span>        dec_outputs, _ <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>decoder(tgt, enc_state)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> dec_outputs
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 训练过程</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>train_seq2seq</span>(model, data_iter, loss_fn, optimizer, num_epochs, tgt_vocab, device):
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;&#34;&#34;训练序列到序列模型&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    model<span style=color:#f92672>.</span>to(device)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> epoch <span style=color:#f92672>in</span> range(num_epochs):
+</span></span><span style=display:flex><span>        model<span style=color:#f92672>.</span>train()
+</span></span><span style=display:flex><span>        total_loss <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> src, tgt <span style=color:#f92672>in</span> data_iter:
+</span></span><span style=display:flex><span>            src, tgt <span style=color:#f92672>=</span> src<span style=color:#f92672>.</span>to(device), tgt<span style=color:#f92672>.</span>to(device)
+</span></span><span style=display:flex><span>            tgt_input <span style=color:#f92672>=</span> tgt[:, :<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>            tgt_output <span style=color:#f92672>=</span> tgt[:, <span style=color:#ae81ff>1</span>:]
+</span></span><span style=display:flex><span>            valid_len <span style=color:#f92672>=</span> (tgt_output <span style=color:#f92672>!=</span> tgt_vocab[<span style=color:#e6db74>&#34;&lt;pad&gt;&#34;</span>])<span style=color:#f92672>.</span>sum(dim<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            optimizer<span style=color:#f92672>.</span>zero_grad()
+</span></span><span style=display:flex><span>            pred <span style=color:#f92672>=</span> model(src, tgt_input, valid_len)
+</span></span><span style=display:flex><span>            loss <span style=color:#f92672>=</span> loss_fn(pred, tgt_output, valid_len)
+</span></span><span style=display:flex><span>            loss<span style=color:#f92672>.</span>mean()<span style=color:#f92672>.</span>backward()
+</span></span><span style=display:flex><span>            optimizer<span style=color:#f92672>.</span>step()
+</span></span><span style=display:flex><span>            total_loss <span style=color:#f92672>+=</span> loss<span style=color:#f92672>.</span>sum()<span style=color:#f92672>.</span>item()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Epoch </span><span style=color:#e6db74>{</span>epoch <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span><span style=color:#e6db74>}</span><span style=color:#e6db74>, Loss: </span><span style=color:#e6db74>{</span>total_loss <span style=color:#f92672>/</span> len(data_iter<span style=color:#f92672>.</span>dataset)<span style=color:#e6db74>:</span><span style=color:#e6db74>.4f</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span></code></pre></div></li></ul><hr><h3 id=预测部分><strong>预测部分</strong>
+<a class=anchor href=#%e9%a2%84%e6%b5%8b%e9%83%a8%e5%88%86>#</a></h3><p>在序列预测任务中，解码器会在每个时间步中将前一时间步的预测结果作为输入。具体来说，在每一步中，解码器会选择 <strong>预测概率最高的标记（token）作为当前时间步的输出</strong>。这一策略被称为 greedy decoding（贪婪解码）。</p><p>在预测开始时，初始输入是序列的开始标记（<code>&lt;bos></code>）。当解码器输出序列的结束标记（<code>&lt;eos></code>）时，预测过程结束。</p><div align=center><img src=/images/seq2seq-predict.svg width=500px/></div><ul><li><strong>预测示例代码实现</strong></li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># 简化版的预测函数</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>predict_seq2seq</span>(net, src_sentence, src_vocab, tgt_vocab, num_steps, device):
+</span></span><span style=display:flex><span>    net<span style=color:#f92672>.</span>eval()
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 处理源句子并转为索引</span>
+</span></span><span style=display:flex><span>    src_tokens <span style=color:#f92672>=</span> src_vocab[src_sentence<span style=color:#f92672>.</span>lower()<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#39; &#39;</span>)] <span style=color:#f92672>+</span> [src_vocab[<span style=color:#e6db74>&#39;&lt;eos&gt;&#39;</span>]]
+</span></span><span style=display:flex><span>    src_tokens <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>tensor(src_tokens, dtype<span style=color:#f92672>=</span>torch<span style=color:#f92672>.</span>long, device<span style=color:#f92672>=</span>device)<span style=color:#f92672>.</span>unsqueeze(<span style=color:#ae81ff>0</span>)  <span style=color:#75715e># (1, num_steps)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 编码器的输出</span>
+</span></span><span style=display:flex><span>    enc_outputs <span style=color:#f92672>=</span> net<span style=color:#f92672>.</span>encoder(src_tokens)
+</span></span><span style=display:flex><span>    dec_state <span style=color:#f92672>=</span> net<span style=color:#f92672>.</span>decoder<span style=color:#f92672>.</span>init_state(enc_outputs)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 解码器初始输入是目标语言的 &lt;bos&gt; 标记</span>
+</span></span><span style=display:flex><span>    dec_X <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>tensor([tgt_vocab[<span style=color:#e6db74>&#39;&lt;bos&gt;&#39;</span>]], dtype<span style=color:#f92672>=</span>torch<span style=color:#f92672>.</span>long, device<span style=color:#f92672>=</span>device)<span style=color:#f92672>.</span>unsqueeze(<span style=color:#ae81ff>0</span>)  <span style=color:#75715e># (1, 1)</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    output_seq <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> _ <span style=color:#f92672>in</span> range(num_steps):
+</span></span><span style=display:flex><span>        Y, dec_state <span style=color:#f92672>=</span> net<span style=color:#f92672>.</span>decoder(dec_X, dec_state)
+</span></span><span style=display:flex><span>        dec_X <span style=color:#f92672>=</span> Y<span style=color:#f92672>.</span>argmax(dim<span style=color:#f92672>=</span><span style=color:#ae81ff>2</span>)  <span style=color:#75715e># 选择最大概率的词元作为下一个输入</span>
+</span></span><span style=display:flex><span>        pred <span style=color:#f92672>=</span> dec_X<span style=color:#f92672>.</span>squeeze(dim<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>)<span style=color:#f92672>.</span>item()  <span style=color:#75715e># 取出预测的词元</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> pred <span style=color:#f92672>==</span> tgt_vocab[<span style=color:#e6db74>&#39;&lt;eos&gt;&#39;</span>]:  <span style=color:#75715e># 遇到 &lt;eos&gt; 时停止</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>break</span>
+</span></span><span style=display:flex><span>        output_seq<span style=color:#f92672>.</span>append(pred)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 将预测的词元索引转换回词语</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#39; &#39;</span><span style=color:#f92672>.</span>join(tgt_vocab<span style=color:#f92672>.</span>to_tokens(output_seq))
+</span></span></code></pre></div><hr><h3 id=预测序列的评估><strong>预测序列的评估</strong>
+<a class=anchor href=#%e9%a2%84%e6%b5%8b%e5%ba%8f%e5%88%97%e7%9a%84%e8%af%84%e4%bc%b0>#</a></h3><p>我们可以通过与真实的标签序列进行比较来评估预测序列。虽然 (Papineni et al., 2002) 提出的 <strong>BLEU（bilingual evaluation understudy）</strong> 最先是用于评估机器翻译的结果，但现在它已经被广泛用于测量许多应用的输出序列的质量。 原则上说，对于预测序列中的任意n元语法（n-grams）， BLEU的评估都是这个n元语法是否出现在标签序列中。我们将BLEU定义为：
+<span>\[
+\exp\left(\min\left(0, 1 - \frac{\mathrm{len}_{\text{label}}}{\mathrm{len}_{\text{pred}}}\right)\right) \prod_{n=1}^k p_n^{1/2^n},\]</span></p><ul><li><strong>惩罚因子（BP, brevity penalty）</strong>：<span>
+\(
+\exp\left(\min\left(0, 1 - \frac{\mathrm{len}{\text{label}}}{\mathrm{len}{\text{pred}}}\right)\right)
+\)</span><ul><li><span>\(\mathrm{len}{\text{label}}\)
+</span>：目标序列（ground truth）的长度。</li><li><span>\(\mathrm{len}{\text{pred}}\)
+</span>：预测序列的长度。</li><li>当 <span>\(\mathrm{len}{\text{pred}} \geq \mathrm{len}{\text{label}}\)
+</span>，此时，<span>
+\(\text{BP} = \exp(0) = 1\)
+</span>，说明预测序列长度足够，不会被惩罚。</li><li>当 <span>\(\mathrm{len}{\text{pred}} < \mathrm{len}{\text{label}}，\text{BP}\)
+</span>会小于 1，表示预测序列过短，从而受到惩罚。</li><li><strong>作用</strong>：防止模型为了提升 n-gram 精确度而倾向于生成不完整的短序列。</li></ul></li><li><strong>精确度分数（n-gram precision）</strong>：<span>
+\(\prod_{n=1}^k p_n^{w_n}\)</span><ul><li><span>\(p_n\)
+</span>： n-gram 的精确度，即预测序列中与目标序列匹配的 n-gram 个数占预测序列中所有 n-gram 的比例。</li><li><span>\(w_n\)
+</span>：权重，通常是 <span>\(\frac{1}{k}\)
+</span>，或者特定任务中递减的权重（如 <span>\(w_n = \frac{1}{2^n}\)
+</span>）。</li></ul></li></ul><blockquote class="book-hint warning"><p><strong>e.g.</strong> <strong>目标序列</strong>：the cat is on the mat，<strong>预测序列</strong>：the cat the mat</p><ul><li>1-gram 匹配：the, cat, mat（3 个匹配），总共 4 个 1-gram，故 p_1 = 3/4 。</li><li>2-gram 匹配：the cat, the mat（2 个匹配），总共 3 个 2-gram，故 p_2 = 2/3 。</li></ul></blockquote></article><footer class=book-footer><div class="flex flex-wrap justify-between"></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#长短时记忆网络long-short-term-memory-lstm><strong>长短时记忆网络（Long Short-Term Memory, LSTM）</strong></a><ul><li><a href=#门控记忆单元gated-memory-cell><strong>门控记忆单元（Gated Memory Cell）</strong></a></li><li><a href=#lstm解决的问题和原因><strong>LSTM解决的问题和原因</strong></a></li></ul></li><li><a href=#门控循环单元gated-recurrent-units-gru><strong>门控循环单元（Gated Recurrent Units, GRU）</strong></a></li><li><a href=#深层循环神经网络deep-recurrent-neural-networks-drnn><strong>深层循环神经网络（Deep Recurrent Neural Networks, DRNN）</strong></a></li><li><a href=#双向循环神经网络bidirectional-recurrent-neural-networks><strong>双向循环神经网络（Bidirectional Recurrent Neural Networks）</strong></a></li><li><a href=#编码器-解码器encoder-decoder架构><strong>编码器-解码器（Encoder-Decoder）架构</strong></a></li><li><a href=#序列到序列学习seq2seq><strong>序列到序列学习（seq2seq）</strong></a><ul><li><a href=#编码器encoder-部分><strong>编码器（Encoder） 部分</strong></a></li><li><a href=#解码器decoder-部分><strong>解码器（Decoder） 部分</strong></a></li><li><a href=#强制教学teacher-forcing><strong>强制教学（teacher forcing）</strong></a></li><li><a href=#损失函数><strong>损失函数</strong></a></li><li><a href=#预测部分><strong>预测部分</strong></a></li><li><a href=#预测序列的评估><strong>预测序列的评估</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
