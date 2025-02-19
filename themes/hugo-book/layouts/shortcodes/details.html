@@ -1,6 +1,6 @@
 <details {{ if or (.Get "open") (in .Params "open") }}open{{ end }}>
   {{- $summary := cond .IsNamedParams (.Get "title") (.Get 0) -}}
-  <summary>{{ $summary }}</summary>
+  <summary><strong class="custom-details-title">{{ $summary }}</strong></summary>
   <div class="markdown-inner">
     {{ .InnerDeindent | safeHTML }}
   </div>
